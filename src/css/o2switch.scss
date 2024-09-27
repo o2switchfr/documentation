@@ -1,0 +1,98 @@
+@font-face {
+  font-display: swap;
+  font-family: Sora;
+  font-style: normal;
+  font-weight: 100;
+  src: url(../../static/fonts/Sora-ExtraLight.woff2) format("woff2"),url(../../static/fonts/Sora-ExtraLight.otf) format("opentype"),url(../../static/fonts/Sora-ExtraLight.ttf) format("truetype")
+}
+
+@font-face {
+  font-display: swap;
+  font-family: Sora;
+  font-style: normal;
+  font-weight: 200;
+  src: url(../../static/fonts/Sora-Light.woff2) format("woff2"),url(../../static/fonts/Sora-Light.otf) format("opentype"),url(../../static/fonts/Sora-Light.ttf) format("truetype")
+}
+
+@font-face {
+  font-display: swap;
+  font-family: Sora;
+  font-style: normal;
+  font-weight: 400;
+  src: url(../../static/fonts/Sora-Regular.woff2) format("woff2"),url(../../static/fonts/Sora-Regular.otf) format("opentype"),url(../../static/fonts/Sora-Regular.ttf) format("truetype")
+}
+
+@font-face {
+  font-display: swap;
+  font-family: Sora;
+  font-style: normal;
+  font-weight: 500;
+  src: url(../../static/fonts/Sora-SemiBold.woff2) format("woff2"),url(../../static/fonts/Sora-SemiBold.otf) format("opentype"),url(../../static/fonts/Sora-SemiBold.ttf) format("truetype")
+}
+
+@font-face {
+  font-display: swap;
+  font-family: Sora;
+  font-style: normal;
+  font-weight: 700;
+  src: url(../../static/fonts/Sora-Bold.woff2) format("woff2"),url(../../static/fonts/Sora-Bold.otf) format("opentype"),url(../../static/fonts/Sora-Bold.ttf) format("truetype")
+}
+
+:root {
+  --ifm-color-primary: #FF6918;
+  --ifm-color-secondary: #faf7f1;
+  --ifm-color-success: #adea65;
+  --ifm-color-info: #17a2b8;
+  --ifm-color-warning: #ef8333;
+  --ifm-color-danger: #f85555;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-font-family-base: Sora, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont,
+  'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+  'Segoe UI Emoji', 'Segoe UI Symbol';
+  --ifm-footer-background-color: #0e1f31;
+  --ifm-background-color: #faf7f1;
+  --ifm-navbar-background-color: #102237;
+
+
+  .navbar--dark {
+    --ifm-navbar-background-color: #162a42;
+    .navbar__title {
+      margin: 12px 0 0 12px;
+    }
+  }
+
+  .footer--dark {
+    --ifm-footer-background-color: #162a42;
+    background-image: url('../../static/img/misc/footer-dark-bg.svg');
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+}
+
+
+
+
+[data-theme='dark'] {
+  --ifm-color-primary: #ff803b;
+  --ifm-background-color: #102237;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-background-color: #102237!important;
+  --ifm-navbar-background-color: #102237;
+  --ifm-background-surface-color: #0e1f31!important;
+
+  .navbar--dark{
+    --ifm-navbar-background-color: #0e1f31;
+  }
+
+  .footer--dark {
+    --ifm-footer-background-color: #0e1f31;
+    background-image: url('../../static/img/misc/footer-darker-bg.svg');
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+}
+
+
