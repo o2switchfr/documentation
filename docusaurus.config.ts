@@ -43,7 +43,10 @@ const config: Config = {
         },
         blog: false,
         theme: {
-          customCss: './src/css/o2switch.scss',
+          customCss: [
+              './src/css/o2switch.scss',
+              './src/css/sprite.css',
+          ],
         },
       } satisfies Preset.Options,
     ],
