@@ -95,14 +95,30 @@
         box-shadow: 0 3px 6px 0 rgb(0 0 0 / 20%);
       }
     }
+
+    &:hover {
+      .card__body .icon-img {
+        background: var(--ifm-breadcrumb-item-background-active);
+      }
+    }
+
     .card__body {
       display: flex;
       flex-direction: row;
       align-items: center;
       .icon-img {
-        width: 48px;
-        height: 48px;
         margin: 1rem;
+        border-radius: 12px;
+        display: flex;
+        /*background: var(--ifm-breadcrumb-item-background-active);*/
+
+        span {
+          width: 48px;
+          height: 48px;
+          margin: .5rem;
+          opacity: 100%;
+
+        }
       }
       .tool-desc {
         h3 {
@@ -151,7 +167,26 @@
 
   .tool-card {
 
+    &:hover {
+      .card__body .icon-img {
+        background: #ff803b;
+        span {
+          opacity: 100%;
+        }
+        /*span {
+          filter: brightness(0%) saturate(100%) invert(57%) sepia(85%) saturate(1165%) hue-rotate(333deg) brightness(100%) contrast(102%);
+        }*/
+      }
+    }
+
     .card__body {
+      .icon-img {
+        background: #faf7f1;
+        /*span {
+          filter: brightness(0%) saturate(100%) invert(57%) sepia(85%) saturate(1165%) hue-rotate(333deg) brightness(100%) contrast(102%);
+        }*/
+      }
+      
       .tool-desc {
         .badge {
           margin-right: .75rem;
