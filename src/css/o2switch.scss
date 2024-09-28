@@ -1,3 +1,4 @@
+
 @font-face {
   font-display: swap;
   font-family: Sora;
@@ -54,6 +55,10 @@
   --ifm-background-color: #faf7f1;
   --ifm-navbar-background-color: #102237;
 
+  --ifm-heading-color:#1c3350;
+  --ifm-menu-color:#1c3350;
+  --ifm-font-color-base: #1c3350;
+
 
   .navbar--dark {
     --ifm-navbar-background-color: #162a42;
@@ -69,6 +74,53 @@
     background-repeat: no-repeat;
     background-size: contain;
   }
+
+  .tool-card {
+
+    box-shadow: 0 1.5px 3px 0 rgb(0 0 0 / 15%);
+    border: 1px solid var(--ifm-color-emphasis-200);
+    color: var(--ifm-heading-color);
+    background-color: var(--ifm-card-background-color);
+
+
+    &.clickable-card {
+      color: var(--ifm-heading-color);
+
+      &:hover, &:active {
+        color: var(--ifm-color-emphasis-800);
+        text-decoration: none;
+        border-width: 1px;
+        border-style: solid;
+        border-color: var(--ifm-color-primary);
+        box-shadow: 0 3px 6px 0 rgb(0 0 0 / 20%);
+      }
+    }
+    .card__body {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .icon-img {
+        width: 48px;
+        height: 48px;
+        margin: 1rem;
+      }
+      .tool-desc {
+        h3 {
+          margin-bottom: 0.5rem;
+        }
+        p {
+          margin-bottom: 0;
+        }
+        .badge {
+          margin-right: .75rem;
+          color:#1c3350;
+          font-weight: 400;
+          --ifm-badge-background-color:var(--ifm-breadcrumb-item-background-active);
+          --ifm-badge-border-color: var(--ifm-badge-background-color);
+        }
+      }
+    }
+  }
 }
 
 
@@ -76,13 +128,16 @@
 
 [data-theme='dark'] {
   --ifm-color-primary: #ff803b;
-  --ifm-background-color: #102237;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
-  --ifm-background-color: #102237!important;
+  --ifm-background-color: #102237 !important;
   --ifm-navbar-background-color: #102237;
-  --ifm-background-surface-color: #0e1f31!important;
+  --ifm-background-surface-color: #0e1f31 !important;
 
-  .navbar--dark{
+  --ifm-heading-color: #faf7f1;
+  --ifm-menu-color: #faf7f1;
+  --ifm-font-color-base: #faf7f1;
+
+  .navbar--dark {
     --ifm-navbar-background-color: #0e1f31;
   }
 
@@ -93,6 +148,35 @@
     background-repeat: no-repeat;
     background-size: contain;
   }
+
+  .tool-card {
+
+    .card__body {
+      .tool-desc {
+        .badge {
+          margin-right: .75rem;
+          color:#faf7f1;
+          font-weight: 400;
+          --ifm-badge-background-color:var(--ifm-breadcrumb-item-background-active);
+          --ifm-badge-border-color: var(--ifm-badge-background-color);
+        }
+      }
+    }
+
+  }
+}
+
+.video-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.yt-lite > .lty-playbtn {
+  cursor: pointer;
+  border: 0;
 }
 
 

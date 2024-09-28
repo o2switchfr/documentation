@@ -1,0 +1,195 @@
+Options -Indexes
+
+<FilesMatch ".(jpg|jpeg|png|gif|ico|svg|swf|gz|ttf|woff2|woff)$">
+Header set Cache-Control "max-age=15768000, public"
+</FilesMatch>
+
+<FilesMatch ".(css|js)$">
+Header set Cache-Control "max-age=604800, public"
+</FilesMatch>
+
+<FilesMatch ".(htm|html)$">
+Header set Cache-Control "max-age=7200, public"
+</FilesMatch>
+
+Header unset ETag
+FileETag none
+
+### todo : redirect all faq page to equivalent page of the new version...
+
+RedirectPermanent /start https://faq.o2switch.fr/xxxx
+RedirectPermanent /offres-hebergement/start https://faq.o2switch.fr/xxxx
+RedirectPermanent /offres-hebergement/changer-hebergeur https://faq.o2switch.fr/xxxx
+RedirectPermanent /offres-hebergement/delai-ouverture https://faq.o2switch.fr/xxxx
+RedirectPermanent /offres-hebergement/engagement https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel https://faq.o2switch.fr/xxxx
+RedirectPermanent /playground/playground https://faq.o2switch.fr/xxxx
+RedirectPermanent /espace-client/start https://faq.o2switch.fr/xxxx
+RedirectPermanent /espace-client/inscription https://faq.o2switch.fr/xxxx
+RedirectPermanent /espace-client/facturation https://faq.o2switch.fr/xxxx
+RedirectPermanent /support/start https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/assitant https://faq.o2switch.fr/xxxx
+RedirectPermanent /espace-client/mot-de-passe https://faq.o2switch.fr/xxxx
+RedirectPermanent /tutoriel-pour-commencer https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/acceder-cpanel https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/changer-mot-de-passe https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/start https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/changer-dns-ovh https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/achat https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/renouvellement https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/transfert https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/gestion https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/maj-info https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/style https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/transfert/code-transfert-bookmyname https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/changer-dns-bookmyname https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/start https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/langue https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/transfert/code-transfert-ovh https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/comptes-courriels https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/transfert/code-transfert-1and1 https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-emails https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-emails/configurer-icedove https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-emails/configurer-windows-live-mail https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-emails/configurer-outlook-2003 https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-emails/configurer-client-messagerie https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-emails/webmail https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-emails/differences-pop-vs-imap https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-emails/differences-chiffre-vs-non-chiffre https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-emails/probleme-envoi-email https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-emails/antispam-cpanel https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-web https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-web/filezilla-config-ftp https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-web/arborescence-dossiers-multisite https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-web/choisir-version-php-et-php-ini https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-web/configuration-open-element https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-web/configuration-toweb https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-web/configuration-webacappella https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-web/base-donnees-utilisateurs-droits https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-web/configuration-iweb https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-web/parametres-ftp https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-emails/configurer-mail-mac https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-web/cyberduck-config-ftp https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/box-trapper https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/spam-assassin https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/renvois-automatiques https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/renvois-vers-script https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/repondeur-automatique https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/adresse-defaut https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/filtrage-comptes https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/creation-filtre-email-cpanel https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/filtre-utilisateur https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/importation-reacheminements https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/authentification-email-spf-dkim https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/entrees-mx https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/gestionnaire-fichier https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/niveau-utilisation-disque https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/comptes-ftp https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/sessions-ftp https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/derniers-visiteurs https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/bande-passante https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/webalizer https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/ftp-webalizer https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/registre-acces-brut https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/domaines-compagnons https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/sous-domaines https://faq.o2switch.fr/xxxx
+RedirectPermanent /lesplus-site/serveur-sortant-smtp https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/confidentialite-repertoire https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/registre-erreurs https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/awstats https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/domaines-gares https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/redirections https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/difference-publichtml-www https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/editeur-avance-zone-dns https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/base-donnees-mysql https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/phpmyadmin https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/mysql-distant https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/selecteur-version-php https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/softaculous https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/taches-cron https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/lets-encrypt-certificat-ssl https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/utilisation-uc-ressources https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/changer-dns-1and1 https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/pointage-domaine https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-emails/configurer-outlook-2016 https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/acces-ssh-shell-cli-cmdline https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-web/installer-nodejs-avec-cgi-node https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-web/intro-wp-cli-wordpress-cmdline https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/installation-composer-o2switch https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/ipxtender-selection-ip https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/gestion-univers-web-sous-comptes https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/start https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/comment-afficher-erreurs-php https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/desactiver-cache-php https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/augmenter-temps-execution-max-execution-time https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/comment-augmenter-taille-upload-php https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/utiliser-smtp-externe https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/comment-changer-version-php-hebergement https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/comment-activer-soap https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/comment-changer-mot-de-passe-cpanel https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/editeur-zone-dns-zone-editor https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/comment-installer-certificat-ssl-lets-encrypt https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/gestion-web/phpmyadmin-independant https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/changer-dns-online https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/transfert/code-transfert-online https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/changer-dns-gandi https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/transfert/code-transfert-gandi https://faq.o2switch.fr/xxxx
+RedirectPermanent /gestion-site/debug-page-blanche-erreur-500 https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/cache-varnish https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/wordpress https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/fichiers-statiques https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/joomla https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/prestashop https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/php-generique https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/symfony https://faq.o2switch.fr/xxxx
+RedirectPermanent /politique-mise-a-jour https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/wptiger https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/pagespeed https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/litespeed-lscache https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/comment-installer-wordpress https://faq.o2switch.fr/xxxx
+RedirectPermanent /include/outils-cpanel https://faq.o2switch.fr/xxxx
+RedirectPermanent /phishing https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/sauvegarde-jetbackup https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/comment-forcer-ssl-https-wordpress https://faq.o2switch.fr/xxxx
+RedirectPermanent /faq/puis-je-heberger-plusieurs-sites-meme-offre https://faq.o2switch.fr/xxxx
+RedirectPermanent /faq/puis-je-creer-plusieurs-comptes-email-meme-offre https://faq.o2switch.fr/xxxx
+RedirectPermanent /faq/puis-je-avoir-https-sur-mon-site https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/terminal https://faq.o2switch.fr/xxxx
+RedirectPermanent /faq/quels-sont-les-serveurs-dns-o2switch https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/app-nodejs https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/comment-utiliser-binaire-node-npm https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/app-python https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/app-ruby-ror-rake https://faq.o2switch.fr/xxxx
+RedirectPermanent /faq/quels-sont-langages-supportes-php-node-ruby-python https://faq.o2switch.fr/xxxx
+RedirectPermanent /faq/start https://faq.o2switch.fr/xxxx
+RedirectPermanent /faq/quel-est-quota-maximum-boite-email https://faq.o2switch.fr/xxxx
+RedirectPermanent /faq/est-ce-possible-installer-redmine https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/comportement-antispam https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/delivrabilite-suivre-remise https://faq.o2switch.fr/xxxx
+RedirectPermanent /nodejs/comment-installer-etherpad-hebergement-o2switch https://faq.o2switch.fr/xxxx
+RedirectPermanent /nodejs/comment-installer-wikijs-hebergement-o2switch https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/comment-configurer-mx-google-apps https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/comment-configurer-validation-txt-google-search-console https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/comment-changer-adresse-site-wordpress https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/comment-importer-grosse-base-donnees-commande https://faq.o2switch.fr/xxxx
+RedirectPermanent /faq/puis-creer-plusieurs-base-de-donnees https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/whitelist-firewall https://faq.o2switch.fr/xxxx
+RedirectPermanent /nom-de-domaine/changer-dns-domaine-reserve-o2switch https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/mot-de-passe-perdu https://faq.o2switch.fr/xxxx
+RedirectPermanent /php/heberger-application-symfony https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/tiger-protect https://faq.o2switch.fr/xxxx
+RedirectPermanent /compte-importation-gmail-o2switch https://faq.o2switch.fr/xxxx
+RedirectPermanent /lets-encrypt-certificat-ssl/chaines-alternatives https://faq.o2switch.fr/xxxx
+RedirectPermanent /deplacement-d-un-site-d-un-hebergement-a-vers-un-hebergement-b https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/transferer-site-wordpress-ovh-vers-o2switch https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/deployer-application-react-js https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/definir-o2switch-contact-technique-ovh https://faq.o2switch.fr/xxxx
+RedirectPermanent /espace-client/contact-technique-administration https://faq.o2switch.fr/xxxx
+RedirectPermanent /espace-client/transfert-propriete-trade https://faq.o2switch.fr/xxxx
+RedirectPermanent /espace-client/recuperer-code-de-transfert https://faq.o2switch.fr/xxxx
+RedirectPermanent /espace-client/renouvellement-automatique https://faq.o2switch.fr/xxxx
+RedirectPermanent /tuto-rapide/comment-forcer-https https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/litespeed-scaleup https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/imunify https://faq.o2switch.fr/xxxx
+RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/imunify-360-scaleup https://faq.o2switch.fr/xxxx
+RedirectPermanent /migrer-offre-unique-vers-scaleup https://faq.o2switch.fr/xxxx
