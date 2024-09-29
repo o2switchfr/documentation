@@ -1,8 +1,9 @@
 ---
-title: Les outils cPanel sur l'hébergement o2switch
+title: Les outils cPanel sur les plans d'hébergements o2switch
 sidebar_label: Hébergement mutualisé
-sidebar_position: 1
+sidebar_position: 2
 description: Les outils disponibles sur les hébergements mutualisés o2switch
+sidebarCollapsed: true
 tags: 
   - cpanel 
   - hébergement mutualisé
@@ -10,38 +11,184 @@ tags:
   - offre scale'up
 image: todo 
 ---
-import CpanelIcon from '@site/src/components/CpanelIcon';
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+
+# Outils de l'hébergement web 
+
+Vous retrouverez la liste de tous les outils disponibles sur l'[interface de gestion](https://www.o2switch.fr/interface/) proposée sur les plans d'hébergement web o2switch.
+
+Les outils sont organisés en catégories et pour chaque outil, vous trouverez une description rapide ainsi qu'une page d'explication complète détaillant le fonctionnement de l'outil.
+
+<Image src="/img/docs/cpanel/interface-o2switch-cpanel.png" alt="Capture d'écran de cPanel" caption="Capture d'écran de la page d'acceuil de cPanel avec les différentes catégories et outils" title="Page d'accueil de l'interface technique"/>
+
+## Catégorie OUTILS EXCLUSIFS
+
+Dans cPanel, la première catégorie qui s'affiche correspond aux outils exclusifs à o2switch. Ces outils ont été developpés par o2switch pour ajouter des fonctionnalités et compléter les outils natifs de cPanel. 
+
+<ToolCard tool="o2switch-wp-tiger" />
+
+<ToolCard tool="o2switch-multiple-accounts" />
+
+<ToolCard tool="o2switch-tiger-protect" />
+
+<ToolCard tool="o2switch-ipxtender" />
+
+<ToolCard tool="o2switch-lscache" />
+
+<ToolCard tool="o2switch-xtrem-cache" />
+
+<ToolCard tool="o2switch-redis-manager" />
+
+<ToolCard tool="o2switch-memcached-manager" />
+
+<ToolCard tool="o2switch-pagespeed" />
+
+## Catégorie DOMAINES
+
+Cette section de cPanel est très importante, c'est à ce niveau que vous allez gérer tout ce qui concerne vos domaines ou sous-domaines. 
+Vous trouverez tous les outils permettant de configurer des noms de domaine supplémentaires sur votre hébergement web ainsi que l'éditeur de zone DNS.
+
+<ToolCard tool="domains" />
+
+<ToolCard tool="subdomains" />
+
+<ToolCard tool="zone_editor" />
+
+<ToolCard tool="redirects" />
+
+## Catégorie EMAILS
+
+Cette section permet de gérer vos comptes courriels, les redirections ainsi que les différents filtres (antispam ou autres).
+
+<ToolCard tool="email_accounts" />
+
+<ToolCard tool="email_deliverability" />
+
+<ToolCard tool="track_delivery" />
+
+<ToolCard tool="autoresponders" />
+
+<ToolCard tool="forwarders" />
+
+<ToolCard tool="email_filters" />
+
+<ToolCard tool="global_email_filters" />
+
+<ToolCard tool="email_routing" />
+
+<ToolCard tool="boxtrapper" />
+
+<ToolCard tool="calendar_and_contacts" />
+
+<ToolCard tool="encryption" />
+
+<ToolCard tool="email_disk_usage" />
+
+<ToolCard tool="apache_spam_assassin" />
+
+<ToolCard tool="address_importer" />
+
+<ToolCard tool="mailing_lists" />
+
+## Catégorie BASES DE DONNÉES
+
+Cette partie de cPanel permet de gérer tout ce qui est en rapport avec vos bases de données. 
+Vous retrouverez tous les outils permettant de créer et administrer vos bases de données (MySQL et PostgreSQL).
 
 
-# TODO
+<ToolCard tool="mysql_databases" />
+
+<ToolCard tool="php_my_admin" />
+
+<ToolCard tool="remote_mysql" />
+
+<ToolCard tool="postgresql_databases" />
+
+<ToolCard tool="php_pg_admin" />
+
+## Catégorie LOGICIELS
+
+Cette catégorie permet de gérer les différents runtimes installés sur l'héberegment, c'est-à-dire : PHP, NodeJS, Ruby et Python
 
 
+<ToolCard tool="lvephpsel" />
+
+<ToolCard tool="lvenodejssel" />
+
+<ToolCard tool="lvepythonsel" />
+
+<ToolCard tool="lverubysel" />
+
+## Catégorie SÉCURITÉ
+
+Dans cette catégorie de cPanel, vous pouvez gérer tout ce qui est relatif à la sécurité de votre espace d'hébergement. C'est-à-dire les logiciels antivirus, certificats SSL, authentification à deux facteurs et token API.
+
+<ToolCard tool="imunify-antivirus" />
+
+<ToolCard tool="mod_security" />
+
+<ToolCard tool="two_factor_authentication" />
+
+<ToolCard tool="api_tokens" />
+
+<ToolCard tool="tls_status" />
+
+<ToolCard tool="ip_blocker" />
+
+<ToolCard tool="ssl_tls" />
+
+<ToolCard tool="ssh_access" />
 
 
+## Catégorie FICHIERS
 
-zz
-<CpanelIcon tool="imunify-antivirus" title="Compte de messagerie" />
+Dans cPanel, la section Fichiers vous donne accès à un gestionnaire de fichiers en ligne, permet de créer des comptes FTP et de configurer des disques web.
 
-zz
+<ToolCard tool="file_manager" />
 
-| Month    | Savings |
-| -------- | ------- |
-| January  | $250    |
-| February | $80     |
-| March    | $420    |
+<ToolCard tool="directory_privacy" />
+
+<ToolCard tool="disk_usage" />
+
+<ToolCard tool="ftp_accounts" />
+
+<ToolCard tool="version_control" />
+
+<ToolCard tool="lvenodejssel" />
+
+<ToolCard tool="jb5" />
+
+## Catégorie OUTILS AVANCÉS
+
+Dans cette section de cPanel, vous retrouvez des options avancées, notamment tout ce qui concerne le serveur web apache, les tâches planifiées (tâche cron) ainsi qu'un outil Terminal pour accéder rapidement en SSH à votre héberegment.
 
 
-```mdx-code-block
-import LiteYouTubeEmbed from 'react-lite-youtube-embed';
-import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css"
+<ToolCard tool="cron_jobs" />
 
-<div className="video-container">
-  <LiteYouTubeEmbed
-    id="Yhyx7otSksg"
-    params="autoplay=1&autohide=1&showinfo=0&rel=0"
-    title="Docusaurus: Documentation Made Easy"
-    poster="maxresdefault"
-    webp
-  />
-</div>
-```
+<ToolCard tool="terminal" />
+
+<ToolCard tool="clam_av" />
+
+<ToolCard tool="error_pages" />
+
+<ToolCard tool="indexes" />
+
+<ToolCard tool="apache_handlers" />
+
+## Catégorie MESURES
+
+Cette partie de cPanel permet de voir les registres d'accès et d'erreurs pour votre site internet et contient les différents outils de statistiques.
+
+
+<ToolCard tool="lveresusage" />
+
+<ToolCard tool="raw_access" />
+
+<ToolCard tool="errors" />
+
+<ToolCard tool="awstats" />
+
+<ToolCard tool="visitors" />
+
+<ToolCard tool="bandwidth" />

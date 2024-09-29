@@ -7,8 +7,7 @@ type ToolCard = {
     title: null | string;
     desc: null | string;
     category: null | string;
-    class: null | string;
-    type: null | 'full';
+    classname: null | string;
     href: null | string;
 }
 
@@ -330,14 +329,14 @@ const cpanelTools = {
         to: 'cpanel/emails/delivrabilite-email',
         offers: all_offers,
     },
-    /*'email_disk_usage': {
+    'email_disk_usage': {
         name:"Usage disque email",
         desc:"Permet d'observer le niveau d'utilisation du disque pour les comptes emails de votre hébergement web",
         icon:"email_disk_usage",
         cat: cpanelCategories.email,
         to: 'todo',
         offers: all_offers,
-    },*/
+    },
     'email_filters': {
         name:"Filtres de messagerie",
         desc:"Permet d'ajouter des filtres de messageries sur une adresse email pour les messages réceptionnés",
@@ -354,14 +353,14 @@ const cpanelTools = {
         to: 'cpanel/emails/routage-email',
         offers: all_offers,
     },
-    /*'encryption': {
+    'encryption': {
         name:"Chiffrement",
         desc:"	Permet de créer une clé de chiffrement GnuPG",
         icon:"encryption",
         cat: cpanelCategories.email,
         to: 'todo',
         offers: all_offers,
-    },*/
+    },
     'error_pages': {
         name:"Pages d'erreurs",
         desc:"Permet de définir des pages d'erreurs personnalisées",
@@ -757,18 +756,14 @@ const cpanelTools = {
 }
 
 
-/**
- *
- *     <div>
- *         <CpanelIcon tool={tool} title={title}/>
- *     </div>
- *
- */
+export default function ToolCard ({tool}: ToolCard) {
 
-// Button component that accepts the specified props.
-export default function ToolCard ({tool, title, desc, category, classname, type, href}: ToolCard) {
-    const _titlename = title ?? ('Documentation de l\'outil ' + cpanelTools[tool].name);
-    const _href = href ?? cpanelTools[tool].to;
+    if(cpanelTools[tool] === undefined){
+        throw new Error(`"${tool}"  is not a valid value for <ToolCard />.\n\nThe possible values are : ${Object.keys(cpanelTools).join(', ')}\n`);
+    }
+
+    const _titlename = 'Documentation de l\'outil ' + cpanelTools[tool].name;
+    const _href = cpanelTools[tool].to;
     const _icon = cpanelTools[tool].icon;
     const _name = cpanelTools[tool].name;
     const _desc = cpanelTools[tool].desc;
@@ -777,7 +772,7 @@ export default function ToolCard ({tool, title, desc, category, classname, type,
 
     let _offersHtml = [];
     for (let i = 0; i < _offers.length; i++) {
-        _offersHtml.push(<span className="badge">{_offers[i].name}</span>);
+        _offersHtml.push(<span key={'k' + i} className="badge">{_offers[i].name}</span>);
     }
 
     return (

@@ -16,15 +16,18 @@
   },
   "dependencies": {
     "@docusaurus/core": "3.5.2",
+    "@docusaurus/plugin-ideal-image": "^3.5.2",
     "@docusaurus/plugin-sitemap": "^3.5.2",
     "@docusaurus/preset-classic": "3.5.2",
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
     "docusaurus-plugin-sass": "^0.2.5",
+    "plugin-image-zoom": "github:flexanalytics/plugin-image-zoom",
     "prism-react-renderer": "^2.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-lite-youtube-embed": "^2.4.0",
+    "react-medium-image-zoom": "^5.2.10",
     "sass": "^1.79.3"
   },
   "devDependencies": {

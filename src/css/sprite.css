@@ -17,7 +17,7 @@
  ** Probably related to the format of the SVG file, not totally figured out as of now.
  */
 .icon-imunify-antivirus,.icon-o2switch-ipxtender,.icon-o2switch-lscache,.icon-o2switch-memcached-manager,.icon-o2switch-multiple-accounts,.icon-o2switch-pagespeed,.icon-o2switch-qos,.icon-o2switch-redis-manager,.icon-o2switch-ssl-certificate,.icon-o2switch-tiger-protect,.icon-o2switch-waf,.icon-o2switch-wp-tiger,.icon-o2switch-xtrem-cache,.icon-sitepad_div_icons,.icon-soft_div_icons,.icon-wp_softaculous {
-    background-image: url('./../../static/img/sprites/icon_spritemap.png?v=1');
+    background-image: url('/img/sprites/icon_spritemap.png?v=1');
     background-repeat: no-repeat;
 }
 
@@ -122,7 +122,7 @@
  */
 
 .icon-address_importer,.icon-analog_stats,.icon-anonymous_ftp,.icon-apache_handlers,.icon-apache_spam_assassin,.icon-api_shell,.icon-api_tokens,.icon-application_manager,.icon-archive,.icon-autoresponders,.icon-awstats,.icon-backup,.icon-backup_wizard,.icon-bandwidth,.icon-boxtrapper,.icon-calendar_and_contacts,.icon-canary,.icon-change_language,.icon-change_password,.icon-change_style,.icon-clam_av,.icon-contact_information,.icon-cpanel-koality-plugin,.icon-cpanel-sitejet-plugin,.icon-cpu_and_concurrent_connection_usage,.icon-cron_jobs,.icon-default_address,.icon-directory_privacy,.icon-disk_usage,.icon-domains,.icon-dynamic_dns,.icon-email_accounts,.icon-email_deliverability,.icon-email_disk_usage,.icon-email_filters,.icon-email_routing,.icon-encryption,.icon-error_pages,.icon-errors,.icon-feature,.icon-file_and_directory_restoration,.icon-file_manager,.icon-forwarders,.icon-ftp_accounts,.icon-ftp_connections,.icon-global_email_filters,.icon-greylisting,.icon-group,.icon-group_advanced,.icon-group_databases,.icon-group_domains,.icon-group_email,.icon-group_files,.icon-group_metrics,.icon-group_preferences,.icon-group_security,.icon-group_software,.icon-hotlink_protection,.icon-images,.icon-indexes,.icon-ip_blocker,.icon-jb5,.icon-leech_protection,.icon-letsencrypt-cpanel,.icon-lvenodejssel,.icon-lvephpsel,.icon-lvepythonsel,.icon-lveresusage,.icon-lverubysel,.icon-lvewpos,.icon-lvexray,.icon-mailing_lists,.icon-manage_calendar_access,.icon-metrics_editor,.icon-mime_types,.icon-mod_security,.icon-multiphp_configuration,.icon-multiphp_ini_editor,.icon-multiphp_manager,.icon-mx_entry,.icon-mysql_database_wizard,.icon-mysql_databases,.icon-mysql_manager,.icon-optimize_website,.icon-perl_modules,.icon-php,.icon-php_my_admin,.icon-php_pear_packages,.icon-php_pg_admin,.icon-postgresql_database_wizard,.icon-postgresql_databases,.icon-raw_access,.icon-redirects,.icon-remote_mysql,.icon-ruby_gems,.icon-ruby_on_rails,.icon-security_policy,.icon-site_publisher,.icon-site_software,.icon-sitepad,.icon-softaculous,.icon-solr_search_index,.icon-ssh-whitelist,.icon-ssh_access,.icon-ssl_tls,.icon-subdomains,.icon-team_manager,.icon-terminal,.icon-tls_status,.icon-tls_wizard,.icon-track_delivery,.icon-track_dns,.icon-two_factor_authentication,.icon-user_manager,.icon-version_control,.icon-visitors,.icon-web_disk,.icon-web_host_manager,.icon-webalizer,.icon-webalizer_ftp,.icon-wp-toolkit,.icon-zone_editor {
-    background-image: url('./../../static/img/sprites/icon_spritemap.svg?=1');
+    background-image: url('/img/sprites/icon_spritemap.svg?v=1');
     background-repeat: no-repeat;
 }
 

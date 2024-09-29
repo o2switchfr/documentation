@@ -5,10 +5,10 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Documentation o2switch',
   tagline: "Documentation de l'hébergeur web o2switch",
-  favicon: 'img/favicon-32x32.png',
+  favicon: '/img/misc/favicon-alt.ico',
 
   // Set the production url of your site here
-  url: 'https://faq.o2switch.fr',
+  url: 'http://localhost',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -148,7 +148,17 @@ const config: Config = {
   } satisfies Preset.ThemeConfig,
   plugins: [
       'docusaurus-plugin-sass',
-
+      // Note : messes up the CSS background images with [Object Object], probably because the webpack loader changes the type of imported images :(
+      /*[
+        '@docusaurus/plugin-ideal-image',
+        {
+          quality: 70,
+          max: 1030, // max resized image's size.
+          min: 640, // min resized image's size. if original is lower, use that size.
+          steps: 2, // the max number of images generated between min and max (inclusive)
+          disableInDev: false,
+        },
+      ],*/
   ],
 };
 
