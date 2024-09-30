@@ -1,0 +1,66 @@
+---
+title: Redirection web
+sidebar_label: Redirections Web
+description: L'outil redirection permet de créer des redirections d'une page vers une autre sur un site internet ou d'un domaine vers un autre.
+image: /img/docs/tools/redirects.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - domaines
+  - redirection
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+
+# Redirection web
+
+L'outil **redirections** de cPanel permet d'ajouter des redirections d'un nom de domaine ou d'une page vers un autre domaine (ou page) chez l'[hébergeur web français](https://www.o2switch.fr/hebergement-illimite/) o2switch.
+
+L'outil de redirections de cPanel peut être utile pour rediriger plusieurs domaines vers un domaine canonique et éviter ainsi le contenu dupliqué.
+
+L'outil peut également être utilisé pour rediriger des anciennes pages d'un site internet (pages supprimés) vers leurs pages équivalentes, cela permet d'éviter d'avoir trop d'erreurs 404 sur son site.
+
+<PreviewToolCard tool='redirects' />
+
+## Présentation vidéo
+
+Dans ce tutoriel vidéo, nous découvrons l'outil de redirections de cPanel.
+
+<YoutubeVideo id='WVqwhJjVjLI' title="Comment créer des redirections de domaines ?"/>
+
+## Créer une redirection simple
+
+Pour créer une **redirection web**, il faut commencer par naviguer dans l'outil **redirection** visible dans la
+catégorie des **domaines**.
+
+Ensuite un formulaire de création de redirections apparaît, voici les champs qui apparaissent et qui sont demandés :
+  * `Type` : deux choix possibles, 301 pour une redirection permanente (changement d'adresse définitif par exemple) et 302 pour temporaire
+  * `http://(www.)?` : définit le domaine qui devra être redirigé. Par défaut, ce sont tous les domaines configurés sur l'hébergement, ce qui est rarement voulu, il faut plutôt sélectionner le domaine que vous souhaitez rediriger
+  * `/` : la case vide après le `/` doit être remplie si vous souhaitez rediriger une seule page en particulier du domaine.
+Cela représente ce qu'il y a dans la deuxième partie de l'URL.
+Si vous ne souhaitez rediriger que la page exemple.com/toto alors il faudra sélectionner le domaine exemple.com et remplir toto dans la case vide après le `/`
+  * `Redirige vers` : la page ou le domaine de destination, l'adresse doit commencer par `http://` ou `https://`
+  * `Redirection www` : indique quelle version du domaine d'origine doit rediriger. Est-ce le domaine avec www (`www.exemple.com`) ou sans les www devant (`exemple.com`), ou les deux (par défaut, `exemple.com` et `www.exemple.com`)?
+  * `Redirection générique` : Permet de rediriger vers la page équivalente du nouveau domaine. Par exemple `exemple.com/toto` va rediriger vers `domaineDestination.tld/toto`.
+
+<Image
+    src="/img/docs/cpanel/domaines/creer-redirection-web.png"
+    title="Comment créer une redirection web"
+    caption="Exemple de redirection d'un domaine vers un autre, incluant toutes les pages secondaires"
+    alt="Capture d'écran de l'outil de redirection web montrant un exemple de redirection de domaine"
+/>
+
+Les redirections créées apparaissent dans un tableau récapitulatif :
+
+<Image
+    src="/img/docs/cpanel/domaines/recapitulatif-redirections.png"
+    title="Tableau récapitulatif avec les redirections créées"
+    caption="Toutes les redirections créées s'affichent dans un tableau récapitulatif"
+    alt="Capture d'écran de de l'outil redirection montrant un récapitulatif des redirections créées"
+/>

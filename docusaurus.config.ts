@@ -45,7 +45,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/o2switchfr/documentation/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/o2switchfr/documentation/edit/main/',
           routeBasePath: '/',
         },
         blog: false,
