@@ -68,6 +68,7 @@
     border-radius: 10px;
     text-align: center;
     font-style: italic;
+    margin-bottom: 2em;
     img {
       border-radius: 10px;
     }
@@ -77,6 +78,41 @@
     background-color: #faf7f1;
   }
 
+  .preview-tool-card {
+    background-color: rgb(232, 230, 224);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 2em;
+    .preview-img {
+      border-radius: 10px;
+    }
+    .tool-desc-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .tool-icon-container {
+        margin-right: 1rem;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        width: 60px;
+        height: 60px;
+        border-radius: 10px;
+        background-color: #faf7f1;
+      }
+      .tool-text-container {
+        display: flex;
+        flex-direction: column;
+        p {
+          margin-bottom: 0;
+        }
+        .badge {
+          margin-right: .5rem;
+          font-weight: 400;
+        }
+      }
+    }
+  }
 
   .navbar--dark {
     --ifm-navbar-background-color: #162a42;
@@ -173,6 +209,9 @@
   --ifm-menu-color: #faf7f1;
   --ifm-font-color-base: #faf7f1;
 
+  .preview-tool-card {
+    background-color: var(--ifm-breadcrumb-item-background-active);
+  }
   .navbar--dark {
     --ifm-navbar-background-color: #0e1f31;
   }

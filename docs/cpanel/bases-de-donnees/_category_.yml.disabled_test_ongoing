@@ -1,8 +1,0 @@
-position: 3
-label: 'Base de données MySQL'
-collapsible: true # make the category collapsible
-collapsed: false # keep the category open by default
-slug: /bases-de-donnees
-link:
-  type: generated-index
-  title: Tutorial overview
