@@ -1,0 +1,169 @@
+---
+title: Gestion des comptes emails
+sidebar_label: Comptes de messagerie
+description: L'outil compte de messagerie permet de gérer et créer des adresses emails sur l'hébergement web o2switch
+image: /img/docs/tools/email_accounts.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - emails
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+
+# Créer et gérer des adresses emails
+
+L'outil **comptes de messagerie** de cPanel permet de **créer des adresses emails** personnalisées et de **gérer**
+les adresses existantes.
+
+Au niveau de la gestion des adresses existantes, il est possible de :
+  * changer le quota d'un compte mail
+  * supprimer une adresse email
+  * bloquer l'identification (login)
+  * bloquer la réception des messages
+  * suspendre intégralement la messagerie
+  * accéder au webmail pour consulter les messages (depuis cPanel, sans le mot de passe du compte)
+  * récupérer la liste des réglages pour la configuration d'un logiciel de messagerie
+  * supprimer en masse des emails via une recherche avec un filtre
+
+En résumé, c'est l'outil à utiliser si vous souhaitez **créer une adresse email**, ou **modifier** une adresse email
+existante sur votre [compte d'hébergement web o2switch](https://www.o2switch.fr/hebergement-illimite/).
+
+<PreviewToolCard tool='email_accounts' />
+
+## Présentation vidéo
+
+<YoutubeVideo id='ZHU7oxz8mb8' title="Comment créer un compte email ?"/>
+
+## Gestion des emails
+
+L'outil **comptes de messageries** regroupe plusieurs pages :
+  * l'accueil de l'outil liste tous les comptes emails
+  * une page permet de créer un compte de messagerie
+  * une autre page permet d'éditer un compte existant
+  * enfin une autre page donne les configurations pour les logiciels de messageries
+
+### Liste des adresses emails
+
+Sur lage page d'accueil de l'outil, vous retrouvez un tableau avec la liste de tous les comptes emails.
+
+<Image
+    src="/img/docs/cpanel/emails/liste-adresses-emails.png"
+    title="Liste des adresses emails créées"
+    caption="Page d’accueil de l'outil de gestion des comptes de messageries montrant les différentes actions possibles"
+    alt="Capture d'écran de l'outil de gestion des comptes emails montant les actions possibles"
+/>
+
+Plusieurs actions sont possibles :
+  * <span className="badge badge--danger">A</span> **Créer** : affiche la fenêtre qui permet de créer des nouveaux comptes emails\
+Vous pouvez créer des comptes emails sur tous les domaines qui sont configurés sur votre hébergement. Ce n'est pas limité à votre domaine "principal".
+  * <span className="badge badge--danger">B</span> **Check email** : vous permet de vous connecter rapidement sur un compte de messagerie et d'accéder au webmail (sans mot de passe)
+  * <span className="badge badge--danger">C</span> **Gérer** : permet de gérer le compte email existant, c'est-à-dire : changer de mot de passe, changer le quota, activer ou désactiver des restrictions, changer la méthode de gestion du plus addressing, supprimer le compte
+  * <span className="badge badge--danger">D</span> **Connect devices** : donne des explications sur la manière de configurer l'adresse email sur un logiciel de messagerie
+  * <span className="badge badge--danger">E</span> **Restricted** : la mention restricted indique que le compte email à une restriction en place : un blocage de la connexion, de l'envoi ou de la réception
+
+### Créer une adresse email
+
+En cliquant sur le bouton `créer` <span class="badge badge--danger">A</span> visible en page d’accueil, le formulaire
+de création d'un compte email s'affiche.
+
+<Image
+    src="/img/docs/cpanel/emails/creer-compte-email.png"
+    title="Créer une adresse email personnalisée"
+    caption="Formulaire de création d'une nouvelle adresse email"
+    alt="Capture d'écran de l'outil permettant de créer un compte mail"
+/>
+
+Le formulaire de création d'un compte email contient plusieurs champs :
+  * <span className="badge badge--warning">A</span> **Domaine** : le champs domaine contient la liste de tous les domaines configurés sur votre hébergement.\
+Si votre domaine ne s'affiche pas alors, il faut l'ajouter avec l'[outil domaine configuré](/cpanel/domaines/configuration-domaine)
+  * <span className="badge badge--warning">B</span> **Nom d'utilisateur** : c'est dans ce formulaire que vous indiquez l'adresse email que vous souhaitez créez.\
+Prenez garde, le domaine est déjà pré-rempli, vous n'avez qu'à remplir la première partie de l'adresse email (exemple `contact`)
+  * <span className="badge badge--warning">C</span> **Mot de passe** : c'est dans ce champs que vous choisissez votre mot de passe.\
+Vous pouvez aussi décider de générer un mot de passe complexe avec l'aide de l'outil `Générer`\
+Il est également possible de ne pas définir de mot de passe et d'envoyer un email à l'utilisateur final qui le choisisera lui même
+  * <span className="badge badge--warning">D</span> **Storage space** : vous choisissez la taille maximale de la boite email, vous pouvez choisir illimité pour ne pas être restreint.\
+Lorsque votre boite email est pleine, les nouveaux messages sont refusés.
+  * <span className="badge badge--warning">E</span> **Automatically Create Folders for Plus Addressing** : définie le comportement à adopter dans le cas du plus addressing.\
+C'est un usage plus avancé. Le plus adressing consiste à créer dynamiquement plusieurs déclinaisons d'une adresse email en ajoutant `+quelquechose` après le nom d'utilisateur.\
+Exemple : votre adresse principale est `contact@domaine.tld`. L'adresse `contact+quelquechose@domaine.tld` répondra aussi, ainsi que `contact+autrechose@domaine.tld`.\
+C'est pratique pour avoir une adresse unique par site internet sur lesquels vous vous inscrivez par exemple.\
+Il y a deux comportements possibles avec cette technique du plus addressing :
+    * soit tout arrive en boite de réception.
+    * soit il faut créer automatiquement un dossier correspond à ce qu'il y a derrière le `+`
+Lorsque vous choisissez la création d'un dossier, un email arrivant sur `contact+o2switch@domaine.tld` sera automatiquement triés dans le dossier `o2switch` de l'adresse email.
+  * <span className="badge badge--warning">F</span> **Send a welcome email with instructions to set up a mail client** : si vous cochez cela, un email sera envoyé à l'adresse email créé avec les paramètres de configuration à utiliser pour configurer un logiciel de messagerie
+  * <span className="badge badge--warning">G</span> **Créer** : Finalise la création du compte email
+
+### Gérer un compte email existant
+
+En cliquant sur le bouton `Gérer` <span className="badge badge--danger">C</span> visible sur la page d’accueil de
+l'outil, le formulaire de gestion du compte email s'affiche.
+
+<Image
+    src="/img/docs/cpanel/emails/modifier-compte-email.png"
+    title="Modifier un compte email existant"
+    caption="Formulaire de modification d'un compte email existant avec les différentes actions possibles"
+    alt="Capture d'écran de l'outil permettant de modifier un compte email avec toutes les actions possibles"
+/>
+
+Le formulaire de gestion d'un compte email permet de gérer plusieurs choses :
+  * <span className="badge badge--info">A</span> **Nouveau mot de passe**  : permet de changer le mot de passe de l'adresse de messagerie. L'ancien mot de passe ne sera pas demandé.
+  * <span className="badge badge--info">B</span> **Allocated Storage Space** : permet de changer le quota de la boite email, vous pouvez l'augmenter, le diminuer ou le désactiver en passant la boite en illimité
+  * **Restrictions** : il est possible d'appliquer plusieurs restrictions sur un compte email
+    * <span className="badge badge--info">C</span> **Receiving Incoming Mail** : empêche le compte email de recevoir des nouveaux messages (utile en cas d'une vague de delivery failed par exemple)
+    * <span className="badge badge--info">D</span> **Sending Outgoing Email** : empêche le compte email d'envoyer des emails
+    * <span className="badge badge--info">E</span> **Logging In** : bloque la connexion au compte email (réception des messages sur un client de messagerie)
+  * <span className="badge badge--info">F</span> **Automatically Create Folders for Plus Addressing** : gestion du plus adressing (voir plus haut, dans la partie création d'un compte email, pour les explications)
+  * <span className="badge badge--info">G</span> **Update email settings** : enregistre vos modifications
+  * <span className="badge badge--info">H</span> **Delete email account** : supprime le compte email
+  * <span className="badge badge--info">I</span> **Free up Email Storage** : lance l'outil vous permettant de supprimer des messages en masses, avec des règles de recherches Dovecot ou des filtres pré-conçus (exemple : supprimer les messages qui ont plus d'un an)
+  * <span className="badge badge--info">J</span> **Manage Email Filters**  : lien vers l'outil de gestion des filtres de messageries
+  * <span className="badge badge--info">K</span> **Send Automated Responses** : lien vers l'outil de réponses automatique
+  * <span className="badge badge--info">L</span> **Connected Devices** : affiche une configuration utilisable dans un logiciel de messagerie
+  * <span className="badge badge--info">M</span> **Configurer les calendriers et les contacts** : affiche les paramètres de configurations du calendriers et des agendas caldav/carddav
+
+### Configurer un logiciel de messagerie
+
+En cliquant sur **Connect devices** <span className="badge badge--danger">D</span> depuis la page d'accueil de l'outil
+ou la page de gestion, une page s'affiche avec un exemple de configuration manuelle pour des logiciels de messagerie
+et des scripts de configurations automatiques.
+
+Nous ne recommandons pas l'utilisation de ces scripts d'installations ou instructions de configurations. Préférez la configuration ci-dessous à la place :
+  * **Nom du serveur (SMTP, IMAP ou POP)** : le node d'hébergement, trouvable dans le mail **Bienvenue chez o2switch**. Exemple : machette.o2switch.net (se termine toujours par .o2switch.net)
+  * **POP ou IMAP** : vous devez choisir entre POP ou IMAP. Nous recommandons l'IMAP\
+Si en **IMAP**, il faut utiliser le port **993** avec un chiffrement SSL \
+Si en **POP**, il faut utiliser le port **995** avec un chiffrement SSL
+  * Pour le **SMTP (serveur d'envoi)**, c'est le port **465** avec un chiffrement SSL
+  * Une **authentification est nécessaire**, ce n'est **pas facultatif** (l'iPhone indique à tord que c'est facultatif par exemple)
+  * L'**identifiant** correspond à l'**adresse email complète**, le mot de passe correspond à celui de l'adresse email
+
+Si besoin, vous trouvez différents guides (+ vidéos) pour configurer un logiciel de messagerie : [Configuration des logiciels de messageries](/guides/emails/client-messagerie)
+
+
+<Image
+    src="/img/docs/cpanel/emails/configuration-email.png"
+    title="Les différentes configurations pour les logiciels de messageries"
+    caption="Page avec des exemples de configurations emails pour les logiciels de messageries"
+    alt="Capture d'écran d'une page donnant toutes les configurations POP, IMAP et SMTP pour les logiciels de messageries"
+/>
+
+## Questions fréquentes
+
+  * [Comment configurer mon logiciel de messagerie ?](/guides/emails/client-messagerie)
+  * [Comment créer des filtres de messagerie ?](/cpanel/emails/filtre-email)
+  * [Comment créer des redirections email ?](/cpanel/emails/redirecteur-email)
+  * [Comment activer ou désactiver l'antispam ?](/cpanel/emails/filtre-antispam)
+  * [Puis-je créer plusieurs comptes emails ? Est-ce qu'il y a une limite ?](/questions/plusieurs-comptes-emails)
+  * [Est-ce qu'il y a une limite de taille maximale sur les boites emails ?](/questions/limite-taille-adresse-email)
+
+
+
+
+
