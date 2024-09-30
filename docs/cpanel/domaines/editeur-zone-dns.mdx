@@ -1,0 +1,200 @@
+---
+title: Éditeur de Zone DNS
+sidebar_label: Éditeur de Zone DNS
+description: L'outil zone editor permet de visualiser et modifier l'ensemble de la zone DNS des noms de domaines configurés sur l'hébergement
+image: /img/docs/tools/zone_editor.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - domaines
+  - zone DNS
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+
+# Éditeur de zone DNS
+
+L'outil **zone editor** de l'[hébergement cPanel](https://www.o2switch.fr/hebergement-illimite/) permet de gérer les
+zones DNS des domaines hébergés.
+
+Vous pouvez être amené à modifier une zone DNS pour :
+  * faire pointer le domaine/sous-domaine ailleurs
+  * activer un service tiers qui nécessite de modifier votre zone DNS. Par exemple un service email.
+  * prouver que vous êtes le propriétaire du domaine, par exemple, lors de l'[activation de Google Search Console](/domaines/configurer-txt-google-search-console)
+
+<PreviewToolCard tool='zone_editor' />
+
+## Présentation de l'outil
+
+L'outil dispose de deux pages :
+  * la page d'accueil qui va lister tous les domaines configurés sur votre hébergement
+  * la page d'affichage et de modification de la zone DNS d'un domaine précis
+
+### Liste des zones DNS
+
+Sur la première page de l'outil, vous trouverez la liste de l'ensemble des domaines configurés sur l'espace d'hébergement.
+
+Il est possible d'agir sur cette liste en faisant une recherche par domaine ou en changeant la pagination pour afficher
+un nombre plus ou moins important de domaines par page.
+
+Pour chaque domaine, vous trouverez 4 liens :
+  * `A Record` : permet d'ajouter rapidement un enregistrement de type A (association domaine ⇔ ip)
+  * `CNAME Record` : permet d'ajouter rapidement un enregistrement de type CNAME (association domaine ⇔ domaine)
+  * `MX Record` : permet d'ajouter rapidement un enregistrement de type MX, qui permet d'indiquer qui gère les emails du domaine
+  * `Gérer` : affiche la zone DNS du domaine et permet une gestion plus fine (ajout, suppression etc…)
+
+:::warning
+Attention aux liens d'ajouts rapides, ils ajoutent des entrées supplémentaires, **cela ne modifie pas les entrées existantes** !
+
+C'est une source d'erreur courante. Par exemple, si vous souhaitez faire pointer votre domaine vers une IP tierce,
+il ne faut pas utiliser le lien A Record sinon le domaine pointera vers deux IPs : celle de l'hébergement et celle définie avec l'outil !
+:::
+
+<Image
+    src="/img/docs/cpanel/domaines/liste-zone-dns.png"
+    title="Listes des zones DNS gérées sur l'hébergement o2switch"
+    caption="Page d'accueil de l'outil zone editor de cPanel où sont listés les domaines configurés sur l'hébergement"
+    alt="Capture d'écran de la page d'accueil de l'outil d'édition de zone DNS avec la liste des zones DNS gérées"
+/>
+
+### Modifier une zone DNS
+
+En cliquant sur le lien `Gérer` en face d'un des noms de domaines configurés sur l'hébergement dans la page d'accueil
+de l'outil de zone DNS, on est redirigé vers la page de modification d'une Zone DNS.
+
+La zone DNS s'affiche sous forme d'un tableau avec différents outils pour gérer et modifier la zone DNS.
+
+<Image
+    src="/img/docs/cpanel/domaines/edition-zone-dns.png"
+    title="L'outil d'édition de zone DNS avec les différentes zones"
+    caption="Présentation de l'outil zone editor de cPanel qui permet de gérer la zone DNS des domaines configurés sur l'hébergement"
+    alt="Capture d'écran montrant les différentes zones de l'outil d'édition de zone DNS"
+/>
+
+Dans le menu supérieur de l'outil, il y a toutes les options de filtrages :
+  * `Filtrage par nom` : par exemple, pour rechercher un sous-domaine spécifique
+  * `Gestion de la pagination` : permet d'afficher plus ou moins d'entrées, utile lorsque vous avez une zone DNS avec beaucoup d'entrées
+  * `Filtrage par type d'entrée` : permet de masquer toutes les entrées DNS sauf celle du type indiquée. Très utile pour y voir plus clair rapidement.
+
+Pour chaque entrée de la zone DNS, il est possible de :
+ * supprimer l'entrée en question
+ * ou de la modifier, pour changer la valeur de l'enregistrement ou le type d'enregistrement
+
+Le bouton `Ajouter un enregistrement` permet d'ajouter une nouvelle entrée dans la zone DNS du domaine.
+Ce bouton est cliquable à deux endroits : sur le texte ajouter un enregistrement ou sur la petite flèche située à la droite du bouton.
+
+Un clic sur la flèche affiche un menu déroulant qui permet d'affiner le type d'enregistrement à ajouter. Le menu
+déroulant affichera les choix suivants : `A`, `AAAA`,  `CAA`, `CNAME`, `DMARC`, `MX`, `SRV`, `TXT`
+
+Un clic sur Ajouter un enregistrement déclenche l'ajout d'une entrée DNS, le type d'enregistrement ne sera pas
+pré-rempli, par défaut, cela un enregistrement de type A.
+
+Il est également possible de cliquer plusieurs fois sur le bouton, pour ajouter plusieurs enregistrements en une seule
+fois. C'est pratique lorsque vous avez besoin d'ajouter plusieurs enregistrements, c'est un gain de temps car
+l'enregistrement de la zone DNS peut prendre quelques secondes.
+
+<Image
+    src="/img/docs/cpanel/domaines/ajout-enregistrement-dns.png"
+    title="Ajout de nouvelles entrées DNS dans la zone DNS du domaine"
+    caption="Formulaire d'ajout d'entrée DNS dans la zone DNS du domaine. On peut enregistrer plusieurs entrées d'un coup"
+    alt="Capture d'écran du formulaire d'ajout de plusieurs entrées DNS dans la zone DNS du domaine"
+/>
+
+Avec cPanel, il est possible d'ajouter les types d'enregistrement suivants :
+  * `A` : associe le domaine à une adresse IPv4
+  * `AAAA` : associe le domaine à une adresse IPv6
+  * `CAA` : indique aux autorités de certification quelles sont les autorités autorisées à émettre un certificat pour le domaine. (Exemple: je veux que tel domaine puisse uniquement avoir des certificats de types Let's Encrypt)
+  * `CNAME` : associe un domaine à un autre (comme un raccourci ou un alias)
+  * `MX` : indique qui gère les emails du domaine
+  * `SRV` : permet d'associer le domaine à un service, utile pour les messageries Exchange
+  * `TXT` : associe le domaine à une entrée texte
+  * `DMARC` : DMARC n'est pas vraiment une entrée à part entière, c'est une entrée de type TXT qui permet de surveiller les problèmes liés à l'authentification d'email (SPF/DKIM)
+
+Le formulaire d'ajout d'une entrée DNS s'ajuste en fonction du type d'enregistrement.
+
+Par exemple, dans le cas d'un enregistrement de type DMARC (TXT en réalité), le formulaire devient bien plus complet.
+
+<Image
+    src="/img/docs/cpanel/domaines/type-entree-dns.png"
+    title="Le formulaire s'ajuste en fonction du type d'entrée DNS"
+    caption="Exemple d'ajout d'une entrée DMARC et MX dans la zone du domaine, le formulaire d'ajout d'entrée s'adapte"
+    alt="Capture d'écran du formulaire d'ajout de zone DNS montrant que le formulaire s'ajuste en fonction dy type d'entrée"
+/>
+
+## Cas particulier des MX
+
+Pendant très longtemps, il n'était pas possible de modifier les entrées de type MX depuis les outils d'éditions de zones
+DNS de cPanel.
+
+Il fallait utiliser un outil tiers, [entrée MX/routage des emails](/cpanel/emails/routage-email) pour faire le changement.
+
+A présent, il est possible d'éditer ou d'ajouter les entrées MX directement depuis l'outil.
+Cependant, il faut prendre quelques précautions, car l'utilisation de l'outil
+[entrée MX/routage des emails](/cpanel/emails/routage-email) est encore parfois nécessaire.
+
+Il existe plusieurs cas, mais les plus courants sont les trois suivants :
+  * Les emails du domaine sont gérés par o2switch : les MX pointent vers o2switch, le serveur de mail doit accepter les messages
+  * Les emails du domaine ne sont pas gérés par o2switch : les MX pointent ailleurs, le serveur de mail doit refuser les messages, les emails émis depuis l'hébergement vers le domaine doivent aller sur un serveur tiers
+  * Les emails du domaine sont gérés par O2switch mais les MX ne doivent pas pointer chez o2switch (généralement le cas avec les solutions antispams)
+
+### Les emails sont chez o2switch
+
+Dans le cas où les emails doivent rester sur l'hébergement o2switch, il faut s'assurer :
+  * de n'avoir qu'une seule entrée MX, en priorité 0
+  * que cette entrée MX pointe vers l'hébergement. C'est-à-dire qu'elle pointe vers le domaine (ou un sous-domaine) qui lui même doit pointer sur l'hébergement
+  * que dans l'outil [entrée MX/routage des emails](/cpanel/emails/routage-email) de cPanel, le routage soit détecté ou configuré en local
+
+<Image
+    src="/img/docs/cpanel/domaines/email-chez-o2switch.png"
+    title="Configuration à appliquer lorsque les emails sont chez o2switch"
+    caption="Cas d'un domaine avec des MX locaux et d'un routage local des emails"
+    alt="Capture d'écran de la configuration à appliquer pour avoir les emails chez o2switch"
+/>
+
+### Les emails ne sont pas chez o2switch
+
+Dans le cas où les emails ne sont pas chez o2switch et doivent pointer vers un prestataire tiers (exemple Google Apps), il faut :
+  * n'avoir que les entrées MX du prestataire tiers en question, une ou plusieurs, mais il faut supprimer les entrées MX o2switch
+  * dans l'outil [entrée MX/routage des emails](/cpanel/emails/routage-email) , le routage doit être détecté en distant ou forcé en distant. Si ce n'est pas fait, les emails émis depuis l'hébergement à destination du domaine ne seront pas acheminés correctement.
+
+<Image
+    src="/img/docs/cpanel/domaines/email-pas-chez-o2switch.png"
+    title="Configuration à appliquer lorsque les emails sont PAS chez o2switch"
+    caption="Cas d'un domaine avec des MX tiers et d'un routage distant des emails"
+    alt="Capture d'écran de la configuration à appliquer lorsque les emails ne sont pas géré chez o2switch"
+/>
+
+### J'utilise une solution antispam
+
+Pour certains types de solution antispam, il faut faire un mixte des deux cas précédents, c'est-à-dire :
+  * avoir les serveurs MX du domaines vers un prestataire tiers
+  * mais dans l'outil  [entrée MX/routage des emails](/cpanel/emails/routage-email) conserver le routage en distant afin que l'hébergement continue d'accepter les emails du domaine
+
+<Image
+    src="/img/docs/cpanel/domaines/email-solution-antispam.png"
+    title="Exemple de configuration avec une solution antispam qui reroute le trafic email"
+    caption="Cas d'un domaine avec des MX tiers mais un routage local des emails pour accepter les emails entrant sur l'hébergement"
+    alt="Capture d'écran de la configuration à appliquer lorsqu'on utilise une solution antispam qui re-route les emails"
+/>
+
+## Cas particulier des DKIM et SPF
+
+Les enregistrements SPF du domaine ne doivent pas être édités depuis cet outil.
+
+Il faut utiliser l'outil [Authentification](/cpanel/emails/delivrabilite-spf-dkim) qui se trouve dans la catégorie des emails.
+
+Si vous éditez les entrées SPF avec cet outil, ils seront écrasés à la prochaine mise à jour de la zone DNS du domaine.
+
+Cependant, les enregistrements DKIM peuvent être ajoutés sous forme d'enregistrement TXT.
+
+## Configurations courantes
+
+Voici quelques exemples de configurations qui sont couramment faites dans la zone DNS d'un nom de domaine.
+  * [Comment configurer les MX de Google Apps / Gsuite ?](/guides/emails/configurer-mx-google-apps)
+  * [Comment ajouter l'enregistrement DNS TXT demandé lors de la validation de propriété de l'outil Google Console Search ?](/guides/domaines/configurer-txt-google-search-console)
