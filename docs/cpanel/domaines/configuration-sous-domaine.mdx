@@ -1,0 +1,80 @@
+---
+title: Créer un sous-domaine
+sidebar_label: Sous-domaines
+description: Ce tutoriel explique comment gérer et créer des sous-domaines sur un espace d'hébergement web o2switch
+image: /img/docs/tools/subdomains.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - domaines
+  - sous-domaine
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+
+# Créer et gérer les sous-domaines
+
+L'outil **sous-domaines** permet d'ajouter et de gérer des sous domaines sur votre espace d'hébergement mutualisé,
+c'est-à-dire des domaines de la forme : `quelquechose.votre-site.fr`.
+
+Un sous-domaine peut être utile pour créer des adresses de tests, sans avoir besoin de commander des noms de domaines
+supplémentaires. Ou cela peut être utilisé pour découper logiquement votre site internet, par exemple en ayant votre
+site principal sur `mon-domaine.com` et un blog sur `blog.mon-domaine.com`.
+
+<PreviewToolCard tool='subdomains' />
+
+## Présentation vidéo
+
+Dans ce tutoriel vidéo, nous voyons comment créer des sous-domaines à partir de cPanel et nous voyons quels sont les usages courants des sous-domaines.
+
+<YoutubeVideo id='297c_of9qxM' title="Comment créer un sous-domaine ?"/>
+
+## Configurer un sous-domaine
+
+Pour ajouter un sous-domaine, rendez-vous sur l'outil **sous-domaines** situé dans la catégorie **domaines** dans cPanel puis renseignez les paramètres suivants :
+  * `Sous-domaine` : le sous-domaine que vous souhaitez ajouter, par exemple `blog` puis
+  * `Domaine` : sélectionnez le site sur lequel vous voulez créer ce sous-domaine. Si l'adresse du site sur lequel vous souhaitez créer le sous-domaine n’apparaît pas dans la liste déroulante, vous devez d'abord ajouter votre domaine avec l'[outil domaines configurés](/cpanel/domaines/configuration-domaine) de cPanel.
+  * `Racine des documents` : le dossier qui va contenir les fichiers de votre sous-domaine. Nous recommandons de laisser la valeur qui est pré-remplie par défaut.
+
+:::info
+Pour que le sous-domaine fonctionne correctement, votre nom de domaine (ou au moins le sous-domaine) doit pointer vers
+nos serveurs. Pour cela, vous pouvez faire un [changement de DNS](/nom-de-domaine).
+:::
+
+<Image
+    src="/img/docs/cpanel/domaines/configurer-sous-domaine.png"
+    title="Ajout d'un sous-domaine sur l'hébergement o2switch"
+    caption="Formulaire de création d'un sous-domaine sur l'hébergement o2switch"
+    alt="Capture d'écran de l'outil de création de sous-domaine sur l'hébergement o2switch"
+/>
+
+## Gérer les sous domaines existants
+
+Vous pouvez gérer les sous-domaines existants, vous pouvez en supprimer, faire une redirection vers un autre site
+(avec le lien `gérer`) ou changer le répertoire où pointe le domaine sur votre espace.
+
+<Image
+    src="/img/docs/cpanel/domaines/modifier-sous-domaine.png"
+    title="Modifier un sous-domaine sur l'hébergement o2switch"
+    caption="Gestion de vos sous-domaines et modification du répertoire racine"
+    alt="Capture d'écran de l'outil d'édition de sous-domaine sur l'hébergement o2switch"
+/>
+
+
+## Sous-domaines spéciaux
+
+Vous avez sans doute remarqué qu'il y a des sous-domaines qui sont présents que vous n'avez pas créé et que vous ne
+pouvez pas supprimer.
+
+Il s'agit de sous-domaines spéciaux, créés par cPanel pour ces propres besoins internes.
+
+Par exemple, si le domaine technique lié à votre hébergement est `dojo0001.odns.fr` et si vous configurez
+le nom de domaine `mon-domaine.com` alors cPanel va également créer un sous-domaine de la forme
+`mon-domainecom.dojo0001.odns.fr`. Vous pouvez l'ignorer, ça n'impacte pas le fonctionnement de votre domaine.
+
