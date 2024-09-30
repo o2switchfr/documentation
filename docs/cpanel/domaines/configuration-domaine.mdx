@@ -1,0 +1,80 @@
+---
+title: Configurer un nom de domaine
+sidebar_label: Domaines configurés
+description: L'outil domaines configurés permet d'ajouter un nouveau nom de domaine sur l'hébergement. Permet d'héberger plusieurs sites sur le même compte.
+image: /img/docs/tools/domains.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - domaines
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+
+# Configurer un nom de domaine
+
+L'outil **domaines configurés** de cPanel permet d'associer des noms de domaines supplémentaires sur votre espace d'hébergement web.
+
+L'outil permet **d'associer un nom de domaine à un répertoire de votre choix** de votre espace d'hébergement.
+
+L'outil domaines supplémentaires est adapté pour configurer des nouveaux noms de domaines qui vont correspondre à des
+nouveaux projets, ou des sites totalement différents de ce que vous avez actuellement en place sur votre hébergement.
+
+En effet, un nouveau dossier sera créé sur votre hébergement et il faudra placer les fichiers de votre nouveau site dans ce dossier.
+Cela sera totalement indépendant des autres sites hébergés.
+
+En résumé, c'est l'outil à utiliser pour **ajouter un nouveau domaine** sur votre **hébergement cPanel**. Cela
+permet héberger plusieurs sites internet sur le même compte.
+
+Il n'y a pas de limite sur le nombre de domaines que vous pouvez configurer, car nos plans d'[hébergements sont
+illimités](https://www.o2switch.fr/hebergement-illimite/) à ce sujet.
+
+<PreviewToolCard tool='domains' />
+
+## Ajouter un nouveau domaine
+
+Pour configurer un nom de domaine supplémentaire sur votre espace, rendez-vous sur l'outil **domaines configurés**
+disponible dans la catégorie **Domaines** de votre compte cPanel puis renseignez les éléments suivants :
+  * `Nom du nouveau domaine` : votre nom de domaine sans les `www`, ni `http` devant
+  * `Sous-domaine` : vous pouvez laisser par défaut ou précisez le login que vous souhaitez pour le compte FTP qui va être automatiquement créé pour ce domaine
+  * `Racine des documents` : le répertoire qui va contenir les fichiers de votre site internet. Si vous comptez héberger plusieurs sites internet, lisez nos recommandations pour une arborescence de dossiers multisite car la configuration par défaut n'est pas idéale.
+  * `Créez un compte FTP associé à ce domaine supplémentaire` : cochez cette case si vous désirez créer un compte FTP secondaire, mais ce n'est pas indispensable
+
+<Image
+    src="/img/docs/cpanel/domaines/configurer-domaine-supplementaire.png"
+    title="Ajout d'un domaine additionnel sur l'hébergement o2switch"
+    caption="Formulaire de configuration d'un nom de domaine supplémentaire sur l'hébergement o2switch"
+    alt="Capture d'écran de l'outil d'ajout de domaine complémentaire sur l'hébergement o2switch"
+/>
+
+L'outil **domaines configurés** ne doit être utilisé que pour configurer des noms de domaines de premier niveau,
+de la forme `votre-domaine.com`.
+
+Pour configurer des sous-domaines (donc des adresses de la forme `qqch.votre-site.fr`), il faut utiliser
+l'[outil sous-domaines](/cpanel/domaines/configuration-sous-domaine) de cPanel.
+
+Pour que le domaine fonctionne correctement, votre nom de domaine doit pointer vers nos serveurs. Pour cela, vous pouvez faire un [changement de DNS](/nom-de-domaine)
+
+## Modifier un domaine existant
+
+Dans une deuxième partie de l'outil, vous retrouvez la liste des domaines supplémentaires configurés sur votre espace
+d'hébergement.
+
+Vous pouvez supprimer ces domaines supplémentaires (le site ne répondra plus), ajouter une redirection vers un domaine
+distant (avec le lien `gérer`) ou bien modifier le chemin du répertoire contenant les fichiers de votre site internet
+(pour en changer sa racine et définir un autre répertoire à la place).
+
+<Image
+    src="/img/docs/cpanel/domaines/modifier-domaine.png"
+    title="Récapitulatif des noms de domaines configurés sur l'hébergement web"
+    caption="Outil dans les domaines supplémentaires permettant de changer un site de répertoire pour en définir un nouveau à la place"
+    alt="Capture d'écran de l'outil de présentation des noms de domaines configurés sur l'hébergement"
+/>
+
+
