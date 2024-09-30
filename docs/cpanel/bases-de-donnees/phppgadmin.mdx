@@ -1,0 +1,46 @@
+---
+title: Gérez vos bases de données PostgreSQL avec phpPgAdmin
+sidebar_label: phpPgAdmin
+description: "L'outil phpPgAdmin permet de travailler sur vos bases de données PostgreSQL : sauvegarde, restauration, lancement de requêtes SQL"
+image: /img/docs/tools/php_pg_admin.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - postgresql
+  - phpPgAdmin
+  - bases de données
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+L'outil **phppgadmin** permet de travailler facilement dans vos bases de données postgreSQL sur votre
+[plan d'hébergement](https://www.o2switch.fr/hebergement-illimite/), c'est l'outil qu'il faudra utiliser pour :
+  * modifier des entrées en base de données
+  * vider/supprimer des informations
+  * effectuer des sauvegardes et restaurer des sauvegardes téléchargées
+  * lancer des requêtes SQL spécifiques sur une base de données
+
+L'outil ne pourra **pas servir à la création de nouvelle base de données et d'utilisateur mysql**, il faut utiliser
+l'outil [base de données postgreSQL](/cpanel/bases-de-donnees/postgresql) pour cela.
+
+Il n'est pas possible d'accéder à phppgadmin autrement qu'en se connectant via cPanel, il n'y a pas de lien
+direct vers l'outil.
+
+
+<PreviewToolCard tool='php_pg_admin' />
+
+:::danger
+Il est probable que nous **arrêtions de proposer les bases de données postgresql** (et phppgadmin) à l'avenir. Pour
+plusieurs raisons :
+  * ces bases de données sont très peu utilisées/demandées par nos clients
+  * la version proposée est ancienne (9.6) et nous n'avons pas la possibilité de la mettre à jour car dépendant par cPanel
+  * cPanel ne souhaite pas [proposer/maintenir une version différente de celle proposée par l'OS utilisé](https://support.cpanel.net/hc/en-us/articles/360052941573-Can-I-upgrade-PostgreSQL-on-my-server)
+  * mais surtout l'éditeur de cPanel envisage de [retirer le support de postgresql](https://features.cpanel.net/c/63-sunset-support-for-postgresql)
+
+Si cPanel supprime le support de postgresql, ne seront contraint de faire de même.
+:::
