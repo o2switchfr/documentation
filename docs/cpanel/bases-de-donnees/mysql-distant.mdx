@@ -1,0 +1,92 @@
+---
+title: MySQL distant
+sidebar_label: MySQL distant
+description: L'outil mysql distant permet d'autoriser l'accès à distance, depuis une machine qui n'est pas votre hébergement, à vos bases de données mysql
+image: /img/docs/tools/mysql_databases.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - mysql
+  - mariadb
+  - bases de données
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Accès à distance à MySQL
+
+L'outil **MySQL distant** de cPanel permet d'ouvrir l'accès à vos bases de données depuis l'extérieur.
+
+Sur un compte d'[hébergement web](https://www.o2switch.fr/hebergement-illimite/), par défaut les bases de données ne
+sont accessibles que depuis l'hébergement.
+
+L'outil mysql distant permet d'**autoriser** l'accès à vos bases de données depuis certaines **adresses IP distantes**
+de votre choix. L'authentification par identifiant/mot de passe reste toujours nécessaire.
+
+<PreviewToolCard tool='remote_mysql' />
+
+## Présentation vidéo
+
+Dans ce tutoriel vidéo, nous voyons comment ouvrir l'accès à distance aux bases de données hébergées à l'aide d'un
+exemple pratique : l'utilisation du logiciel mysql workbench.
+
+<YoutubeVideo id='AJRVip7Aq0g' title="Comment ouvrir l'accès à distances aux bases de données MySQL ?"/>
+
+## Comment ouvrir l'accès à distance aux bases MySQL ?
+
+Pour ouvrir l'accès à distance dans cPanel, il suffit d'indiquer l'adresse IP de l'ordinateur ou du serveur qui va se
+connecter sur la base de données.
+
+Si c'est votre ordinateur, via un logiciel comme mysql workbench alors il faut indiquer l'adresse IP trouvable sur
+[monip.org](https://monip.org/) par exemple.
+
+:::info
+Il n'est **pas possible** d'utiliser le sigle `%` pour autoriser toutes les IPs à se connecter sur votre base de données
+pour des questions de sécurité.
+
+A cet instant, il est également **impossible** de mettre en liste blanche un **nom de domaine** ou une
+**plage d'adresse IPs**.
+
+Il est uniquement possible de placer en liste blanche **une adresse IPv4**.
+:::
+
+<Image
+    src="/img/docs/cpanel/bases-de-donnees/liste-blanche-mysql-distant.png"
+    title="Formulaire d'autorisation de connexion à distance à MySQL"
+    caption="Ajout d'une exception pour autoriser l'adresse IP à se connecter à une base de données"
+    alt="Capture d'écran du formulaire d'autorisation de connexion à distance à MySQL"
+/>
+
+Ensuite les exceptions crées sont visible dans le tableau récapitulatif.
+
+<Image
+    src="/img/docs/cpanel/bases-de-donnees/acces-distance-mysql.png"
+    title="Récapitulatif des adresses IP en exception pour MySQL distant"
+    caption="Les exceptions en place pour la connexion à distance à MySQL"
+    alt="Capture d'écran du récapitulatif des exceptions mysql distant"
+/>
+
+Ensuite, pour la connexion sur votre base de données, il faut indiquer en hôte mysql le nom du serveur sur lequel vous
+êtes hébergé.
+
+Le nom du serveur est de la forme `quelquechose.o2switch.net`. Exemple `canard.o2switch.net`.
+Ce nom de serveur est communiqué dans le mail `Bienvenue chez o2switch` et il faut utiliser ce nom en adresse de connexion
+pour le serveur MySQL.
+
+:::warning
+L'accès à distance aux bases de données est **toléré** sur nos hébergements mais il y a certaines **restrictions**.
+
+L'accès aux bases de données à distance doit **rester occasionnel**.
+
+Par exemple, pour l'utilisation d'un logiciel comme mysql workbench qui permet de se connecter une fois de temps en
+temps à la base de données pour faire des opérations dessus ne pose pas de soucis. 
+
+En revanche, il ne sera pas possible d'avoir les données d'un site hébergé chez un prestataire A et la base de données
+hébergée sur votre hébergement. De même il ne sera pas possible d'avoir un accès persistant ou H24 sur une base de
+données à distance.
+:::
