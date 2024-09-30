@@ -1,8 +1,8 @@
 ---
 title: Base de données MySQL
 sidebar_label: Base de données MySQL
-sidebar_position: 3
-description: L'outil bases de données MySQL permet de créer des bases de données MySQL, des utilisateurs MySQL et gérer les droits des utilisateurs sur les bases
+description: L'outil base de donnée MySQL permet de créer des bases de données MySQL, des utilisateurs MySQL et gérer les droits des utilisateurs sur les bases
+image: /img/docs/tools/mysql_databases.png
 tags:
   - cpanel
   - hébergement mutualisé
@@ -11,10 +11,198 @@ tags:
   - mysql
   - mariadb
   - bases de données
-image: todo 
 ---
-
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
 import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+
+# Base de données MyQSL
+
+L'outil **bases de données MySQL** permet de créer des bases de données MySQL, des utilisateurs et de gérer les droits
+des utilisateurs sur les bases de données.
+
+cPanel permet un contrôle assez fin des utilisateurs et des droits sur les bases.
+
+Une base peut être gérée par plusieurs utilisateurs différents.
+De plus il est possible de contrôler quels types de droits un utilisateur possède sur une base de données
+(select, insert, etc…).
+
+Pour rappel, sur votre [compte d'hébergement cPanel](https://www.o2switch.fr/hebergement-illimite/) vous pouvez créer
+autant de bases de données que vous le souhaitez, il n'y a pas de limites.
+
+<PreviewToolCard tool='mysql_databases' />
+
+## Présentation vidéo
+
+Dans ce tutoriel vidéo, nous voyons comment créer une base de données, un utilisateur et comment attribuer les droits à l'utilisateur sur la base de données.
+Tout cela est expliqué à l'aide d'un exemple pratique.
+
+```mdx-code-block
+import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css"
+
+<div className="video-container">
+  <LiteYouTubeEmbed
+    id="cfuwHD2g4co"
+    params="autoplay=1&autohide=1&showinfo=0&rel=0"
+    title="Comment gérer les bases de données sur cPanel ?"
+    poster="maxresdefault"
+    webp
+  />
+</div>
+```
+
+## Comment utiliser l'outil base de données MySQL ?
+
+Généralement, l'outil de **base de données MySQL** de cPanel est utilisé pour faire trois choses :
+  1. Créer une base de données, avec le premier formulaire de l'outil
+  2. Créer un utilisateur, avec le deuxième formulaire
+  3. Gérer les droits de l'utilisateur sur la base de données, via les deux listes déroulantes visibles en bas de page
+
+:::tip
+C'est une bonne pratique d'avoir une base de données ainsi qu'un utilisateur MySQL différents pour chaque script/site
+ou CMS que vous déployez. Vous n'avez **pas de limite** sur le nombre de bases de données et utilisateurs, profitez-en
+pour isoler chaque script/site dans sa propre base.
+
+1 script (CMS) = 1 base de données dédiée à ce CMS = 1 utilisateur avec les droits sur la base concernée
+:::
+
+### Créer une base de données
+
+Le premier formulaire de l'outil permet de **créer une base de données**. Il n'y a qu'un seul champ à remplir : le nom
+de la base de données à créer
+
+<Image
+    src="/img/docs/cpanel/bases-de-donnees/creer-base-donnees-mysql.png"
+    title="Formulaire de création d'une base de données dans cPanel"
+    caption="Formulaire de création d'une base de données MySQL"
+    alt="Capture d'écran du formulaire de création d'une base de données MySQL"
+/>
+
+Le nom de la base de données est toujours préfixé de l'identifiant cPanel.
+
+Il en va de même pour l'utilisateur. Cela sera toujours de la forme : identifiantCpanel_quelquechose.
+
+### Créer un utilisateur MySQL
+
+Le deuxième formulaire permet de **créer un utilisateur MySQL**. Deux éléments sont demandés :
+  * le nom de l'utilisateur (8 caractères maximum) à créer
+  * le mot de passe associé à cet utilisateur. Le mot de passe doit être suffisamment complexe
+
+:::info
+Pour le mot de passe, nous vous recommandons d'utiliser **mots de passes alphanumériques longs**. Pourquoi ?
+
+Certains scripts PHP sont mal conçus et génèrent des fichiers de configuration avec des guillemets doubles `"`
+(à la place de guillemet simple `'`).
+
+Or certains **carractères spéciaux ont une signification particulière**. Par exemple en PHP le `$`
+sera traité comme un nom de variable s'il est inclus entre deux guillemets doubles `"`. Donc dans le cas de la définition
+d'un mot de passe, cela génerera une erreur de syntaxe dans le code.
+
+Un autre problème fréquent concerne les mots de passes qui contiennent le sigle `@`, `:` ou `/`. Cela peut entrer en
+conflit avec le format [DSN](https://fr.wikipedia.org/wiki/Data_Source_Name) souvent utilisé dans des fichiers `.env`.
+
+Lorsque ce type d'erreur se produit, cela est assez difficile à trouver car ça ne fait pas partie des choses que
+l'on pense à vérifier immédiatement. Pour cette arison, nous vous recommandons de générer des mots de passes
+alphanumérique, mais très long, afin de conserver la sécurité.
+
+Vous pouvez utiliser le générateur de mot de passe de cPanel en demandant uniquement des caractères alphanumériques.
+:::
+
+<Image
+    src="/img/docs/cpanel/bases-de-donnees/creer-utilisateur-mysql.png"
+    title="Formulaire de création d'un nouvel utilisateur MySQL"
+    caption="Formulaire de création d'un utilisateur MySQL"
+    alt="Capture d'écran du formulaire de création d'un utilisateur MySQL"
+/>
+
+En l'état, l'utilisateur créé ne peut pas faire grand chose car il n'a pas encore les permissions sur la base de données
+créée précédemment.
+
+### Attribution des permissions
+
+cPanel vous laisse gérer assez finement les **permissions des utilisateurs** sur les bases de données.
+
+Ainsi, un utilisateur peut avoir des droits sur plusieurs bases de données différentes.
+
+Ou inversement, des bases peuvent être gérées par plusieurs utilisateurs différents.
+
+Il est également possible de fournir des accès limités (en lecture simple par exemple) à un utilisateur sur une base de données.
+
+En bas de page dans l'outil base de données mysql de cPanel, il y a un formulaire avec deux menus déroulants. Il faut :
+  * sélectionner l'utilisateur auquel on souhaite attribuer des permissions
+  * puis sélectionner base de données sur laquelle on veut lui attribuer des droits
+  * puis valider
+
+<Image
+    src="/img/docs/cpanel/bases-de-donnees/attribution-droits-utilisateur-mysql.png"
+    title="Formulaire d'attribuation des permissions MySQL à un utilisateur"
+    caption="Formulaire pour attribuer les droits MySQL à un utilisateur sur une base de données"
+    alt="Capture d'écran du formulaire d'attribution des droits MySQL"
+/>
+
+Ensuite, sur l'écran suivant il faut :
+  * soit cocher finement les droits que vous souhaitez attribuer à l'utilisateur (usage avancé)
+  * soit cocher la case `TOUS LES PRIVILÈGES` et valider (usage courant)
+
+<Image
+    src="/img/docs/cpanel/bases-de-donnees/permissions-mysql-utilisateur.png"
+    title="Formulaire de sélection des permissions MySQL"
+    caption="Sélection des droits qu'aura l'utilisateur sur la base de données"
+    alt="Capture d'écran du formulaire de sélection des permissions MySQL"
+/>
+
+Si tout se passe bien, un message en vert apparaît indiquant que l'opération s'est bien passée et l'utilisateur
+apparaît en face de la base de données dans le tableau récapitulatif.
+
+<Image
+    src="/img/docs/cpanel/bases-de-donnees/utilisateur-permission-base-donnnes.png"
+    title="Tableau récapilatif des bases de données et utilisateurs"
+    caption="L'utilisateur a bien les permissions sur la base de données"
+    alt="Capture d'écran du tableau racapitulatif des bases de données et utilisateur"
+/>
+
+## Configuration de scripts
+
+Dans la configuration d'un script PHP, pour un CMS par exemple, plusieurs éléments sont demandés :
+  * `Nom de la base de données` : c'est le nom de la base que vous avez créée dans le premier formulaire, le nom de la base est toujours préfixé de votre identifiant cPanel
+  * `Utilisateur` : l'utilisateur créé dans le deuxième formulaire, également préfixé de votre identifiant cPanel
+  * `Mot de passe` : le mot de passe de l'utilisateur (comme expliqué précédemment, attention aux guillemets doubles pour la définition dans le fichier de configuration PHP, certains caractères contenus dans le mot de passe peuvent être mal interprétés)
+  * `Adresse de connexion` ou `hôte` : localhost (c'est toujours localhost sur nos hébergements)
+
+
+### WordPress wp-config.php
+
+Exemple pour le fichier `wp-config.php` de WordPress. Les valeurs sont à remplacer par ce que vous avez créé dans l'outil.
+
+```php title="wp-config.php"
+define('DB_NAME', 'utilisateurCpanel_nomDeVotreBase');
+define('DB_USER', 'utilisateurCpanel_nomDeVotreUtilisateur');
+define('DB_PASSWORD', 'mot de passe');
+define('DB_HOST', 'localhost');
+```
+
+### Joomla configuration.php
+
+Exemple pour le fichier `configuration.php` de Joomla. Les valeurs sont à remplacer par ce que vous avez créé dans l'outil.
+
+```php title="configuration.php"
+public $dbtype = 'mysql';
+public $host = 'localhost';
+public $user = 'utilisateurCpanel_nomDeVotreUtilisateur';
+public $password = 'mot de passe';
+public $db = 'utilisateurCpanel_nomDeVotreBase';
+```
+
+### Format DSN .env
+
+L'exemple ci-dessous convient à la majorité des Framework PHP qui utilisent les fichiers `.env` pour passer les
+configurations et utilisent le format DSN :
+
+```text title=".env"
+DATABASE_URL="mysql://NOM_UTILISATEUR:MOT_DE_PASSE@127.0.0.1:3306/db_name?serverVersion=10.6.19-MariaDB"
+```
 
 
 

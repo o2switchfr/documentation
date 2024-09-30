@@ -1,4 +1,11 @@
-import {themes as prismThemes} from 'prism-react-renderer';
+import {
+  duotoneLight,
+  gruvboxMaterialLight,
+  jettwaveLight,
+  nightOwl, nightOwlLight, oneLight, synthwave84,
+  themes as prismThemes,
+  vsLight
+} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
@@ -142,23 +149,13 @@ const config: Config = {
       copyright: `© ${new Date().getFullYear()} o2switch, Tous droits réservés. | <a class="footer__link-item" href="https://www.o2switch.fr/cgv/" target="_blank" title="CGV o2swich">Conditions Générales de vente</a> - <a class="footer__link-item" href="https://www.o2switch.fr/du-rgpd.pdf" target="_blank" title="D.U RGPD">Document Unique RGPD</a>`,
     },
     prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
+      theme: prismThemes.nightOwlLight, // nightOwlLight oneLight vsLight
+      darkTheme: prismThemes.nightOwl, // palenight
+      additionalLanguages: ['php', 'apacheconf', 'javascript', 'markup', 'css', 'ruby', 'http', 'git', 'bash', 'json'],
     },
   } satisfies Preset.ThemeConfig,
   plugins: [
       'docusaurus-plugin-sass',
-      // Note : messes up the CSS background images with [Object Object], probably because the webpack loader changes the type of imported images :(
-      /*[
-        '@docusaurus/plugin-ideal-image',
-        {
-          quality: 70,
-          max: 1030, // max resized image's size.
-          min: 640, // min resized image's size. if original is lower, use that size.
-          steps: 2, // the max number of images generated between min and max (inclusive)
-          disableInDev: false,
-        },
-      ],*/
   ],
 };
 
