@@ -1,0 +1,93 @@
+---
+title: Filtre de messagerie global
+sidebar_label: Filtre Email global
+description: L'outil filtres de messagerie global permet d'ajouter un filtre de message qui sera appliquée sur l'ensemble des adresses emails de l'hébergement.
+image: /img/docs/tools/global_email_filters.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - emails
+  - filtre email
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Filtres de messagerie global à l'hébergement
+
+L'outil **filtres de messagerie globaux** de l'[espace d'hébergement](https://www.o2switch.fr/hebergement-entreprise/)
+permet d'ajouter des filtres pour tous les messages entrants pour l'ensemble des comptes mails créés sur
+un compte d'hébergement.
+
+Les filtres permettent de trier les emails entrants en fonctions de certains critères, par exemple, vous pouvez :
+  * déplacer un message dans un sous-dossier en fonction d'un mot clé dans le sujet
+  * supprimer tous les messages possédant un certain mot clé dans le corps du message
+  * trier vos messages par rapport à l'adresse de la personne vous contactant
+
+<PreviewToolCard tool='global_email_filters' />
+
+## Tutoriel vidéo
+
+Dans ce tutoriel vidéo, nous voyons comment il est possible de créer des filtres email depuis cPanel et ses deux
+outils de gestions des filtres.
+
+<YoutubeVideo id='P5oGQR8aCQ4' title="Comment créer des filtres emails ?"/>
+
+## Ajout d'un filtre global de messagerie
+
+La page d'accueil de l'outil liste les filtres de messageries existants.
+
+<Image
+    src="/img/docs/cpanel/emails/filtre-email-global.png"
+    title="Filtre email global à l'hébergement"
+    caption="Liste des filtres emails global à l'hébergement"
+    alt="Capture d'écran de l'outil de filtres de messagerie global à l'hébergement"
+/>
+
+Sur la page avec la liste des filtres de messagerie, plusieurs éléments sont importants :
+  * l'ordre des filtres à une importance, les filtres sont exécuté du haut vers le bas.\
+Vous pouvez utiliser les flèches pour réorganiser les filtres.
+  * vous pouvez tester vos filtres de messageries. Pour cela, créez votre filtre puis copiez/collez la source complète d'un email reçu (qui devrait déclencher le filtre) puis collez le dans la rubrique **test de filtre**. \
+L'outil vous indiquera quels filtres se déclenchent pour ce mail. Si vous créez des filtres de suppression, alors pensez également à tester l'inverse : que le filtre n'agit pas sur un email sur lequel vous ne voulez pas d'action.
+  * vous pouvez créer un filtre en cliquant sur **créer un filtre**
+  * ou modifier des filtres existants / les supprimer
+
+Pour ajouter un filtre global, il suffit d'aller dans l'outil **filtres de messagerie globaux** puis cliquer
+sur **créer un filtre**.
+
+<Image
+    src="/img/docs/cpanel/emails/creation-filtre-email-global.png"
+    title="Création d'un filtre email global"
+    caption="Création d'un filtre email global agissant sur toutes les adresses emails de l'hébergement"
+    alt="Capture d'écran de l'outil de création de filtre global de messagerie"
+/>
+
+
+Un filtre de messagerie est constitué :
+  * d'un nom, afin de ne repérer plus facilement si vous disposez de plusieurs filtres
+  * d'une liste de règles. Si vous avez plusieurs règles, les règles peuvent fonctionner en logique `ET` (règle1 ET règle2) et `OU` (règle1 OU règle2)
+  * d'une action pour les messages qui déclenchent la suite de règles
+    * rejeter le message
+    * rediriger le message vers une adresse email
+    * échec avec message : comme le rejet, mais en émettant un message d'erreur
+    * arrêter les règles de traitements : dans le cas ou vous avez plusieurs filtres différents pour stopper l'exécution des filtres suivants
+    * déplacer dans un dossier : pour trier le message dans un sous-dossier.
+    * transmettre à un programme : permet de passer l'email à un script qui le traitera ensuite (pipe mail)
+
+Pour en savoir plus sur la création de filtre, qui est un sujet à part entière, vous pouvez consulter ce
+guide : [Comment créer des filtres de messageries ?](/guides/emails/creer-filtre-email)
+
+:::warning
+Attention avec l'action **déplacer dans un dossier** de l'outil de filtre global de messagerie.
+
+Si vous utilisez cette option, tous les messages correspondants seront triés dans **le dossier de l'adresse email système**.
+
+Par exemple, si vous essayez de créer un filtre antispam, alors tous les messages de spams arriveront dans 1 seul dossier, celui de l'adresse système.
+Et **pas le dossier spam de l'adresse contacté**.
+:::
+
+
