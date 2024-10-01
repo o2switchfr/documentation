@@ -1,0 +1,84 @@
+---
+title: "Gestionnaire de fichiers : envoyer et récupérer des fichiers"
+sidebar_label: Gestionnaires de fichiers
+description: Le gestionnaire de fichiers permet d'envoyer, recevoir et modifier facilement des fichiers depuis une interface web
+image: /img/docs/tools/file_manager.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - fichiers
+  - gestionnaire de fichier
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Gestionnaire de fichier : envoyer et récupérer des fichiers
+
+Le gestionnaire de fichier de l'[hébergement o2switch](https://www.o2switch.fr/) est un outil permettant de naviguer
+et d'éditer les fichiers présents sur votre espace d'hébergement site web.
+
+Cet éditeur est très pratique pour des opérations de maintenance ou d'édition de fichier rapide. Cela permet d'éviter
+de lancer et [configurer un client FTP](/guides/configuration-logiciels/configuration-ftp).
+
+<PreviewToolCard tool='file_manager' />
+
+## Tutoriel vidéo
+
+Dans ce tutoriel vidéo, nous découvrons rapidement les différentes fonctionnalités du gestionnaire de fichier de cPanel à l'aide d'un exemple pratique.
+
+<YoutubeVideo id='g-pIGriDfl0' title="Comment utiliser le gestionnaire de fichier ?"/>
+
+## Présentation du gestionnaire de fichier
+
+Lorsque vous ouvrez pour la première fois le gestionnaire de fichiers, un menu vous propose de choisir dans quel dossier
+vous allez être placé automatique.
+
+Si vous souhaitez modifier les fichiers d'un site internet en particulier, vous pouvez choisir l'adresse du site dans
+la liste déroulante, cela vous placera directement à la racine du site en question.
+
+Une option est également présente pour afficher les fichiers cachés (ceux qui commencent par un “.” comme le .htaccess).
+
+Pour retrouver ce menu, vous pouvez cliquer en haut à droite sur les paramètres.
+
+<Image
+    src="/img/docs/cpanel/fichiers/gestionnaire-fichiers-parametres.png"
+    title="Réglages du gestionnaire de fichiers"
+    caption="Paramètres du gestionnaires de fichiers"
+    alt="Capture d'écran des réglages du gestionnaire de fichiers"
+/>
+
+Ensuite, le gestionnaire de fichier s'ouvre. Ce dernier est organisé en plusieurs parties :
+
+Tout en haut du gestionnaire, vous avez une barre d'outil vous permettant de faire plusieurs actions telles que :
+  * compresser/décompresser des archives,
+  * envoyer des fichiers,
+  * télécharger des fichiers,
+  * éditer des fichiers directement depuis le navigateur web : pratique pour éditer rapidement un fichier de configuration,
+  * déplacer ou renommer des fichiers
+  * supprimer des fichiers
+
+Dans la partie gauche, vous avez toute l'arborescence de votre espace d'hébergement vous permettant de parcourir votre espace et de changer de dossier
+
+Dans la partie droite, vous avez la liste des fichiers présents dans le dossier courant
+
+<Image
+    src="/img/docs/cpanel/fichiers/gestionnaire-fichiers-zones.png"
+    title="Les différentes zones du gestionnaires de fichiers"
+    caption="Les zones principales du gestionnaires de fichiers"
+    alt="Capture d'écran du gestionnaire de fichiers de l'hébergement mettant en avant les différentes zones de l'outils"
+/>
+
+:::warning
+Les opérations de compression et décompression de fichiers doivent être effectuées sur des petits dossiers.
+
+Pour des dossiers plus gros, faites cela directement sur votre ordinateur, n'utilisez pas l'outil de décompression
+pour déployer un gros site internet sous forme d'archive, préférez l'utilisation d'un client FTP.
+
+Si vous n'avez pas d'autre solution contactez le support qui peut décompresser des gros dossiers sans que cela ne
+ralentisse votre espace d’hébergement.
+:::
