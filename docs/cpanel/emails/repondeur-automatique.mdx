@@ -1,0 +1,75 @@
+---
+title: Réponses automatiques
+sidebar_label: Réponses automatiques
+description: L'outil réponses automatiques permet de configurer l'envoi d'un email automatique à chaque email reçu. C'est un autorépondeur
+image: /img/docs/tools/autoresponders.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - emails
+  - autorepondeur
+  - reponses automatiques
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Réponses automatiques
+
+Les **réponses automatiques** dans le [compte d'hébergement](https://www.o2switch.fr/hebergement-entreprise/)
+permettent d'ajouter une réponse automatique à tous les messages reçus sur un compte de messagerie pendant une période
+définie.
+
+Cela est par exemple utile lorsque vous êtes absent (vacances…) et souhaitez préciser que vous n'êtes pas disponible
+via un message automatique envoyé en retour aux personnes qui vous contactent.
+
+<PreviewToolCard tool='autoresponders' />
+
+## Création d'un répondeur automatique
+
+Pour ajouter un répondeur sur une adresse email de votre hébergement internet, il suffit de cliquer sur le
+bouton **ajouter une réponse automatique**.
+
+
+<Image
+    src="/img/docs/cpanel/emails/creation-repondeur-auto.png"
+    title="Liste des répondeurs en place et création d'un nouveau répondeur automatique"
+    caption="Liste des répondeurs créés et bouton de création d'un nouveau répondeur automatique"
+    alt="Capture d'écran de l'outil des répondeurs emails automatiques"
+/>
+
+:::info
+Si vous ne créez pas de redirecteurs ou de compte email avec la même adresse que celle définie dans les réponses
+automatiques alors l'email reçu ne sera traité que par le répondeur avant d'être supprimé.
+:::
+
+Ensuite, il faut configurer votre répondeur automatique.
+
+<Image
+    src="/img/docs/cpanel/emails/creation-reponse-automatique.png"
+    title="Configuration de la réponse automatique"
+    caption="Configuration de la réponse automatique qui sera envoyé"
+    alt="Capture d'écran de l'outil des répondeurs automatiques montrant la configuration d'un autorépondeur"
+/>
+
+Plusieurs éléments sont nécessaires :
+  * **Jeu de caractères** : encodage du message, laissez cela par défaut si vous ne savez pas à quoi cela correspond
+  * **Intervalle** : le nombre d'heures d'attente entre les réponses à la même adresse email
+  * **Email** : l'adresse sur laquelle vous souhaitez configurer le répondeur
+  * **De** : ce qui apparaîtra en adresse d'expédition
+  * **Objet** : sujet du message automatique envoyé en réponse
+  * **HTML** : à cocher si la réponse contient du code HTML
+  * **Corps** : contenu de la réponse, corps du message
+  * **Démarrer** : définit à partir de quel moment le répondeur doit débuter
+  * **Arrêt** : date de fin du répondeur (lorsque vous cliquez sur personnalisé un calendrier se débloque pour choisir la date)
+
+Dans le corps du message de réponse automatique, vous pouvez utiliser certains tags :
+  * `%subject%` : objet du message reçu par le répondeur
+  * `%from%` : nom de l'expéditeur du message reçu par le répondeur automatique
+  * `%email%` : adresse mail de la personne cherchant à vous joindre
+
+
