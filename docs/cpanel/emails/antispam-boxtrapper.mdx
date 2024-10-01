@@ -20,7 +20,7 @@ import YoutubeVideo from "@site/src/components/YoutubeVideo";
 
 # BoxTrapper, un outil antispam
 
-L'outil **BoxTrapper** permet de protéger vos adresses emails du spam.
+L'outil **BoxTrapper** permet de **protéger vos adresses emails du spam**.
 
 Chaque fois qu'une personne cherche à vous joindre, un **email de vérification** contenant un lien spécial est envoyé à
 l'émetteur. Les spammeurs ne prendront pas la peine de valider ce message de confirmation donc cela permet de bloquer
@@ -102,13 +102,13 @@ Plusieurs types de messages existent :
   * **blacklist** : message envoyé à l'expéditeur indiquant qu'il est en liste noire et que son message est refusé
 
 Vous pouvez personnaliser les 4 types de messages, cependant vous devez reprendre le modèle proposé en reprenant les différents tags qui sont proposés :
-  * **%email%** : adresse email de la personne cherchant à vous joindre
-  * **verify#%msgid%** : partie obligatoire à laisser dans le sujet, contient l'ID du message de vérification
-  * **%if can_verify_web%** et **%endif%** : entre ces blocs s'affichera le texte correspondant à la vérification avec un lien si cela est proposé.\
+  * `%email%` : adresse email de la personne cherchant à vous joindre
+  * `verify#%msgid%` : partie obligatoire à laisser dans le sujet, contient l'ID du message de vérification
+  * `%if can_verify_web%` et `%endif%` : entre ces blocs s'affichera le texte correspondant à la vérification avec un lien si cela est proposé.\
 Si le lien n'est pas activé, ce qu'il y a entre ces blocs ne s'affichera pas.
-  * **http://%webdomain%/cgi-sys/bxd.cgi?a=%acct%&id=%msgid%** : exemple de création d'un lien de confirmation
-  * **%headers%** : entête du message reçu
-  * **%subject%** : sujet du message
+  * `http://%webdomain%/cgi-sys/bxd.cgi?a=%acct%&id=%msgid%` : exemple de création d'un lien de confirmation
+  * `%headers%` : entête du message reçu
+  * `%subject%` : sujet du message
 
 <Image
     src="/img/docs/cpanel/emails/boxtrapper-edition-message-validation.png"

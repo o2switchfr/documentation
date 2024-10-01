@@ -87,7 +87,13 @@ const sidebars: SidebarsConfig = {
             'cpanel/emails/filtre-email-global',
             'cpanel/emails/routage-email',
             'cpanel/emails/antispam-boxtrapper',
-            'cpanel/emails/calendrier-contact',
+            /**
+             * Not the right time. In between the old CCS software and the new updated cpdavd (not available on current LTS)
+             * Need to wait for the next LTS (v126 ?) version of cPanel before documenting this
+             * - https://features.cpanel.net/c/69-extend-cpdavd-to-support-contacts-and-calendars
+             * - https://docs.cpanel.net/knowledge-base/cpanel-product/product-versions-and-the-release-process/#releases
+             * 'cpanel/emails/calendrier-contact'
+             */
             'cpanel/emails/chiffrement-gpg',
             'cpanel/emails/espace-disque-email',
             'cpanel/emails/filtre-antispam',
