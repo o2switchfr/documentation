@@ -1,0 +1,176 @@
+---
+title: BoxTrapper, le filtre antispam
+sidebar_label: Antispam BoxTrapper
+description: L'outil Boxtrapper est un antispam qui va vérifier qu'un email est légitime en envoyant un mail de validation à l'émetteur. Gère les listes blanches.
+image: /img/docs/tools/boxtrapper.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - emails
+  - boxtrapper
+  - antispam
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# BoxTrapper, un outil antispam
+
+L'outil **BoxTrapper** permet de protéger vos adresses emails du spam.
+
+Chaque fois qu'une personne cherche à vous joindre, un **email de vérification** contenant un lien spécial est envoyé à
+l'émetteur. Les spammeurs ne prendront pas la peine de valider ce message de confirmation donc cela permet de bloquer
+la plupart du spam.
+
+Au fur et à mesure, une liste blanche de personnes connues est générée, ces personnes-là ne recevront plus de messages
+de vérification et pourront vous joindre directement. Cette liste blanche est générée de plusieurs manières :
+  * une personne ayant déjà validé 1 ou plusieurs emails de vérification est reconnue comme fiable
+  * une personne à qui vous avez envoyé des messages (boxtrapper part du principe qu'une personne que vous contactez est fiable)
+  * vous avez manuellement autorisé ou ajouté une adresse email en liste blanche
+  * le message a un score antispam négatif, en dessous d'un certain seuil, le message outrepasse BoxTrapper (configurable)
+
+<PreviewToolCard tool='boxtrapper' />
+
+## Comment activer l'antispam BoxTrapper ?
+
+Pour activer BoxTrapper pour l'un de vos comptes emails, sur votre [hébergement web](https://www.o2switch.fr/), cliquez
+sur le lien `Gérer` de gestion en face de l'adresse email sur la page d'accueil de l'outil.
+
+<Image
+    src="/img/docs/cpanel/emails/activation-boxtrapper.png"
+    title="Activation de BoxTrapper sur une adresse email"
+    caption="Activation de l'antispam BoxTrapper sur une adresse email"
+    alt="Capture d'écran de la page d'activation de l'outil BoxTrapper"
+/>
+
+Ensuite, cliquez sur le lien `Activer`.
+
+<Image
+    src="/img/docs/cpanel/emails/activation-boxtrapper-compte-email.png"
+    title="Activation de BoxTrapper sur une adresse email"
+    caption="Activation de BoxTrapper et aperçu des différentes fonctionnalités et configurations possibles"
+    alt="Capture d'écran de la page d'activation de l'outil BoxTrapper et aperçu des fonctionnalités"
+/>
+
+Un message s'affichera indiquant que BoxTrapper a bien été activé. L'état changera de `désactivé` à `activé`.
+
+Une liste blanche se générera automatiquement pour chaque adresse email qui passe le challenge de confirmation.
+
+Cependant, il est également recommandé de vérifier régulièrement la liste d'attente des messages en cours de traitement.
+En effet, certains prestataires peuvent bloquer les messages de confirmation de BoxTrapper. Donc ces personnes-là n'ont
+jamais la possibilité de valider. Il faudra le faire manuellement.
+
+Pour accéder à cette file d'attente, il faut aller dans BoxTrappe > Gérer > Examiner la file d'attente :
+
+<Image
+    src="/img/docs/cpanel/emails/boxtrapper-file-attente.png"
+    title="File d'attente des messages en attente de validation"
+    caption="File d'attente des messages en attente de validation dans BoxTrapper"
+    alt="Capture d'écran de l'outil BoxTrapper avec les emails en attente de validation"
+/>
+
+Du côté de l'émetteur, voici le type de message qu'il peut recevoir. Il s'agit du message par défaut, mais il
+est possible de le personnaliser et de le traduire.
+
+<Image
+    src="/img/docs/cpanel/emails/boxtrapper-message-validation.png"
+    title="Exemple de message de validation envoyé par BoxTrapper"
+    caption="Le message de validation (par défaut) envoyé par BoxTrapper"
+    alt="Capture d'écran du message de validation par défaut envoyé par l'outil antispam BoxTrapper"
+/>
+
+## Configuration de boxTrapper
+
+Vous pouvez configurer assez finement boxTrapper, il est possible :
+  * de personnaliser le message de confirmation qui est automatiquement envoyé
+  * placer certaines adresses ou domaines en liste blanche ou noire
+  * ré-acheminer le courrier en liste blanche
+  * encore filter uniquement à partir d'un certain score antispam
+
+### Personnalisation du message de confirmation envoyé
+
+Pour personnaliser le message de confirmation envoyé, il faut aller dans : BoxTrapper > Gérer > Modifier les messages de confirmation.
+
+Plusieurs types de messages existent :
+  * **verify** : le message qui est envoyé à votre expéditeur indiquant qu'il doit cliquer sur un lien de confirmation pour prouver que son message est réel et non un spam.
+  * **return verify** : Le message qui est renvoyé lorsque l'expéditeur répond à l'email de type verify précédemment envoyé mais qu'il manque l'ID du message dans le sujet par exemple
+  * **verify released** : message envoyé à l'expéditeur indiquant que son adresse est bien passée en liste blanche
+  * **blacklist** : message envoyé à l'expéditeur indiquant qu'il est en liste noire et que son message est refusé
+
+Vous pouvez personnaliser les 4 types de messages, cependant vous devez reprendre le modèle proposé en reprenant les différents tags qui sont proposés :
+  * **%email%** : adresse email de la personne cherchant à vous joindre
+  * **verify#%msgid%** : partie obligatoire à laisser dans le sujet, contient l'ID du message de vérification
+  * **%if can_verify_web%** et **%endif%** : entre ces blocs s'affichera le texte correspondant à la vérification avec un lien si cela est proposé.\
+Si le lien n'est pas activé, ce qu'il y a entre ces blocs ne s'affichera pas.
+  * **http://%webdomain%/cgi-sys/bxd.cgi?a=%acct%&id=%msgid%** : exemple de création d'un lien de confirmation
+  * **%headers%** : entête du message reçu
+  * **%subject%** : sujet du message
+
+<Image
+    src="/img/docs/cpanel/emails/boxtrapper-edition-message-validation.png"
+    title="Edition du message de validation de BoxTrapper"
+    caption="Outil permettant d'éditer le message de validation envoyé par BoxTrapper"
+    alt="Capture d'écran de l'outil d'édition du message de validation envoyé par BoxTrapper"
+/>
+
+### Gestion des listes blanches/noires
+
+Vous pouvez ajouter des listes blanches, noires ou à ignorer.
+
+Pour cela, il suffit de se rendre dans BoxTrapper > Manage > Modifier les listes blanche/noire/ à ignorer.
+  * **Liste blanche** : listes des personnes, domaines ou autre (sujet par exemple) passant forcément le test sans demande de confirmation
+  * **Liste noire** : liste des personnes, domaines (ou autre) étant forcément bloqués avec un retour d'erreur
+  * **Liste à ignorer** : liste d'entités à ignorer, que vous ne désirez pas recevoir (sans retour d'erreur)
+
+<Image
+    src="/img/docs/cpanel/emails/boxtrapper-liste-blanche.png"
+    title="Edition de la liste blanche BoxTrapper"
+    caption="Outil permettant d'éditer les listes blanches dans BoxTrapper"
+    alt="Capture d'écran de l'outil de liste blanche de l'antispam BoxTrapper"
+/>
+
+Il existe plusieurs critères différents pour mettre en place une certaine catégorie de message dans une liste.
+
+Ces critères peuvent être assez complexes car se basant sur des expressions régulières en PERL.
+
+Voici quelques exemples de critères que vous pouvez préciser dans l'une des 3 listes évoquées précédemment :
+  * `from unePersonne\@unDomaine\.fr` : filtre par rapport à une adresse email en particulier. Ce type de filtre est ajouté par défaut pour chaque confirmation de mail.
+  * `from .+\@unDomaine\.com` : accepte tous les messages provenant de “unDomaine.com”
+  * `subject Message non filtre` : accepte tous les messages contenant le sujet “Message non filtre”
+  * `to alias\@votreDomaine\.com` : accepte tous les messages sur l'une de vos adresses “alias” qui est en réalité redirigé vers la boîte appliquant le filtre boxtrapper
+
+Pour mettre en place des filtres plus puissants, vous pouvez lire une [documentation sur les expressions régulières PERL](http://fr.wikibooks.org/wiki/Programmation_Perl/Expressions_r%C3%A9guli%C3%A8res).
+
+### Utilisation du score antispam
+
+BoxTrapper est un outil antispam qui est assez agressif dans son fonctionnement. Il est parfois nécessaire d'adoucir un peu son fonctionnement.
+
+Une manière de faire cela est d'utiliser le score antispam du message. Il est par exemple possible d'accepter par défaut
+tous les emails ayant un score antispam négatif (spam peu probable). Mais d'envoyer le mail de validation de BoxTrapper
+pour tous les messages reçus ayant un haut score antispam.
+
+Il est possible de configurer cela en allant dans : BoxTrapper > Configurer les paramètres
+
+<Image
+    src="/img/docs/cpanel/emails/boxtrapper-configuration.png"
+    title="Configuration de l'antispam BoxTrapper"
+    caption="Configuration de l'antispam BoxTrapper, il est possible d'utiliser le score Antispam"
+    alt="Capture d'écran des réglages BoxTrapper"
+/>
+
+Il est possible de changer les configurations suivantes :
+  * vous pouvez changer la durée de conservation des messages conservés dans la file d'attente de validation.\
+Par défaut, cela est conservé 15 jours.
+  * vous pouvez changer la valeur du score de Spam Assassin.\
+Plus le score Spam Assassin est elevé, plus l'email reçu à de chance d'être un spam.
+Inversement un score négatif indique une probabilité faible de spam.
+    * La valeur par défaut est de -2.5
+    * Si vous mettez une valeur fortement négative, comme -100, alors cela revient à forcer l'envoi d'un email de validation pour quasiment tous les messages reçus
+    * Si vous mettez une valeur fortement positive, exemple 10, alors le message de validation ne sera envoyé qu'aux emails ayant une haute probabilité d'être un spam
+  * vous pouvez d'activer la création d'une liste blanche automatique. Autrement dit, les emails qui passent le challenge sont automatiquement mis en liste blanche pour les prochaines fois
+
+
