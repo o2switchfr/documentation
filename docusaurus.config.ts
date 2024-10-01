@@ -151,7 +151,7 @@ const config: Config = {
     prism: {
       theme: prismThemes.nightOwlLight, // nightOwlLight oneLight vsLight
       darkTheme: prismThemes.nightOwl, // palenight
-      additionalLanguages: ['php', 'apacheconf', 'javascript', 'markup', 'css', 'ruby', 'http', 'git', 'bash', 'json'],
+      additionalLanguages: ['php', 'apacheconf', 'javascript', 'markup', 'css', 'ruby', 'http', 'git', 'bash', 'json', 'csv'],
     },
   } satisfies Preset.ThemeConfig,
   plugins: [

@@ -1,0 +1,159 @@
+---
+title: Importation en masse d'adresses emails
+sidebar_label: Importation d'adresses
+description: L'outil d'importation d'adresses permet de créer rapidement des comptes emails à partir d'un fichier CSV contenant la liste des comptes à créer.
+image: /img/docs/tools/address_importer.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - emails
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Importation en masse de comptes emails
+
+L'Outil d'**importation d'adresses** permet de créer des **adresses emails** et des **redirections de mails** à partir
+d'un fichier CSV.
+
+Cela est très utile pour créer en masse des adresses emails et renvois, sur votre
+[hébergement internet](https://www.o2switch.fr/hebergement-illimite/), afin pour éviter de le faire manuellement via
+l'outil compte de messagerie.
+
+En résumé, c'est l'outil à utiliser si vous souhaitez **créer des comptes emails en masse** et que vous avez la
+possibilité d'obtenir la liste d'adresse à créer sous forme d'un fichier tableur.
+
+<PreviewToolCard tool='address_importer' />
+
+## Importation d'adresses emails
+
+### Depuis un fichier CSV ou XLS
+
+Le fichier CSV doit être un fichier brut que vous pouvez ouvrir avec un éditeur de texte classique (notepad).
+Si vous l'ouvrez avec un éditeur de texte, vous devez voir ce genre de chose :
+
+```csv title="import.csv"
+Email,Password,Quota
+alex@votre-site.fr,1234,10
+joe@votre-site.fr,4567,8
+lea@votre-site.fr,8910,10
+```
+
+Faites donc très attention si vous enregistrez ce fichier avec un logiciel comme Excel, ce dernier a tendance à ajouter
+des entêtes inutiles qui pourront faire planter l'importation.
+
+Voici le format nécessaire pour les colonnes de votre fichier :
+  * **Première ligne**  : contient la définition des colonnes
+  * **Première colonne** : contient l'adresse email à créer
+  * **Deuxième colonne** : le mot de passe voulu pour l'adresse email (facultatif)
+  * **Dernière colonne** : le quota (facultatif)
+  * Vous pouvez également préciser le domaine dans une colonne si vous le voulez (facultatif)
+
+<Image
+    src="/img/docs/cpanel/emails/cpanel-import-csv.png"
+    title="Exemple de formatage pour l'import CSV"
+    caption="Exemple de format pour l'import CSV"
+    alt="Capture d'écran d'un tableau avec le format requis pour l'import CSV"
+/>
+
+:::info
+Préférez un fichier CSV à la place d'un fichier XLS. Les fichiers XLS sont plus complexes et contiennent des
+méta-données qui peuvent perturber l'interprétation du fichier.
+:::
+
+### Importation dans cPanel
+
+Pour importer votre liste d'emails, il faut vous rendre sur la page d'accueil de l'outil **importation d'adresses* puis
+cocher la case pour l'**importation d'email**, choisir votre fichier, faire attention au séparateur
+(par défaut une virgule dans les fichiers csv) et continuer.
+
+<Image
+    src="/img/docs/cpanel/emails/import-email-csv.png"
+    title="Créer des adresses emails à partir d'un fichier CSV"
+    caption="Création d'adresses emails à partir d'un fichier CSV"
+    alt="Capture d'écran de l'import d'adresse email à partir d'un fichier CSV"
+/>
+
+Ensuite, vous avez une confirmation visuelle des adresses trouvées, vérifiez rapidement que les colonnes sont
+bien détectées, choisissez le domaine par défaut puis cliquez sur **Suivant**.
+
+<Image
+    src="/img/docs/cpanel/emails/import-adresse-email-csv.png"
+    title="Deuxième étape de l'import d'adresse email"
+    caption="Deuxième étape de la création d'adresse email depuis un fichier CSV"
+    alt="Capture d'écran de la deuxième étape de création d'adresses emails à partir d'un CSV"
+/>
+
+Une dernière confirmation est demandée puis les adresses emails sont créées.
+
+<Image
+    src="/img/docs/cpanel/emails/creation-massive-adresse-email.png"
+    title="Confirmation avant la création des comptes"
+    caption="Dernières confirmations avant la création des comptes emails"
+    alt="Capture d'écran de la dernière étape de création de comptes emails en masse"
+/>
+
+Les adresses emails sont finalement créées, vous pouvez avoir un message d'erreur si le mot de passe choisi
+est trop faible et ne correspond pas aux normes imposées.
+
+:::info
+Évitez de mettre des caractères accentués ou des virgules dans vos mots de passe, cela risque de causer des
+problèmes lors du parsage du fichier CSV.
+
+Restez simple dans le choix de vos mots de passe (caractères alphanumériques) et demandez aux personnes possédant
+les adresses email de changer cela plus tard via le webmail par exemple.
+:::
+
+## Importation de redirections emails
+
+### Depuis un fichier CSV
+
+Le fichier doit être constitué d'au moins deux colonnes :
+  * **La source** : l'adresse à rediriger
+  * **La destination** : l'adresse à laquelle doivent être transmis les messages
+
+<Image
+    src="/img/docs/cpanel/emails/cpanel-import-redirection-email.png"
+    title="Format du fichier pour l'import de redirection email"
+    caption="Format du fichier CSV pour l'import des redirections emails"
+    alt="Capture d'écran du format du fichier pour importer des redirections mails massivement"
+/>
+
+### Importation dans cPanel
+
+Pour importer votre liste de redirecteurs de mails, il faut vous rendre sur la page d'accueil de l'outil
+**importation d'adresses** puis cocher la case pour l'importation de renvois automatiques, choisir votre fichier,
+faire attention au séparateur (par défaut une virgule dans les fichiers csv) et continuer.
+
+<Image
+    src="/img/docs/cpanel/emails/import-redirection-email.png"
+    title="Créer des redirections emails à partir d'un fichier CSV"
+    caption="Création de redirections emails à partir d'un fichier CSV"
+    alt="Capture d'écran de l'import de redirections emails à partir d'un fichier CSV"
+/>
+
+Ensuite, il faut vérifier que les colonnes sont bien détectées puis poursuivre.
+
+<Image
+    src="/img/docs/cpanel/emails/importation-redirection-mail-csv.png"
+    title="Deuxième étape de l'import de redirection de mail"
+    caption="Deuxième étape de la création de redirecteur mail depuis un fichier CSV"
+    alt="Capture d'écran de la deuxième étape de redirections emails à partir d'un CSV"
+/>
+
+Enfin, il faut confirmer une dernière fois tous les renvois d'emails détectés et qui vont être générés.
+
+<Image
+    src="/img/docs/cpanel/emails/import-csv-redirecteur-mail.png"
+    title="Confirmation avant la création des redirections mail"
+    caption="Dernières confirmations avant la création des redirecteur"
+    alt="Capture d'écran de la dernière étape de création des redirecteurs mail en masse"
+/>
+
+Si tout se passe bien, tous les renvois sont créés.
+
