@@ -1,0 +1,90 @@
+---
+title: Filtre de messagerie
+sidebar_label: Filtre de messagerie
+description: L'outil filtre de messagerie permet d'ajouter un filtre de message qui sera appliquée sur une adresse email du compte d'hébergement
+image: /img/docs/tools/email_filters.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - emails
+  - filtre email
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Filtre de messagerie
+
+L'outil **filtre de messagerie** sur l'[hébergement o2switch](https://www.o2switch.fr/hebergement-entreprise/) permet
+de configurer des filtres pour tous les messages entrant sur un compte de messagerie.
+
+Les filtres permettent de trier vos messages en fonctions de certains critères, par exemple, vous pouvez :
+  * déplacer un message dans un sous-dossier en fonction d'un mot clé dans le sujet
+  * supprimer tous les messages possédant certains mots clés dans le corps du message
+  * trier vos messages par rapport à l'adresse de la personne vous contactant
+
+<PreviewToolCard tool='email_filters' />
+
+## Tutoriel vidéo
+
+Dans ce tutoriel vidéo, nous voyons comment il est possible de créer des filtres email depuis cPanel et ses deux outils
+de gestions des filtres.
+
+<YoutubeVideo id='P5oGQR8aCQ4' title="Comment créer des filtres emails ?"/>
+
+## Ajout d'un filtre email
+
+Pour ajouter un filtre email, il faut aller dans **Gérer les filtres** en face de l'adresse mail sur laquelle vous
+souhaitez ajouter le filtre.
+
+<Image
+    src="/img/docs/cpanel/emails/creer-filtre-messagerie.png"
+    title="Création d'un filtre de messagerie"
+    caption="Ajout d'un filtre sur une adresse mail"
+    alt="Capture d'écran de l'outil d'ajout d'un filtre de messagerie"
+/>
+
+La page suivante affiche la liste des filtres de messagerie en place sur l'adresse email. Si c'est votre premier filtre
+alors la liste sera vide.
+
+<Image
+    src="/img/docs/cpanel/emails/filtre-email.png"
+    title="Liste des filtres emails"
+    caption="Liste des filtres emails et outils de tests des filtres"
+    alt="Capture d'écran de l'outil de filtre de messagerie"
+/>
+
+Sur la page avec la liste des filtres de messagerie, plusieurs éléments sont importants :
+  * l'ordre des filtres à une importance, les filtres sont exécuté du haut vers le bas.\
+Vous pouvez utiliser les flèches pour réorganiser les filtres.
+  * vous pouvez tester vos filtres de messageries. Pour cela, créez votre filtre puis copiez/collez la source complète d'un email reçu (qui devrait déclencher le filtre) puis collez le dans la rubrique **test de filtre**. \
+L'outil vous indiquera quels filtres se déclenchent pour ce mail. Si vous créez des filtres de suppression, alors pensez également à tester l'inverse : que le filtre n'agit pas sur un email sur lequel vous ne voulez pas d'action.
+  * vous pouvez créer un filtre en cliquant sur **créer un filtre**
+  * ou modifier des filtres existants / les supprimer
+
+En cliquant sur **Créer un filtre**, une autre page s'affiche.
+
+<Image
+    src="/img/docs/cpanel/emails/creer-filtre-email.png"
+    title="Création d'un filtre email"
+    caption="Création d'un filtre email pour trier les emails provenant d'o2switch"
+    alt="Capture d'écran de l'outil de création d'un filtre de messagerie avec un exemple de filtre "
+/>
+
+Un filtre de messagerie est constitué :
+  * d'un nom, afin de ne repérer plus facilement si vous disposez de plusieurs filtres
+  * d'une liste de règles. Si vous avez plusieurs règles, les règles peuvent fonctionner en logique `ET` (règle1 ET règle2) et `OU` (règle1 OU règle2)
+  * d'une action pour les messages qui déclenchent la suite de règles
+    * rejeter le message
+    * rediriger le message vers une adresse email
+    * échec avec message : comme le rejet, mais en émettant un message d'erreur
+    * arrêter les règles de traitements : dans le cas ou vous avez plusieurs filtres différents pour stopper l'exécution des filtres suivants
+    * déplacer dans un dossier : pour trier le message dans un sous-dossier de l'adresse email
+    * transmettre à un programme : permet de passer l'email à un script qui le traitera ensuite (pipe mail)
+
+Pour en savoir plus sur la création de filtre, qui est un sujet à part entière, vous pouvez consulter ce
+guide : [Comment créer des filtres de messageries ?](/guides/emails/creer-filtre-email)
