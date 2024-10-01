@@ -1,0 +1,110 @@
+---
+title: Authentification SPF et DKIM des emails
+sidebar_label: Authentification SPF/DKIM
+description: L'outil authentification permet de gérer les entrées SPF et DKIM d'un nom de domaine. Améliore la délivrabilité des emails, limite l'usurpation.
+image: /img/docs/tools/email_deliverability.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - emails
+  - spf
+  - dkim
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+L'outil **authentification** d'email permet de **configurer les DKIM et SPF** pour l'ensemble des comptes mail de votre
+compte d'hébergement.
+
+Les DKIM et SPF permettent d'**authentifier** le serveur servant à envoyer votre message. Cela permet d'avoir une
+meilleure note sur les filtres antispam et limite l'usurpation de vos domaines (d'autres personnes envoyant
+illégitimement des messages avec votre domaine dans les entêtes).
+
+En résumé, c'est un outil à utiliser si vous souhaitez **améliorer la délivrabilité de vos emails** et limiter
+l'usurpation (d'autres personnes envoyant des messages en se faisant passer pour vous).
+
+<PreviewToolCard tool='email_deliverability' />
+
+## Comment fonctionnent les SPF ?
+
+De manière schématique et (très) simplifiée, voici comment les DKIM et SPF fonctionnent :
+
+<Image
+    src="/img/docs/cpanel/emails/explication-spf-dkim-simple-bg.png"
+    title="Authentification SPF et DKIM des emails"
+    caption="Fonctionnement des DKIM et SPF pour l'envoi d'emails"
+    alt="Schéma expliquant le fonctionnement de l'authentification email SPF et DKIM"
+/>
+
+Lorsque vous envoyez un message, le serveur de messagerie va ajouter des entêtes à votre message pour le signer, avec DKIM.
+
+Dans la zone DNS de votre nom de domaine sont contenus des informations, des enregistrements DKIM et SPF.
+Les enregistrements SPF permettent de définir une liste de serveurs autorisés à envoyer des messages pour votre nom de domaine.
+
+Lorsqu'une personne reçoit votre message, elle va chercher ces informations (SPF, DKIM) dans la zone DNS de votre
+domaine pour comparer les entêtes du message reçu à ce que cela devrait réellement être.
+
+Si le message est bien parti d'un serveur défini dans la liste des serveurs SPF et que l'email contient les bonnes
+informations DKIM, le message est considéré comme fiable et aura un bonus au niveau du filtre antispam distant.
+
+Si le message provient d'une source qui n'est pas sûre, cela se verra dans les entêtes (l'adresse IP du serveur d'envoi
+n'étant pas défini dans les zones DNS SPF et les DKIM n'étant pas valides). Le message aura un malus sur l'antispam
+et passera en spam.
+
+## Configuration SPF et DKIM pour o2switch
+
+Par défaut, DKIM et SPF sont activés sur votre espace d'hébergement internet. Vous pouvez durcir la configuration par défaut des SPF.
+
+En ce qui concerne le DKIM, vous pouvez juste l'activer et le désactiver. Si vous souhaitez préciser des DKIM
+personnalisés, il faut aller dans l'[éditeur de zone DNS (Zone Editor)](/cpanel/domaines/editeur-zone-dns).
+
+Pour les emails qui partent depuis un hébergement o2switch, il faut s'assurer d'avoir `spf.jabatus.fr` dans les
+enregistrements SPF.
+
+<Image
+    src="/img/docs/cpanel/emails/authentification-spf.png"
+    title="L'authentification SPF est correctement configuré sur ce domaine"
+    caption="On observe que l'authentification SPF/DKIM est correctement configuré sur ce domaine"
+    alt="Capture d'écran de l'outil Authentification montrant que les SPF et DKIM sont correctement configuré"
+/>
+
+
+Dans l'outil Authentification, en cliquant sur **Gérer** puis **Personnaliser**, vous pouvez ajouter `spf.jabatus.fr`
+dans la partie **INCLUDE**.
+
+Vous pouvez cocher la case **Toute la liste (ALL)** pour durcir la configuration en indiquant, que pour le domaine
+concerné, les emails doivent être émis uniquement depuis les expéditeurs définis.
+
+<Image
+    src="/img/docs/cpanel/emails/modification-spf.png"
+    title="Modifiation des SPF pour ajouter spf.jabatus.fr"
+    caption="Modification des enregistrements SPF pour s'assurer que spf.jabatus.fr est en place"
+    alt="Capture d'écran de l'outil Authentification expliquant comment modifier les enregistrements SPF"
+/>
+
+## Utilisation de services de mailing tiers
+
+Si vous utilisez des services d'envoi de mails tiers, pour l'envoi de campagnes de mail par exemple alors vous devez
+adapter la configuration SPF. Regardez dans la documentation du prestataire de mail que vous utilisez ou demandez-lui
+de vous fournir les **enregistrements SPF**.
+
+Il faudra ensuite mettre en place cette configuration avec l'outil Authentification de votre hébergement.
+
+Quelques liens vers les pages de fournisseurs de mails fréquemment utilisés :
+  * [Configuration SPF pour Gmail](https://support.google.com/a/answer/178723) (à ajouter dans la partie “include”)
+  * [Configuration des SPF pour mailjet](https://fr.mailjet.com/support/personnalisation-de-dkim-spf-pour-eliminer-le-via-bnc-mailjet-com,376.htm)
+  * [Configuration SPF pour Brevo](https://help.brevo.com/hc/fr/articles/12163873383186-Authentifier-votre-domaine-avec-Brevo-code-Brevo-enregistrement-DKIM-enregistrement-DMARC)
+
+Si vous utilisez les serveurs SMTP de votre opérateur et que vous ne souhaitez pas utiliser les serveurs SMTP de votre
+hébergement, vous pouvez laisser les configurations par défaut, sans les durcir ou désactiver les SPF (la plupart des
+opérateurs ne fournissent pas d'éléments complets pour configurer correctement les SPF malheureusement).
+
+
+
+
+
