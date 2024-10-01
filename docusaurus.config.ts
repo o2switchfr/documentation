@@ -15,7 +15,7 @@ const config: Config = {
   favicon: '/img/misc/favicon-alt.ico',
 
   // Set the production url of your site here
-  url: 'http://localhost',
+  url: 'http://v2doc.odns.fr',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',

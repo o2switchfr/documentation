@@ -1,0 +1,79 @@
+---
+title: Créer des comptes FTP supplémentaires
+sidebar_label: Comptes FTP
+description: L'outil compte FTP de cPanel permet de créer des nouveaux comptes FTP secondaires, qui seront limités à un dossier de votre choix de l'hébergement.
+image: /img/docs/tools/ftp_accounts.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - fichiers
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Gestion des comptes FTP
+
+L'outil **comptes FTP** permet de gérer tout ce qui est en rapport avec vos comptes FTP sur
+l'[offre d'hébergement de site web](https://www.o2switch.fr/hebergement-illimite/), vous pouvez **créer des comptes FTP
+supplémentaires** et gérer les comptes existants (changer de mot de passe).
+
+C'est l'outil à utiliser si vous souhaitez **créer un nouveau compte FTP** qui aura des droits limités, par exemple à
+un dossier de votre hébergement.
+C'est utile si vous souhaitez donner des accès à une personne tierce sans qu'il ait accès à toutes les données
+d'hébergement.
+
+<PreviewToolCard tool='ftp_accounts' />
+
+## Tutoriel vidéo
+
+Dans ce tutoriel vidéo, nous voyons comment il est possible de **créer des comptes FTP secondaires** puis comment
+les configurer dans un **client FTP** comme Filezilla.
+
+<YoutubeVideo id='LnrjEuY5848' title="Comment créer un compte FTP ?"/>
+
+## Créer un compte FTP supplémentaire
+
+Pour créer un compte FTP secondaire, il suffit de remplir le premier formulaire en précisant :
+  * un nom d'utilisateur
+  * un mot de passe, il doit être suffisamment complexe et respecter les critères de sécurités
+  * le répertoire dans lequel le compte FTP aura accès
+  * un quota, cela peut être illimité
+  * le domaine associé au compte. Ce n'est pas vraiment important, cela définit le format de l'identifiant du compte FTP.
+
+Il n'est malheureusement pas possible de choisir des simples accès en lecture, l'écriture est toujours permise.
+
+C'est pour cela qu'il ne faut pas céder un compte FTP, même secondaire, à une personne que vous ne connaissez pas ou peu.
+
+<Image
+    src="/img/docs/cpanel/fichiers/creer-compte-ftp.png"
+    title="Formulaire de création d'un nouveau compte FTP"
+    caption="Formulaire de création d'un nouveau compte FTP. Prenez garde à la valeur par défaut du répertoire"
+    alt="Capture d'écran du formulaire de création d'un nouveau compte FTP sur l'hébergement o2switch"
+/>
+
+L'identifiant d'un compte FTP secondaire sera toujours de la forme : `quelqueChose@domaineChoisi.tld`.
+Pensez-y lorsque vous configurez vos clients FTP.
+
+## Gérer les comptes FTP existants
+
+Vous pouvez également gérer les comptes FTP existants, ils apparaissent sous forme d'un tableau.
+
+Vous pouvez juste supprimer et changer le mot de passe de ces comptes FTP secondaires, en plus de voir dans quel
+dossier ils sont configurés.
+
+<Image
+    src="/img/docs/cpanel/fichiers/liste-comptes-ftp.png"
+    title="Liste des comptes FTP existants"
+    caption="Liste des comptes FTP, il est possible de changer le mot de passe pour chaque compte"
+    alt="Capture d'écran de l'outil de gestion des comptes FTP o2switch"
+/>
+
+Il existe également des comptes FTP spéciaux :
+  * Le premier compte FTP spécial correspond au compte FTP “maître” de votre compte d'hébergement, celui qui permet
+d'accéder à l'ensemble de vos dossiers sans restriction et qui est très lié à votre compte cPanel (même login et mot de passe).
+  * Le deuxième compte FTP spécial correspond à un compte FTP utilisé par cPanel pour la gestion des logs.
