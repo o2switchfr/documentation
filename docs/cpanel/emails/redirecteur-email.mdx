@@ -1,0 +1,129 @@
+---
+title: Redirecteurs de mails
+sidebar_label: Redirecteur
+description: L'outil redirecteur permet de configurer une redirection de mail d'une adresse email vers une autre
+image: /img/docs/tools/forwarders.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - emails
+  - redirecteurs
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Redirecteurs de mails
+
+Les **redirecteurs de mails** permettent de transmettre tous les emails reçus sur un compte email vers une autre
+adresse interne de votre choix. Une copie du courrier est toujours présente sur l'adresse initiale.
+
+Cela peut être utile pour rediriger tous les emails de tous les comptes vers une seule boite email centrale,
+qui est régulièrement consultée.
+
+<PreviewToolCard tool='forwarders' />
+
+:::warning
+N'utilisez pas un redirecteur de mail pour rediriger les emails vers une adresse externe, comme par exemple une
+adresse Gmail. Les messages re-transférés auront une très forte chance de passer en spam.
+
+En effet, le fait de rediriger des emails de la sorte est contraire aux SPF. Les messages transférés seront donc
+considérés comme trompeurs et seront refusés ou passeront en spam.
+:::
+
+## Tutoriel vidéo
+
+Dans ce tutoriel vidéo, nous voyons comment configurer des **redirecteurs d'email** sur cPanel.
+
+<YoutubeVideo id='ebnV2et5I8s' title="Comment créer des redirections d'emails ?"/>
+
+## Configuration d'une redirection email
+
+Pour créer une redirection d'email, il faut aller dans l'outil **Redirection** qui se trouve dans la catégorie
+des **Emails**. Puis, il faut cliquer sur **Ajouter un redirecteur**.
+
+<Image
+    src="/img/docs/cpanel/emails/creer-redirecteur-email.png"
+    title="Création d'un nouveau redirecteur de mail"
+    caption="Création d'un nouveau redirecteur de mail, aussi appelé renvoi automatique"
+    alt="Capture d'écran de l'outil de création d'un nouveau redirecteur mail "
+/>
+
+Ensuite, vous pouvez définir plusieurs types de renvois différents. En effet ce n'est pas limité à un renvoi vers une
+adresse courriel, vous pouvez faire des choses plus puissantes comme renvoyer le courrier vers une application
+(détaillé dans les usages avancés).
+
+<Image
+    src="/img/docs/cpanel/emails/redirection-email.png"
+    title="Création d'une redierction vers une autre adresse email"
+    caption="Ajout d'un redirecteur d'une adresse email vers une autre"
+    alt="Capture d'écran du formulaire de création d'une redirection email"
+/>
+
+Quelques détails à propos de la configuration d'un redirecteur de mail :
+  * L'adresse à transférer ne doit pas forcément exister.\
+Si le compte existe (par exemple `alex@domaine.fr`), une copie locale du message est conservée dans le compte mail en question.\
+Si vous ajoutez un redirecteur de mail sur une adresse qui n'existe pas, le message est simplement transféré sans copie sur une boîte locale.
+  * Vous pouvez précise l'adresse de destination que vous souhaitez, pas forcément une adresse que vous hébergez, ni une adresse du “même domaine”.\
+Cela peut être une adresse tierce, type `qqch@gmail.com`. Cependant, il faut faire attention à ce que les messages redirigés ne passent pas en spam sur l'adresse de destination (en créant un filtre sur Gmail par exemple, si vous renvoyez vers une adresse Gmail).
+  * Vous pouvez définir plusieurs redirections emails différents sur une même adresse, par exemple créer un renvoi de `alex@site.fr` vers `alexis@site.fr` et un autre renvoi vers `alexandre@site.fr`.\
+Il faut simplement créer deux redirecteurs de mails différents.
+
+:::warning
+Si vous ré-acheminez vos messages vers une adresse distante d'un autre prestataire, comme Gmail par exemple, il n'est
+pas exclu que ces messages soit bloqués chez ce prestataire, sur son filtre antispam par exemple.
+
+Si vous êtes sur Gmail (en adresse finale), le plus fiable serait de configurer gmail pour qu'il récupère les messages
+de votre boîte en POP, sinon assurez-vous bien que le prestataire distant ne bloque pas les messages transférés.
+:::
+
+## Redirection des emails d'un domaine entier
+
+Il est également possible de ré-acheminer le courrier d'un domaine entier vers un autre nom de domaine. Pour cela, il
+faut ajouter un **redirecteur de domaine**.
+
+<Image
+    src="/img/docs/cpanel/emails/redirection-email-domaine.png"
+    title="Ajout d'un redirecteur d'email sur un domaine entier"
+    caption="Ajout d'une redirection d'email sur un domaine"
+    alt="Capture d'écran du bouton d'ajout de redirecteur de mail de domaine"
+/>
+
+Dans les configurations, il suffit de préciser vers quel domaine le courrier doit être transmis.
+
+<Image
+    src="/img/docs/cpanel/emails/redirection-email-domaine.png"
+    title="Création d'un redirecteur d'email de domaine"
+    caption="Création d'une redirections d'email de domaine"
+    alt="Capture d'écran du formulaire de création de rédirection d'email de domaine"
+/>
+
+Concrètement, cela permet de transmettre tous les messages d'un domaine, vers un autre.
+
+Par exemple, si un email est envoyé sur `alexis@votre-site.fr`, avec l'ajout d'une redirection de domaine, cela sera
+transmis sur `alexis@votre-site.COM`.
+
+Ceci est pratique dans le cas de multi-domaines, si vous possédez plusieurs extensions, mais qu'une seule de ces
+extensions est réellement utilisée.
+
+## Usages avancés
+
+Il est également possible de ré-acheminer le courrier d'une adresse vers une application, un compte système ou de
+renvoyer une erreur. Pour voir ces différentes possibilités, il faut cliquer sur le bouton d'**options avancées**
+lors de l'ajout d'un renvoi :
+
+<Image
+    src="/img/docs/cpanel/emails/redirection-email-avances-script.png"
+    title="Création d'une redirection email avancé vers un script"
+    caption="Exemple de création d'une redirection email avancé, les emails sont redirigés vers un script"
+    alt="Capture d'écran du formulaire de création d'une redirection email avancé"
+/>
+
+Si vous souhaitez rediriger vos messages vers un programme, vous pouvez consulter ce guide qui donne quelques
+explications supplémentaires : [Redirections des emails vers un script](/guides/emails/redirecteur-email-vers-script).
+
+

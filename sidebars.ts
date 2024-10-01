@@ -98,7 +98,7 @@ const sidebars: SidebarsConfig = {
             'cpanel/emails/espace-disque-email',
             'cpanel/emails/filtre-antispam',
             'cpanel/emails/import-massif-compte-email',
-            'cpanel/emails/liste-diffusion',
+            // 'cpanel/emails/liste-diffusion',
           ],
         },
         {
