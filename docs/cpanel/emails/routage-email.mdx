@@ -1,0 +1,89 @@
+---
+title: Routage des emails
+sidebar_label: Routage des emails
+description: L'outil routage des emails permet d'indiquer si l'hébergement doit accepter ou non les emails d'un nom de domaine configuré.
+image: /img/docs/tools/email_routing.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - emails
+  - routage email
+  - mx
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Routage des emails
+
+L'outil **routage des emails** permet d'indiquer à l'hébergement s'il doit accepter ou non les emails d'un nom
+de domaine configuré sur le compte.
+
+Il existe plusieurs cas possibles ou l'outil **routage des emails** est nécessaire :
+  * vous avez vos emails ailleurs, il faut s'assurer que le routage est défini en distant
+  * vous utilisez des MX tiers (une solution de filtrage antispam par exemple) mais au final, les emails arrivent sur votre compte o2switch : le routage doit être local
+  * vous avez vos emails chez o2switch : le routage doit être local
+
+Cela permet également de corriger les problèmes de messages qui ne partent pas, lorsque le domaine est configuré chez
+o2switch mais les emails sont hébergés ailleurs.
+
+Lorsque le routage est distant, le [serveur o2switch](https://www.o2switch.fr/serveurs-dedies/) refusera les messages
+qui lui seront adressés au nom de ce domaine.
+
+L'outil routage des emails s'utilise en association avec l'outil de [gestion des zones DNS](/cpanel/domaines/editeur-zone-dns),
+le plus souvent, des modifications étant nécessaires sur les deux outils.
+
+<PreviewToolCard tool='email_routing' />
+
+## Configurations fréquentes
+
+Dans l'outil de routage des emails, on retrouve trois configurations fréquentes et qui répondent à la majorité des
+besoins :
+  * les emails sont gérés chez o2switch (configuration par défaut)
+  * les emails ne sont pas gérés chez o2switch, ils pointent chez un autre prestataire
+  * les emails sont réceptionnés par une solution antispam mais redirigés vers o2switch après filtrage
+
+### Les emails sont chez o2switch
+
+Dans le cas où les emails doivent rester sur l'hébergement o2switch, il faut s'assurer :
+  * de n'avoir qu'une seule entrée MX, en priorité 0
+  * que cette entrée MX pointe vers l'hébergement. C'est-à-dire qu'elle pointe vers le domaine (ou un sous-domaine) qui lui même doit pointer sur l'hébergement
+  * que dans l'outil [entrée MX/routage des emails](/cpanel/emails/routage-email) de cPanel, le routage soit détecté ou configuré en local
+
+<Image
+    src="/img/docs/cpanel/domaines/email-chez-o2switch.png"
+    title="Configuration à appliquer lorsque les emails sont chez o2switch"
+    caption="Cas d'un domaine avec des MX locaux et d'un routage local des emails"
+    alt="Capture d'écran de la configuration à appliquer pour avoir les emails chez o2switch"
+/>
+
+### Les emails ne sont pas chez o2switch
+
+Dans le cas où les emails ne sont pas chez o2switch et doivent pointer vers un prestataire tiers (exemple Google Apps), il faut :
+  * n'avoir que les entrées MX du prestataire tiers en question, une ou plusieurs, mais il faut supprimer les entrées MX o2switch
+  * dans l'outil [entrée MX/routage des emails](/cpanel/emails/routage-email) , le routage doit être détecté en distant ou forcé en distant. Si ce n'est pas fait, les emails émis depuis l'hébergement à destination du domaine ne seront pas acheminés correctement.
+
+<Image
+    src="/img/docs/cpanel/domaines/email-pas-chez-o2switch.png"
+    title="Configuration à appliquer lorsque les emails sont PAS chez o2switch"
+    caption="Cas d'un domaine avec des MX tiers et d'un routage distant des emails"
+    alt="Capture d'écran de la configuration à appliquer lorsque les emails ne sont pas géré chez o2switch"
+/>
+
+### J'utilise une solution antispam
+
+Pour certains types de solution antispam, il faut faire un mixte des deux cas précédents, c'est-à-dire :
+  * avoir les serveurs MX du domaines vers un prestataire tiers
+  * mais dans l'outil  [entrée MX/routage des emails](/cpanel/emails/routage-email) conserver le routage en distant afin que l'hébergement continue d'accepter les emails du domaine
+
+<Image
+    src="/img/docs/cpanel/domaines/email-solution-antispam.png"
+    title="Exemple de configuration avec une solution antispam qui reroute le trafic email"
+    caption="Cas d'un domaine avec des MX tiers mais un routage local des emails pour accepter les emails entrant sur l'hébergement"
+    alt="Capture d'écran de la configuration à appliquer lorsqu'on utilise une solution antispam qui re-route les emails"
+/>
+
