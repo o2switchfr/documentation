@@ -1,0 +1,79 @@
+---
+title: Usage de l'espace disque pour les emails
+sidebar_label: Espace disque Mail
+description: L'outil Email Disk Usage permet de contrôler l'espace disque consommé par les adresses emails
+image: /img/docs/tools/email_disk_usage.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - emails
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Contrôle de l'usage de l'espace disque Emails
+
+L'outil **Email Disk Usage** permet de contrôler le niveau d'espace disque consommé par les adresses emails créées sur
+l'hébergement.
+
+Bien que nos plans d'hébergements soit [illimité](https://www.o2switch.fr/hebergement-illimite/),
+il est tout de même recommandé de faire attention à l'espace disque ou au nombre de mails contenus dans une boite emails
+afin de conserver la performance du compte email.
+
+Par exemple, une recherche sur une boite email ayant beaucoup d'historique de mails sera  plus lente qu'un compte
+email avec peu de messages.
+
+Cet outil permet de vérifier l'espace disque consommé par les comptes emails et permet également de faire du ménage
+en supprimant des emails via des filtres Dovecot.
+
+<PreviewToolCard tool='email_disk_usage' />
+
+## Vérification de l'espace disque
+
+Pour vérifier la taille d'un compte email, il suffit de se rendre sur l'outil puis de sélectionner l'adresse email à
+vérifier dans le menu déroulant.
+
+Un tableau s'affichera et listera tous les dossiers contenus dans l'adresse email, suivi du nombre de messages et de
+l'espace disque consommé.
+
+<Image
+    src="/img/docs/cpanel/emails/controle-espace-disque-email.png"
+    title="Espace disque consommé par l'adresse email"
+    caption="Contrôle de l'espace disque consommé par l'adresse email"
+    alt="Capture d'écran de l'outil permettant de vérifier l'espace disque consommé par une adresse email"
+/>
+
+Pour chaque dossier, il est possible de lancer une suppression massive pour faire du ménage.
+
+## Suppression massive avec des filtres Dovecot
+
+En cliquant sur **Manage** en face d'un des dossiers, il est possible de dérouler le menu permettant de faire du
+ménage.
+
+Ce menu permet de lancer une suppression massive de message en utilisant des filtres Dovecot. Des filtres sont
+déjà préconçus, vous pouvez par exemple supprimer :
+  * les messages ayant plus de 1 an
+  * les messages de plus de 30Mo
+  * les messages déjà lus
+  * tous les messages
+
+<Image
+    src="/img/docs/cpanel/emails/email-suppression-massive.png"
+    title="Les filtres pour supprimer massivement des emails"
+    caption="L'outil pour supprimer massivement des emails à partir de filtre Dovecot pour faire du ménage"
+    alt="Capture d'écran de l'outil permettant de supprimer massivement des emails avec des filtres dovecot"
+/>
+
+Il est également possible de supprimer des messages en rédigeant son propre filtre, suivant [les filtres de recherche
+de Dovecot](https://doc.dovecot.org/main/core/man/doveadm-search-query.7.html).
+
+:::danger
+Attention, toute suppression via cet outil est définitive. Il n'est pas possible de revenir en arrière sur l'opération.
+
+Soyez extrêmement vigilant, surtout si vous utilisez des filtres personnalisés
+:::
