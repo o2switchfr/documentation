@@ -1,0 +1,95 @@
+---
+title: Consultation des logs emails
+sidebar_label: Suivre la remise
+description: L'outil suivre la remise permet d'aller vérifier les logs emails pour vérifier si un email a été émis (ou reçu) correctement.
+image: /img/docs/tools/track_delivery.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - emails
+  - délivrabilité
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Suivre la remise des emails
+
+L'outil **suivre la remise** permet de vérifier les logs emails sur la journée en cours pour savoir si un email a été émis correctement sur votre hébergement internet.
+
+L'outil permet également de vérifier les messages reçus. Cela permet de vérifier la délivrabilité d'un email spécifique et le cas échéant récupérer le message d'erreur reçu.
+
+En résumé, c'est l'outil à utiliser si vous souhaitez vérifier qu'un message a bien été envoyé ou vérifier pourquoi vous n'avez pas reçu un email spécifique.
+
+<PreviewToolCard tool='track_delivery' />
+
+## Présentation de l'outil
+
+L'outil dispose de deux parties :
+  * un premier formulaire permet de faire une recherche sur une adresse email (de destination ou émettrice), pour vérifier que cela a bien été traité (message envoyés ou messages reçus)
+  * la deuxième partie le rapport de remise qui correspond à la liste des messages trouvés via la recherche.\
+Par défaut, sans recherche, cela affiche la liste des derniers emails envoyés et reçus
+
+Les logs emails sont archivés quotidiennement donc il est possible de vérifier de la délivrabilité d'un email que sur
+les messages envoyés sur la journée en cours.
+
+### Recherche sur un email précis
+
+La première partie de l'outil est un formulaire de recherche permettant de :
+  * faire une **recherche sur l'adresse du destinataire ou expéditeur**, pour vérifier l'envoi d'un message précis
+  * en laissant le formulaire vide puis en cliquant sur **Afficher tout** cela affiche les derniers emails envoyés
+  * en laissant le formulaire vide puis en cliquant sur **Afficher les éléments bloqués et ayant échoués** cela va récupérer que les messages d'erreurs
+
+<Image
+    src="/img/docs/cpanel/emails/suivi-email-recherche.png"
+    title="Recherche dans les logs de mails"
+    caption="Formulaire de recherche dans les logs emails"
+    alt="Capture d'écran du formulaire de l'outil de recherche dans les logs emails"
+/>
+
+### Rapport de remise
+
+Le rapport de remise est le résultat de la recherche lancé avec le formulaire détaillé précédemment.
+
+<Image
+    src="/img/docs/cpanel/emails/rapport-remise-mail.png"
+    title="Rapport de remise email"
+    caption="Le rapport de remise des messages envoyés et reçus sur l'hébergement"
+    alt="Capture d'écran du rapport des emails reçus et envoyés sur l'hébergement"
+/>
+
+Dans le rapport de remise, plusieurs parties sont importantes :
+
+<span className='badge badge--danger'>1</span> permet d'accéder aux options du tableau, pour afficher/masquer des champs supplémentaires. Les champs proposés sont :
+```text
+sélectionner tout, événement, utilisateur, domaine, adresse de l'expéditeur, expéditeur,
+heure d'envoi, hôte de l'expéditeur, adresse IP de l'expéditeur, authentification,
+score spam, destinataire, domaine de remise, remis à, routeur, trnasfert, heure de réception,
+ID, hôte de remise, adresse IP de remise, taille, résultat, actions
+```
+
+<span className='badge badge--danger'>2</span> la deuxième partie encadré en rouge dans la capture permet d'activer des options de filtrages sur les données du tableau
+
+<span className='badge badge--danger'>3</span> enfin, dans le tableau de résultat, il y a plusieurs colonnes qui sont actives par défaut :
+  * **Evénement** : une icône qui indique le statut du message. Le message peut être délivré correctement, dans un statut inconnu ou en cours, en attente (retardé), en erreur, rejeté, ou filtré
+  * **Score de spam** : sur un message entrant, indique si l'antispam pense qu'il s'agit d'un message de spam. Un score supérieur à 5 indique que l'antispam pense que le email est un spam
+  * **Résultat** : similaire à l'événement mais la version textuelle à la place d'une icône
+  * **Actions** : permet d'avoir plus d'éléments sur le message
+
+:::info
+Les emails envoyés en PHP sont également lsités dans le rapport de suivi des emails
+:::
+
+En cliquant sur le bouton d'action, on retrouve plus d'éléments concernant l'évènement correspondant dans les logs.
+
+Dans le détails ci-dessous, on peut voir que le message a été accepté et est passé par l'antispam BoxTrapper.
+<Image
+    src="/img/docs/cpanel/emails/detail-suivi-email.png"
+    title="Détail de l'événement dans les logs emails"
+    caption="En cliquant sur action, on obtiens plus d'informations sur l'événement visible dans les logs emails"
+    alt="Capture d'écran du détails d'un événement dans l'outil de suivi des logs emails"
+/>
