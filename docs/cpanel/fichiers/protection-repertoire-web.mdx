@@ -1,0 +1,69 @@
+---
+title: Protéger un répertoire web par un mot de passe
+sidebar_label: Confidentialité du répertoire
+description: Ce tutoriel explique comment utiliser l'outil confidentialité du répertoire, dans cPanel. L'outil permet de protéger un répertoire par mot de passe.
+image: /img/docs/tools/directory_privacy.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - fichiers
+  - git
+  - htpasswd
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Protéger un répertoire web par mot de passe
+
+L'outil **confidentialité du répertoire** de l'[hébergement web](https://www.o2switch.fr/hebergement-entreprise/)
+permet d'ajouter une **protection par mot de passe** sur un dossier de votre choix d'un de vos sites internet hébergés
+votre compte d'hébergement.
+
+C'est très utilisé pour protéger l'accès à la partie d'administration d'un site internet ou faire une **double
+authentification**.
+
+<PreviewToolCard tool='directory_privacy' />
+
+## Comment protéger un répertoire par mot de passe ?
+
+Lorsque vous vous rendez sur l'outil, l'arborescence de votre hébergement apparaît.
+
+Cette liste de dossiers permet de naviguer dans les répertoires de votre hébergement et de sélectionner un dossier à
+protéger.
+
+L'une des subtilités de l'outil confidentialité du répertoire de cPanel est la manière dont il faut naviguer dans les
+dossiers :
+
+<span className='badge badge--danger'>A</span> Si vous cliquez sur **Modifier**, vous entrez dans le mode de protection
+du répertoire et vous lancez l'outil qui permet de mettre en place un mot de passe
+
+<span className='badge badge--danger'>B</span> vous cliquez sur l'icône du dossier, vous entrez dans le répertoire en
+question, pour naviguer dans le répertoire
+
+<Image
+    src="/img/docs/cpanel/fichiers/proteger-repertoire-mot-passe.png"
+    title="Protection d'un répertoire par mot de passe"
+    caption="Navigation et protection par mot de passe"
+    alt="Capture d'écran de l'outil de protection par mot de passe d'un dossier web"
+/>
+
+Dans le mode de protection du répertoire, qui s'affiche après avoir cliqué sur **Modifier**, vous devez réaliser
+plusieurs actions :
+  * Cocher la case **protéger ce répertoire par mot de passe** et mettre un nom sur le répertoire protégé (ce nom
+apparaît dans la fenêtre de demande du mot de passe dans le navigateur web)
+  * Créer un utilisateur et lui attribuer un mot de passe. C'est possible d'en créer plusieurs si besoin.
+
+<Image
+    src="/img/docs/cpanel/fichiers/proteger-dossier-htpasswd.png"
+    title="Création d'un utilisateur et mot de passe"
+    caption="Protection d'un dossier par mot de passe : création d'un utilisateur et mot de passe"
+    alt="Capture d'écran de l'outil de protection par mot de passe sur l'étape de création d'un utilisateur"
+/>
+
+Lorsque la protection a été ajoutée, vous avez un récapitulatif des utilisateurs autorisés à avoir accès sur un dossier
+et la demande de protection qui est effective.

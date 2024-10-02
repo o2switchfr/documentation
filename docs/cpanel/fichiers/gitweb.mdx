@@ -39,8 +39,6 @@ L'outil propose une surchouche graphique à Git, mais en contrepartie, il peut y
 
 <PreviewToolCard tool='version_control' />
 
-
-
 ## Créer un dépot Git
 
 L'outil permet de créer des dépots Git sur votre hébergement. Il y a deux approches possibles :
@@ -182,10 +180,18 @@ Pour créer un dépot Git à partir d'une source distante (Github, Gitlab ou aut
   * **Repository Path** : le chemin vers le dossier qui contiendra le dépot Git sur votre hébergement
   * **Repository Name** : le nom du projet Git
 
+<Image
+    src="/img/docs/cpanel/fichiers/creer-depot-git-distant.png"
+    title="Création d'un dépot git à partir d'une source distante"
+    caption="Création d'un dépot Git à partir d'une source distante"
+    alt="Capture d'écran de l'outil Git montrant la création d'un dépot git à partir d'une source distante sur l'hébergement o2switch"
+/>
+
+
 :::info
 Pour **cloner un dépot privé**, il faut impérativement utiliser le protocole **ssh://**.
 
-Cela implique qu'il faut au préalable installer une clé SSH et mettre en liste blanche le serveur GIT distant :
+Cela implique qu'il faut au préalable installer une **clé SSH** et mettre en liste blanche le serveur GIT distant :
   * [Ouverture de l'accès SSH, ajout en liste blanche sur le parefeu](/cpanel/outils/exception-parefeu)
   * [Accès SSH et configuration de l'authentification par clés](/guides/webmastering/connexion-ssh)
 
@@ -229,7 +235,9 @@ regardera s'il est possible de placer une exception pour le service.
 Autrement dit, depuis votre espace d'hébergement cPanel, vous devez être en mesure de pouvoir cloner un dépot sur le
 serveur GIT distant, en SSH, sans intéraction.
 
----
+:::
+
+:::info
 
 Il n'est **pas possible** de passer l'identifiant / mot de passe dans l'URL avec quelques choses qui ressemble à cela par exemple :
 
@@ -239,12 +247,6 @@ https://monIdentifiant:motDepasse@github.com/monIdentifiant/mon-depot.git
 ```
 :::
 
-<Image
-    src="/img/docs/cpanel/fichiers/creer-depot-git-distant.png"
-    title="Création d'un dépot git à partir d'une source distante"
-    caption="Création d'un dépot Git à partir d'une source distante"
-    alt="Capture d'écran de l'outil Git montrant la création d'un dépot git à partir d'une source distante sur l'hébergement o2switch"
-/>
 
 Suite à la création de ce projet Git, cPanel va initier le clonage du dépot Git distant. Cela peut prendre plusieurs
 minutes, cela dépend de la taille du projet à cloner. Pendant cette phase de clonage, les boutons d'actions sont grisées.
