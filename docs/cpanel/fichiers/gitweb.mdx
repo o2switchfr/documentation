@@ -1,0 +1,389 @@
+---
+title: "Git version control - Gitweb"
+sidebar_label: Git Web
+description: Le gestionnaire de fichiers permet d'envoyer, recevoir et modifier facilement des fichiers depuis une interface web
+image: /img/docs/tools/version_control.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - fichiers
+  - git
+  - gitweb
+  - déploiement
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Gérez des dépots git sur votre hébergement
+
+La fonctionnalité **Git™ Version Control** vous permet d'héberger facilement des dépots Git sur votre compte
+d'[hébergement web](https://www.o2switch.fr/hebergement-entreprise/).
+
+Vous pouvez utiliser l'outil Git inclus dans cPanel pour gérer n'importe quel ensemble de fichiers (par exemple,
+les fichiers et actifs d'un site Web, un projet de développement logiciel ou de simples fichiers texte).
+
+L'outil à plusieurs usages, vous pouvez :
+  * créer des dépots Git localement sur votre hébergement
+  * créer un dépot git localement sur votre hébergement à partir d'un dépot externe (Github, Gitlab)
+  * consulter les dépots Git présent sur votre hébergement avec l'interface de gestion gitweb
+  * utiliser l'outil pour déployer vos projets sur votre hébergement avec le système de déploiement de cPanel
+
+À noter, que vous n'êtes pas obligé d'utiliser cet outil pour utiliser **git** sur votre hébergement. Vous pouvez
+également vous [connecter en SSH](/guides/webmastering/connexion-ssh) sur votre compte d'hébergement et utiliser directement la commande **git**.
+L'outil propose une surchouche graphique à Git, mais en contrepartie, il peut y avoir des limitations supplémentaires.
+
+<PreviewToolCard tool='version_control' />
+
+
+
+## Créer un dépot Git
+
+L'outil permet de créer des dépots Git sur votre hébergement. Il y a deux approches possibles :
+  * le dépot git sur votre hébergement est votre dépot principal, c'est la dessus que vous envoyez/synchronisez vos données.
+Le dépot présent sur l'hébergement sera la source principale des données.
+  * le dépot git sur votre hébergement est un miroir d'un autre dépot, hébergé ailleurs. Par exemple un dépot hébergé chez Github, Gitlab ou autre.
+Dans ce cas, la source est le dépot distant, le dépot sur l'hébergement n'est qu'une copie.
+
+Pour lancer la création d'un dépot (local ou miroir), il faut naviguer dans l'outil **git** de cPanel puis cliquer sur
+le bouton **Créer**.
+
+<Image
+    src="/img/docs/cpanel/fichiers/creer-depot-git.png"
+    title="Page d'accueil de l'outil Git de l'hébergement web"
+    caption="Page d'accueil de l'outil Git de l'hébergement cPanel avec le bouton pour créer un nouveau dépot"
+    alt="Capture d'écran de l'outil Git de l'hébergement montrant la liste des dépots git existants"
+/>
+
+Sur la page suivante, vous pouvez choisir de créer un dépot local ou à partir d'une source distante.
+
+:::info
+Ce n'est pas mentionné ici, mais un pré-requis important est d'avoir un accès SSH ouvert et d'avoir configuré
+une authentification par clé SSH sur votre hébergement.
+
+Autrement dit, vous devez être en mesure de lancer une commande comme `ssh identifiant@votre-hebergement.o2switch.net`
+sans intéractions (pas de demande de mot de passe, pas de demande d'acception de signatures). Si cela n'est pas fait,
+ça risque de causer des problèmes pour certaines commandes.
+
+Vous pouvez consulter les guides suivants pour faire cela :
+  * [Ouverture de l'accès SSH, ajout en liste blanche sur le parefeu](/cpanel/outils/exception-parefeu)
+  * [Accès SSH et configuration de l'authentification par clés](/guides/webmastering/connexion-ssh)
+:::
+
+### Créer un dépot git local
+
+Pour créer un dépot Git local, il suffit de décocher la case **Clone a repository**. Ensuite il faut renseigner :
+  * **Repository Path** : le chemin vers le dossier qui contiendra le dépot Git sur votre hébergement
+  * **Repository Name** : le nom du projet Git
+
+<Image
+    src="/img/docs/cpanel/fichiers/creer-depot-git-local.png"
+    title="Création d'un dépot git local"
+    caption="Réglage à effectuer pour créer un dépot git local"
+    alt="Capture d'écran de l'outil Git montrant la création d'un dépot git local sur l'hébergement o2switch"
+/>
+
+Le projet Git est maintenant créé sur votre hébergement cPanel.
+
+Maintenant, il reste à faire le lien entre le projet Git présent sur cPanel et la version locale, de développement, sur
+votre ordinateur. En effet, vous allez travailler sur votre ordinateur sur la version du dépot Git cloné, puis vous
+allez mettre à jour le dépot Git présent sur votre cPanel au fur et à mesure du développement.
+
+La page qui s'affiche après la création du projet Git sur cPanel explique comment faire cela. Vous avez deux approches
+différentes :
+  * **partir d'un projet existant** : vous avez déjà un projet git sur votre ordinateur sur lequel vous avez commencé à travailler.\
+Il reste à faire le lien entre ce projet et le dépot git de l'hébergement en ajoutant le projet git de l'hébergement comme une **source distante**.
+  * **créer un nouveau projet en partant de 0** : vous n'avez pas encore commencé à travailler, vous partez de 0. Il faudra donc cloner le dépôt git de l'hébergement.
+
+#### Configuration à partir d'un projet existant
+
+Vous avez déjà commencé à travailler sur votre projet. Vous avez un dépot Git sur votre ordinateur, mais ce dépot n'est
+pas encore relié à une source distante, à ce stade, il ne s'agit que d'un dépot Git présent sur votre machine.
+
+:::tip
+Si vous avez déjà commencé à travailler sur votre projet sur votre ordinateur, mais que ce n'est pas encore sous forme
+d'un dépot Git, alors vous pouvez initialiser un dépot Git à partir de votre dossier.
+
+```bash title="Partir d'un dossier existant qui n'est pas encore un projet GIT"
+cd votreDossier
+git init
+```
+
+Ensuite, vous pouvez continuer le reste de cette procédure.
+:::
+
+<Image
+    src="/img/docs/cpanel/fichiers/git-projet-existant-local.png"
+    title="Synchronisation du projet local avec le projet distant sur cPanel"
+    caption="Instructions pour relier votre projet Git local au projet Git distant sur l'hébergement"
+    alt="Capture d'écran de l'outil Git expliquant comment configurer l'hébergement comme source d'origine d'un projet Git"
+/>
+
+Pour relier ce dépot au dépot de votre hébergement cPanel et être en mesure de réaliser un `git push` par exemple, il
+faut :
+
+```bash title="Ajouter le dépot de l'hébergement comme source distante"
+# Naviguez dans le dossier GIT sur votre machine
+cd votreProjetGit
+
+# Ajoutez le dépôt GIT présent sur cPanel comme une nouvelle source distante (origin)
+# Attention : cette commande varie en fonction de votre hébergement et du dépôt.
+# Copiez/collez la commande fourni dans l'outil sur cPanel
+git remote add origin ssh://dojo2567@dojo2567.odns.fr/home/dojo2567/depots/projet-1
+
+# Poussez votre projet vers cPanel sur la branche principale
+git push -u origin master
+```
+
+À présent, les deux dépots devraient être synchronisés et vous devriez retrouver les fichiers de votre projet sur le
+dépot Git de votre hébergement.
+
+#### Configuration pour un nouveau projet
+
+Si vous commencez un nouveau projet, que vous partez de zéro, alors vous pouvez simplement cloner le dépôt GIT de votre
+hébergement.
+
+<Image
+    src="/img/docs/cpanel/fichiers/git-projet-vierge.png"
+    title="Clonage du projet Git présent sur l'hébergement"
+    caption="Instructions pour cloner le dépot Git de l'hébergement"
+    alt="Capture d'écran de l'outil Git expliquant comment cloner le dépot Git de l'hébergement"
+/>
+
+Pour cloner le projet, vous pouvez :
+
+```bash title="Cloner le projet Git de l'hébergement"
+# Attention : cette commande varie en fonction de votre hébergement et du dépôt.
+# Copiez/collez la commande fourni dans l'outil sur cPanel
+git clone ssh://dojo2567@dojo2567.odns.fr/home/dojo2567/depots/projet-1
+cd projet-1
+
+# Ensuite vous pouvez faire vos modifications
+echo "# README" >> README.md
+
+# Puis commit/push sur la branche master
+git add README.md
+git commit -m "Initial Commit"
+git push -u origin master
+```
+
+### Créer un dépot Git à partir d'une source distante
+
+Pour créer un dépot Git à partir d'une source distante (Github, Gitlab ou autre), il suffit de cocher la case
+**Clone a repository**. Ensuite, il faut renseigner :
+  * **Clone URL** : l'URL du dépot distant. Quelques précisions sur cette configuration :
+    * L'URL doit commencer par l'un des protocoles suivants : `http://`, `https://`, `ssh://`, ou `git://`
+    * L'URL ne peut pas contenir une paire identifiant+mot de passe, cela n'est pas supporté
+    * Pour les dépots SSH, il faut que l'authentification par clé soit mise en place au préalable et que la signature du serveur SSH soit déjà acceptée (SSH host key verification)
+  * **Repository Path** : le chemin vers le dossier qui contiendra le dépot Git sur votre hébergement
+  * **Repository Name** : le nom du projet Git
+
+:::info
+Pour **cloner un dépot privé**, il faut impérativement utiliser le protocole **ssh://**.
+
+Cela implique qu'il faut au préalable installer une clé SSH et mettre en liste blanche le serveur GIT distant :
+  * [Ouverture de l'accès SSH, ajout en liste blanche sur le parefeu](/cpanel/outils/exception-parefeu)
+  * [Accès SSH et configuration de l'authentification par clés](/guides/webmastering/connexion-ssh)
+
+---
+
+Concernant l'**authentification par clés SSH** (impérative), vous aurez **deux configurations** à faire et à ne pas confondre.
+
+<span className='badge badge--primary'>A</span> Connexion SSH depuis votre ordinateur vers votre hébergement o2switch
+
+Il faut installer votre clé publique sur votre hébergement dans `.ssh/authorized_keys`.
+
+Cela vous permettra de vous connecter en SSH, sur votre hébergement o2switch **depuis votre ordinateur** sans mot de passe.
+
+<span className='badge badge--primary'>B</span> Connexion SSH depuis votre hébergement o2switch vers le serveur Git
+
+Il faut installer une clé privée sur votre hébergement dans `.ssh/id_rsa` et installer la clé publique sur votre dépot
+git distant.
+
+Cela afin d'autoriser votre hébergement o2switch à se connecter en SSH sur votre dépot git, sans mot de passe/intéraction.
+
+Vous n'êtes pas obligé d'utiliser la même clé SSH pour la connexion A et B. C'est même une bonne idée d'avoir des clés SSH différentes pour ces deux usages.
+
+---
+
+C'est le même principe concernant la mise en **liste blanche** pour l'**autorisation SSH** sur l'hébergement, vous aurez
+**deux configurations** à faire.
+
+<span className='badge badge--primary'>A</span> Autoriser la connexion SSH depuis votre ordinateur vers votre
+hébergement o2switch
+
+<span className='badge badge--primary'>B</span> Autoriser la connexion SSH depuis votre hébergement vers le dépot GIT
+
+Certains fournisseurs connus comme GitHub sont (normalement) déjà en liste blanche côté o2switch.
+
+Pour d'autres fournisseurs, comme Gitlab, la mise en liste blanche n'est pas possible, car ils ne communiquent
+pas sur les adresses IPs qu'ils utilisent ou demandent de placer en liste blanche des fournisseurs Cloud entier.
+
+Si vous avez un timeout SSH sur la connexion de votre hébergement vers le dépot GIT contactez le support. Le support
+regardera s'il est possible de placer une exception pour le service.
+
+Autrement dit, depuis votre espace d'hébergement cPanel, vous devez être en mesure de pouvoir cloner un dépot sur le
+serveur GIT distant, en SSH, sans intéraction.
+
+---
+
+Il n'est **pas possible** de passer l'identifiant / mot de passe dans l'URL avec quelques choses qui ressemble à cela par exemple :
+
+```
+# Ne fonctionnera pas
+https://monIdentifiant:motDepasse@github.com/monIdentifiant/mon-depot.git
+```
+:::
+
+<Image
+    src="/img/docs/cpanel/fichiers/creer-depot-git-distant.png"
+    title="Création d'un dépot git à partir d'une source distante"
+    caption="Création d'un dépot Git à partir d'une source distante"
+    alt="Capture d'écran de l'outil Git montrant la création d'un dépot git à partir d'une source distante sur l'hébergement o2switch"
+/>
+
+Suite à la création de ce projet Git, cPanel va initier le clonage du dépot Git distant. Cela peut prendre plusieurs
+minutes, cela dépend de la taille du projet à cloner. Pendant cette phase de clonage, les boutons d'actions sont grisées.
+
+<Image
+    src="/img/docs/cpanel/fichiers/git-clonage-depot-distant.png"
+    title="Clonage du dépot GIT distant"
+    caption="L'outil clone le projet GIT distant, pendant ce temps, les actions sont grisées"
+    alt="Capture d'écran de l'outil Git montrant le clonage d'un dépot git distant"
+/>
+
+Lorsque le clonage est terminé, toutes les options sont débloquées.
+
+<Image
+    src="/img/docs/cpanel/fichiers/git-clonage-termine.png"
+    title="Le clonage du dépot distant est terminé"
+    caption="Le clonage du dépots distant est terminé, les options sont débloquées"
+    alt="Capture d'écran de l'outil Git montrant le dépot cloné"
+/>
+
+## Utiliser Gitweb
+
+L'outil **Git** de l'hébergement ajoute une surcouche visuelle à Git. L'outil met à disposition Gitweb, une petite
+application web permettant de consulter plus facilement l'historique d'un projet Git.
+
+Pour accéder à GitWeb, il faut cliquer sur **History** en face d'un des projets Git en place sur l'hébergement.
+
+<Image
+    src="/img/docs/cpanel/fichiers/gitweb.png"
+    title="Accès à gitweb pour consulter l'historique du projet"
+    caption="Comment accéder à gitweb pour consulter visuellement l'historique du projet"
+    alt="Capture d'écran de l'outil Git expliquant comment accéder à gitweb"
+/>
+
+Sur la page suivante, Gitweb s'affiche avec l'historique des commits du projet.
+
+<Image
+    src="/img/docs/cpanel/fichiers/interface-gitweb.png"
+    title="Capture d'écran de gitweb"
+    caption="Capture d'écran de Gitweb pour explorer l'historique du projet"
+    alt="Capture d'écran de l'outil Gitweb pour naviguer dans l'historique d'un projet git"
+/>
+
+## Déploiement à partir de Git
+
+L'outil GIT ajoute un [githooks](https://git-scm.com/docs/githooks) `post-receive` sur les dépots gérés sur
+l'hébergement.
+
+Cela permet d'utiliser l'outil pour automatiser un déploiement. L'outil permet deux types de déploiements différents :
+  * Le déploiement PUSH. Vous poussez votre version du dépot git vers l'hébergement, puis le déploiement se déclenche.
+  * Le déploiement PULL. Vous poussez votre version du dépot git vers un dépot distant (github par exemple). Puis, vous lancez la récupération des mises à jours depuis votre hébergement en cliquant sur un bouton. Puis, vous lancez le déploiement en cliquant sur un autre bouton.
+
+
+### Déploiement de type PUSH
+
+Dans un déploiement de type **PUSH**, vous **poussez** les modifications que vous avez faites localement sur votre
+ordinateur (ou récupéré depuis un dépot distant) vers le dépot Git présent sur votre hébergement.
+
+Suite à cela, si le script de déploiement est en place, il se lancera automatiquement.
+
+<Image
+    src="/img/docs/cpanel/fichiers/git-push-deploiement.png"
+    title="Déploiement de type PUSH"
+    caption="Dans un déploiement de type PUSH, vous poussez directement votre projet git sur l'hébergement"
+    alt="Schéma expliquant le déploiement de type PUSH via l'outil GIT de l'hébergement"
+/>
+
+### Déploiement de type PULL depuis un dépot distant
+
+Le déploiement de type **PULL** est à utiliser lorsque le dépôt git de votre hébergement est relié à un dépôt distant
+(comme github).
+
+Dans ce cas-là, depuis votre ordinateur, vous mettez à jour le dépot distant sur la source principale (exemple github).
+Puis dans cPanel, vous pouvez lancer la mise à jour en cliquant sur un **Update from Remote** dans l'interface.
+L'outil Git ira mettre à jour les données en effectuant un `git pull` depuis l'hébergement.
+
+<Image
+    src="/img/docs/cpanel/fichiers/git-pull-deploiement.png"
+    title="Déploiement de type PULL"
+    caption="Dans un déploiement de type PULL, l'hébergement récupère les données depuis un dépot distant"
+    alt="Schéma expliquant le déploiement de type PULL via l'outil GIT de l'hébergement"
+/>
+
+Ensuite, le script de déploiement peut être lancé en cliquant sur **Deploy Head Commit** dans l'interface
+Git de l'hébergement.
+
+Les boutons **Update from Remote** et **Deploy Head Commit** sont visibles dans l'outil Git de l'hébergement, en
+cliquant sur **Gérer** en face d'un des dépots, puis en naviguant dans l'onglet **Pull or Deploy**.
+
+<Image
+    src="/img/docs/cpanel/fichiers/git-deploy-buttons.png"
+    title="Boutons pour récupérer le code (pull) et déployer"
+    caption="Les boutons pour mettre à jour le code du dépot git de l'hébergement et déployer"
+    alt="Capture d'écran de l'outil GIT montrant les boutons de mises à jour de code et déploiement"
+/>
+
+### Le fichier `.cpanel.yml`
+
+Le fichier `.cpanel.yml` détermine comment et où les fichiers modifiés sont déployés. Le fichier `.cpanel.yml` doit être
+présent à la racine de votre projet Git.
+
+Les fichiers `.cpanel.yml` doivent utiliser le format des exemples ci-dessous.
+
+:::info
+Il y a plusieurs pré-requis pour qu'un déploiement automatique se passe correctement.
+
+Le fichier `.cpanel.yml` doit être valide, il doit suivre la syntaxe des exemples qui seront donnés ci-dessous.
+
+Vous devez avoir un espace de travail git propre (clean working tree). Autrement dit, si vous accédez en SSH à votre
+hébergement et que vous lancez un `git status` dans le dossier du dépot Git, la commande doit retourner qu'il n'y
+a rien à changer.
+
+Si l'espace de travail contient du code ou des modifications en attente de commit, alors l'outil Git de cPanel refusera
+de lancer le déploiement.
+:::
+
+Imaginons que vous avez un projet Git qui contient un site HTML statique dans le dossier `html` du projet. Le déploiement
+de ce site revient à copier toutes les données du répertoire `html` du projet vers le dossier `mon-site-internet.fr`
+présent sur l'hébergement.
+
+Le fichier `.cpanel.yml` permettant de faire cela ressemblerait à :
+
+```yaml title=".cpanel.yml"
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/user1234/mon-site-internet.fr
+    - /usr/bin/rsync -av html/ $DEPLOYPATH
+```
+
+Le fichier est relativement simple, il contient juste une liste de commandes à lancer.
+
+Si vous n'avez pas envie d'énumérer une liste de commandes avec ce format (c'est fastidieux) alors, vous pouvez ajouter
+un script bash dans votre projet qui s'occupe du déploiement. Puis avoir un fichier `.cpanel.yml` minimaliste qui
+lance votre script bash de déploiement.
+
+```yaml title=".cpanel.yml"
+---
+deployment:
+  tasks:
+    - /usr/bin/bash deploy.sh
+```

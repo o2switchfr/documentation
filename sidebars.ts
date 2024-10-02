@@ -175,6 +175,22 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
+          label: 'Outils',
+          collapsible: true,
+          collapsed: true,
+          link: {
+            type: 'doc',
+            id: 'cpanel/outils/index'
+          },
+          items: [
+            'cpanel/outils/exception-parefeu',
+            'cpanel/outils/installateur-softaculous',
+            'cpanel/outils/lets-encrypt-ssl-gratuit',
+            'cpanel/outils/site-builder-sitepad',
+          ],
+        },
+        {
+          type: 'category',
           label: 'Outils Avancés',
           collapsible: true,
           collapsed: true,
