@@ -1,0 +1,453 @@
+---
+title: Restaurer une sauvegarde avec l'outil JetBackup
+sidebar_label: Sauvegarde JetBackup
+description: L'outil Jetbackup permet de restaurer ou de télécharger les sauvegardes (fichiers, bases de données, emails) de votre compte hébergement
+image: /img/docs/tools/jb5.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - fichiers
+  - sauvegarde
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Restaurer une sauvegarde avec l'outil JetBackup
+
+L'outil **JetBackup** dans cPanel vous permet d'**accéder aux sauvegardes** qui sont effectuées sur votre
+[hébergement web](https://www.o2switch.fr/hebergement-illimite/) et vous permet de lancer des restaurations.
+
+L'outil ne vous permet pas de programmer ou lancer de nouvelles sauvegardes.
+
+L'outil met à disposition les sauvegardes qui sont déjà réalisées régulièrement et vous propose de les restaurer sur
+votre hébergement.
+
+L'outil de sauvegarde JetBackup est organisé en plusieurs sous-outils :
+  * **Home Directory** : sauvegardes des fichiers de votre hébergement. Certains types de fichiers sont exclus des sauvegardes.
+  * **Cron Jobs** : sauvegarde des définitions des tâches crons configurés sur l'hébergement
+  * **Databases** : sauvegarde des bases de données
+  * **Databases Users** : sauvegarde des utilisateurs des bases de données (privilèges, mots de passes)
+  * **Email Accounts** : sauvegarde des comptes emails et du contenu des comptes emails*
+  * **Queue** : permet de suivre ce qui est présent dans la file d'attente de l'outil, comme les opérations de restaurations
+  * **View Downloads** : si vous demandez un lien de téléchargement d'une sauvegarde, il s'affichera dans cet outil
+  * **Manage Account** : pour gérer vos préférences (emails)
+
+<PreviewToolCard tool='jb5' />
+
+:::danger
+Les archives que nous réalisons **ne remplacent pas votre propre politique de sauvegarde**.
+
+Nous recommandons à ce que vous **continuiez** de faire des sauvegardes de vos données, en complément de ce que nous
+pouvons faire de notre côté. Avoir vos propres sauvegardes n'est jamais inutile.
+:::
+
+## Restaurer des sauvegardes
+
+Les différents outils de Jetbackup se ressemblent dans le fonctionnement. Voici quelques principes communs à tous les
+sous-outils.
+
+Vous ne pouvez restaurer **qu'une seule chose à la fois**. Ce n'est pas possible de lancer plusieurs restaurations
+en parallèle. Si vous essayez de restaurer plusieurs choses à la fois, les demandes de restaurations seront ajoutées à
+la file d'attente et traité dans l'ordre.
+
+Les archives de sauvegardes sont stockées sur des **serveurs distants**, indépendant de l'infrastructure d'hébergement
+
+Le délai de restauration d'une sauvegarde dépend de plusieurs choses :
+  * La **taille** des données à restaurer, cela implique un plus grand temps de copie / transfert réseau
+  * Le **nombre de fichiers à restaurer**. Plus il y a de fichiers, plus cela prend du temps, car ça implique un grand
+    nombre de micro-opérations. Pour cette raison, si vous avez l'occasion d'exclure un dossier de cache des
+    restaurations, faites-le. Ou restaurez que ce qui est nécessaire.
+  * Pour cette raison, les **comptes emails peuvent être très long à restaurer**. Cela peut prendre plusieurs heures ou
+dizaines d'heures sur des comptes volumineux. **Un gros compte email est le pire scénario de restauration possible** :
+des milliers de petits fichiers à restaurer/recréer. C'est ce qui prend le plus de temps à restaurer.
+  * La file d'attente : vous ne pouvez restaurer qu'une seule chose à la fois
+
+Restaurer une sauvegarde est un processus **destructeur**. Cela est destructeur dans le sens ou les données originales
+présentes sur l'hébergement sont **supprimées et sont remplacées** par la sauvegarde. Donc si vous avez besoin de *
+conserver des fichiers dans les données originales, **mettez-les de côtés avant de lancer une restauration**.
+Si vous vous apercevez plus tard que la restauration ne convient pas, vous ne pouvez pas revenir en arrière, sauf en
+restaurant une version différente de la sauvegarde, si disponible.
+
+
+### Restaurer des fichiers
+
+Pour **restaurer des fichiers**, il faut se rendre dans Jetbackup puis dans la rubrique **Home Directory** de l'outil.
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-restaurer-fichiers.png"
+    title="Rubrique de restauration des fichiers dans Jetbackup"
+    caption="Outils de restauration des fichiers dans JetBackup"
+    alt="Capture d'écran de l'outil de pour restaurer des fichiers dans Jetbackup"
+/>
+
+La page suivante affiche la liste de toutes les sauvegardes disponibles. Plusieurs sauvegardes, sur plusieurs dates
+différentes devraient être disponibles.
+
+Vous pouvez **cliquer une fois** sur la ligne de sauvegarde qui vous intéresse pour la sélectionner.
+
+Ensuite, il faut cliquer sur le bouton **Change Files Selection** pour sélectionner les fichiers à restaurer.
+
+:::danger
+Si vous cliquez sur **Restore** après avoir **sélectionné** votre sauvegarde, mais **sans avoir sélectionné** les fichiers
+à restaurer avec **Change Files Selection** alors l'outil va **restaurer tous les fichiers** de votre hébergement.
+
+**Il ne faut pas faire cela**.
+
+Pour plusieurs raisons :
+  * Cela va restaurer plus de choses que nécessaires et donc allonger inutilement le délai de restaurer
+  * Avant de copier les données de restauration, l'outil **va tout supprimer** sur l'hébergement
+  * Cela impacte également les comptes emails car présent sur votre hébergement sous formes de fichiers
+  * S'il y a une erreur dans la restauration, si l'erreur arrive tardivement dans le processus de restauration, il est
+possible de retrouver un compte vide. L'outil ayant supprimé les données avant restauration mais la restauration étant
+en erreur.
+
+En résumé, **ne cliquez pas sur `Restore` avant d'avoir au préalable sélectionner les fichiers à restaurer avec
+`Change Files Selection`**
+:::
+
+:::danger
+Attention, il ne faut jamais cocher tous les dossiers présents à la racine de votre hébergement pour une restauration,
+cela peut casser votre hébergement.
+
+Cochez uniquement **les dossiers qui correspondent à vos sites internet**.
+
+Ne cochez/restaurez pas les dossiers comme etc, `mail`, `.cpanel`, `.cagefs`, `.cl.selector` ou les autres dossiers
+qui se trouvent à la racine de votre hébergement sauf si vous comprenez précisément à quoi servent ces dossiers et
+savez ce que cela implique.
+:::
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-selection-sauvegarde-fichier.png"
+    title="Sélection d'une sauvegarde de fichiers à restaurer"
+    caption="Sélection d'une sauvegarde dans les choix proposés. Plusieurs dates sont disponibles."
+    alt="Capture d'écran de l'outil de sélection de sauvegarde de fichiers JetBackup"
+/>
+
+Après avoir cliqué sur le bouton **Change Files Selection**, un popup s'affiche avec un explorateur de fichier.
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-selection-fichiers.png"
+    title="Sélection des fichiers à restaurer"
+    caption="Popup de sélection des fichiers à restaurer"
+    alt="Capture d'écran de l'outil Jetbackup avec la fenêtre permettant de sélectionner les fichiers à restaurer"
+/>
+
+Il y a plusieurs zones importantes dans le sélecteur de fichiers.
+
+<span className="badge badge--danger">A</span> Dans le menu supérieur s'affiche le chemin courant dans l'explorateur de
+fichier. Si vous naviguez dans des sous-dossiers, vous pouvez **revenir en arrière* dans le dossier précédent en cliquant
+dans les liens contenus dans ce fil d'ariane.
+
+<span className="badge badge--danger">B</span> Vous pouvez activer/désactiver l'**affichage des fichiers cachés** (ce sont
+les fichiers qui commencent par des points `.`) en cliquant sur **Show Hidden Files**.
+
+<span className="badge badge--danger">C</span> Pour **sélectionner** les fichiers à restaurer, il faut cliquer sur la case
+à cocher devant le dossier (ou fichier) concerné.
+
+Vous pouvez cocher plusieurs dossiers/fichiers à restaurer.
+
+<span className="badge badge--danger">D</span> Remarquez comme le dossier `public_html` s'affiche différemment avec une
+coche verte. Cela signifie que le dossier sera restauré partiellement.
+
+Il est possible de **sélectionner les fichiers récursivement et unitairement**. Cela veut dire qu'on peut entrer dans un
+dossier avec l'explorateur de fichier, cocher des choses à restaurer puis revenir en arrière à la racine de
+l'explorateur de fichier.
+
+C'est ce qui se passe avec `public_html`, le dossier complet ne sera pas restauré, mais il y a des fichiers contenus
+dans ce dossier, **sélectionné unitairement, manuellement**, qui seront restaurés.
+
+<span className="badge badge--danger">E</span> Vous pouvez changer la pagination pour afficher plus de choses dans
+l'explorateur de fichiers et naviguer de pages en pages.
+
+<span className="badge badge--danger">F</span> Dés que votre sélection est terminée, cliquez sur **Select Files**.
+
+Une fois la sélection terminée, l'écran de restauration se met à jour en affichant le nombre de fichiers/dossiers
+sélectionné. Il suffit de valider en cliquant sur **Restore** pour lancer la restauration.
+
+À noter que vous pouvez également cliquer sur **Download**. Dans ce cas, à la place de restaurer/écraser les données,
+cela va générer une archive et vous la proposer en téléchargement pour plus tard.
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-restaurer-selection.png"
+    title="Restauration de la sélection de fichiers"
+    caption="Lancement de la restauration de la sélection de fichiers"
+    alt="Capture d'écran de l'outil Jetbackup montrant comment restaurer une sélection de fichiers"
+/>
+
+Une dernière confirmation est demandée avant la restauration finale.
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-confirmation-restauration-fichier.png"
+    title="Dernière confirmation avant de restaurer les fichiers"
+    caption="Une dernière confirmation est demandée avant de lancer la restauration des fichiers"
+    alt="Capture d'écran de l'outil Jetbackup demandant une dernire confirmation avant de lancer la restauration"
+/>
+
+Ensuite, on est redirigé vers la page de la file d'attente, la restauration est en cours.
+
+Lorsque la restauration sera terminé, cela s'affichera en status complété dans la file d'attente de Jetbackup.
+
+### Restaurer une base de données
+
+Pour **restaurer une base de données**, il faut se rendre dans Jetbackup puis dans la rubrique **Databases** de l'outil.
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-restaurer-base-donnees.png"
+    title="Rubrique de restauration des bases de données dans Jetbackup"
+    caption="Outils de restauration des bases de données dans JetBackup"
+    alt="Capture d'écran de l'outil de pour restaurer des bases de données dans Jetbackup"
+/>
+
+Ensuite, il faut sélectionner la base de données à restaurer en cliquant une fois sur la ligne correspondante dans
+le tableau récapitulatif.
+
+Il est possible de sélectionner plusieurs bases de données à restaurer, il suffit de cliquer sur plusieurs lignes pour
+les ajouter dans la sélection courante.
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-selection-base-donnees.png"
+    title="Sélection de la base de données à restaurer"
+    caption="Comment sélectionner la base de données à restaurer ?"
+    alt="Capture d'écran de l'outil de sauvegarde à l'étape de sélection de la base de données à restaurer"
+/>
+
+Ensuite, il faut sélectionner la date de la sauvegarde en cliquant sur le bouton **Choose Other Backup**. Le bouton
+**Choose Other Backup** changera et se transformera en menu de sélection.
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-selection-date-sauvegarde-bdd.png"
+    title="Sélection de la date de sauvegarde de la base de données à restaurer"
+    caption="Sélection de la date de sauvegarde à restaurer pour la base de données"
+    alt="Capture d'écran de l'outil de sauvegarde à l'étape de sélection de la date de la sauvegarde"
+/>
+
+Puis, lorsque la sélection est effectuée, il faut cliquer sur le bouton **Restore**.
+
+À noter qu'on peut également cliquer sur le bouton **Download**. Dans ce cas, rien n'est restauré et l'outil
+vous proposera de télécharger le fichier de sauvegarde à la place.
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-restauration-base-donnees.png"
+    title="Lancement de la restauration de la base de données"
+    caption="Lancement de la restauration de la base de données"
+    alt="Capture d'écran de l'outil de sauvegarde au lancement d'une restauration de base de données"
+/>
+
+Un dernier message de confirmation s'affichera, puis la restauration commencera.
+
+La base de données sera écrasé par la sauvegarde.
+
+### Restaurer une adresse email
+
+Avant de commencer la restauration d'un compte email, la première chose à faire est de bloquer la réception des emails
+sur le compte concerné.
+
+En effet, si le dossier de mail change ou que l'adresse email reçoit des messages pendant la phase de restauration, alors
+la restauration risque de ne pas s'effectuer correctement et planter. Jetbackup voyant que des fichiers auront changés
+entre le début de la restauration et la fin de restauration.
+
+Pour faire cela, il faut se rendre dans l'outil Compte de messagerie, puis cliquer sur **Gérer** en face du compte
+emails, puis dans la partie des **Restrictions**, il faudra cocher : **Receiving incoming mail : suspendre**. Vous
+pouvez aussi suspendre le login pour éviter qu'un utilisateur manipule ces emails avec un client de messagerie.
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-suspend-mail.png"
+    title="Bloquer l'activité email avant une restauration"
+    caption="Il faut bloquer l'activité email avant de commencer la restauration"
+    alt="Capture d'écran de l'outil Compte de messagerie pour bloquer l'activité email du compte à restaurer"
+/>
+
+Pour **restaurer un compte de messagerie**, il faut se rendre dans Jetbackup puis dans la rubrique **Emails Accounts**
+de l'outil.
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-restaurer-email.png"
+    title="Rubrique de restauration des adresses emails dans Jetbackup"
+    caption="Outils de restauration des comptes Emails dans JetBackup"
+    alt="Capture d'écran de l'outil de pour restaurer des adresses emails dans Jetbackup"
+/>
+
+Ensuite, il faut sélectionner le compte email à restaurer en cliquant une fois sur la ligne correspondante dans
+le tableau récapitulatif.
+
+Il est possible de sélectionner plusieurs adresses de messageries à restaurer, il suffit de cliquer sur plusieurs lignes pour
+les ajouter dans la sélection courante.
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-selection-compte-mail.png"
+    title="Sélection de l'adresse email à restaurer"
+    caption="Comment sélectionner l'adresse eamil à restaurer ?"
+    alt="Capture d'écran de l'outil de sauvegarde à l'étape de sélection de l'adresse email à restaurer"
+/>
+
+Ensuite, il faut sélectionner la date de la sauvegarde en cliquant sur le bouton **Choose Other Backup**. Le bouton
+**Choose Other Backup** changera et se transformera en menu de sélection.
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-selection-date-sauvegarde-email.png"
+    title="Sélection de la date de sauvegarde du compte mail à restaurer"
+    caption="Sélection de la date de sauvegarde à restaurer pour le compte email"
+    alt="Capture d'écran de l'outil de sauvegarde à l'étape de sélection de la date de la sauvegarde"
+/>
+
+Puis, lorsque la sélection est effectuée, il faut cliquer sur le bouton **Restore**.
+
+À noter qu'on peut également cliquer sur le bouton **Download**. Dans ce cas, rien n'est restauré et l'outil
+vous proposera de télécharger une archive du compte email à la place.
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-restauration-adresse-email.png"
+    title="Lancement de la restauration d'une adresse email"
+    caption="Lancement de la restauration d'un compte email"
+    alt="Capture d'écran de l'outil de sauvegarde au lancement d'une restauration d'un compte mail"
+/>
+
+Un dernier message de confirmation s'affichera, puis la restauration commencera.
+
+Le compte email sera écrasé par la sauvegarde.
+
+N'oubliez pas d'enlever les restrictions emails, en retournant dans cPanel > Comptes de messageries > Gérer
+puis en décochant les deux cases des restrictions de connexions et de réception de mail.
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-mail-unsuspend.png"
+    title="Débloquer l'activité email après la restauration"
+    caption="Il faut débloquer l'activité email après la restauration"
+    alt="Capture d'écran de l'outil Compte de messagerie pour débloquer l'activité email du compte après la restauration"
+/>
+
+
+### Consulter la file d'attente des opérations
+
+Vous pouvez consulter la file d'attente des opérations en attente/cours de traitement en allant dans Jetbackup
+puis en cliquant sur **Queue**.
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-file-attente.png"
+    title="Accès à la file d'attente des opérations"
+    caption="En cliquant sur Queue, vous accéderez à la file d'attente des opérations Jetbackup"
+    alt="Accès à la file d'attente de Jetbackup"
+/>
+
+La file d'attente des opérations s'affichera. Vous retrouverez les opérations récentes de restauration/téléchargement
+ainsi que les opérations en attente d'exécution.
+
+Malheureusement l'outil ne fourni pas beaucoup d'éléments, vous avez uniquement le status des opérations
+(en attente, en cours, complété) et le type de job (restauration, téléchargement).
+
+Il n'y a pas d'estimation du temps de restauration par exemple.
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-jobs.png"
+    title="File d'attente des opérations Jetbackup"
+    caption="File d'attente des opérations JetBackup"
+    alt="File d'attente jetbackup"
+/>
+
+## Comment restaurer un site internet complet ?
+
+Dans cette partie, nous allons voir comment faire pour **restaurer la sauvegarde d'un site internet complet**.
+Généralement un site internet est constitué de deux choses :
+
+  * **Des fichiers** : il faudra donc utiliser l'outil **Home Directory** de Jetbackup pour restaurer cette partie-là
+  * **Une base de données** : il faudra donc utiliser l'outil **Databases** pour restaurer cela. Certains sites peuvent ne pas avoir de bases de données associés mais cela reste assez rare (sites statiques)
+
+Partant de là, si on n'est pas très technique, on peut se poser plusieurs questions :
+  * Comment je trouve **quels sont les fichiers à restaurer** pour mon site internet ?\
+Je ne sais pas forcément ou se trouve les fichiers de mon site sur mon hébergement.
+  * Comment je trouve **quelle est la base de données à restaurer** pour mon site internet ?\
+Mon site utilise probablement une base de données mais je ne sais pas laquelle. Je vois plusieurs bases de données dans l'outil base de données mysql de cPanel. Elles ont toutes des noms bizarres, comment puis-je faire la correspondance site ⇔ base de données ?
+
+### Trouver dans quel dossier se trouve le site
+
+Première étape, trouver ou retrouver dans quel dossier se trouve le site internet à restaurer, car cela sera nécessaire lors de la sélection du dossier à restaurer plus tard.
+
+Il y a plusieurs cas :
+  * Le site à restaurer correspond au domaine que j'ai demandé en **offert avec l'hébergement** : dans ce cas, il se situe dans le dossier `public_html`
+  * Il s'agit d'un domaine que j'ai configuré avec l'outil **[domaines configurés](/cpanel/domaines/configuration-domaine)** dans cPanel : dans ce cas, il faut aller vérifier dans l'outil [domaines configurés](/cpanel/domaines/configuration-domaine) en suivant la procédure ci-dessous
+  * Il s'agit d'un sous domaine que j'ai créé avec l'outil **[sous-domaine](/cpanel/domaines/configuration-sous-domaine)** de cPanel : dans ce cas, il faut aller vérifier dans l'outil [sous domaine](/cpanel/domaines/configuration-sous-domaine) en suivant la procédure ci-dessous
+
+Dans le cas d'un domaine configuré avec l'un des outils suivants : [domaines configurés](/cpanel/domaines/configuration-domaine ou [sous-domaine](/cpanel/domaines/configuration-sous-domaine)
+
+Il faut commencer par aller dans l'outil en question. Une liste des domaines s'affichera avec une colonne racine du document.
+Cela correspond au dossier dans lequel se trouve le site, c'est ce qu'il faut retenir ou noter pour plus tard !
+
+<Image
+    src="/img/docs/cpanel/fichiers/jetbackup-trouver-fichier.png"
+    title="Trouver le dossier associé à un site internet"
+    caption="Retrouver dans quel dossier de l'hébergement se trouve un site internet"
+    alt="Retrouver le répertoire associé à un site internet"
+/>
+
+### Trouver la base de données liée au site
+
+A présent, il faut retrouver **quelle est la base de données qui liée au site internet**, car on devra choisir la
+bonne base de données à restaurer dans les étapes suivantes !
+
+Pour retrouver la base de données liée à un site internet, l'idée est d'ouvrir le fichier de configuration du site
+internet puis d'aller regarder la configuration qui est en place pour la base de données.
+Il y aura forcément le nom de la base de données qui s'affichera.
+
+Le problème étant que d'un site à l'autre, le nom et l'emplacement du fichier de configuration change.
+
+Voici une liste pour les CMS les plus courants.
+
+#### WordPress
+
+Pour WordPress, il faut chercher un fichier `wp-config.php` qui se trouve à la racine du site internet
+(cf. étape précédente pour trouver la racine du site si besoin).
+
+Dans le fichier, il faut rechercher une ligne avec `DB_NAME` qui contient le nom de la base de données.
+
+#### Prestashop
+Pour PrestaShop, ça dépend de la version du site :
+  * pour les versions 1.6 et inférieures, il faut regarder dans `config/settings.inc.php` et rechercher une ligne avec `_DB_NAME_`
+  * pour les versions plus récentes, comme la 1.7+, il faut regarder dans `app/config/parameters.php` et rechercher une ligne avec `database_name`
+
+#### Joomla
+
+Pour Joomla, il faut ouvrir le fichier `configuration.php` et rechercher une ligne avec `$db`.
+
+#### Moodle
+
+Pour Moodle, il faut ouvrir le fichier `config.php` et recherche une ligne avec `$CFG→dbname`.
+
+### Restaurer la copie du dossier du site
+
+Supposant que les étapes précédentes ont été réalisés et que vous connaissez le dossier qui est lié au site internet,
+il faut lancer la restauration des fichiers. Pour cela, il faut :
+  1. Aller dans l'outil JetBackup
+  2. Cliquer sur **Home Directory**
+  3. Cliquer sur la ligne de la date qui nous intéresse de restaurer
+  4. Cliquer sur sur **Changes Files Selection** puis sélectionner le dossier qui correspond au site internet et valider la sélection
+  5. Cliquer sur **Restore**
+  6. Valider une nouvelle fois dans la popup qui s'affiche
+  7. La restauration commence, cela peut prendre du temps, vous pouvez suivre la progression dans l'outil **Queue**
+
+### Restaurer la copie de la base de données
+
+A présent, il faut restaurer une copie de la base de données qui est lié au site internet. Pour cela, il faut :
+
+  1. Se rendre dans Jetbackup
+  2. Cliquer sur **Databases**
+  3. Cliquer sur la ligne avec la base de données qui nous intéresse de restaurer
+  4. Cliquer sur **Choose Other backup** puis choisir la date de la sauvegarde souhaité
+  5. Cliquer sur **Restore**
+  6. Valider une nouvelle fois dans la popup qui s'affiche
+  7. La restauration commence, cela peut prendre du temps, vous pouvez suivre la progression dans l'outil **Queue**
+
+### Vérifications et ajustements
+
+Dans 90% des cas, le site devrait revenir en place suite à la restauration des fichiers et de la base de données.
+
+Dans le cas ou tout ne fonctionne pas comment prévu, voici quelque pistes à vérifier :
+  * Est-ce qu'il existe un utilisateur mysql liée à la base de données ?\
+Est-ce que l'utilisateur mysql a les droits sur la base de données ?\
+On peut vérifier cela avec l'[outil base de données mysql](/cpanel/bases-de-donnees/mysql), un utilisateur devrait s'afficher devant la base de données dans le tableau récapitulatif.
+  * Est-ce que le mot de passe de l'utilisateur MySQL est bien valide ? Si besoin, on peut le forcer avec l'[outil base de données mysql](/cpanel/bases-de-donnees/mysql)
+  * Est-ce que j'utilise la même version de PHP qu'auparavant ? On peut le vérifier/changer depuis le [sélecteur de version de PHP](/cpanel/logiciels/hebergement-php-multi-version).
