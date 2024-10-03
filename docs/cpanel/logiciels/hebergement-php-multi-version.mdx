@@ -1,0 +1,173 @@
+---
+title: Sélectionner une version de PHP
+sidebar_label: PHP
+description: 'L'outil sélectionner une version de PHP permet de configurer votre environnement PHP : choix de la version, des modules chargés, php.ini'
+image: /img/docs/tools/lvephpsel.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - php
+  - php.ini
+---
+
+# Sélectionner une version de PHP
+
+L'outil **sélectionner une version de PHP** (select php version) permet de modifier l'environnement PHP de votre
+[hébergement mutualisé cPanel](https://www.o2switch.fr/hebergement-illimite/). Plusieurs configurations sont possibles :
+  * Vous pouvez **changer la version de PHP**, vous avez le choix entre *PHP 4.4, PHP 5.1, PHP 5.2, PHP 5.3, PHP 5.4,
+PHP 5.5, PHP 5.6, PHP 7, PHP 7.1, PHP 7.2, PHP 7.3, PHP 7.4, PHP 8.0, PHP 8.1, PHP 8.2 et PHP 8.3*
+(mis à jour le 03/10/2024)
+  * Vous pouvez **changer les modules PHP chargés**, vous pouvez activer des modules ou en désactiver
+  * Vous pouvez **changer la configuration du php.ini**, pour forcer l'affichage des erreurs ou augmenter la mémoire par
+script PHP par exemple
+
+L'offre d'hébergement o2switch supporte également d'autres langages comme [NodeJS, Python et Ruby](/questions/langages-supportes-php-node-ruby-python).
+
+<PreviewToolCard tool='lvephpsel' />
+
+## Tutoriel vidéo
+
+Dans ce tutoriel vidéo, nous voyons comment changer l'environnement de PHP sur l'espace d'hébergement.
+
+<YoutubeVideo id='Ybbo2AL9xag' title="Comment modifier l'environnement et la version de PHP ?"/>
+
+## Modifier l'environnement PHP
+
+L'outil de sélection de version de PHP permet de changer la version de PHP utilisé sur votre hébergement, les modules
+PHP chargés et la configuration php.ini.
+
+### Version native de PHP
+
+La version dîte **native** de PHP est la version de PHP présente **par défaut** sur l'hébergement.
+
+Cette version de PHP est susceptible **d'évoluer dans le temps**. À cet instant, la version native de PHP est **PHP 8.1**.
+Mais dans les mois à venir, la version native peut évoluer vers PHP 8.2 ou plus.
+
+La version native n'évolue pas fréquemment. Le rythme de changement est de 1 fois par an uo tous les 2 ans en fonction
+des préconisations de PHP et des évolutions dans le langage.
+
+Si vous avez besoin de rester bloqué sur une version précise de PHP, alors il faut choisir une version **non native**.
+Vous pouvez décider de choisir **PHP 8.1 non natif** et ainsi, vous restez toujours sur cette version de PHP. La version
+de PHP activé sur l'hébergement ne sera pas impacté par les mises à jour que réalise o2switch.
+
+Si vous souhaitez être en mesure de changer les modules PHP chargés et la configuration php.ini, il est nécessaire de
+basculer sur une version **non native**.
+
+En résumé, la version native, c'est configuration par défaut de PHP de l'hébergement. Si vous avez besoin de
+personnaliser PHP, il faut passer sur une version non native.
+
+### Changer la version de PHP
+
+Par défaut, le sélecteur de PHP est situé sur la version **native**. Cela indique que ça utilise la configuration par
+défaut du serveur, que nous avons mis en place.
+
+Pour personnaliser PHP, il faut commencer par sélectionner une version non native, par exemple PHP 8.3, puis valider
+le choix en cliquant sur **Apply**.
+
+En validant ce choix, un tableau avec la liste des extensions possibles apparaît et un lien **Options** apparaît
+également.
+
+Certaines extensions sont cochées par défaut, il est recommandé de le laisser, ce sont les extensions de base, celles
+qui sont indispensables au bon fonctionnement de la plupart des scripts.
+
+<Image
+    src="/img/docs/cpanel/logiciels/php-selecteur-version.png"
+    alt="Capture d'écran de l'outil permettant de sélectionner la version de PHP sur un hébergement o2switch"
+    caption="Après avoir sélectionné une version non native de PHP, nous pouvons personnaliser l'environnement PHP"
+    title="Capture d'écran de l'outil de sélection de version de PHP" />
+
+L'outil de changement de version de PHP contient plusieurs zones intéressantes.
+
+<span className="">A</span>  L'onglet **Extension** permet de charger/décharger des modules PHP.
+
+<span className="">B</span>  L'onglet **Options** permet d'accéder à l'outil permettant de modifier certains réglages
+PHP. La partie **Options** permet de modifier le `php.ini`
+
+<span className="">C</span>  Le bouton **Reset to default** permet de rétablir les réglages par défaut. En cas d'erreurs,
+ça permet de revenir sur la configuration de base de l'hébergement.
+
+<span className="">D</span>  Dans le menu déroulant s'affiche la version de PHP courante / ou la version de PHP
+sélectionné dans le cadre d'un changement de version.
+
+À cet instant les versions suivantes de PHP sont proposées : PHP 4.4, PHP 5.1, PHP 5.2, PHP 5.3, PHP 5.4, PHP 5.5,
+PHP 5.6, PHP 7, PHP 7.1, PHP 7.2, PHP 7.3, PHP 7.4, PHP 8.0, PHP 8.1, PHP 8.2 et PHP 8.3 (mis à jour le 03/10/2024)
+
+<span className="">E</span>  Le bouton **Apply** permet de valider les changements dans la version de PHP ou dans la
+liste des modules PHP chargés. Lorsque le bouton s'affiche, cela signifie qu'il y a un réglage en attente qui n'a pas
+été enregistré. Lorsque tout est enregistré, le bouton disparait.
+
+<span className="">F</span>  Vous pouvez cocher/décocher des module PHP librement. Attention, cela peut avoir un impact
+sur vos sites internet, ne désactivez pas des modules sans savoir à quoi ils correspondent. Certains modules comme MySQL
+ou PDO sont nécessaires au fonctionnement de la majorité des sites internet.
+
+### Changer la configuration PHP php.ini
+
+Après avoir changé la version de PHP vers une version **non native**, vous pouvez cliquer sur l'onglet **Options**
+pour ouvrir l'outil permettant de modifier le php.ini.
+
+<Image
+    src="/img/docs/cpanel/logiciels/php-changer-phpini.png"
+    alt="Capture d'écran de l'outil permettant de changer le php.ini de PHP sur un hébergement o2switch"
+    caption="Après avoir sélectionné une version non native de PHP,nous pouvons changer le php.ini"
+    title="Capture d'écran de l'outil permettant de changer le php.ini" />
+
+Les options de personnalisations du `php.ini` sont limitées, vous n'avez pas la possibilité de tout modifier. Mais vous
+pouvez changer les options les plus courantes, par exemple (non exhaustif) :
+  * **display_errors** : permet l'affichage ou non des erreurs PHP (off par défaut)
+  * **max_execution_time** : temps d'exécution max d'un script PHP
+  * **memory_limit** : mémoire max allouée pour chaque processus PHP
+  * **post_max_size** et **upload_max_filesize** : permettent d'augmenter la taille des fichiers envoyés via PHP (upload http)
+
+Ces modifications sont très rapides à être effectives, la prise en compte est quasi-immédiate. Vous pouvez vérifier très
+simplement si vos modifications sont prises en compte en plaçant à la racine de votre site un fichier `info.php` avec ce code :
+
+```php title="info.php"
+<?php
+phpinfo();
+```
+
+En vous rendant sur la page `info.php` avec un navigateur web, la configuration PHP s'affichera. Pensez à bien supprimer ce
+fichier info.php une fois vos tests terminés.
+
+## Usages avancés
+
+### Chemins vers les différentes versions des exécutables
+
+Plusieurs versions de PHP sont proposées, il est parfois nécessaire de connaitre le chemin vers les différentes
+versions des exécutables, notamment lorsque PHP est utilisé comme une commande CLI (par exemple dans une tâche cron).
+
+Pour un exemple d'utilisation, voir le  [tutoriel sur la modification du $PATH](/questions/langages-supportes-php-node-ruby-python)
+
+```bash title="Chemin vers les exécutables de PHP"
+/opt/alt/php44/usr/bin/php
+/opt/alt/php51/usr/bin/php
+/opt/alt/php52/usr/bin/php
+/opt/alt/php53/usr/bin/php
+/opt/alt/php54/usr/bin/php
+/opt/alt/php55/usr/bin/php
+/opt/alt/php56/usr/bin/php
+/opt/alt/php70/usr/bin/php
+/opt/alt/php71/usr/bin/php
+/opt/alt/php72/usr/bin/php
+/opt/alt/php73/usr/bin/php
+/opt/alt/php74/usr/bin/php
+/opt/alt/php80/usr/bin/php
+/opt/alt/php81/usr/bin/php
+/opt/alt/php82/usr/bin/php
+/opt/alt/php83/usr/bin/php
+```
+
+## Erreurs courantes
+
+
+Si vos modifications ne sont pas prises en comptes, ça vient généralement de l'une de ces trois raisons :
+  * vous avez mal validé votre version de PHP avec le bouton **Apply**. C'est très fréquent comme erreur, pensez à le vérifier même si cela paraît simple.
+  * vous avez des règles dans votre fichier `.htaccess` qui tente de redéfinir la version de PHP.
+Cela arrive souvent lorsqu'il y a une migration d'un hébergeur à l'autre. Chaque hébergeur à sa méthode pour traiter les versions et la configuration de PHP.
+Ce que vous avez dans votre fichier .htaccess (addHandler, addType etc...) peut causer des conflits avec votre hébergement. Dans ce cas, il faut supprimer les lignes concernées ou mettre un # devant pour les neutraliser.
+  * vous avez un fichier `php.ini` à la racine de votre site. Cela entre en conflit avec le fonctionnement du sélecteur de versions de PHP, il faut désactiver ce php.ini en supprimant le fichier ou en le renommant.
+  * pour des versions de PHP inférieures à PHP 7, pensez à cocher le module **mysql** dans la liste des extensions, ce dernier ne sera pas coché par défaut (car supprimé depuis PHP 7)
+
+

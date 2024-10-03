@@ -74,7 +74,7 @@ comme react.js, il y a une étape de construction des assets avec `npm run build
 
 Enfin, pour résumer :
   * si vous cherchez à déployer un projet conçu avec une **technologie frontend, alors il ne faut pas utiliser cet outil
-nodeJS**. À la place, il faut regarder : [comment utiliser les commandes node et npm de l'hébergement](/guides/utiliser-binaire-nodejs-npm-yarn).
+nodeJS**. À la place, il faut regarder : [comment utiliser les commandes node et npm de l'hébergement](/guides/nodejs/utiliser-binaire-nodejs-npm-yarn).
   * si vous cherchez à déployer un projet backend, avec le code qui est exécuté sur le serveur o2switch, qui retourne
 des réponses HTTP, alors il faut bien utiliser l'outil nodeJS. Attention cependant, dans votre projet backend, vous
 aurez peut-être des fichiers frontend. Dans ce cas, il faut bien faire la distinction entre les deux !
@@ -84,14 +84,14 @@ Si vous avez besoin de déployer une application Javascript frontend, qui néces
 dans le processus de mise en ligne alors, il ne faut pas utiliser cet outil nodeJS. À la place, vous pouvez regarder les
 pages suivantes :
 
-[Comment déployer une application ReactJS](/guides/application-reactjs)
+[Comment déployer une application ReactJS](/guides/nodejs/application-reactjs)
 :::
 
 :::info Vous avez juste besoin des commandes exécutables node et npm ?
 Si vous avez juste besoin des exécutables `node` et `npm`, par exemple pour installer les dépendances d'un projet
 (qui n'est pas forcément un projet nodeJS complet), vous pouvez regarder :
 
-[Comment utiliser les commandes node et npm sur l'hébergment o2switch ?](/guides/utiliser-binaire-nodejs-npm-yarn)
+[Comment utiliser les commandes node et npm sur l'hébergment o2switch ?](/guides/nodejs/utiliser-binaire-nodejs-npm-yarn)
 
 Il n'est pas nécessaire de créer un projet nodeJS avec l'outil **setup nodejs app** si vous avez juste besoin des exécutables node et npm.
 :::
@@ -291,7 +291,7 @@ Ensuite, il faut se connecter en SSH sur l'hébergement puis copier/coller cette
 l'environnement virtuel nodeJS créé par l'outil.
 
 :::tip
-Il est préférable de se connecter en SSH avec un vrai [client SSH](/guides/webmastering/connexio-ssh) plutôt qu'avec
+Il est préférable de se connecter en SSH avec un vrai [client SSH](/guides/webmastering/connexion-ssh) plutôt qu'avec
 [l'outil Terminal](/cpanel/outils-avances/terminal-ssh-web) intégré dans cPanel.
 
 L'outil Terminal est pratique pour dépanner, mais il a des restrictions supplémentaires sur la mémoire / nombre de
@@ -468,10 +468,10 @@ autre chose, comme un bot par exemple. \
 Dans ce cas, vous pouvez utiliser l'outil **setup nodejs app** pour créer l'environnement virtuel node, gérer vos
 dépendances, mais il ne faudra pas lancer l'application à partir de l'outil car c'est uniquement prévu pour une
 application web. Il faudra lancer votre application manuellement et prévoir un mécanisme de relance automatique si le
-processus meurt (via une [cron](cpanel/outils-avances/tache-planifiee-cron) par exemple)
+processus meurt (via une [cron](/cpanel/outils-avances/tache-planifiee-cron) par exemple)
 
 Dès que l'appel à `listen()` est fait, PhusionPassenger va automatiquement faire en sorte que l'application n'écoute
-pas sur un port classique mais va forcer l'utilisation d'une `Socket Unix` à la place. Cela évitera tout conflit de port
+pas sur un port classique, mais va forcer l'utilisation d'une `Socket Unix` à la place. Cela évitera tout conflit de port
 déjà utilisé.
 
 En résumé, le paramètre que vous passez à la fonction `listen()` de votre application est totalement ignoré.  C'est
@@ -542,7 +542,7 @@ Les erreurs sont également loguées dans l'outil [erreurs](/cpanel/mesures/erre
 ### Erreur de mémoire ou processus Node/NPM
 
 L'outil terminal dans cPanel à quelques restrictions supplémentaires sur le nombre de processus qu'il est possible de
-lancer ainsi que l'utilisation mémoire, comparé à un client SSH conventionnel comme PuTTy.
+lancer ainsi que l'utilisation mémoire, comparé à un [client SSH conventionnel](/guides/webmastering/connexion-ssh) comme PuTTy.
 
 Par conséquent, cela peut générer des erreurs wasm memory, fork failed ou out of memory comme sur la capture
 d'écran ci-dessous.
