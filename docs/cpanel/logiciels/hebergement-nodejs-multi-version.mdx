@@ -1,0 +1,648 @@
+---
+title: Déployer une application NodeJS sur un hébergement o2switch
+sidebar_label: NodeJS
+description: L'outil Setup NodeJs App vous permet de créer un environnement virtuel NodeJS personnalisé pour déployer une application web NodeJS
+image: /img/docs/tools/lvenodejssel.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - nodejs
+  - ghost
+  - npm
+---
+
+# Déployer une application NodeJS sur un hébergement o2switch
+
+L'outil **Setup Node.js App** permet de déployer une application web conçue avec **nodeJS**. L'outil vous permet de
+créer un **projet NodeJS**, il permet de :
+  * Choisir la **version de NodeJS** que va utiliser votre projet.\
+A cet instant, les versions 6, 8, 9, 10, 11, 12, 14, 16, 18, 20 et 22 de NodeJS sont proposées (mis à jour le 03/10/2024)
+  * Faire le lien entre un de vos noms de domaines et votre application.\
+En arrière-plan, l'outil utilise [Phusion Passenger](https://www.phusionpassenger.com/docs/tutorials/what_is_passenger/) pour faire cela.
+  * **Installer vos dépendances** à partir de l'outil (qui va utiliser NPM pour cela)
+  * Un **environnement NodeJS** va être créé, avec la version de votre choix. Une commande sera donné permettant d'entrer dans cet environnement pour travailler en SSH
+
+Pour faire simple, c'est l'outil à utiliser si vous souhaitez **installer une application web conçue avec NodeJS sur un hébergement web o2switch**.
+
+L'offre d'hébergement est également un espace d'[hébergement NodeJS](https://www.o2switch.fr/hebergement-illimite/),
+multi-versions. L'offre o2switch supporte d'autres [langages comme PHP, Python et Ruby](/questions/langages-supportes-php-node-ruby-python).
+
+<PreviewToolCard tool='lvenodejssel' />
+
+## Différence entre frontend et backend
+
+Lorsqu'il s'agit de déployer des applications qui utilisent le langage Javascript, il y a souvent des confusions entre
+la manière de déployer une application `frontend` et une application `backend`.
+
+Une application `frontend` sera une application ou le code Javascript est exécuté côté client, dans le navigateur web.
+Plus grossièrement, ça correspond à la mise en page, à l'agencement du site, la mise en forme.
+
+Une application `backend` est une application dans laquelle le code Javascript est exécuté côté serveur (sur
+l'hébergement o2switch), avec un serveur `node`. Dans ce cas, l'application Javascript serveur sert à retourner des
+réponses HTTP.
+
+Une conséquence de cette confusion entre `backend` et `frontend` est d'essayer de déployer une application frontend
+avec des outils conçus pour une application backend (et inversement).
+
+La confusion vient du fait que les exécutables `node` et `npm` sont à la fois utilisées dans des projets `frontend` et
+des projets `backend`.
+
+Cependant, ce n'est **pas utilisé de la même manière**. Il faut différencier les deux usages, c'est-à-dire :
+  * nodeJS exécuté sur le serveur, sur l'hébergement o2switch, pour mettre à disposition une application backend
+(une application qui retourne des réponses HTTP)
+  * les commandes `node` et `npm` utilisées comme des outils à part entière, permettant d'installer des dépendances ou
+générer les fichiers d'un projet frontend. Par exemple `npm install` et `npm run build`
+
+Une autre explication sur cette confusion est que lors du développement d'une application frontend, il est généralement
+coutûme de lancer un micro-serveur web nodeJS qui permet de développer plus rapidement son application.
+Par exemple avec une commande comme `npm start`, qui va lancer un micro-serveur sur `localhost:8000` par exemple.
+
+Lorsqu'il arrive le moment de déployer cette application frontend en production, il ne faut pas faire la même chose que
+lors du v. Autrement dit, ça ne se déploie pas avec `npm start`.
+
+Généralement, il faut plutôt générer des fichiers html/javascript/css qui seront interprétable avec un navigateur web
+avec la commande `npm run build`.
+
+Cela signifie, qu'en plus de différencier des applications de type frontend/backend, il faut également différencier les
+procédures à utiliser :
+  * lorsque vous développez. Dans ce cas, il est acceptable de lancer un micro-serveur web de développement avec
+`npm start` ou similaire.
+  * lorsqu'il s'agit de mettre en ligne le site en mode production. Dans le cas d'une application frontend,
+comme react.js, il y a une étape de construction des assets avec `npm run build`.
+
+Enfin, pour résumer :
+  * si vous cherchez à déployer un projet conçu avec une **technologie frontend, alors il ne faut pas utiliser cet outil
+nodeJS**. À la place, il faut regarder : [comment utiliser les commandes node et npm de l'hébergement](/guides/utiliser-binaire-nodejs-npm-yarn).
+  * si vous cherchez à déployer un projet backend, avec le code qui est exécuté sur le serveur o2switch, qui retourne
+des réponses HTTP, alors il faut bien utiliser l'outil nodeJS. Attention cependant, dans votre projet backend, vous
+aurez peut-être des fichiers frontend. Dans ce cas, il faut bien faire la distinction entre les deux !
+
+:::info Besoin de déployer une application Frontend ? Par exemple React.js ?
+Si vous avez besoin de déployer une application Javascript frontend, qui nécessite des commandes comme `node` et `npm`
+dans le processus de mise en ligne alors, il ne faut pas utiliser cet outil nodeJS. À la place, vous pouvez regarder les
+pages suivantes :
+
+[Comment déployer une application ReactJS](/guides/application-reactjs)
+:::
+
+:::info Vous avez juste besoin des commandes exécutables node et npm ?
+Si vous avez juste besoin des exécutables `node` et `npm`, par exemple pour installer les dépendances d'un projet
+(qui n'est pas forcément un projet nodeJS complet), vous pouvez regarder :
+
+[Comment utiliser les commandes node et npm sur l'hébergment o2switch ?](/guides/utiliser-binaire-nodejs-npm-yarn)
+
+Il n'est pas nécessaire de créer un projet nodeJS avec l'outil **setup nodejs app** si vous avez juste besoin des exécutables node et npm.
+:::
+
+## Outil Setup NodeJS App
+
+L'outil **Setup nodeJS app** contient trois pages essentielles :
+  * La page d'accueil de l'outil va lister les applications nodeJS qui sont déjà déployées sur l'hébergement
+  * La page de création va permettre de créer une nouvelle application et environnement nodeJS
+  * Enfin, il y a la page d'édition et de gestion des applications nodeJS déjà déployées
+
+### Liste des applications NodeJS déployées
+
+Sur la page d'accueil de l'outil, vous retrouverez la **liste de vos projets nodeJS** ainsi que le bouton de
+**création d'un nouveau projet nodejs**.
+
+<Image
+    src="/img/docs/cpanel/logiciels/o2switch-nodejs-liste-projet.png"
+    alt="Capture d'écran des projets nodeJS créés sur l'hébergement"
+    caption="Liste des projets nodeJS déployés sur l'hébergement"
+    title="Capture d'écran de l'outil Setup NodeJS App avec la liste des projets créés" />
+
+<span className='badge badge--danger'>1</span> <FAIcon icon="fa-solid fa-plus" size="1x" /> Le premier bouton
+**Create Application** lance l'assistant de création d'un nouveau projet nodeJS (détaillé plus loin)
+
+<span className='badge badge--danger'>2</span> La colonne **App URI** indique sur quel nom de domaine / URL est déployé
+le projet nodeJS
+
+<span className='badge badge--danger'>3</span> **App Root Directory** indique dans quel dossier se trouve les sources
+nodeJS du projet. C'est le dossier qui contient le code de l'application
+
+<span className='badge badge--danger'>4</span> **Status** indique si le projet de lancé ou stoppé. Contrairement à une
+application PHP par exemple, un projet nodeJS doit être lancé et peut être stoppé
+
+<span className='badge badge--danger'>5</span> <FAIcon icon="fa-solid fa-stop" size="1x" /> c'est le bouton pour stopper l'application
+
+<span className='badge badge--danger'>6</span> <FAIcon icon="fa-solid fa-refresh" size="1x" /> est le bouton permettant de relancer totalement
+l'application
+
+<span className='badge badge--danger'>7</span> <FAIcon icon="fa-solid fa-edit" size="1x" /> est le bouton permettant d'éditer une application,
+cela rouvre l'assistant de création d'une application node et permet de changer les configurations
+
+<span className='badge badge--danger'>8</span> <FAIcon icon="fa-solid fa-trash" size="1x" /> est le bouton permettant de supprimer l'application
+
+### Ajout d'une nouvelle application NodeJS
+
+L'écran suivant est le formulaire de **création d'une application nodeJS** qui s'affiche après avoir cliqué sur
+**Create Application**.
+
+<Image
+    src="/img/docs/cpanel/logiciels/creation-application-nodejs-o2switch.png"
+    alt="Capture d'écran de l'outil de déploiement d'une application nodeJS"
+    caption="Déploiement d'une application NodeJS avec l'outil Setup NodeJS App"
+    title="Déploiement d'une application nodeJS sur un hébergement o2switch" />
+
+  - **Create** : valide la création de l'application, à utiliser après avoir rempli le formulaire.
+  - **Node.js version** : permet de **choisir la version de nodeJS** que va utiliser votre projet.\
+Vous avez le choix entre les versions 6, 8, 9, 10, 11, 12, 14, 16, 18, 20 et 22 (à l'heure de la rédaction de cette page)
+  - **Application mode** : permet de choisir entre le mode de développement et le mode de production. Va remplir la
+variable `NODE_ENV`.
+  - **Application root** : il s'agit du dossier dans lequel se trouve les sources de votre application node. Généralement,
+il s'agit d'un dossier à créer à la racine de l'hébergement (recommandé). Ce dossier n'est pas forcément le même dossier
+que le dossier dans lequel va pointer le nom de domaine !
+  - **Application URL** : permet de définir l'url de l'application, en choisissant le domaine sur lequel l'application va
+répondre et le sous dossier dans lequel cela va être installé (peut être vide pour une application installé directement
+sur le nom de domaine)
+  - **Application startup file** : il faut définir le fichier `.js` qui sert à lancer l'application. Ce fichier doit être
+présent dans le dossier défini dans **Application Root**. Il s'agit souvent d'un fichier `server.js`
+  - **Passenger log file** : il s'agit du fichier de log que va créer
+[Phusion Passenger](https://www.phusionpassenger.com/docs/tutorials/what_is_passenger/), qui est le moteur d'exécution
+de nodeJS utilisé sur l'hébergement. Utile pour le débug.
+  - **Add Variable** permet de créer des variables d'environnements, vous pouvez passer des paramètres à votre application
+de cette manière-là
+
+:::info Application root et document root du nom de domaine
+Le dossier `Application root` du projet nodeJS est le dossier qui contient les fichiers sources de l'application nodeJS.
+Généralement, il s'agit d'un dossier à créer à la racine de l'hébergement, c'est ce qui est recommandé.
+
+Il ne faut pas confondre ce dossier là avec le `document root` ou la `racine du document` du nom de domaine. Il s'agit
+du dossier dans lequel pointe le nom de domaine. L'application nodeJS peut être dans un dossier différent du domaine !
+
+Exemple : l'application nodeJS se trouve dans `/mon-application-node` et le nom de domaine associé à cette application
+peut pointer dans `/mon-domaine.tld`. A la racine du dossier `/mon-domaine.tld`, l'outil **setup nodejs app** va créer
+un `.htaccess` permettant de faire le lien entre l'application nodeJS et le nom de domaine. Les sources de l'application
+n'ont pas besoin de se trouver dans le dossier du domaine, il faut même éviter cela ! (les sources pouvant être
+accessibles et télécharger librement lorsque l'application est stoppée !)
+:::
+
+### Gestion d'une application NodeJS déjà déployée
+
+L'écran suivant de l'application est accessible en cliquant sur le bouton en forme de crayon visible sur la page 
+d'accueil de l'outil, cela permet d'**éditer une application existante**.
+
+<Image
+    src="/img/docs/cpanel/logiciels/creation-application-nodejs-o2switch.png"
+    alt="Capture d'écran de l'outil nodeJS montrant comment éditer une application existante"
+    caption="Formulaire d'édition d'une application nodeJS qui est déjà déployée"
+    title="Edition d'une application nodejs existante" />
+
+Dans l'ordre, voici le détail de chaque option :
+  - **Destroy** permet de supprimer l'application
+  - **Save** permet d'enregistrer les changements que vous avez effectués
+  - **Source** la commande commençant par `source` est très importante. Si vous travaillez en SSH, il faut lancer cette
+commande pour **entrer dans votre environnement NodeJS**. Si vous ne lancez pas cette commande, vous ne serez pas
+**dans** votre environnement nodeJS et par conséquent les commandes comme `node` ou `npm` ne seront pas trouvées.
+  - **Stop App** permet d'arrêter l'application
+  - **Restart** permet de relancer l'application, utile si vous faites des modifications sur votre application, un restart
+sera nécessaire
+  - **Node.js version** permet de choisir/changer la version de NodeJS que votre projet utilise
+  - **Application mode** permet de passer l'application en mode de développement ou en mode de production
+  - **Application root** correspond au chemin dans lequel se trouve les fichiers sources de votre application node.
+Généralement cela correspond à un dossier à la racine de votre hébergement. Ce dossier-là est souvent différent du
+dossier avec lequel peut être associé le nom de domaine.
+  - **Application URL** permet de choisir sur quelle URL répondra l'application
+  - **Application startup file` est le fichier, contenu dans le dossier défini par le `Application root` qui permet de
+lancer l'application. Il s'agit souvent d'un fichier `server.js` ou `index.js`
+  - **Passenger log file** est le chemin vers le fichier de log que va utiliser
+[Phusion Passenger](https://www.phusionpassenger.com/docs/tutorials/what_is_passenger/) qui correspond à la technologie
+utilisée pour proposer nodeJS en contexte mutualisé
+  - **Detected configuration files** : détecte les fichiers de configuration à la racine de votre projet nodeJS
+(`package.json`) et lance `npm` pour installer les dépendances
+  - **Add Variable** vous permet de passer des variables d'environnement à votre application, pour passer la configuration
+par exemple
+
+## Exemple de déploiement : Ghost
+
+Pour prendre un exemple concret et montrer comment déployer une application nodejs, nous allons installer
+l'application [Ghost](https://ghost.org/) avec l'outil Setup NodeJS App.
+
+On va suivre la [documentation officielle](https://ghost.org/docs/install/local/) de Ghost et installer Ghost en
+utilisant l'utilitaire `ghost-cli`
+
+### Création de l'environnement virtuel NodeJS
+
+La première chose à faire est donc de créer un environnement NodeJS afin que nous puissions installer `ghost-cli` et
+ensuite l'utiliser pour installer Ghost.
+
+Pour cette raison, nous devons créer un environnement NodeJS vide, afin d'avoir accès aux commandes NodeJS et NPM
+nécessaires pour installer `ghost-cli`.
+
+Nous allons utiliser la version 20 de NodeJS. A l'heure de la rédaction de cet article, Ghost ne semble pas être
+compatible avec la version 22, le processus d'installation échoue. Il est probable que cela évolue à l'avenir,
+vous pouvez consulter les [versions de NodeJS supportés par Ghost sur le site de l'éditeur](https://ghost.org/docs/faq/node-versions/).
+
+On commence par cliquer sur **Create Application** pour créer un nouveau projet NodeJS.
+
+<Image
+    src="/img/docs/cpanel/logiciels/nodejs-ghost-creation-app.png"
+    alt="Capture d'écran de l'outil NodeJS pour la création d'une nouvelle application"
+    caption="Création d'un environnement nodeJS 20 vide pour installer Ghost-Cli"
+    title="Création d'un environnement virtuel nodeJS" />
+
+Dans la page de création d'un nouveau projet NodeJS, on renseigne les éléments suivants.
+
+<span className="badge badge--danger">1</span> Nous choisissons la version 20 de NodeJS. C'est la version actuellement
+recommandé pour Ghost.
+
+<span className="badge badge--danger">2</span> Le **Application Root**, qui correspond au dossier dans lequel se
+trouveront les fichiers de Ghost sera un dossier, créé à la racine de l'hébergement et nommé `ghost-backend`.
+
+<span className="badge badge--danger">3</span> L'**Application URL** sera `ghost.o2tuto.fr`, il s'agit du domaine qui
+répondra avec cette application.
+
+:::warning Dossier de l'application vs. dossier lié au nom de domaine
+Dans le cas d'un déploiement d'une application NodeJS, Ruby ou Python, il est recommandé d'avoir deux dossiers
+différents pour :
+  * l'endroit ou se trouveront les fichiers de l'application (Application Root)
+  * le dossier dans lequel est configuré le nom de domaine (ici le domaine pointe dans le dossier `ghost.o2tuto.fr`)
+
+Le lien entre le nom de domaine et l'application est fait par cPanel, via des règles ajoutés dans un fichier `.htaccess`.
+
+**Il ne faut pas placer les fichiers de votre application dans le dossier avec lequel le domaine est associé !** Cela
+représente un risque, car lorsque l'application est stoppé, les fichiers de votre application deviendront publiquement
+accessible si l'application est déployé dans le même dossier que le nom de domaine.
+:::
+
+<span className="badge badge--danger">4</span> On en profite pour définir un fichier de log d'erreur via le réglage
+**Passenger Log File**.
+
+<span className="badge badge--danger">5</span> Puis on valide en cliquant sur **Create**
+
+### Installation de l'utilitaire Ghost-Cli
+
+Une fois le projet NodeJS créé, nous sommes redirigé vers la page du projet et nous avons accès à une commande qui
+commence par `source`.
+
+Cette commande est à lancer en SSH : il s'agit de la commande qui permet d'entrer dans l'environnement nodeJS de
+l'hébergement.
+
+<Image
+    src="/img/docs/cpanel/logiciels/nodejs-ghost-commande-source.png"
+    alt="Capture d'écran de l'outil NodeJS avec la commande source qui est disponible"
+    caption="Le projet nodeJS est créé, l'environnement est accessible avec la commande `source`"
+    title="La commande source de l'environnement virtuel nodeJS est disponible" />
+
+Ensuite, il faut se connecter en SSH sur l'hébergement puis copier/coller cette commande `source` pour entrer dans
+l'environnement virtuel nodeJS créé par l'outil.
+
+:::tip
+Il est préférable de se connecter en SSH avec un vrai [client SSH](/guides/webmastering/connexio-ssh) plutôt qu'avec
+[l'outil Terminal](/cpanel/outils-avances/terminal-ssh-web) intégré dans cPanel.
+
+L'outil Terminal est pratique pour dépanner, mais il a des restrictions supplémentaires sur la mémoire / nombre de
+processus. Il n'y aura pas ce type de restriction en passant par un client SSH conventionnel.
+
+Or, les commandes d'installations de dépendances comme `npm` peuvent être gourmandes en ressources. Il n'est pas rare
+d'avoir des erreurs `wasm memory`, `fork failed` ou `out of memory` en passant par l'outil Terminal.
+:::
+
+Une fois présent dans l'environnement, il faut lancer la commande `npm install ghost-cli@latest -g` pour installer
+l'exécutable qui permet d'installer Ghost facilement.
+
+```bash title="Installation de Ghost CLI"
+# Ne copiez pas cette commande, prenez celle fourni dans cPanel dans l'outil NodeJS
+source /home/dojo2567/nodevenv/ghost-backend/20/bin/activate && cd /home/dojo2567/ghost-backend
+
+# Installation de ghost-cli
+npm install ghost-cli@latest -g
+```
+
+<Image
+    src="/img/docs/cpanel/logiciels/nodejs-ghost-cli-source.png"
+    alt="Capture d'écran des commandes à lancer pour installer Ghost-cli"
+    caption="La première commande permet d'entrer dans l'environnement NodeJS, la deuxième permet d'installer ghost-cli"
+    title="Commandes d'installation de ghost cli" />
+
+Après avoir exécuté la commande qui commence par `source`, vous pouvez constater que le prompt change. On
+remarque rapidement qu'on se trouve bien dans l'environnement nodeJS, la version de Node est notée dans le prompt.
+
+### Installation et configuration de Ghost
+
+L'utilitaire d'installation de Ghost est à présent bien installé, mais dans un répertoire qui n'est pas dans le `$PATH`.
+
+Autrement dit, la commande ghost n'est pas accessible directement, il faut donc mettre à jour temporairement le `$PATH`
+pour utiliser la commande ghost sans devoir taper le chemin absolu vers la commande.
+
+Il faut également supprimer le contenu du dossier de l'application vide créée : cela contient le "hello world" installé
+par l'outil setup nodejs app. Un dossier vide est nécessaire pour l'installation de Ghost, sinon `ghost-cli` refuse
+l'installation.
+
+Ensuite, il faut installer et configurer Ghost avec `ghost-cli`.
+
+```bash title="Mise à jour du $PATH, ménage et installation et configuration de Ghost"
+# Attention, le chemin là dépend du nom de votre projet et de la version de NodeJS
+# Il faut indiquer le chemin du dossier qui contient l'exécutable de ghost-cli
+# Vous pouvez regarder dans le dossier "nodevenv" à la racine de l'hébergement.
+# Normalement c'est dans un dossier de la forme suivante :
+# /home/{IDENTIFIANT}/nodevenv/{APPLICATION ROOT}/{VERSION NODE}/lib/lib/node_modules/ghost-cli/bin
+export PATH="$HOME/nodevenv/ghost-backend/20/lib/lib/node_modules/ghost-cli/bin/:$PATH"
+
+# On efface les fichiers par défaut créés, comme le "Hello World" par l'outil nodeJS
+rm -fr app.js node_modules public tmp
+
+# On installe ghost
+ghost install local --no-setup
+
+# On configure Ghost, pensez à remplacer l'adresse de votre site dans la commande
+ghost config --url https://ghost.o2tuto.fr --db sqlite3 --dbpath content/data/ghost.db --mail Direct
+```
+
+<Image
+    src="/img/docs/cpanel/logiciels/nodejs-installation-ghost.png"
+    alt="Capture d'écran des commandes à lancer pour installer et configurer Ghost sur un hébergement o2switch"
+    caption="Les commandes à lancer pour installer puis configurer Ghost sur l'hébergement o2switch"
+    title="Commandes pour installer et configurer Ghost à partir de ghost-cli" />
+
+
+Ghost est à présent installé, mais il n'est pas encore fonctionnel, car nous n'avons pas encore fait le lien avec
+l'outil NodeJS de l'hébergement. Il reste à configurer le point d'entrée de l'application.
+
+Pour faire cela, il suffit de mettre à jour le **Application startup file**. Pour une application Ghost, le point
+d'entrée est le fichier `current/index.js`.
+
+<Image
+    src="/img/docs/cpanel/logiciels/nodejs-ghost-application-startup-file.png"
+    alt="Mise à jour du chemin d'entrée dans l'outil nodeJS de l'héberegment"
+    caption="Mise à jour du chemin d'entré, aussi appelé **Application Startup File** dans l'outil NodeJS de l'hébergement web"
+    title="Mise à jour du point d'entrée dans l'outil NodeJS" />
+
+C'est terminé, Ghost est installé.
+
+À présent, il ne reste plus qu'à accéder une première fois à l'adresse sur laquelle Ghost a été installé. Un message
+"We'll be right back" s'affichera et cela est normale ! Sur la première visite, Ghost s'initialise donc affiche cette
+erreur temporairement.
+
+<Image
+    src="/img/docs/cpanel/logiciels/nodejs-ghost-maintenance.png"
+    alt="Ghost s'initialise et affiche temporairement une erreur"
+    caption="Ghost s'initialise et affiche temporairement une erreur, c'est normal"
+    title="Initialisation de Ghost" />
+
+Après ce premier message d'erreur, vous pouvez compléter l'installation en accèdant à `/ghost` pour afficher le formulaire
+de création du compte administrateur.
+
+<Image
+    src="/img/docs/cpanel/logiciels/nodejs-ghost-creation-compte.png"
+    alt="Création du compte administrateur"
+    caption="En accédant à `/ghost` on peut créer le compte administrateur"
+    title="Création du compte administrateur dans Ghost" />
+
+A présent, vous pouvez utiliser Ghost et suivre le tutoriel d'onboarding.
+
+<Image
+    src="/img/docs/cpanel/logiciels/nodejs-ghost-onboarding.png"
+    alt="Ghost est installé et est fonctionnel"
+    caption="Ghost est finalement installé et fonctionnel"
+    title="Ghost est installé" />
+
+## Déploiement d'une application générique
+
+
+L'exemple de Ghost est un peu particulier, car il s'installe avec un exécutable `ghost-cli`.
+
+Sur un projet que vous développez, le processus d'installation est généralement différents, car vous n'avez pas
+d'utilitaire comme `ghost-cli`. Le processus ressemble plutôt à :
+  1. Vous envoyez les données de votre application dans un dossier à la racine de votre hébergement. En FTP, avec GIT ou en SSH.
+  2. Vous créez le projet nodejs avec l'outil **setup nodejs app** dans cPanel :
+      * Il faudra choisir la version de NodeJS à utiliser avec la partie **NodeJS version**. La version de node à
+     choisir dépendra de votre projet.
+      * Il faudra également choisir sur quel nom de domaine/URL répondra l'application, avec la partie **Application URL**
+      * Le **Application root** correspondra au dossier dans lequel se trouve les sources de l'application (créé précédemment).
+      * Le **Application startup file** correspondra au fichier qui lance votre application (index.js, server.js, app.js)
+  3. Ensuite il faudra installer les dépendances avec NPM, soit avec l'interface graphique qui détecte le `package.json`,
+soit en SSH ou le terminal en lançant la commande `source` puis la commande `npm`
+  4. Enfin, il suffit de lancer l'application (après avoir configuré l'application si cela est nécessaire)
+
+## Comment une application nodeJS est-elle lancée ?
+
+L'une des plus grandes difficultés dans l'utilisation de cet outil est de comprendre comment est lancée l'application
+qui est déployée.
+
+En effet, si vous avez suivi l'un des guides d'installation, vous constatez qu'à aucun moment, on ne lance de commande
+`node server` qui permet de lancer le serveur nodeJS.
+
+De la même manière, nous n'avons pas évoqué le **port d'écoute** de l'application. Généralement, une application
+node écoute sur le port 3000. Que se passe t-il si ce port est déjà utilisé ? Après tout, cela est possible si deux
+personnes essayent de lancer une application node avec le réglage par défaut.
+
+En réalité, c'est [Phusion passenger](https://www.phusionpassenger.com/) qui s'occupe de tout cela en arrière-plan.
+Vous n'avez pas besoin de vous soucier de [Phusion passenger](https://www.phusionpassenger.com/) directement, car
+l'outil **Setup nodeJS app** fait les réglages pour vous.
+
+Cependant, c'est quand même intéressant de voir et comprendre comment se lance réellement l'application node, cela
+évitera des erreurs.
+
+Phusion passenger est un serveur web applicatif, c'est lui qui va être responsable de lancer votre processus NodeJS.
+Il fait donc l’intermédiaire entre le serveur web, qui traite les requêtes HTTP et votre application.
+
+C'est pour cette raison qu'il ne faut **pas lancer votre application nodeJS manuellement**, vous-même. Si vous lancez
+l'application vous-même :
+  * vous allez binder l'application avec un port, par exemple le port 3000. Si le port est déjà utilisé, ça renverra
+une erreur.
+  * le port 3000 ne sera pas accessible depuis l'extérieur, car ce n'est pas un port standard autorisé sur le parefeu
+du serveur.
+Donc impossible d'utiliser http://mondomaine.tld:3000 par exemple
+  * vous ne pourrez pas faire le lien entre votre application et un nom de domaine, pour par exemple faire en sorte que
+lorsqu'on se rend sur "http://mondomaine.tld", ce soit l'application node lancé qui réponde
+  * si votre processus nodeJS plante, il n'y aura rien pour le relancer
+
+C'est le rôle de Phusion Passenger de faire cela, il va :
+  * lancer votre application et faire en sorte qu'il n'y a pas de conflit d'utilisation avec le port d'écoute de
+l'application (voir plus loin pour le détail)
+  * relancer votre application si cette dernière ne répond pas
+  * faire le lien entre votre application et un domaine de votre hébergement
+
+Concernant le port d'écoute, lorsque votre application démarre, PhusionPassenger va attendre un appel à la fonction
+`listen()` de `http.Server`. Il se greffe dessus en quelque sorte.
+
+Si votre application ne fait jamais appel à `listen()`, cela se terminera en erreur de timeout. Si cela arrive,
+deux cas sont possibles :
+  * il y a un problème avec l'application car elle n'appelle jamais `listen()`
+  * vous ne cherchez probablement pas à lancer une **application web nodeJS** mais une application permettant de faire
+autre chose, comme un bot par exemple. \
+Dans ce cas, vous pouvez utiliser l'outil **setup nodejs app** pour créer l'environnement virtuel node, gérer vos
+dépendances, mais il ne faudra pas lancer l'application à partir de l'outil car c'est uniquement prévu pour une
+application web. Il faudra lancer votre application manuellement et prévoir un mécanisme de relance automatique si le
+processus meurt (via une [cron](cpanel/outils-avances/tache-planifiee-cron) par exemple)
+
+Dès que l'appel à `listen()` est fait, PhusionPassenger va automatiquement faire en sorte que l'application n'écoute
+pas sur un port classique mais va forcer l'utilisation d'une `Socket Unix` à la place. Cela évitera tout conflit de port
+déjà utilisé.
+
+En résumé, le paramètre que vous passez à la fonction `listen()` de votre application est totalement ignoré.  C'est
+comme si vous lanciez `listen(socketUnix)`.
+
+Après, c'est PhusionPassenger qui se débrouille pour utiliser cette `socket unix` et faire le lien avec le serveur web.
+
+Ce mécanisme se nomme le `Reverse port binding` et est documenté ici :
+[Reverse port binding in Node.js](https://www.phusionpassenger.com/library/indepth/nodejs/reverse_port_binding.html).
+
+Normalement tout ce processus est géré automagiquement par PhusionPassenger, sans modifications nécessaires dans
+l'application,  sauf dans des cas très rares documentés dans le lien ci-dessus (multiple appels à `listen()` par exemple).
+
+Par exemple `Express.js`, `Hapi.js` peuvent être concernés par ce problème. Pour ces cas rares, il faut faire 2-3
+modifications dans l'application pour aider PhusionPassenger dans son choix.
+
+## Usages avancés
+
+### CLI
+
+Il est possible de déployer intégralement une application nodeJS en ligne de commande. Cela dépasse le cadre de cette
+documentation, mais vous pouvez utiliser la commande `cloudlinux-selector` qui est
+[documentée ici](https://docs.cloudlinux.com/command-line_tools/#python-selector).
+
+Cela peut être utilisé lors d'un déploiement automatique, via GIT par exemple.
+
+### Chemins vers les différentes versions des exécutables
+
+Plusieurs versions de NodeJS sont proposées, il est parfois nécessaire de connaitre le chemin vers les différentes
+versions des exécutables, notamment lorsque nodeJS est utilisée comme une commande CLI, indépendante d'un projet web
+complet nodeJS.
+
+Pour un exemple d'utilisation, voir le [tutoriel sur la modification du $PATH](/questions/langages-supportes-php-node-ruby-python).
+
+```bash title="Chemin vers les exécutables nodeJS"
+# Vous retrouverez également d'autres exécutables comme gyp, npm, npx
+/opt/alt/alt-nodejs6/root/usr/bin/node
+/opt/alt/alt-nodejs8/root/usr/bin/node
+/opt/alt/alt-nodejs10/root/usr/bin/node
+/opt/alt/alt-nodejs12/root/usr/bin/node
+/opt/alt/alt-nodejs14/root/usr/bin/node
+/opt/alt/alt-nodejs16/root/usr/bin/node
+/opt/alt/alt-nodejs18/root/usr/bin/node
+/opt/alt/alt-nodejs20/root/usr/bin/node
+/opt/alt/alt-nodejs22/root/usr/bin/node
+```
+
+## Erreurs courantes
+
+Voici quelques solutions ou pistes de recherches pour les erreurs courantes en rapport avec le déploiement
+d'applications nodeJS.
+
+### Mode Debug
+
+En cas d'erreurs, la page d'erreur qui s'affiche (dans le navigateur web) ne contient pas beaucoup d'information par
+défaut. Il est possible d'activer le mode de debug avancé de Phusion Passenger, la page d'erreur générée sera beaucoup
+plus complète.
+
+Pour cela, il suffit d'ajouter les lignes suivantes dans le fichier .htaccess à la racine du site internet :
+
+```apacheconf title=".htaccess"
+PassengerAppEnv development
+PassengerFriendlyErrorPages on
+```
+
+Les erreurs sont également loguées dans l'outil [erreurs](/cpanel/mesures/erreurs-apache) de cPanel.
+
+### Erreur de mémoire ou processus Node/NPM
+
+L'outil terminal dans cPanel à quelques restrictions supplémentaires sur le nombre de processus qu'il est possible de
+lancer ainsi que l'utilisation mémoire, comparé à un client SSH conventionnel comme PuTTy.
+
+Par conséquent, cela peut générer des erreurs wasm memory, fork failed ou out of memory comme sur la capture
+d'écran ci-dessous.
+
+<Image
+    src="/img/docs/cpanel/logiciels/nodejs-erreurs-memoire-wasm.png"
+    alt="Exemple d'erreur mémoire avec le terminal de cPanel"
+    caption="Exemple d'erreurs de mémoire lorsqu'on utilise l'outil terminal"
+    title="Erreur mémoire nodejs" />
+
+Dans ce cas, il faut essayer en passant par un client SSH classique, comme Putty. Avec un client SSH classique, il y a
+moins de restrictions en place.
+
+
+### L'application ne se lance pas - Timeout
+
+Si l'application ne se lance pas et part en erreur timeout après environs 90 secondes, cela signifie que passenger
+n'arrive pas lancer votre application. Cela est expliqué plus en détails dans la partie
+[Comment passenger lance l'application ?](#comment-une-application-nodejs-est-elle-lancée-)
+
+Pour faire simple, **passenger attend et surveille l'appel à la fonction `listen()` de `http.Server`**.
+Il **va l'intercepter**, pour faire le lien entre votre application et le serveur web.
+
+Dans 90% des cas, cela se passe correctement, sans réglage supplémentaire nécessaire. Mais passenger peut avoir du
+mal à faire cela si :
+  * votre application contient plusieurs appels différents à la fonction `listen()` de `http.Server`. Dans ce cas,
+passenger ne sait pas sur quel `listen()` il doit se greffer. Dans ce cas, il faut faire des ajustements dans
+l'application pour aider passenger à faire son choix.
+  * votre application ne fait pas d'appel à `listen()`. Généralement cela signifie que votre application n'est pas une
+application web nodeJS (autrement dit, ce n'est pas un site). Par exemple, il s'agit d'un bot. Dans ce cas,
+l'application ne peut pas être lancée avec passenger et c'est l'un des rares cas ou l'application peut être lancée
+manuellement avec la commande node. Il faudra prévoir un moyen de relancer le processus s'il est interrompu.
+
+Pour aider passenger à faire son choix, il faut remplacer le port dans `listen()` par le mot clé spécial `passenger`
+ou `/passenger` dans le cas de `hapi.js`.
+
+Ci-dessous des exemples ([issue de la documentation](https://www.phusionpassenger.com/library/indepth/nodejs/reverse_port_binding.html) de passenger.
+
+```js title="Application générique avec passenger"
+// Remplacer
+app.listen(3000);
+// Par
+app.listen('passenger');
+
+// ou plus générique/dynamique
+// en détectant si PhusionPassenger est actif
+if (typeof(PhusionPassenger) !== 'undefined') {
+    PhusionPassenger.configure({ autoInstall: false });
+}
+
+if (typeof(PhusionPassenger) !== 'undefined') {
+    app.listen('passenger');
+} else {
+    app.listen(3000);
+}
+```
+
+```js title="Application expressjs avec passenger"
+if (typeof(PhusionPassenger) !== 'undefined') {
+    PhusionPassenger.configure({ autoInstall: false });
+}
+
+    var express = require('express');
+    var app = express();
+    app.get('/', function(req, res) {
+    var body = 'Hello World';
+    res.setHeader('Content-Type', 'text/plain');
+    res.setHeader('Content-Length', body.length);
+    res.end(body);
+});
+
+    if (typeof(PhusionPassenger) !== 'undefined') {
+    app.listen('passenger');
+} else {
+    app.listen(3000);
+}
+```
+
+```js title="Hapi.js avec passenger"
+if (typeof(PhusionPassenger) !== 'undefined') {
+    PhusionPassenger.configure({ autoInstall: false });
+}
+
+    var Hapi = require('hapi');
+    var server;
+
+    if (typeof(PhusionPassenger) !== 'undefined') {
+    // Requires Passenger >= 4.0.52!
+    server = new Hapi.Server('/passenger');
+} else {
+    server = new Hapi.Server('localhost', 3000);
+}
+
+    server.route({
+    method: 'GET',
+    path: '/hello',
+    handler: function (request, reply) {
+    reply('hello world');
+}
+});
+
+server.start();
+```

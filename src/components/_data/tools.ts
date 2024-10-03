@@ -461,9 +461,9 @@ const cpanelTool = {
     'lvephpsel': {
         name:"Sélectionner une version de PHP",
         desc:"Permet de changer l'environnement PHP de l'hébergement (version de PHP, module, php.ini)",
-        icon:"cpanel/logiciels/php/selecteur-version-php",
+        icon:"lvephpsel",
         cat: cpanelCategories.software,
-        to: '/todo',
+        to: '/cpanel/logiciels/php/selecteur-version-php',
         offers: all_offers,
     },
     'lvepythonsel': {
