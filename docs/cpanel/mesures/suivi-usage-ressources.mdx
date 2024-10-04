@@ -1,0 +1,391 @@
+---
+title: Suivi de la consommation CPU, Mémoire et IO de l'hébergement
+sidebar_label: Utilisation des ressources
+description: L'outil utilisation des ressources permet de suivre l'usage des ressources CPU, mémoire, IO de l'hébergement
+image: /img/docs/tools/lveresusage.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - mesures
+  - cpu
+  - mémoire
+  - IO
+  - monitoring
+---
+
+# Suivre l'utilisation des ressources CPU, mémoire et IO de l'hébergement
+
+L'outil **utilisation des ressources** de cPanel permet de suivre la consommation mémoire, CPU et I/O (accès disque) de
+votre espace d'hébergement.
+
+Chez l'[hébergeur web](https://www.o2switch.fr/hebergement-illimite/) o2switch chaque compte d'hébergement est
+**cloisonné** et dispose de **ressources utilisables**.
+
+Ainsi, un client qui consomme beaucoup de ressources ou a un script qui bug (bouclage) n'impactera pas les autres
+clients du même serveur, car son environnement est cloisonné. Le cloisonnement est similaire aux techniques utilisées
+sur des VPS ou de la virtualisation.
+
+L'outil **utilisation des ressources** permet de voir les ressources utilisables et utilisées sur le compte
+d'hébergement. Cela permet de suivre votre consommation réelle et voir si vous arrivez bientôt à la limite de votre
+compte d'hébergement ou non.
+
+<PreviewToolCard tool='lveresusage' />
+
+## Découverte de l'outil
+
+En allant sur l'outil, la première page indique si votre hébergement a déjà atteint un des plafonds d'utilisation.
+Cette première page peut être ignorée, car elle ne fournit pas d'informations pertinentes.
+
+<Image
+    src="/img/docs/cpanel/mesures/ressource-homepage.png"
+    alt="Capture d'écran de la page d'accueil de l'outil de suivi de l'utilisation des ressources"
+    caption="Première page de l'outil d'utilisation des ressources (à ignorer)"
+    title="Capture d'écran de l'accueil de l'outil de suivi de l'utilisation des ressources" />
+
+Cette **première page peut être ignorée**, car elle affichera très souvent un message indiquant que vous avez
+atteint le plafond CPU ou I/O sur les dernières 24h.
+
+Cela est sans doute normal. En effet, si vous lancez un processus un peu lourd, comme la génération d'une
+sauvegarde ou une grosse importation, le script PHP lancé à ce moment va consommer toutes les ressources disponibles.
+Le fait d'atteindre 1 fois (ou quelques fois) ce plafond est tout à fait normal.
+
+Ce qui est anormal en revanche est de consommer plus de 50% du temps l'ensemble des ressources attribuées.
+C'est généralement signe qu'un processus PHP (ou autre) bug sur votre espace d’hébergement et consomme
+inutilement les ressources qui vous sont attribuées.
+
+La page d’accueil contient deux liens, qui eux fournissent des informations intéressantes :
+  * **Curent Usage** : permet de voir l'historique de la consommation de votre hébergement
+  * **Snapshot** : permet d'avoir une idée de ce qui est lancé sur votre hébergement, peut vous aider à trouver la
+source d'une consommation anormale de ressources
+
+### Historique de la consommation CPU, Mémoire et IO
+
+Pour avoir des informations intéressantes, il faut cliquer sur le lien **Current Usage** puis observer les courbes de
+consommation sur les 24h ou les 7 derniers jours.
+
+<Image
+    src="/img/docs/cpanel/mesures/ressource-exemple-consommation.png"
+    alt="Capture d'écran de l'utiliastion de ressources de deux comptes d'hébergements"
+    caption="Exemple d'utilisation de ressources sur deux comptes : le deuxième compte à de nombreux pics d'usages CPU"
+    title="Capture d'écran de l'outil de suivi d'utilisation des ressources sur deux hébergements" />
+
+Résumé des différents types de ressources visibles dans les graphiques, suivi d'une explication rapide sur ce qui
+consomment lesdites ressources.
+
+**CPU Usage** : La consommation en CPU (processeur) de votre hébergement
+
+Tous les processus lancés sur votre hébergement consomment du CPU. Dans la majorité des cas, la consommation en CPU est
+liés aux processus PHP exécutés sur votre hébergement. Un processus PHP est généré pour répondre à un visiteur qui
+navigue sur votre site.
+
+Si vous utilisez d'autres langages comme nodeJS, Ruby ou Python, alors ce sont ces processus-là qui consommeront du CPU.
+
+À noter que les processus email (IMAP, POP) sont également comptabilisé dans le décompte en CPU, mais c'est rare que
+cela soit un problème (sauf si vous avez un nombre très important d'adresses emails).
+
+**Physical Memory Usage** : La consommation en mémoire RAM de votre hébergement
+
+C'est très rare que la mémoire RAM devienne un problème. Tous les processus consomment un peu de mémoire RAM pour
+fonctionner. En fonction de la manière dont sont conçus les scripts exécutés sur l'hébergement, ils consomment plus ou
+moins de mémoire RAM (notamment lorsqu'il est nécessaire d'augmenter le `memory_limit` de PHP par exemple).
+
+Les traitements lourds (déclinaisons de produits sur un E-Commerce, parsing/traitement d'import/export de données) ont
+tendances à consommer plus de mémoire.
+
+Les gestionnaires de dépendances comme `composer`, `npm` ou `pip` sont également très gourmand en mémoire, car ils
+doivent conserver tout l'arbre des dépendances en mémoire.
+
+**Input/Output Usage** : Les opérations lecture/écriture sur le disque sur votre hébergement
+
+Tous les processus manipulant énormément de fichiers sur l'hébergement génèrent des accès disques. Le plus souvent, ce
+sont les processus de sauvegardes (passe en revue l'intégralité des fichiers d'un dossier).
+
+Les caches sous forme de fichier peuvent également générer beaucoup d'IO. Les opérations d'archivages / compressions
+génèrent des IO.
+
+En résumé, tout ce qui a besoin de lire/écrire des choses sur le disque dur de votre hébergement génère des IO.
+
+**Entry Process** : Nombre de connexions actives sur le serveur web pour votre compte
+
+A chaque fois que vous avez une visite sur votre site internet, cela utilise une place (un slot) sur le serveur web.
+
+Lorsqu'une place est réservé, c'est compté comme un entry process. Cette place est réservé/active jusqu'à que le serveur
+web réponde au visiteur avec la page demandée.
+
+Sur un site qui fonctionne normalement, un slot est réservé pendant quelques millisecondes,
+
+Mais si vous avez des processus bloquants, la place peut être réservée pendant plusieurs secondes, car le serveur web
+attend la réponse à envoyer au client.
+
+Dans ce cas et si vous avez beaucoup de visite, vous pouvez saturer votre nombre de **entry process**.
+
+Il faut voir l'**entry process** comme le nombre de connexions concurrentes sur vos sites.
+
+**Processes** : Nombre de processus en cours d'exécution
+
+Le plus souvent, ce sont les sites internet et les processus qui en résultent (PHP, nodeJS, Ruby, Python) qui représente
+la majorité du nombre de processus en cours d'exécution sur un hébergement.
+
+Les processus IMAP, pour les emails, sont également comptabilisé. C'est important, car cela peut grimper rapidement
+avec les emails : il faut compter 1 processus IMAP par dossier d'une boite email sur laquelle quelqu'un est connecté !
+
+:::info
+L'outil utilisation de l'uc et tous les graphiques que vous voyez représente **uniquement l'activité de votre propre
+compte d'hébergement** ! Cela n'est pas représentatif de l'activité du serveur dans sa globalité.
+
+Votre compte d'hébergement peut très bien arriver à saturation et à 100% de consommation, mais le serveur physique
+servant à l'hébergement de ce compte peut-être à moins de 30% d'utilisation globalement.
+:::
+
+### Historique de l'activité de l'hébergement
+
+En cliquant sur le lien **Snapshot** de la page d'accueil de l'outil, vous pouvez retrouver une capture des
+processus qui étaient en cours d'exécution sur votre hébergement, aux périodes pendant lesquels il y avait des problèmes.
+
+Le fait de voir que votre hébergement consomme 100% de CPU à un instant T bien. Ce qui est mieux est de voir
+qu'est-ce qui était lancé à cet instant T et c'est ce qui permet l'outil snapshot.
+
+<Image
+    src="/img/docs/cpanel/mesures/ressource-usage-activite.png"
+    alt="Historique de l'activité de l'hébergement au moment ou il y avait un problème"
+    caption="Exemple de l'historique des processus en cours d'exécution sur un hébergement ayant un problème"
+    title="Capture d'écran de l'outil de suivi d'utilisation des ressources avec le suivi d'activité" />
+
+L'outil **Snapshot** contient plusieurs choses :
+
+<span className="badge badge--danger">1</span> En premier, en retrouve le calendrier permettant de choisir la date à
+laquelle on souhaite regarder si un snapshot est présent
+
+<span className="badge badge--danger">2</span> Ensuite dans **Choose snapshot** on doit choisir le snapshot que l'on
+souhaite regarder. C'est l'outil qui décide quand il doit prendre un snapshot ou non, il n'est pas rare qu'aucun
+snapshot ne soit présent.
+
+<span className="badge badge--danger">3</span> Dans **Process List** on retrouve la liste des processus sous un format
+similaire à celui de la commande Linux **top**. Les éléments importants sont la commande dans **CMD** qui permet de
+voir ce qui est lancé et par rapport au chemin, on arrive en déduire le site concerné. Puis les colonnes **CPU**
+et **MEM**.
+
+<span className="badge badge--danger">4</span> Dans **Database queries snapshot** on peut retrouver des exemples de
+requêtes SQL qui étaient en cours d'exécution au moment du snapshot
+
+<span className="badge badge--danger">5</span> Dans **HTTP Querie snapshot** on retrouve les requêtes qui étaient
+présente sur le serveur web au moment du snapshost
+
+<span className="badge badge--danger">6</span> En cliquant sur la commande **CMD** la commande complète s'affiche dans
+une infobulle.
+
+## Que faire en cas de saturation ?
+
+
+Lorsque vous arrivez aux limites, vous allez le constatez dans les tendances des courbes et dans l'historique des
+processus également. La première chose à se demander est : **est-ce que l'utilisation visible dans les courbes semble
+cohérente par rapport à ce que j'héberge ?**
+
+Si vous hébergez un site qui est très visités, la consommation CPU va probablement être importante, car des processus
+seront lancés pour répondre à chaque visite. Dans ce cas, il faut regarder s'il est possible d'optimiser des choses :
+  * est-ce que mon site dispose d'un **système de cache** ? Ai-je vérifié si le cache fonctionnait correctement ?\
+Si non, installez un système de cache sous forme d'une extension à ajouter sur le site ou un système plus agressif et
+efficace comme litespeed. \
+Pensez à tester que le cache fonctionne correctement. Très souvent, on se contente d'installer un module de cache en
+pensant qu'il fonctionne correctement. Mais parfois des réglages supplémentaires sont nécessaires.
+  * est-ce que mon système de **cache n'est pas contre productif** ?\
+Essayez en activant et en désactivant le cache, comparez les deux. Sur les systèmes de caches sous forme de fichier, 
+si les fichiers s'accumulent sans purge du cache, il arrive qu'un site avec le cache deviennent plus lent que sans le 
+cache. Une purge du cache régulière est importante. D'autant plus sur des extensions qui génèrent un dossier `cache`
+sur l'hébergement contenant potentiellement des millions de fichiers si pas purgé régulièrement.
+  * est-ce que j'utilise une **version récente de PHP** ?\
+Cela peut être vérifié dans l'outil [sélectionner une version de PHP](/cpanel/logiciels/hebergement-php-multi-version). 
+Les versions récentes de PHP sont plus rapides et consomment moins de ressources.
+  * Est-ce que l'**opcache** est bien activé dans l'outil [sélectionner une version de PHP](/cpanel/logiciels/hebergement-php-multi-version) ?\
+opcache fait une énorme différence. C'est très important que cela soit actif sur un site en production.
+  * quelle est la **taille de ma base de données** ? Si la base de données fait plusieurs centaines de méga, ai-je la
+possibilité de l'alléger ?\
+Par exemple en vidant des tables de logs ou d'historique. Cela peut être vérifié avec
+[phpmyadmin](/cpanel/bases-de-donnees/phpmyadmin), en regardant les tables et en triant par taille. Ensuite faites une
+recherche sur le nom de la table, en fonction du CMS que vous utilisez, pour voir à quoi cela sert et si cela peut être
+vidé.
+
+Par contre, si vous avez un site qui n'est pas beaucoup visité, qui ne devrait pas consommer grand-chose et que vous
+constatez que la consommation (CPU, mémoire, IO) grimpe en flèche, **c'est anormal**.
+
+Dans ce cas, cela peut venir d'une des choses suivantes :
+  * Le site internet est **piraté**.\
+Des processus malveillants se lancent sur votre hébergement et consomment toutes vos ressources. Vérifiez cela en allant
+regarder sur votre hébergement si vous ne voyez pas des nouveaux fichiers, aux noms suspects. Si vous avez des solutions
+antivirus sur vos sites, lancez des scans et analyses.
+  * Quelque chose ne va pas avec le site.\
+Si vous avez installé des nouvelles choses récemment, commencer par les désactiver si le problème est récent.
+Désactivez progressivement ce que vous avez installé récemment pour voir si l'usage redevient cohérent. Si c'est le cas,
+vous trouverez le fautif (thèmes, extensions installés) en procédant par élimination.
+  * regardez dans l'outil **snapshot** les processus qui sont en cours d'exécutions. Est-ce que cela vous parle ?
+Savez-vous à quoi correspondent ces processus ? A partir de là, vous pouvez en déduire ce qui pose problème sur le site/hébergement.
+  * vérifiez vos [tâches planifiées (cron)](/cpanel/outils-avances/tache-planifiee-cron) et vos sauvegardes, d'autant plus si vous constatez une régularité dans les pics de consommation.
+
+La deuxième question à se poser est : ai-je **plusieurs sites** sur le même compte d'hébergement ? Puis-je prendre un
+deuxième compte d'hébergement et migrer une partie des sites dessus pour **équilibrer** la charge ?**
+
+Dans le cas ou vous avez plusieurs sites internet sur le même compte d'hébergement et que l'ensemble de ces sites reçoit
+un trafic web moyen, il est possible de commander un deuxième compte d'hébergement puis de migrer une partie des sites
+dessus.
+
+Cela va alléger le premier compte d'hébergement, vous disposerez des ressources de deux comptes d'hébergements pour
+héberger tous vos sites.
+
+En revanche, cela ne fonctionnera pas si :
+  * vous n'avez qu'un seul site internet, ça ne sera pas possible de faire un découpage/séparation de site.
+  * ou si vous avez plusieurs sites internet, mais que le problème de consommation est uniquement liés à l'activité d'**un
+seul site**. Autrement dit, si vous avez 5 sites internet sur un même compte d'hébergement, que 1 site est très visité,
+mais que les 4 autres ont un nombre de visite anecdotique, ça ne servira à rien d'isoler les 4 autres sites sur un
+second compte : ils ne consomment presque rien.
+
+Pour qu'une séparation des sites sur plusieurs comptes d'hébergement soient utiles et efficaces, il faut que la
+consommation de l'hébergement viennent de l'activité de tous ces sites (et pas juste 1 site).
+
+## Checklist des problèmes de saturation
+
+### Consommation CPU anormale
+
+La liste de vérifications correspond à des problèmes de saturations CPU.
+
+#### Est-ce que j'utilise une version récente de PHP ?
+
+PHP 5.6 est 3-4 fois plus lent que PHP7. Vérifiez votre version de PHP avec l'outil
+[Sélectionner une version de PHP](http://localhost:3000/cpanel/logiciels/hebergement-php-multi-version) dans cPanel.
+Essayez d'utiliser une version de PHP récente si votre site le permet.
+
+#### Est-ce que `opcache` est bien actif ?
+
+opcache fait une énorme différence sur les performances de PHP, vérifiez que le module est actif avec l'outil
+[Sélectionner une version de PHP](http://localhost:3000/cpanel/logiciels/hebergement-php-multi-version) sur cPanel.
+
+#### Ai-je plus de visites que d'habitude ? Est-ce que mon site fait le buzz ?
+
+Regardez dans vos outils de statistiques (utilisez awstats le cas échéant) si votre site n'a pas plus de visite
+que d'habitude. Il suffit d'un influenceur qui publie l'un de vos articles pour avoir des milliers de visiteurs
+simultanés.
+
+Vérifiez également si ce ne sont pas des robots ou systèmes automatisés qui visitent / scannent / attaquent votre site.
+
+Si vous soupçonnez que cela soit une attaque DOS par exemple, vous pouvez activer des protections supplémentaires
+avec [Tiger Protect](/cpanel/o2switch/tiger-protect-waf).
+
+#### Ai-je un système de cache sur mon site ? Est-ce que je l'ai testé ?
+
+Si vous n'avez pas de système de cache sur votre site, installez-en un. Cela peut être sous forme d'une extension
+comme [WP Super Cache](https://fr.wordpress.org/plugins/wp-super-cache/), ou même [WP Rocket](https://wp-rocket.me/fr/).
+
+Ou un cache serveur un peu plus agressif comme [Litespeed](/cpanel/o2switch/litespeed-cache-webadc).
+
+#### Ai-je un processus qui est bloqué dans une boucle infinie ?
+
+S'il y a une erreur dans le code, sur un mauvais test de sortie d'une boucle par exemple, il peut s'avérer qu'un
+processus reste bloqué dans une boucle infinie.
+
+Dans ce cas, le processus sera bloqué en permanence à 100% d'utilisation CPU. Si plusieurs processus de ce type se
+lancent en même temps, cela peut vite saturer l'hébergement.
+
+Le meilleur moyen de vérifier cela est de se connecter en [SSH](/guides/webmastering/connexion-ssh) sur l'hébergement.
+
+Puis de lancer une commande comme `top` ou `ps -ef` pour lister les processus en cours d'exécutions. Puis, d'observer
+cela pendant quelques dizaines de secondes.
+
+Vous allez vite remarquer si un processus est bloqué à 100% d'usage CPU.
+
+Si vous avez ce type de processus, alors vous pouvez :
+  * noter le nom du processus et le fichier qui lui est associé
+  * lancer un `strace -f -s 256 -p {PID}` ou \{PID\} sera à remplacer par le PID du processus à surveiller. Gardez cela ouvert quelques secondes puis couper avec `CTRL + C`. Ca donnera une idée de ce que "fait" le processus bloqué.
+  * tuer le processus avec `kill -9 {PID}`
+  * investiguer dans le code responsable pour corriger le problème
+
+### Consommation IO anormale
+
+#### Est-ce que je fais des sauvegardes ? Quand est-ce lancé ?
+
+Si vous faites des sauvegardes, lancez cela à des périodes creuses comme la nuit par exemple
+
+#### Ai-je un répertoire de cache sur mon site ? L'ai-je purgé récemment ?
+
+Un cache stocké sous forme de fichiers peut être contre productif et générer des IO en masse s'il n'est pas purgé
+régulièrement. Si vous n'avez pas vidé votre cache récemment, purgez-le.
+
+
+### Nombre de processus
+
+#### Ai-je vérifié les processus qui étaient lancés sur mon hébergement ?
+
+La première chose à faire lorsqu'il y a un problème avec le nombre de processus est de lister les processus lancés
+à l'instant T sur l'hébergement.
+
+Pour cela, il faut se connecter en [SSH](/guides/webmastering/connexion-ssh) sur l'hébergement.
+
+Puis lancer une commande comme `top` ou `ps -ef`. Puis, de vérifier pendant 1-2 minutes l'activité des processus.
+Regardez quels sont les processus qui se lancent. Est-ce normal ? Est-ce que ça correspond aux processus que vous
+avez l'habitude de voir ? Qu'est-ce qui lance les processus concernés ?
+
+#### Ai-je beaucoup de comptes emails ? Ou une adresse avec énormément de dossiers ?
+
+Il y a 1 processus IMAP qui se génère sur l'hébergement pour chaque dossier qui est synchronisé en IMAP avec un
+logiciel de messagerie.
+
+Si vous avez créé 10 comptes emails, que les 10 comptes emails ont 3 dossiers (réception, nouveau message, spam) et que
+les 10 utilisateurs sont connectés avec un logiciel de messagerie, alors, vous aurez 30 processus actifs juste pour
+les emails.
+
+#### Ai-je une tâche cron qui se lance trop régulièrement ou qui génère une infinité de processus ?
+
+Une erreur courante est de créer une tâche cron qui se lance toutes les minutes et qui lance un processus qui prend
+plus de 1 minute à s'interrompre. Ou un processus qui ne s'interrompt jamais en mode "daemon" comme un service par
+exemple.
+
+Cela provoque une accumulation de processus. Au bout d'un certain temps, il y aura des erreurs indiquant qu'il n'est
+plus possible de générer de nouveaux processus. Cela peut causer des erreurs 503.
+
+Vous pouvez utiliser la commande `flock` pour vous s'assurer qu'un processus, défini en tâche cron, ne se lance
+qu'une seule fois en parallèle. Des exemples sont donnés dans la page de documentation des
+[tâches cron](/cpanel/outils-avances/tache-planifiee-cron).
+
+### Vérifications génériques
+
+Ces vérifications-là sont plutôt génériques et peuvent servir à corriger des problèmes entrant dans plusieurs catégories
+différentes.
+
+#### Ai-je fait une grosse modification dernièrement ? Qu'ai-je installé de nouveau ou mis à jour ?
+
+Essayez de revenir en arrière, progressivement, sur les dernières grosses opérations que vous avez pu faire sur
+l'hébergement ou sur l'installation d'extensions particulières, surtout si le problème est récent : le problème à
+certainement été introduit suite à une modification effectuée.
+
+#### Ai-je des tâches cron ou des opérations lancées à interval régulier ?
+
+Généralement les [tâches cron](/cpanel/outils-avances/tache-planifiee-cron) consomment du CPU, car les tâches qui sont
+lancés sont souvent des tâches lourdes comme la génération d'une sauvegarde.
+
+Regardez si l'allure de la courbe de consommation semble indiquer que c'est quelque chose lancé à interval régulier.
+
+Comparez cela avec les cron que vous avez sur cPanel. A noter que certains CMS ont leurs propres systèmes de cron,
+comme wpcron pour WordPress, lancés indépendamment de ce que vous avez pu configurer sur cPanel également.
+
+Vérifiez cela également. Vérifiez également la périodicité des crons, si c'est configurés sur toutes les minutes, alors
+voyez s'il est possible de réduire cela
+
+#### Ai-je vérifié si mon site n'était pas piraté ?
+
+Des processus malveillants peuvent être à l'origine d'une consommation anormale sur votre hébergement.
+
+Connectez-vous sur votre hébergement, faites un tour dans vos fichiers, à la recherche de fichiers ayant des noms
+suspects, hors norme.
+
+Sur votre hébergement, vous pouvez également lancer un scan [Imunify](/cpanel/securite/antivirus-imunify).
+
+Vous pouvez également faire des scans en ligne avec des outils comme sucuri site check
+
+#### Est-ce que j'utilise la dernière version du CMS / extension / thème que j'utilise ?
+
+Si vous n'utilisez pas la dernière version des outils que vous avez déployés sur votre hébergement, regardez s'il est possible de faire une mise à jour. Les mises à jours corrigent des problèmes, cela peut également corriger des problèmes liés aux performances.
+
+#### Ai-je regardé les logs d'erreurs de mon application ou de PHP ?
+
+Si votre application génère un fichier de log, ouvrez-le pour vérifier les dernières erreurs. Activez et vérifiez également les erreurs PHP. Vérifiez également les logs d'erreurs web.
+
