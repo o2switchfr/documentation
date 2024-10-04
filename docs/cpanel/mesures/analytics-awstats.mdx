@@ -46,11 +46,20 @@ Pour consulter les statistiques d'un site, il suffit de cliquer sur le bouton **
     caption="Page d'accueil de l'outils awstats qui liste les noms de domaines configurés sur l'hébergement"
     title="Capture d'écran de l'outil Awstats dans cPanel" />
 
-
 Ensuite l'outil Awstats s'affiche avec plusieurs graphiques de statistiques et différentes rubriques.
 
 Les statistiques sont générées à partir des logs du serveur web. Donc cela va inclure le trafic de tous les robots,
 c'est pour cette raison que vous pouvez constater une différence avec un autre outil comme Google Analytics.
+
+:::info Serveur de cache et CDN
+Si vous avez activé un serveur de cache comme [Litespeed](/cpanel/o2switch/litespeed-cache-webadc) ou
+[xtremCache](/cpanel/o2switch/xtremcache-varnish), ou même une solution de CDN tierce, alors cela aura un impact sur
+les logs et donc les statistiques générées.
+
+Lorsqu'il y a un serveur de cache devant votre site internet, ce dernier va absorber la majorité du trafic. En
+conséquence, le trafic arrivant jusqu'au serveur web apache sera bien moindre et donc cela se verra également
+dans les statistiques qui seront moins conséquentes.
+:::
 
 Dans les informations remontées par l'outil, vous pouvez retrouver :
   * un histogramme des visites mensuelles, sur l'année en cours

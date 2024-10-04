@@ -1,0 +1,85 @@
+---
+title: Logs d'accès brut
+sidebar_label: Logs d'accès brut
+description: L'outil accès brut permet de télécharger une copie des logs du serveur web pour vos noms de domaines
+image: /img/docs/tools/raw_access.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - mesures
+  - logs
+---
+
+# Logs d'accès brut
+
+L'outil **accès brut** de cPanel permet de télécharger les logs d'accès brut du serveur web pour votre site internet.
+
+<PreviewToolCard tool='raw_access' />
+
+## Télécharger les logs d'accès
+
+Pour télécharger les registres d'accès, il suffit de cliquer sur le lien correspondant à votre site internet.
+
+:::tip Conserver les logs
+Par défaut, l'outil ne conserve que les derniers logs d'accès, dés que les logs sont traités par les outils de
+statistiques, ils sont supprimés.
+
+Si vous souhaitez conserver les logs, il faut cocher la case d'archivage des logs.
+:::
+
+
+<Image
+    src="/img/docs/cpanel/mesures/logs-telechargement.png"
+    alt="Capture d'écran de l'outils pour accéder aux fichiers de logs"
+    caption="L'outils de logs permet de télécharger les logs et de configurer la conservation de l'historique"
+    title="Capture d'écran de l'outil de logs" />
+
+## Format des logs
+
+Les fichiers de logs correspondent aux logs du serveur web apache.
+
+:::info Serveur de cache et CDN
+Si vous avez activé un serveur de cache comme [Litespeed](/cpanel/o2switch/litespeed-cache-webadc) ou
+[xtremCache](/cpanel/o2switch/xtremcache-varnish), ou même une solution de CDN tierce, alors cela aura un impact sur
+les logs.
+
+Les logs qui sont proposés en téléchargement correspondent au log du serveur web apache.
+
+Lorsqu'il y a un serveur de cache devant votre site internet, ce dernier va absorber la majorité du trafic. En
+conséquence, le trafic arrivant jusqu'au serveur web apache sera bien moindre et donc cela se verra également
+dans les logs qui seront moins conséquents.
+:::
+
+Voici un exemple de logs:
+
+```
+199.45.155.94 - - [04/Oct/2024:01:29:17 +0200] "GET / HTTP/1.1" 200 37767 "-" "Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)"
+199.45.155.94 - - [04/Oct/2024:01:29:23 +0200] "GET /favicon.ico HTTP/1.1" 200 37767 "-" "Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)"
+199.45.155.95 - - [04/Oct/2024:01:35:55 +0200] "GET / HTTP/1.1" 200 37767 "-" "Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)"
+199.45.155.95 - - [04/Oct/2024:01:35:59 +0200] "GET /favicon.ico HTTP/1.1" 200 37767 "-" "Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)"
+138.246.253.24 - - [04/Oct/2024:01:38:15 +0200] "GET /robots.txt HTTP/1.1" 301 247 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36"
+199.45.154.146 - - [04/Oct/2024:02:12:00 +0200] "GET / HTTP/1.1" 200 37767 "-" "Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)"
+199.45.154.146 - - [04/Oct/2024:02:12:02 +0200] "GET /favicon.ico HTTP/1.1" 200 37767 "-" "Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)"
+199.45.155.68 - - [04/Oct/2024:02:42:20 +0200] "GET / HTTP/1.1" 200 37767 "-" "Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)"
+199.45.155.68 - - [04/Oct/2024:02:42:23 +0200] "GET /favicon.ico HTTP/1.1" 200 37767 "-" "Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)"
+34.77.173.114 - - [04/Oct/2024:02:51:38 +0200] "GET / HTTP/1.1" 301 237 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:52.0) Gecko/20100101 Firefox/52.0"
+```
+
+Le format des logs est documenté dans la [documentation apache](https://httpd.apache.org/docs/current/mod/mod_log_config.html#formats).
+Le format des logs utilisé côté o2switch est le suivant :
+
+```
+%h %l %u %t "%r" %>s %b "%{Referer}i" "%{User-Agent}i"
+```
+  * **\%h** : l'adresse IP du visiteur
+  * **\%l** : cette valeur contiendra toujours à tiret
+  * **\%u** : l'utilisateur distant, dans le cas d'une authentification basic par exemple. Ou `-` si vide / non applicable
+  * **\%t** : la date
+  * **"\%r"** : la requête, sous forme du verbe HTTP suivi de la page consultée suivi du protocole
+  * **\%\>s** : Le code de retour / status de la requête
+  * **\%b** : La taille de la réponse en octets, en excluant les en-têtes HTTP. Si 0 alors c'est `-`
+  * **"\%\{Referer\}i"** : Le referrer
+  * **"\%\{User-Agent\}i"** : Le user agent
+
