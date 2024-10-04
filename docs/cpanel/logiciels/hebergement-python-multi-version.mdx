@@ -1,0 +1,473 @@
+---
+title: Déployer une application Python sur un hébergement o2switch
+sidebar_label: Python
+description: L'outil Setup Python App vous permet de créer un environnement virtuel Python personnalisé pour déployer une application web Python.
+image: /img/docs/tools/lvepythonsel.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - python
+  - pip
+---
+
+# Déployer une application python chez o2switch
+
+L'outil **Setup Python App** permet de créer un **environnement Python** sur votre hébergement afin de déployer et
+**installer une application web conçu en Python**. L'outil vous permet de :
+  * **Choisir la version de Python** qui sera utilisée dans le projet. À cet instant, les versions *2.7, 3.3, 3.4, 3.5,
+3.6, 3.7, 3.8, 3.9, 3.10, 3.11* de Python sont proposées (mis à jour le 03/10/24)
+  * Cela va également faire le lien entre votre nom de domaine et votre application Python. En arrière-plan, cela
+utilise [Phusion Passenger](https://www.phusionpassenger.com/docs/tutorials/what_is_passenger/) et la **wsgi**
+  * Vous pouvez également **installer les dépendances avec pip**
+  * Un **environnement virtuel Python** est créé, avec la version de votre choix et une commande spéciale sera fournie
+pour entrer dans cet environnement virtuel lorsque vous travaillez en SSH
+
+En résumé, c'est l'outil à utiliser si vous souhaitez **installer une application web conçue avec Python sur un
+hébergement web o2switch**. Il s'agit d'une [offre d'hébergement Python](https://www.o2switch.fr/hebergement-illimite/),
+compatible avec plusieurs versions de Python différentes. L'offre o2switch supporte également d'autres
+[langages comme PHP, NodeJS et Ruby](/questions/langages-supportes-php-node-ruby-python).
+
+<PreviewToolCard tool='lvepythonsel' />
+
+## Découverte de l'outil Setup Python App
+
+L'outil **Setup Python App** contient trois grandes parties/pages :
+  * La page d’accueil qui liste les applications Python déployées
+  * La page de création d'une nouvelle application, qui permet de créer un environnement virtuel Python
+  * La page d'édition et de gestion d'une application qui est déjà déployée
+
+### Liste des applications Python déployées
+
+Sur la page d’accueil de l'outil, vous retrouverez l'ensemble des **applications Python déployées** sur votre
+hébergement, ainsi que différents boutons permettant d'éditer/démarrer/stopper/relancer l'application.
+Il y a également le bouton permettant de **créer un nouveau projet Python**.
+
+<Image
+    src="/img/docs/cpanel/logiciels/python-selector-liste-apps.png"
+    alt="Capture d'écran de l'outil Setup Python App avec la liste des applications python déployées"
+    caption="Page d'accueil de l'outil Setup Python app qui liste les projets web Python déployés"
+    title="Liste des projets Python déployés sur l'hébergement o2switch" />
+
+Voici le détail de chaque partie intéressante de cette page d’accueil :
+
+<span className="badge badge--danger">1</span> **Create Application** vous permet d'accéder au formulaire de création
+d'un nouveau projet web Python. Ce formulaire sera détaillé un peu plus tard.
+
+<span className="badge badge--danger">2</span> **App URI** vous indique sur quel domaine et URL est installé
+l'application Python
+
+<span className="badge badge--danger">3</span> **App Root Directory** vous indique dans quel dossier de votre
+hébergement se trouve les fichiers sources de votre projet web
+
+<span className="badge badge--danger">4</span> **Status** indique si l'application est lancée ou stoppée. Contrairement
+à une application PHP par exemple, une application Python peut être lancée, stoppée, relancée.
+
+<span className="badge badge--danger">5</span> <FAIcon icon="fa-solid fa-stop" size="1x" /> permet de stopper
+l'application
+
+<span className="badge badge--danger">6</span> <FAIcon icon="fa-solid fa-refresh" size="1x" /> permet de relancer
+l'application
+
+<span className="badge badge--danger">7</span> <FAIcon icon="fa-solid fa-pencil" size="1x" /> permet d'ouvrir la page de
+gestion de l'application
+
+<span className="badge badge--danger">8</span> <FAIcon icon="fa-solid fa-trash" size="1x" /> permet de supprimer
+l'application
+
+### Création d'une application Python
+
+La page suivante est la page de **création d'une application web Python** qui est accessible après avoir cliqué sur le
+bouton **Create Application**.
+
+<Image
+    src="/img/docs/cpanel/logiciels/python-creer-application.png"
+    alt="Installer une application Python sur un hébergement o2switch"
+    caption="Formulaire permettant de déployer une application Python sur un hébergement o2switch"
+    title="Créer une nouvelle application python avec Setup Python App" />
+
+Voici le détail de ce formulaire de création d'un environnement virtuel Python :
+
+<span className="badge badge--danger">1</span> **Create** permet de valider le formulaire et créer l'application
+
+<span className="badge badge--danger">2</span> **Python Version** permet de **choisir la version de Python** qui sera
+utilisée dans le projet. A la date de la création de cette page, vous avez le choix entre les versions suivantes de
+Python : 2.7, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10, 3.11 (mis à jour le 03/10/24)
+
+<span className="badge badge--danger">3</span> **Application Root** correspond au dossier dans lequel seront stockés les
+fichiers sources de votre application Python. Généralement il s'agit d'un dossier qui se trouve à la racine de votre
+hébergement : c'est la configuration recommandée. A ne pas confondre avec la racine du document qui est liée au nom de
+domaine, qui est généralement différente. Voir la note ci-dessous pour plus d'informations à ce sujet.
+
+<span className="badge badge--danger">4</span> **Application URL** permet de définir sur quel domaine/URL sera déployé
+l'application
+
+<span className="badge badge--danger">5</span> **Application Startup File** est le fichier, se trouvant à l'intérieur
+du `Application Root`, qui sert à lancer l'application. Cela fichier doit suivre la spécification
+[WSGI]([https://fr.wikipedia.org/wiki/Web_Server_Gateway_Interface). En résumé, le WSGI est ce qui permet de faire le
+lien entre l'application Python et le serveur web.
+
+<span className="badge badge--danger">6</span> **Application Entry Point** est le nom de la fonction, contenue dans le
+fichier WSGI du `Aplication startup file`, qui doit être appelée pour exécuter l'application. Généralement, c'est souvent
+`application`.
+
+<span className="badge badge--danger">7</span> **Passenger log file** correspond au chemin du fichier de log qui va être
+créé par Phusion Passenger qui est la technologie utilisée, côté serveur, pour faire fonctionner une application Python.
+Utile pour faire du débug ou lorsqu'une application ne se lance pas correctement.
+
+<span className="badge badge--danger">8</span> **Add Variable** permet de créer des variables d'environnement qui seront
+passées à l'application. C'est généralement utiliser pour passer la configuration à l'application, afin d'éviter d'avoir
+cela dans un fichier de configuration.
+
+:::warning Application root vs. Dossier lié au nom de domaine
+Le dossier **Application root** est le dossier qui contient les fichiers de l'application Python.
+
+La plupart du temps, c'est un dossier à la racine de l'hébergement et nous recommandons à ce que cela reste ainsi.
+
+Ce dossier-là ne doit pas être confondu avec la racine du document du nom de domaine, qui correspond au dossier
+dans lequel pointe le nom de domaine. Généralement le nom de domaine est associé avec un dossier `nom-de-domaine.tld`
+à la racine de l'hébergement ou dans le dossier `public_html` de l'hébergement.
+
+Cela signifie que l'application Python se trouve dans un dossier différent du dossier associé au domaine. C'est normal.
+
+Un exemple concret : les fichiers sources de l'application Python vont se trouver dans le dossier `monApplicationPython`
+à la racine de l'hébergement. Le nom de domaine pointe dans le dossier `mon-domaine.tld` à la racine de l'hébergement.
+Dans le dossier du nom de domaine, l'outil **Setup Python App** va créer un fichier `.htaccess` permettant de faire le lien
+avec l'application Python.
+
+Ne placez pas votre application Python dans le dossier lié au nom de domaine. Cela représente un problème de sécurité,
+car lorsque votre application est arrêté, les fichiers dans le dossier du domaine deviennent accessibles.
+:::
+
+### Gestion d'une application Python
+
+La page suivante est la page d'édition et de gestion d'une application existante, accessible en cliquant sur l'icône de
+crayon <FAIcon icon="fa-solid fa-pencil" size="1x" /> sur la page d’accueil de l'outil.
+
+<Image
+    src="/img/docs/cpanel/logiciels/python-gestion-app.png"
+    alt="Gestion d'une application web Python sur un hébergement o2switch"
+    caption="Page de gestion et d'édition d'un application Python déjà déployée"
+    title="Gestion d'une nouvelle application python avec Setup Python App" />
+
+La page de **gestion d'une application python** contient de nombreuses fonctionnalités :
+
+<span className="badge badge--danger">1</span> <FAIcon icon="fa-solid fa-trash" size="1x" /> **Destroy** permet de
+supprimer une application qui est déjà déployée. Supprime simplement l'environnement Python créé par l'outil mais pas
+vos fichiers sources.
+
+<span className="badge badge--danger">2</span> **Save** permet d'enregistrer les changements que vous avez pu faire sur
+le formulaire d'édition
+
+<span className="badge badge--danger">3</span> **Source** la commande source est très importante. C'est la commande
+à lancer pour **entrer dans votre environnement Python** lorsque vous travaillez en
+[SSH](/guides/webmastering/connexion-ssh) ou avec l'[outil Terminal](/cpanel/outils-avances/terminal-ssh-web).
+
+<span className="badge badge--danger">4</span> <FAIcon icon="fa-solid fa-stop" size="1x" /> **Stop App** permet de
+stopper l'application Python. En stoppant l'application, cette dernière ne répond plus et le contenu liée au nom de
+domaine sera directement accessible, donc prenez garde à ne rien mettre de confidentiel dans le dossier lié au domaine !
+
+<span className="badge badge--danger">5</span> <FAIcon icon="fa-solid fa-refresh" size="1x" /> **Restart** permet de
+relancer l'application, à utiliser lorsque les fichiers sources de votre application changent
+
+<span className="badge badge--danger">6</span> **Python Version** permet de **changer la version de Python** qui est
+actuellement en place sur votre projet. Les versions actuellement proposées sont : *2.7, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8,
+3.9, 3.10, 3.11* (mis à jour le 03/10/24)
+
+<span className="badge badge--danger">7</span> **Application Root** permet de changer le dossier dans lequel se trouve
+les sources de votre application. Ne déplace rien, change juste la configuration du projet. Il est recommandé de ne
+**pas modifier** le `application root` d'une application déployée, cela cause des problèmes. Dans le pire des cas,
+c'est **mieux de supprimer/recréer l'application**.
+
+<span className="badge badge--danger">8</span> **Application URL** indique sur quel nom de domaine/URL est installée
+l'application
+
+<span className="badge badge--danger">9</span> **Application startup file** est le chemin vers le fichier
+[wsgi](https://en.wikipedia.org/wiki/Web_Server_Gateway_Interface) de l'application qui doit se trouver dans le dossier
+**Application root**
+
+<span className="badge badge--danger">10</span> **Application entry point** est le nom de la fonction (ou `callable`),
+contenu dans le wsgi, qui doit être appelée pour exécuter l'application. Dans 90% des cas, c'est `application`.
+
+<span className="badge badge--danger">11</span> **Passenger log file** est le chemin vers le fichier de log créé par
+Phusion Passenger qui est la technologie utilisée pour faire fonctionner Python dans un contexte web sur l'hébergement.
+A utiliser si vous avez des erreurs avec l'application.
+
+<span className="badge badge--danger">12</span> **Run pip install** permet **d'installer les dépendances avec pip**.
+Ce bouton là devient activable après avoir fourni au moins un fichier de dépendances (généralement `requirements.txt`)
+dans le champs qui se trouve juste en dessous et en validant avec **Add**.
+
+<span className="badge badge--danger">13</span>**Execute Python script** permet de lancer un script Python, comme le
+`manage.py` dans le cas de Django par exemple. Peut vous permettre d'éviter de devoir utiliser
+[SSH](/guides/webmastering/connexion-ssh) ou l'[outil Terminal](/cpanel/outils-avances/terminal-ssh-web)]. Cependant,
+nous recommandons quand même de lancer vos commandes en SSH ou avec le terminal, l'affichage/gestion sera meilleurs
+que celui fourni par le  **Execute Python script**
+
+<span className="badge badge--danger">14</span> **Add Variable** permet de créer/modifier les variables d'environnements
+qui sont passées à votre application
+
+## Exemple de déploiement : Wagtail
+
+Pour prendre un exemple concret, nous allons **déployer l'application Wagtail** qui est un CMS conçu en Python et qui
+se base [Django](https://www.djangoproject.com/). Il s'agit donc d'une application complète et un bon cas d'étude.
+
+Pour lancer cette installation, nous allons suivre la procédure d'installation qui est indiquée sur le site de
+[Wagtail](https://wagtail.io/). L'application s'installe avec un utilitaire proposé par Wagtail.
+
+En résumé, on va donc :
+ 1. Créer un projet Python vide afin de créer un environnement Python
+ 2. Installer l'utilitaire Wagtail
+ 3. Avec l'utilitaire Wagtail, on va créer un nouveau projet de site Wagtail
+ 4. On va configurer Wagtail et notamment sa base de données mysql et lancer l'assistant de création/remplissage de la
+base de données avec les données nécessaires au fonctionnement de wagtail
+ 5. Enfin, il ne restera plus qu'à ajuster le projet, jusqu'à maintenant vide, pour le faire pointer vers le bon `wsgi`
+et plus le "Hello World" par défaut
+
+```bash title="Commandes pour installer Wagtail"
+# La procédure d'installation de Wagtail en 7 lignes
+pip install wagtail
+wagtail start mysite
+cd mysite
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py createsuperuser
+# Cette ligne ne sera pas nécessaire, l'application sera lancé par Phusion Passenger
+python manage.py runserver
+```
+
+### Création d'un projet Python vide
+
+
+La première étape consiste à créer un projet Python vide. L'outil va ainsi **créer un environnement Python** que l'on
+pourra utiliser pour **installer l'utilitaire d'installation de Wagtail**.
+
+On se rend donc sur l'outil **Setup python app** puis on clique sur le bouton **Create Application**. Sur l'écran
+suivant, on créé un projet vide, comme ci-dessous.
+
+<Image
+    src="/img/docs/cpanel/logiciels/python-wagtail-creer-app.png"
+    alt="Création d'un environnement virtuel Python pour installer Wagtail"
+    caption="Création d'une application vide pour générerl'environnement virtuel Python"
+    title="Création d'un environnement virtuel Python" />
+
+Pour détailler chaque étape :
+
+<span className="badge badge--danger">1</span> **Python Version** : on choisie version 3.11 de Python, Wagtail aura
+besoin de cela.
+
+La version de Python compatible avec Wagtail n'est pas gravé dans le marbre, il faut vérifier la
+[grille de compatibilité](https://docs.wagtail.org/en/stable/releases/upgrading.html#id1) sur le site de Wagtail. A la
+date de rédaction de ce guide (10/2024), la version 3.11 est adaptée.
+
+<span className="badge badge--danger">2</span> **Application Root** : on respecte les bonnes pratiques donc on choisi un
+dossier à la racine de l'hébergement dans lequel iront les fichiers sources de l'application wagtail
+
+<span className="badge badge--danger">3</span> **Application URL** : on sélectionne sur quel domaine va être installer l'application
+
+<span className="badge badge--danger">4</span> **Application startup file** : on laisse vide pour créer un projet vide.
+L'outil va automatiquement créer une application "Hello World" d'exemple. On mettra ce champs à jour plus tard lorsque
+nous aurons installé Wagtail.
+
+<span className="badge badge--danger">5</span> **Application entry point** : on laisse vide également, l'outil va
+pré-remplir cela avec le "Hello World" d'exemple. La valeur par défaut qui va être rempli par l'outil convient.
+
+<span className="badge badge--danger">6</span> Enfin on valide en cliquant sur **Create**
+
+### Installation de l'utilitaire wagtail
+
+Une fois le projet créé, on arrive sur la page de gestion du projet. La prochaine étape est d'installer l'utilitaire
+`wagtail` qui permettra d'installer en quelques commandes le CMS wagtail.
+
+On va faire cela avec l'outil [Terminal](/cpanel/outils-avances/terminal-ssh-web) dans cPanel
+(ou en [SSH](/guides/webmastering/connexion-ssh) si vous préférez, ça revient au même).
+
+Première étape, il faut copier la commande `source` qui est donné dans la page de gestion du projet.
+C'est la commande qui permet d'**entrer dans l'environnement Python**.
+
+<Image
+    src="/img/docs/cpanel/logiciels/python-wagtail-commande-source.png"
+    alt="Capture d'écran de l'outil Python donnant la commande source pour entrer dans l'environnement python en SSH"
+    caption="La commande source permet d'entrer dans l'environnement Python créé par l'outil"
+    title="Le projet est créé, la commande source permet d'entrer dans l'environnement Python" />
+
+Dans la capture d'écran, on remarque également que **Application startup** file et **Application entry point** ont été
+remplis avec les valeurs par défaut du “Hello World”.
+
+Ensuite, on se rend dans l'outil terminal, on lance la commande `source`, puis la première commande donnée par le guide
+d'installation de wagtail, permettant d'installer l'utilitaire d'installation.
+
+```bash title="Les commandes à lancer pour installer la CLI wagtail"
+# Ne copier pas cette commande, prenez celle fourni par l'outil python sur votre hébergement
+# La commande change en fonction du nom de votre projet et de la version de python sélectionné
+source /home/dojo2567/virtualenv/app-wagtail/3.11/bin/activate && cd /home/dojo2567/app-wagtail
+
+# Installation de la CLI wagtail
+pip install wagtail
+```
+
+<Image
+    src="/img/docs/cpanel/logiciels/python-wagtail-installation-cli.png"
+    alt="Capture d'écran du terminal avec les lignes de commandes permettant d'installer la CLI wagtail"
+    caption="Installation de la CLI `wagtail` avec pip sur l'hébergement o2switch"
+    title="Installation de la commande wagtail sur l'hébergement o2switch avec l'outil python" />
+
+Dans la capture d'écran, on peut remarquer que le `prompt` change après avoir lancé la commande `source`. Cela permet
+de voir visuellement que l'on se trouve **dans l'environnement python** créé par l'outil. En un coup d'œil, on
+remarque que l'on utilise la version 3.11 de Python.
+
+
+
+### Installation du CMS Wagtail
+
+Maintenant que nous avons accès à l'utilitaire wagtail, nous pouvons créer un projet de site. Pour cela, il faut
+lancer les commandes suivantes :
+
+```bash title="Les commandes à lancer pour installer le CMS wagtail"
+# On se replace à la racine de l'hébergement
+cd
+
+# On efface le Hello World python créé par cPanel
+rm -fr app-wagtail/*
+
+# On démarre un nouveau projet wagtail
+# La première option correspond au nom du projet
+# Suivi du dossier dans lequel on souhaite l'installer. Donc le même que le Application Root défini précédemment
+wagtail start monsitewagtail "app-wagtail"
+
+# On se place dans le dossier contenant les sources de l'application
+cd app-wagtail
+
+# On lance l'installation des dépendances
+pip install -r requirements.txt
+```
+
+<Image
+    src="/img/docs/cpanel/logiciels/python-wagtail-installation-cms.png"
+    alt="Capture d'écran des commandes à lancer pour installer le CMS wagtail"
+    caption="Commandes à lancer pour créer un nouveau site Wagtail"
+    title="Installation du CMS wagtail en ligne de commande" />
+
+### Configuration et mise en route de Wagtail
+
+A présent, il faut faire quelques ajustements et configurations :
+  * il faut finaliser l'installation de wagtail en configurant la base de données et en important le schéma de base
+  * il faut créer un utilisateur administrateur sur Wagtail
+  * il faut mettre à jour le projet et notamment l'**Application startup file** pour enlever celui créé par défaut avec le "Hello World"
+
+Pour la base de données, nous allons rester sur le choix par défaut qui consiste à utiliser une base de données sqlite.
+
+```bash title="Configuration de la base de données"
+cd app-wagtail
+# Cette commande va créer une base de données sqlite et lancer les migrations (importer le schéma et les données de base)
+python manage.py migrate
+```
+
+<Image
+    src="/img/docs/cpanel/logiciels/python-wagtail-migration-db.png"
+    alt="Capture d'écran des commandes à lancer pour créer la base de données pour wagtail"
+    caption="Création de la base de données wagtail"
+    title="Création de la base de données sqlite pour wagtail" />
+
+Ensuite, il faut créer un compte administrateur.
+
+```bash title="Configuration de la base de données"
+cd app-wagtail
+# Cette commande va créer un utilisateur administrateur
+python manage.py createsuperuser
+```
+
+<Image
+    src="/img/docs/cpanel/logiciels/python-wagtail-creation-admin.png"
+    alt="Capture d'écran des commandes à lancer pour créer un administrateur pour wagtail"
+    caption="Création d'un utiliasteur administrateur pour wagtail"
+    title="Création d'un administrater pour wagtail" />
+
+Enfin, il ne reste plus qu'à ajuster les configurations dans l'outil python, notamment l'**Application startup file**.
+
+<Image
+    src="/img/docs/cpanel/logiciels/python-wagtail-finalisation.png"
+    alt="Capture d'écran de l'outil Setup Python App pour finaliser l'installation de Wagtail"
+    caption="On finalise l'installation de wagtail sur l'hébergement o2switch en mettant à jour le **Application startup file**"
+    title="Finalisation de l'installation de wagtail" />
+
+Faites attention dans le chemin que vous indiquez, il dépend du nom de l'application wagtail créé. Cela dépend donc de
+ce que vous avez renseigné dans la commande `wagtail start`.
+
+L'installation de Wagtail est terminé, vous pouvez maintenant y accéder depuis un navigateur web.
+
+<Image
+    src="/img/docs/cpanel/logiciels/python-wagtail-home.png"
+    alt="Capture d'écran de la page d'accueil de Wagtail"
+    caption="L'installation de wagtail est terminée"
+    title="L'installation de wagtail est finie" />
+
+## Déploiement d'une application générique
+
+Le déploiement de **Wagtail** est un exemple concret complet, cependant dans la réalité, le déploiement est
+généralement différent, car il n'y a pas d'outil, comme l'utilitaire de Wagtail, pour créer le projet.
+
+
+Voici la procédure pour un déploiement plus générique, d'une application que vous avez pu concevoir vous-même :
+  1. En premier, il faut récupérer les sources de l'application et les placer dans un dossier à la racine de l'hébergement. Les sources peuvent être récupérées en FTP ou avec GIT en SSH.
+  2. Ensuite, via l'outil **Setup Python App**, il faut **créer un environnement virtuel python** :
+     * On sélectionne la version de Python à utiliser. Dépend de votre projet.
+     * Dans **Application root**, on indique le chemin dans lequel se trouve les sources de l'application donc le même dossier que celui créé à l'étape 1
+     * Dans **Application URL**, il faut choisir sur quel domaine/url va répondre l'application
+     * Dans **Application startup file** il faut mettre le chemin vers le fichier `wsgi.py` de l'application, qui doit être contenu dans le dossier (ou dans un sous dossier de) **Application root**
+     * **Application entry point** est généralement défini sur `application`
+  3. Dés que l'environnement est créé, il faut installer les dépendances de l'application
+     * On peut faire cela en renseignant le fichier de dépendances `requirements.txt` dans la partie **Configurations files** puis faire un **Run pip install**
+     * Ou bien (et c'est recommandé), faire cela depuis en [SSH](/guides/webmastering/connexion-ssh) ou avec l'[outil Terminal](/cpanel/outils-avances/terminal-ssh-web) . Il faudra bien lancer la commande donné par l'outil, celle qui commence par `source` pour **entrer dans l'environnement python** puis lancer `pip install`
+  4. Si vous avez des configurations à faire dans l'application, il faudra modifier les fichiers adéquats. Même chose s'il faut lancer des commandes pour initier correctement l'application (comme la création des tables d'une base de données avec une `migration`)
+  5. Enfin, il suffit de relancer l'application depuis l'outil **Setup Python App**
+
+## Usages avancés
+
+
+### Mode de debug
+
+En cas d'erreurs, la page d'erreur qui s'affiche (dans le navigateur web) ne contient pas beaucoup d'information par
+défaut. Il est possible d'activer le mode de debug avancé de Phusion Passenger, la page d'erreur générée sera beaucoup
+plus complète.
+
+Pour cela, il suffit d'ajouter les lignes suivantes dans le fichier `.htaccess` à la racine du site internet :
+
+```apacheconf title="Activation du mode debug"
+PassengerAppEnv development
+PassengerFriendlyErrorPages on
+```
+
+Les erreurs sont également loguées dans [l'outil erreurs](/cpanel/mesures/erreurs-apache) de cPanel.
+
+### Déploiement en CLI
+
+Il est possible de déployer intégralement une application Python en ligne de commande. Cela dépasse le cadre de
+cette documentation, mais vous pouvez utiliser la commande `cloudlinux-selector` qui est
+[documentée ici](https://docs.cloudlinux.com/command-line_tools/#python-selector).
+
+Cela peut être utilisé lors d'un déploiement automatique, via GIT par exemple.
+
+### Chemins vers les différentes versions de Python
+
+Plusieurs versions de Python sont installées, il est parfois nécessaire de connaitre le chemin complet vers les
+différentes versions des fichiers exécutables, notamment lorsque Python est utilisée comme une commande CLI, indépendante
+d'un projet web complet Python.
+
+Pour un exemple d'utilisation, voir le guide : [Comment modifier le $PATH ?](/questions/langages-supportes-php-node-ruby-python).
+
+```bash title="Chemin vers les exécutables Python"
+# Dans les dossiers d'autres exécutables sont présents
+# Exemple : pip, pydoc, pyjwt
+/opt/alt/python27/bin/python2
+/opt/alt/python33/bin/python3
+/opt/alt/python34/bin/python3
+/opt/alt/python35/bin/python3
+/opt/alt/python36/bin/python3
+/opt/alt/python37/bin/python3
+/opt/alt/python38/bin/python3
+/opt/alt/python39/bin/python3
+/opt/alt/python310/bin/python3
+/opt/alt/python311/bin/python3
+```
+

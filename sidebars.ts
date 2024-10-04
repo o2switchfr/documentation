@@ -121,7 +121,7 @@ const sidebars: SidebarsConfig = {
         }, 
         {
           type: 'category',
-          label: 'Logiciels',
+          label: 'Langages',
           collapsible: true,
           collapsed: true,
           link: {
