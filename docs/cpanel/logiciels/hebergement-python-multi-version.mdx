@@ -10,6 +10,7 @@ tags:
   - offre scale'up
   - python
   - pip
+  - wagtail
 ---
 
 # Déployer une application python chez o2switch
@@ -439,6 +440,27 @@ PassengerFriendlyErrorPages on
 ```
 
 Les erreurs sont également loguées dans [l'outil erreurs](/cpanel/mesures/erreurs-apache) de cPanel.
+
+### Accès aux compilateurs
+
+Par défaut, l'accès aux compilateurs est bloqués sur les hébergements, mais le déblocage peut être demandé en
+contact le support technique.
+
+Le blocage de l'accès aux compilateurs peut générer des erreurs lors de l'installation de dépendances.
+
+Les messages d'erreurs contiendront des références à : `gcc`, `make`, `g++`, `ld`
+
+L'erreur indiquera que quelque chose ne peut pas être compilé ou que le compilateur n'est pas exécutables.
+
+``` title="Exemples d'erreurs en rapport avec le blocage des compilateurs"
+make [une longue suite d'arguments]
+gcc [une longue suite d'arguments]
+make: excepvp: gcc: Permissions denied
+make: *** [Makefile:247: autolink.o] Error 127
+make failed, exit code 2
+```
+
+Si vous voyez ce type d'erreurs, contactez le support et demandez l'accès aux compilateurs.
 
 ### Déploiement en CLI
 
