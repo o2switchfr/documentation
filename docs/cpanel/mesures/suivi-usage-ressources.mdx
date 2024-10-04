@@ -13,6 +13,8 @@ tags:
   - mémoire
   - IO
   - monitoring
+  - saturation
+  - debug
 ---
 
 # Suivre l'utilisation des ressources CPU, mémoire et IO de l'hébergement
@@ -74,7 +76,7 @@ consommation sur les 24h ou les 7 derniers jours.
 Résumé des différents types de ressources visibles dans les graphiques, suivi d'une explication rapide sur ce qui
 consomment lesdites ressources.
 
-**CPU Usage** : La consommation en CPU (processeur) de votre hébergement
+**<FAIcon icon="fa-solid fa-bolt" size="1x" /> CPU Usage** : La consommation en CPU (processeur) de votre hébergement
 
 Tous les processus lancés sur votre hébergement consomment du CPU. Dans la majorité des cas, la consommation en CPU est
 liés aux processus PHP exécutés sur votre hébergement. Un processus PHP est généré pour répondre à un visiteur qui
@@ -85,7 +87,7 @@ Si vous utilisez d'autres langages comme nodeJS, Ruby ou Python, alors ce sont c
 À noter que les processus email (IMAP, POP) sont également comptabilisé dans le décompte en CPU, mais c'est rare que
 cela soit un problème (sauf si vous avez un nombre très important d'adresses emails).
 
-**Physical Memory Usage** : La consommation en mémoire RAM de votre hébergement
+**<FAIcon icon="fa-solid fa-memory" size="1x" /> Physical Memory Usage** : La consommation en mémoire RAM de votre hébergement
 
 C'est très rare que la mémoire RAM devienne un problème. Tous les processus consomment un peu de mémoire RAM pour
 fonctionner. En fonction de la manière dont sont conçus les scripts exécutés sur l'hébergement, ils consomment plus ou
@@ -97,7 +99,7 @@ tendances à consommer plus de mémoire.
 Les gestionnaires de dépendances comme `composer`, `npm` ou `pip` sont également très gourmand en mémoire, car ils
 doivent conserver tout l'arbre des dépendances en mémoire.
 
-**Input/Output Usage** : Les opérations lecture/écriture sur le disque sur votre hébergement
+**<FAIcon icon="fa-solid fa-hard-drive" size="1x" /> Input/Output Usage** : Les opérations lecture/écriture sur le disque sur votre hébergement
 
 Tous les processus manipulant énormément de fichiers sur l'hébergement génèrent des accès disques. Le plus souvent, ce
 sont les processus de sauvegardes (passe en revue l'intégralité des fichiers d'un dossier).
@@ -107,7 +109,7 @@ génèrent des IO.
 
 En résumé, tout ce qui a besoin de lire/écrire des choses sur le disque dur de votre hébergement génère des IO.
 
-**Entry Process** : Nombre de connexions actives sur le serveur web pour votre compte
+**<FAIcon icon="fa-solid fa-users-gear" size="1x" /> Entry Process** : Nombre de connexions actives sur le serveur web pour votre compte
 
 A chaque fois que vous avez une visite sur votre site internet, cela utilise une place (un slot) sur le serveur web.
 
@@ -123,7 +125,7 @@ Dans ce cas et si vous avez beaucoup de visite, vous pouvez saturer votre nombre
 
 Il faut voir l'**entry process** comme le nombre de connexions concurrentes sur vos sites.
 
-**Processes** : Nombre de processus en cours d'exécution
+**<FAIcon icon="fa-solid fa-gears" size="1x" /> Processes** : Nombre de processus en cours d'exécution
 
 Le plus souvent, ce sont les sites internet et les processus qui en résultent (PHP, nodeJS, Ruby, Python) qui représente
 la majorité du nombre de processus en cours d'exécution sur un hébergement.
