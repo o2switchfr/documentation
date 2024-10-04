@@ -1,0 +1,381 @@
+---
+title: Déployer une application Ruby / ROR sur un hébergement o2switch
+sidebar_label: Ruby
+description: L'outil Setup Ruby App permet de créer un environnement virtuel Ruby et permet de déployer une application web Ruby ou Ruby On Rails
+image: /img/docs/tools/lverubysel.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - ruby
+  - ruby on rails
+---
+
+# Déployer une application Ruby sur un hébergement o2switch
+
+L'outil **Setup Ruby App** permet de créer un **environnement Ruby** sur votre hébergement afin de **mettre en ligne
+une application web conçu avec Ruby** (ou Ruby on Rails - RoR). L'outil permet de :
+  * **Choisir la version de Ruby** qui sera utilisée dans le projet. \
+À cet instant les versions suivantes de Ruby sont proposées : *1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 3.0, 3.1* (mis à jour le 10/2024)
+  * L'outil va également faire le lien entre votre application Ruby/RoR et un nom de domaine de votre hébergement. En arrière-plan [Phusion Passenger](https://www.phusionpassenger.com/docs/tutorials/what_is_passenger/) est utilisé pour faire ce lien.
+  * Vous pouvez également gérer/installer vos dépendances avec l'outil **gem** (**bundler** est également installable et utilisable)
+  * Un **environnement virtuel Ruby** sera créé par l'outil. Une commande spéciale est donné par l'outil afin de travailler dans cet environnement virtuel lorsque vous travaillez en SSH par exemple.
+
+En résumé, c'est l'outil à utiliser si vous souhaitez **installer une application web ruby** sur votre
+[offre d'hébergement web](https://www.o2switch.fr/hebergement-illimite/) o2switch. L'offre o2switch supporte également
+d'autres [langages comme PHP, Python et NodeJS](/questions/langages-supportes-php-node-ruby-python).
+
+<PreviewToolCard tool='lverubysel' />
+
+## Découverte de l'outil Setup Ruby App
+
+L'outil est assez simple, il ne contient qu'une seule page découpée en deux parties :
+  * une partie permettant de **créer une nouvelle application Ruby** (1 à 4 dans la capture)
+  * l'autre partie permet de **lister et gérer les applications Ruby** qui sont déjà déployées (5 à 11 dans la capture)
+
+La page d'accueil de l'outil contient ces deux parties.
+
+<Image
+    src="/img/docs/cpanel/logiciels/ruby-accueil.png"
+    alt="Installer une application Ruby/RoR sur un hébergement o2switch"
+    caption="Page d'accueil de l'outil de création et de gestion d'une application Ruby"
+    title="Capture d'écran de l'outil Setup Ruby App permettant d'installer une application ruby chez o2switch" />
+
+L'outil contient plusieurs éléments.
+
+<span className="badge badge--danger">1</span>  **Ruby Version** permet de **choisir la version de Ruby** à utiliser
+lors de la création d'un nouveau projet Ruby.
+
+À cet instant les versions *1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 3.0, 3.1 de Ruby sont proposées.*
+(mis à jour le 10/2024)
+
+<span className="badge badge--danger">2</span>  **App Directory** correspond au **répertoire dans lequel va se trouver
+les fichiers sources de l'application Ruby**.
+
+Généralement, il s'agit d'un dossier qui se situe à la racine de l'hébergement (recommandé). À ne pas confondre avec le
+dossier qui est associé au nom de domaine (cf. la note plus bas dans cet article)
+
+<span className="badge badge--danger">3</span>  **App Domain/URI** permet de choisir sur quel nom de domaine va être
+déployée l'application et si cela sera publié dans un sous dossier
+
+<span className="badge badge--danger">4</span>  **Setup** est le bouton de confirmation permettant de lancer la création
+du nouveau projet
+
+<span className="badge badge--danger">5</span>  **App Directory** situé dans la partie des applications déjà installées
+indique dans quel dossier de l'hébergement se trouvent les fichiers sources de l'application en place.
+
+Il est recommandé de ne pas modifier ce dossier une fois l'application créée, c'est mieux de supprimer/recréer
+l'application.
+
+<span className="badge badge--danger">6</span>  **App URI** dans la partie des applications installées indique sous quel
+domaine/URL répond l'application
+
+<span className="badge badge--danger">7</span>  **Ruby Version** dans la partie des applications installées permet de
+changer la version de Ruby d'un projet existant
+
+<span className="badge badge--danger">8</span>  **Modules** permet de lister et d'installer les dépendances **gems** de
+l'application. Pour une installation de dépendance, on recommande plutôt de faire cela en
+[SSH](/guides/webmastering/connexion-ssh) ou avec l'[outil Terminal](/cpanel/outils-avances/terminal-ssh-web) c'est
+plus pratique.
+
+<span className="badge badge--danger">9</span>  **Execute command** permet de lancer une commande dans votre
+environnement Ruby, utile pour dépanner si vous ne souhaitez pas travailler en [SSH](/guides/webmastering/connexion-ssh)
+ou avec l'[outil Terminal](/cpanel/outils-avances/terminal-ssh-web)
+
+<span className="badge badge--danger">10</span>  **Command for entering to virutal environnement** est la commande à
+lancer lorsque vous travaillez SSH ou avecl'outil Terminal pour **entrer dans votre environnement virtuel Ruby** et
+travailler sur votre projet
+
+<span className="badge badge--danger">11</span>  **Update**, **Reset**, **Restart**, **Remove** permet de gérer
+l'application en la mettant à jour, en remettant les réglages par défaut, en relançant l'application ou en la supprimant
+totalement
+
+:::info App Directory et racine du document du nom de domaine
+Il ne faut pas confondre le **App Directory**, qui est le répertoire dans lequel se trouve les fichiers sources de votre
+application et la **racine du document** du nom de domaine qui est le dossier dans lequel pointe votre nom de domaine.
+
+Exemple : les fichiers sources de votre application vont se trouver dans le dossier **/monAppRuby** et votre nom de
+domaine va pointer dans **/domaine.tld**. Il n'y aura pas grand-chose dans le dossier **/domaine.tld** et c'est normal.
+
+C'est l'outil **Setup Ruby App** qui fait le lien entre ces deux dossiers. Nous recommandons à ce que ces deux dossiers
+restent séparés.
+:::
+
+:::info SSH et Terminal
+Lorsque vous travaillez [SSH](/guides/webmastering/connexion-ssh) ou avec
+l'[outil Terminal](/cpanel/outils-avances/terminal-ssh-web), il faut absolument commencer par lancer la commande qui est
+donnée dans la partie **Command for entering to virutal environnement**. C'est très important.
+
+Si vous ne faites pas cela, vous n'allez pas travailler dans votre environnement Ruby virtuel, donc vous n'aurez pas
+accès à la version de Ruby que vous avez choisie, ni aux dépendances que vous avez pu installer !
+:::
+
+## Exemple de déploiement : Redmine
+
+Afin de prendre un exemple concret de déploiement d'application Ruby, nous allons voir comment installer l'application
+de gestion de projet [Redmine](https://www.redmine.org/) sur un hébergement web o2switch.
+
+C'est une application Ruby complète et reconnue, ça permet de voir l'installation d'une application réelle.
+
+Pour cela, nous allons suivre la [procédure d'installation générique](https://www.redmine.org/projects/redmine/wiki/RedmineInstall).
+En résumé, nous allons :
+  1. Créer un projet Ruby vide pour commencer, afin d'avoir accès à un environnement Ruby
+  2. Nous allons récupérer les sources de l'application et les mettre dans le dossier du projet, puis créer/configurer
+la base de données.
+  3. Ensuite, il faudra installer les dépendances de l'application, nous allons faire cela en ligne de commande, car
+c'est bien plus pratique.
+  4. Après, il faudra lancer quelques commandes permettant de remplir la base de données de Redmine avec des données et
+faire 2-3 configurations.
+  5. Enfin, il ne restera plus qu'a relancer l'application dans l'outil **Setup Ruby App**
+
+### Accès aux compilateurs
+
+Si cela n'est pas déjà fait, il faut contacter le support o2switch pour demander le **déblocage des accès aux
+compilateurs**.
+
+Si vous ne faites pas cela, vous allez avoir une erreur lors de l'installation des dépendances de Redmine, l'étape avec
+`bundler`. Un message d'erreur indiquera que `gcc` n'est pas accessible.
+
+Par défaut, l'accès aux compilateurs est bloqués sur les hébergements, pour des raisons de sécurité et parce qu'il
+s'agit d'une fonctionnalité avancée, rarement demandée. Il suffit de contacter le support pour demander le déblocage.
+
+### Création de l'environnement Ruby
+
+En premier, nous allons créer un projet Ruby afin que l'outil **Setup Ruby App** génère un **environnement Ruby Virtuel**.
+
+<Image
+    src="/img/docs/cpanel/logiciels/ruby-redmine-creation-environnement.png"
+    alt="Capture d'écran de l'outil Setup Ruby App montrant la création d'un environnement virtuel Ruby"
+    caption="Création d'un environnement virtuel Ruby pour installer Redmine sur l'hébergement o2switch"
+    title="Création d'un environnement virtuel ruby" />
+
+Il n'y a pas grand-chose à renseigner :
+<span className="badge badge--danger">1</span> **Ruby Version** : la version de Ruby sélectionnée. Nous choisissons
+la version 3.11 de Ruby car elle est actuellement supportée par Redmine.
+
+Cela n'est pas gravé dans le marbre, il faut regarder la [grille de compatibilité](https://www.redmine.org/projects/redmine/wiki/RedmineInstall#Ruby-interpreter-and-supported-databases)
+de Redmine, il est probable que cela évolue à l'avenir.
+
+<span className="badge badge--danger">2</span> **App Directory** : le dossier dans lequel se trouveront les fichiers de
+Redmine. On respecte les recommandations et on créé un dossier à la racine de l'hébergement, dossier qui est différent
+du dossier dans lequel pointe le nom de domaine.
+
+<span className="badge badge--danger">3</span> **App Domain** : le nom de domaine sur lequel l'application Redmine
+répondra. On choisi le [sous-domaine](/cpanel/domaines/configuration-sous-domaine) que l'on a créé pour ce projet
+
+Une fois que le projet est créé, deux choses :
+  * Par défaut, l'outil met en place un **Hello World** donc si vous naviguez sur le domaine, un
+**Its Work** s'affichera avec la version de Ruby. Cela génère aussi quelques fichiers dans le dossier **App Directory**
+et notamment le code qui sert à afficher ce **It works**.
+  * Mais surtout, on peut se connecter en SSH et utiliser la commande **source** fourni par l'outil pour
+**entrer dans l'environnement Ruby**
+
+### Récupération des fichiers de Redmine
+
+Étape suivante, on se connecte en [SSH](/guides/webmastering/connexion-ssh) (ou avec
+l'[outil Terminal](/cpanel/outils-avances/terminal-ssh-web)) puis on lance la commande `source` permettant d'entrer
+dans l'environnement Ruby.
+
+<Image
+    src="/img/docs/cpanel/logiciels/ruby-redmine-commande-source.png"
+    alt="Capture d'écran de l'outil Setup Ruby App montrant la commande source pour entrer dans l'environnement virtuel Ruby"
+    caption="La commande `source` permet de travailler dans l'environnement virtuel ruby"
+    title="Commande permettant d'entrer dans l'environnement Ruby" />
+
+Après avoir lancé la commande, on constate que le **prompt SSH** change. C'est à cela que l'on reconnaît que l'on est
+bien **dans l'environnement virtuel**.
+
+<Image
+    src="/img/docs/cpanel/logiciels/ruby-redmine-prompt-ssh.png"
+    alt="Capture d'écran du terminal SSH montrant que le prompt SSH change après avoir lancé la commande source"
+    caption="Le prompt SSH change après avoir lancé la commande `source`"
+    title="Le prompt SSH change lorsqu'on se trouve dans l'environnement Ruby" />
+
+Ensuite, on peut lancer nos commandes SSH pour récupérer les sources de l'application et le mettre dans le bon dossier
+de l'hébergement.
+
+```bash title="Téléchargement des fichiers source de Redmine"
+# On se place à la racine de l'hébergement
+cd
+
+# On télécharge les sources
+# Prenez une version récente sur
+# https://www.redmine.org/projects/redmine/wiki/Download
+wget -q https://www.redmine.org/releases/redmine-5.1.3.tar.gz
+
+# On extrait les sources
+tar -xf redmine-?.?.?.tar.gz
+
+# On supprime le dossier de l'application créé par cPanel
+# Ce n'est qu'un Hello World à ce stade
+rm -fr app-redmine
+
+# Et on met Redmine à la place
+mv redmine-?.?.? app-redmine
+
+# On supprime l'archive, elle n'est plus utile
+rm -f redmine-?.?.?.tar.gz
+
+# On entre dans le dossier de l'application
+cd app-redmine
+
+# On copie le fichier de configuration d'exemple pour la base de données
+cp -a config/database.yml.example config/database.yml
+
+# On va également mettre à jour le fichier de configuration
+vi config/database.yml
+```
+
+<Image
+    src="/img/docs/cpanel/logiciels/ruby-redmine-telechargement-source.png"
+    alt="Capture d'écran des commandes à lancer pour télécharger les fichiers de Redmine"
+    caption="Les commandes à lancer pour télécharger les fichiers de Redmine sur l'hébergement"
+    title="Téléchargement des fichiers de Redmine" />
+
+Pour les modifications à apporter dans le fichier de configuration `config/database.yml`, il faut modifier
+l'environnement de `production` pour utiliser une base de données sqlite.
+
+```yaml title="Modification à apporter dans config/database.yml"
+production:
+  adapter: sqlite3
+  database: db/redmine.sqlite3
+```
+
+<Image
+    src="/img/docs/cpanel/logiciels/ruby-redmine-database-config.png"
+    alt="Capture d'écran des modifications à apporter dans le fichier de configuration de redmine"
+    caption="Les modifications à apporter dans le fichier de configuration database.yml de Redmine"
+    title="Modification du fichier database.yml" />
+
+:::info Espace dans les fichiers yaml
+Les espaces sont très importants dans les fichiers `.yaml`. Faites très attention au nombres d'espaces que vous
+ajoutez devant les lignes de configurations et n'utilisez pas de tabulations.
+
+Les lignes `adapter` et `database` sont préfixés de deux espaces.
+:::
+
+### Installation des dépendances
+
+Ensuite, on suit le guide d'installation de Redmine et on installe les dépendances de l'application.
+
+```bash title="Installation des dépendances de Redmine
+# On installe Bundler qui est nécessaire à l'installation de toutes les dépendances de Redmine
+gem install bundler
+
+# Puis les dépendances
+bundle install --without development test
+```
+
+<Image
+    src="/img/docs/cpanel/logiciels/ruby-redmine-installation-dependances.png"
+    alt="Capture d'écran des commandes à lancer pour installer les dépendances avec bundler"
+    caption="Les commandes à lancer pour installer les dépendances de Redmine"
+    title="Installation des dépendances pour Redmine" />
+
+### Configuration et mise en place des données
+
+Maintenant, il faut que Redmine remplisse la base de données à commencer par les tables et le schéma de la base de
+données (migration) puis il faudra également installer quelques données d'exemples pour que Redmine ne soit pas vide.
+Il faut aussi faire quelques configurations comme la génération de clés secrètes.
+
+```bash title="Configuration de Redmine et import des données de test"
+# Génération de clés secrètes
+bundle exec rake generate_secret_token
+
+# Création du schéma de la base de données
+RAILS_ENV=production bundle exec rake db:migrate
+
+# Chargement des données par défaut
+# Répondez "fr" à la question de sélection du langage
+RAILS_ENV=production bundle exec rake redmine:load_default_data
+
+# Création de dossiers
+mkdir -p tmp tmp/pdf public/plugin_assets
+
+# A présent, il ne reste plus qu'à éditer le fichier .htaccess qui se trouve à la racine du site internet afin d'indiquer que l'application devrait être lancée en mode de production, sinon cela va générer une erreur au lancement
+echo 'PassengerAppEnv production' >> $HOME/redmine.o2tuto.fr/.htaccess
+```
+
+<Image
+    src="/img/docs/cpanel/logiciels/ruby-redmine-migration.png"
+    alt="Capture d'écran des commandes pour finaliser l'installation de Redmine"
+    caption="Les commandes à lancer pour finaliser l'installation de Redmine"
+    title="Finalisation de l'installation de Redmine" />
+
+### Lancement de l'application
+
+Il ne reste plus qu'à retourner dans l'outil **Setup Ruby App** puis à faire un **Restart** de l'application.
+
+<Image
+    src="/img/docs/cpanel/logiciels/ruby-redmine-restart.png"
+    alt="Capture d'écran de l'outil Setup Ruby App pour lancer Redmine"
+    caption="Lancement de l'application Redmine"
+    title="Lancement de l'application Redmine sur un hébergement o2switch" />
+
+On peut se connecter avec les accès par défaut : **admin** / **admin**, on sera invité à changer de mot de passe.
+
+<Image
+    src="/img/docs/cpanel/logiciels/ruby-redmine-o2switch.png"
+    alt="Capture d'écran de l'administration de Redmine"
+    caption="L'espace d'administration de Redmine"
+    title="Administration de Redmine" />
+
+
+## Usages avancés
+
+### Environnement
+
+Il est possible d'indiquer à l'application web (`RAILS_ENV`) qu'elle est en mode de `production` ou de `développement`
+en ajoutant la ligne suivante dans le .htaccess à la racine du nom de domaine :
+
+```apacheconf title=".htaccess"
+# Valeurs possibles : production, developpement
+PassengerAppEnv production
+```
+
+### Mode debug
+
+En cas d'erreurs, la page qui s'affiche dans le navigateur ne contient pas d'informations.
+
+Il est possible d'activer un mode d'erreur "friendly" en éditant le fichier `.htaccess` qui se trouve à la racine du
+nom de domaine :
+
+```apacheconf title=".htaccess"
+PassengerAppEnv development
+PassengerFriendlyErrorPages on
+```
+
+Les erreurs sont également loguées dans l'outil [l'outil erreurs](/cpanel/mesures/erreurs-apache) de cPanel.
+
+
+### Déploiement en CLI
+
+Il est possible de déployer intégralement une application Ruby en ligne de commande. Cela dépasse le cadre de cette
+documentation, mais vous pouvez utiliser la commande `cloudlinux-selector` qui est [documentée ici](https://docs.cloudlinux.com/command-line_tools/#python-selector).
+
+Cela peut être utilisé lors d'un déploiement automatique, via GIT par exemple.
+
+### Chemins vers les différentes versions de Ruby
+
+Plusieurs versions de Ruby sont installées, il est parfois nécessaire de connaitre le chemin vers les différentes
+versions des fichiers exécutables Ruby, notamment lorsque Ruby est utilisée comme une commande CLI, indépendante d'un projet web complet Ruby.
+
+Pour un exemple d'utilisation, voir le [Comment modifier le $PATH ?](/questions/langages-supportes-php-node-ruby-python).
+
+```apacheconf title="Chemin vers les exécutables de Ruby"
+# Dans le dossier de ruby se trouvent d'autres exécutables comme :
+# bundle, bundler, erc, gem, rake, rdoc
+/opt/alt/ruby18/bin/ruby
+/opt/alt/ruby19/bin/ruby
+/opt/alt/ruby20/bin/ruby
+/opt/alt/ruby21/bin/ruby
+/opt/alt/ruby22/bin/ruby
+/opt/alt/ruby23/bin/ruby
+/opt/alt/ruby24/bin/ruby
+/opt/alt/ruby25/bin/ruby
+/opt/alt/ruby26/bin/ruby
+/opt/alt/ruby27/bin/ruby
+/opt/alt/ruby30/bin/ruby
+/opt/alt/ruby31/bin/ruby
+```
