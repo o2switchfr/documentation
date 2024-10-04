@@ -1,0 +1,47 @@
+---
+title: Registre des erreurs
+sidebar_label: Registre des erreurs
+description: L'outil erreurs permet d'accéder aux dernières erreurs visible dans les logs du serveur web. Utile pour déboguer une erreur 500 par exemple
+image: /img/docs/tools/errors.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - mesures
+  - erreurs
+---
+
+# Registre des erreurs
+
+L'outil **erreurs** de cPanel affiche les dernières erreurs visibles au niveau du serveur web sur votre
+**[hébergement web](https://www.o2switch.fr/hebergement-illimite/)**.
+
+Très souvent cet outil est vide d'erreur ou ne contient que des erreurs de types "404" car les erreurs au niveau du
+serveur web sont relativement rares.
+
+Cet outil d'erreurs de cPanel peut être utile pour débusquer :
+  * les erreurs 500 qui sont liées à des mauvaises configurations dans un fichier `.htaccess`. Voir le guide de [debug d'une erreur 500](/guides/webmastering/debuguer-page-blanche-erreur-500) également.
+  * des erreurs de déploiements d'applications [nodeJS](/cpanel/logiciels/hebergement-nodejs-multi-version), [Ruby](/cpanel/logiciels/hebergement-ruby-multi-version), [Python](/cpanel/logiciels/hebergement-python-multi-version)
+  * des erreurs liées à des problèmes de permissions sur des fichiers
+  * des erreurs liées à des restrictions ou blocages d'adresses IP via des règles dans le `.htaccess`
+
+<PreviewToolCard tool='errors' />
+
+## Exemple d'erreurs
+
+Voici un exemple d'erreur visible dans l'outil :
+
+``` title="Exemples d'erreurs"
+[Sun Mar 27 17:45:11.483657 2016] [core:alert] [pid 214411] [client 128.78.xxx.xxx:38320] /home/montuto/mon-tuto.com/.htaccess: Invalid command 'AuthTypoe', perhaps misspelled or defined by a module not included in the server configuration, referer: http://mon-tuto.com/
+[Sun Mar 27 17:45:11.483545 2016] [core:alert] [pid 214411] [client 128.78.xxx.xxx:38320] /home/montuto/mon-tuto.com/.htaccess: Invalid command 'AuthTypoe', perhaps misspelled or defined by a module not included in the server configuration, referer: http://mon-tuto.com/
+[Sun Mar 27 17:45:11.266438 2016] [core:alert] [pid 215663] [client 128.78.xxx.xxx:38319] /home/montuto/mon-tuto.com/.htaccess: Invalid command 'AuthTypoe', perhaps misspelled or defined by a module not included in the server configuration
+[Sun Mar 27 17:45:11.266333 2016] [core:alert] [pid 215663] [client 128.78.xxx.xxx:38319] /home/montuto/mon-tuto.com/.htaccess: Invalid command 'AuthTypoe', perhaps misspelled or defined by a module not included in the server configuration
+[Sun Mar 27 17:13:08.217908 2016] [access_compat:error] [pid 200504] [client 128.78.xxx.xxx:47012] AH01797: client denied by server configuration: /home/montuto/public_html/faq
+```
+
+Les premières erreurs provoquent une erreur 500 et sont causées à cause d'une faute de frappe (“AuthTypoe” à la place
+de “AuthType”).
+
+Les erreurs suivantes ne sont pas vraiment des “erreurs”, cela indique simplement qu'une personne a fait une tentative
+de connexion sur une page protégée par une authentification basique avec de mauvais identifiants.
