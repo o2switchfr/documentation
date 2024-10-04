@@ -40,6 +40,9 @@
 }
 
 :root {
+  .menu {
+    font-weight: 400;
+  }
   --ifm-color-primary: #FF6918;
   --ifm-color-secondary: #faf7f1;
   --ifm-color-success: #adea65;
@@ -47,6 +50,7 @@
   --ifm-color-warning: #ef8333;
   --ifm-color-danger: #f85555;
   --ifm-code-font-size: 95%;
+  --ifm-line-height-base: 1.75;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
   --ifm-font-family-base: Sora, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont,
   'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji',

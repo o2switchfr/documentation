@@ -149,8 +149,8 @@ const config: Config = {
       copyright: `© ${new Date().getFullYear()} o2switch, Tous droits réservés. | <a class="footer__link-item" href="https://www.o2switch.fr/cgv/" target="_blank" title="CGV o2swich">Conditions Générales de vente</a> - <a class="footer__link-item" href="https://www.o2switch.fr/du-rgpd.pdf" target="_blank" title="D.U RGPD">Document Unique RGPD</a>`,
     },
     prism: {
-      theme: prismThemes.nightOwlLight, // nightOwlLight oneLight vsLight
-      darkTheme: prismThemes.nightOwl, // palenight
+      theme: prismThemes.github, // nightOwlLight oneLight vsLight
+      darkTheme: prismThemes.palenight, // palenight nightOwl
       additionalLanguages: ['php', 'apacheconf', 'javascript', 'markup', 'css', 'ruby', 'http', 'git', 'bash', 'json', 'csv'],
     },
   } satisfies Preset.ThemeConfig,

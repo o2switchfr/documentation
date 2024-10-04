@@ -293,7 +293,9 @@ RAILS_ENV=production bundle exec rake redmine:load_default_data
 # Création de dossiers
 mkdir -p tmp tmp/pdf public/plugin_assets
 
-# A présent, il ne reste plus qu'à éditer le fichier .htaccess qui se trouve à la racine du site internet afin d'indiquer que l'application devrait être lancée en mode de production, sinon cela va générer une erreur au lancement
+# A présent, il ne reste plus qu'à éditer le fichier .htaccess  qui se trouve
+# à la racine du site internet afin d'indiquer que l'application doit
+# être lancée en mode de production, sinon cela va générer une erreur au lancement
 echo 'PassengerAppEnv production' >> $HOME/redmine.o2tuto.fr/.htaccess
 ```
 
