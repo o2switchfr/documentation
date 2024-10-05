@@ -509,7 +509,7 @@ autre outil permet de lancer un `EXPLAIN` MySQL, pour comprendre comment MySQL t
 optimisée.
 
 <Image
-    src="/img/docs/cpanel/wptiger-performance-sql.png"
+    src="/img/docs/cpanel/o2switch/wptiger-performance-sql.png"
     alt="Analyse des requêtes MySQL d'un site WordPress avec WPTiger"
     caption="Résultats d'analyse des requêtes MySQL d'une page WordPress avec WPTiger"
     title="Rapport requête SQL"/>
@@ -521,13 +521,184 @@ du chemin d'exécution du code. Ca permet de comprendre visuellement de quelle m
 si un bout de code est appelé plusieurs fois.
 
 <Image
-    src="/img/docs/cpanel/wptiger-performance-path.png"
+    src="/img/docs/cpanel/o2switch/wptiger-performance-path.png"
     alt="Profil de performance avec wptiger"
     caption="Résultat d'analyse du profil de performance avec WPTiger : cela génère un graphique montrant l'arbre d'exécution"
     title="Profil de performance"/>
 
+#### Cache objet
+
+L'outil **Cache objet** <span className="badge badge--warning">4</span> vous permet d'activer et d'installer
+automatiquement un cache objet Redis ou Memcached sur le site internet.
+
+Si vous choisissez Redis, alors l'outil va :
+  * Créer une [instance privée de Redis](/cpanel/o2switch/redis) si ce n'est pas déjà fait avec l'outil Redis de l'hébergement
+  * Si vous avez déjà l'extension Litespeed qui est installé, l'outil va configurer le cache objet Redis dans l'extension
+  * Si l'extension Litespeed n'est pas installé alors l'outil va installer puis configurer l'extension WordPress [Redis Cache Object](https://fr.wordpress.org/plugins/redis-cache/)
+
+Si vous choisisse Memcached, alors l'outil va :
+  * Créer une [instance privée de Memcached](/cpanel/o2switch/memcached)
+  * Installer et configurer l'extension Litespeed pour WordPress avec le cache Memcached
+
+#### Cache HTTP
+
+L'outil **Cache HTTP**  <span className="badge badge--warning">5</span> va activer le
+[cache serveur Litespeed](/cpanel/o2switch/litespeed-cache-webadc) sur votre site internet.
+
+Puis l'outil va installer et activer l'extension [Litespeed](https://fr.wordpress.org/plugins/litespeed-cache/) pour
+WordPress. C'est l'extension qui permet de piloter le fonctionnement du serveur de cache avec le site internet.
+
+#### Optimiser les tâches CRON
+
+L'outil **Optimiser les tâches CRON** <span className="badge badge--warning">6</span> va désactiver le système natif de
+Cron de WordPress.
+
+A la place, l'outil va configurer le déclenchement des tâches cron du site avec l'outil
+[tâches cron](/cpanel/outils-avances/tache-planifiee-cron) de l'hébergement.
+
+#### Désactiver Pingback et Trackback
+
+Les outils <span className="badge badge--warning">7</span> et <span className="badge badge--warning">8</span>
+désactivent les pingback et trackback sur WordPress.
+
+Ce sont des méthodes qui permettent d'alerter les autres sites/blogs que vous avez effectués un lien vers leur contenu
+sur votre site.
+
+#### Transients
+
+L'outil **Transients** <span className="badge badge--warning">9</span> permet de faire le ménage dans la base de données
+de votre site, en effaçant les **transients** WordPress.
+
+Les transients correspondent à des données temporaires qui sont stockées en base de données. Lorsque ces données
+et ne sont pas régulièrement purgées, cela peut alourdir inutilement votre base de données.
+
+L'outil vous laisse donc le choix de supprimer tous les transients ou uniquement ceux qui sont expirés.
+
+#### Optimisation de la base de données
+
+L'outil **Optimisation de la base de données** va lancer la requête SQL `OPTIMIZE` sur chaque table de votre site.
+
+C'est utile de lancer cela après des gros changements dans la base de données, comme une insertion ou suppression massive
+de données.
+
+La requête OPTIMIZE permet d'indiquer au serveur SQL de revoir le fichier qui sert au stockage de votre base de données,
+afin qu'il soit le plus efficace possible.
+
 ### Actions avancées
+
+La rubrique des **actions avancées** est accessible en cliquant sur l'onglet **Actions avancées** sur la page de gestion
+d'une instance de WordPress dans WPTiger.
+
+Cette rubrique dispose de différents outils.
+
+<Image
+    src="/img/docs/cpanel/o2switch/wptiger-action-avancees.png"
+    alt="La section des actions avancées de WPTiger"
+    caption="La section avancée de WPTiger dispose de plusieurs outils "
+    title="Outils de la section avancée de WPTiger sur l'hébergement o2switch"/>
+
+#### Changer l'adresse du site
+
+L'outil **Changer l'adresse du site** <span className="badge badge--danger">A</span> permet de changer l'adresse d'un
+site WordPress correctement.
+
+Par exemple, votre site internet est sous le nom `exemple.fr` et vous souhaitez changer de nom vers `exemple.com`.
+
+L'outil va effectuer ce changement en faisant plusieurs opérations de rechercher et de remplacement dans l'ingralité
+de la base de données de WordPress et cela incluant les données sérialisées.
+
+Pour tout le contenu du site (article, pages etc...), l'outil va effectuer un rechercher/remplacer sur les termes
+: `exemple.fr` => `www.exemple.com`
+
+Ainsi, tout le contenu du site est mis à jour correctement, à défaut de juste changer le réglage dans WordPress.
+
+#### SSL / HTTPS
+
+L'outil **SSL / HTTPS**  <span className="badge badge--danger">B</span>  permet de forcer le passage en **HTTPS** d'un site internet proprement.
+
+Le fonctionnement est similaire au fonctionnement de l'outil de changement d'adresse. L'outil va effectuer plusieurs
+opérations de rechercher/remplacer dans l'ensemble de la base de données (incluant les données sérialisés, sans les
+corrompre).
+
+L'outil va rechercher/remplacer les choses suivantes :
+  * `http://www.exemple.fr` => `https://www.exemple.fr`
+  * `http://exemple.fr` => `https://exemple.fr`
+
+L'outil va également modifier le fichier `.htaccess` du site internet pour forcer une redirection vers la version HTTPS.
+
+Ainsi, cela permet de forcer le HTTPS en limitant très fortement les problèmes de contenu mixte.
+
+#### Cache WordPress
+
+L'outil **Cache WordPress** <span className="badge badge--danger">C</span>  permet de vider les transients de WordPress ainsi que le cache objet (s'il est activé) en
+1 clic.
+
+#### Rechercher/remplacer
+
+L'outil **Rechercher et remplacer une valeur dans la base de données** <span className="badge badge--danger">D</span>
+vous permet de rechercher une valeur dans l'ensemble de la base de données du site et la remplacer par une autre valeur de votre choix.
+
+En arrière-plan, c'est cet outil-là qu'utilisent les outils "changer l'adresse du site" et "ssl/https".
+
+La recherche et le remplacement se font également dans les données sérialisés, sans les corrompre.
 
 ## Erreurs
 
-todo
+### Instance de WordPress non détectée
+
+
+Actuellement, la détection des instances de WordPress sur l'hébergement est effectuée de **manière optimisée**.
+
+Concrètement, *plutôt que de passer en revue l'ensemble des fichiers* et dossiers de l'hébergement (ce qui prend du
+temps et génère des IO sur un hébergement ayant des milliers de fichiers), l'outil va :
+  - Lister tous les domaines et sous-domaines configurés sur l'hébergement
+  - Faire une liste de tous les dossiers qui sont associés à ces domaines-là
+  - Faire une liste de tous les dossiers, avec deux niveaux de profondeur, contenu dans la liste de dossiers précédente.
+Donc tous les dossiers (avec deux niveaux de profondeur maximum) contenus dans les domaines/sous-domaines configurés sur
+l'hébergement seront récupérés.
+  - Avec cette liste de dossiers étendue, l'outil va regarder si les fichiers contenus correspondent à une instance de WordPress.
+  - Pour savoir si cela ressemble à une installation WordPress, l'outil recherche trois choses : wp-settings.php, wp-admin, wp-includes
+
+Cela va **détecter 99% des instances de WordPress** d'un hébergement, mais il est possible que dans des cas rares,
+certaines instances ne soient pas détectées :
+  * ce sont les instances qui sont installées dans des sous-dossiers "profonds" (sous-sous-sous dossier d'un domaine par exemple),
+  * ou les instances qui sont sur l'hébergement, mais sans qu'un domaine/sous-domaine ne pointe dessus
+
+### Erreur d'instance corrompue
+
+
+Parfois, le message d'erreur suivant s'affiche : "**Une erreur est survenue, l'instance de WordPress semble être corrompue.**"
+
+Cette erreur là s'affiche si :
+  * L'instance de WordPress est effectivement corrompue (par exemple, piratée), ce qui veut dire concrètement que le
+**cœur de WordPress ne fonctionne plus**.
+  * Ça peut aussi être lié à un problème de configuration dans le `wp-config.php` du site qui entraîne un problème de
+connexion à la base de données.
+  * Toujours dans le `wp-config.php` des erreurs, warning ou notice PHP peuvent être à l'origine du problème
+(Exemple : caractère [BOM-UTF8](https://fr.wikipedia.org/wiki/Indicateur_d%27ordre_des_octets), constantes définies en
+double)
+  * Si l'outil **n'arrive pas récupérer certaines informations**, comme l'adresse du site, la base de données utilisée
+etc... Cela peut arriver sur des WordPress très personnalisés et différents d'une instance *classique*.
+  * WordPress **multisite** est activé. Pour le moment, **l'outil ne gère pas les instances multisites de WordPress**
+
+### Données incohérente
+
+La **détection** d'une instance de WordPress sur l'hébergement et la récupération des informations concernant cette
+instance est un **processus long**. On estime cela à 1 à 2 secondes par instance de WordPress.
+
+Pour accélérer le chargement de l'outil (par exemple, dans le cas où plusieurs instances sont installées), un
+**mécanisme de cache** a été mis en place. Le premier chargement sera plus long que les chargements et rafraîchissements
+suivants.
+
+L'**outil invalide le cache de manière intelligente**, lorsque des modifications sont effectuées via l'outil. Par contre,
+l'outil **n'a pas la visibilité** de ce qui a été fait sur WordPress "manuellement" par l'utilisateur donc il est
+possible, dans des cas assez rares, que l'outil affiche des informations périmées.
+
+Exemple :
+  * L'outil est chargé une première fois, il détecte une instance de WordPress en version 5. Des données de caches sont
+créées pour améliorer la vitesse de chargement de l'outil.
+  * L'utilisateur met à jour WordPress en version 5.1 depuis le panneau d'administration de WordPress
+  * Quelques instants plus tard, l'utilisateur retourne sur l'outil. Ce dernier affichera, à tort, que WordPress est en
+version 5.
+  * L'utilisateur met à jour les paramètres du site via l'outil, le cache sera purgé et les informations affichées
+seront valides
