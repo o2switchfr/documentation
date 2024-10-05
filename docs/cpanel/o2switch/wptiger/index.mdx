@@ -12,10 +12,8 @@ tags:
   - wptiger
   - WordPress
 ---
-import ToolCard from '@site/src/components/ToolCard';
-import Image from '@site/src/components/Image';
-import CpanelIcon from '@site/src/components/CpanelIcon';
-import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # WPTiger, la boite à outils WordPress 
 
@@ -104,6 +102,74 @@ compte administrateur du site WordPress. La connexion se fait sans mot de passe,
 premier compte administrateur trouvé.
 
 <span className="badge badge--danger">9</span> L'icône en forme de corbeille <FAIcon icon="fa-solid fa-trash" size="1x" /> permet de supprimer le site.
+
+## Créer un nouveau site WordPress
+
+En cliquant sur le bouton **Créer un site WordPress**, l'outil vous redirige la page d'installation de WordPress.
+
+L'installation de WordPress est un processus en 6 étapes :
+  1. Sélectionnez le site de site que vous souhaitez créer
+  2. Sélectionnez le nom de domaine sur lequel installer WordPress
+  3. Définissez un compte administrateur
+  4. Nommez votre site, donnez lui une description
+  5. Choisissez des extensions à installer
+  6. Choisissez un thème
+
+
+
+<Tabs>
+    <TabItem value="step1" label="Étape 1" default>
+        <Image
+            src="/img/docs/cpanel/o2switch/wptiger-installer-wordpress-1.png"
+            alt="Capture d'écran de l'étape 1 de l'installation de WordPress"
+            caption="Choisissez votre type de site, ce choix permet d'affiner les recommandations de plugins/themes"
+            title="Etape 1 de l'installation de WordPress avec wptiger"/>
+    </TabItem>
+    <TabItem value="step2" label="Étape 2">
+        <Image
+            src="/img/docs/cpanel/o2switch/wptiger-installer-wordpress-2.png"
+            alt="Capture d'écran de l'étape 2 de l'installation de WordPress"
+            caption="Sélection du nom de domaine sur lequel installer WordPress"
+            title="Etape 2 de l'installation de WordPress avec wptiger"/>
+    </TabItem>
+    <TabItem value="step3" label="Étape 3">
+        <Image
+            src="/img/docs/cpanel/o2switch/wptiger-installer-wordpress-3.png"
+            alt="Capture d'écran de l'étape 3 de l'installation de WordPress"
+            caption="Création du compte administrateur"
+            title="Etape 2 de l'installation de WordPress avec wptiger"/>
+    </TabItem>
+    <TabItem value="step4" label="Étape 4">
+        <Image
+            src="/img/docs/cpanel/o2switch/wptiger-installer-wordpress-4.png"
+            alt="Capture d'écran de l'étape 4 de l'installation de WordPress"
+            caption="C'est le moment de choisir le slogan et la description de votre site"
+            title="Etape 4 de l'installation de WordPress avec wptiger"/>
+    </TabItem>
+    <TabItem value="step5" label="Étape 5">
+        <Image
+            src="/img/docs/cpanel/o2switch/wptiger-installer-wordpress-5.png"
+            alt="Capture d'écran de l'étape 5 de l'installation de WordPress"
+            caption="Vous pouvez choisir dés maintenant des extensions à installer"
+            title="Etape 5 de l'installation de WordPress avec wptiger"/>
+    </TabItem>
+    <TabItem value="step6" label="Étape 6">
+        <Image
+            src="/img/docs/cpanel/o2switch/wptiger-installer-wordpress-6.png"
+            alt="Capture d'écran de l'étape 6 de l'installation de WordPress"
+            caption="Choisissez un thèmes à installer avec votre site ou gardez le thème par défaut"
+            title="Etape 6 de l'installation de WordPress avec wptiger"/>
+    </TabItem>
+    <TabItem value="step7" label="Fin">
+        <Image
+            src="/img/docs/cpanel/o2switch/wptiger-installer-wordpress-7.png"
+            alt="WordPress est installé"
+            caption="L'installation de WordPress est terminée"
+            title="WordPress est installé correctement"/>
+    </TabItem>
+</Tabs>
+
+
 
 ## Administrer un site WordPress
 
