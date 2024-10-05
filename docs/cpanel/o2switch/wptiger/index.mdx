@@ -1,0 +1,533 @@
+---
+title: WP Tiger, la boite à outils WordPress
+sidebar_label: WPTiger
+description: WPTiger est une suite d'outils permettant de faciliter la gestion des sites WordPress hébergés chez o2switch
+image: /img/docs/tools/o2switch-wp-tiger.png
+tags:
+  - cpanel 
+  - hébergement mutualisé
+  - offre unique 
+  - offre scale'up
+  - serveurs infogérés
+  - wptiger
+  - WordPress
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+
+# WPTiger, la boite à outils WordPress 
+
+WP Tiger propose une suite d'outils permettant de **gérer facilement vos sites WordPress**, depuis votre
+[hébergement o2switch](https://www.o2switch.fr/hebergement-illimite/).
+
+WP Tiger permet de lier la puissance de votre hébergement cPanel avec les fonctions de WordPress, pour vous permettre
+de gérer simplement votre site WordPress.
+
+<PreviewToolCard tool='o2switch-wp-tiger' />
+
+## Fonctionnalités de WPTiger
+
+WPTiger est une boite à outils pour gérer plus facilement les sites WordPress. Voici un aperçu de ce que permet de faire
+WPTiger :
+  * créer un nouveau site WordPress en partant de zéro en choisissant des extensions à installer et un thème
+  * créer des préproductions (clone) de sites WordPress existants
+  * se connecter rapidement à l'administration d'un site WordPress, sans mots de passes, à partir d'un lien de connexion rapide
+  * accéder rapidement à la base de données associée au site internet avec [phpMyAdmin](http://localhost:3000/cpanel/bases-de-donnees/phpmyadmin)
+  * forcer le site en HTTPS correctement, l'outil s'occupera de changer les références au site en HTTP dans la base de données
+  * optimiser la base de données du site et nettoyer la base de données pour l'alléger
+  * mettre à jour le cœur de WordPress, extensions et thèmes
+  * aide dans le debug des sites cassés en fournissant un outil pour intercepter et aider à la compréhension des erreurs
+  * créer/gérer facilement les utilisateurs WordPress
+  * installer, mettre à jour, activer/désactiver des extensions
+  * downgrader (ou upgrader) une extension sur une version précise
+  * vérifier l'intégrité des extensions installées et du cœur de WordPress
+  * installer, mettre à jour, activer/désactiver, downgrader les thèmes
+  * activer des règles de sécurités pour durcir WordPress
+  * créer des sauvegardes du site
+  * lister et analyser les requêtes SQL effectuées par le site sur le chargement d'une page
+  * visualiser l'ordre et le temps d'exécution du code (Flamegraph) pour débuguer des problèmes de performances ou temps de chargement
+  * activer rapidement un cache objet Redis
+  * activer rapidement le cache serveur Litespeed
+  * désactiver les crons natives de WordPress et les remplacer par le système de cron de l'hébergement à la place
+  * changer l'adresse du site internet proprement (incluant les changements d'URL en base de données)
+  * vider le cache de WordPress rapidement en 1 clic
+  * lancer une requête SQL de type rechercher/remplacer sur des tables de la base de données de WordPress
+
+## Lister les sites WordPress
+
+La page d'accueil de WPTiger liste tous les sites WordPress détectés sur votre hébergement web.
+
+Pour détecter les sites WordPress, WPTiger va lister tous les [domaines](/cpanel/domaines/configuration-domaine) et
+[sous-domaines](/cpanel/domaines/configuration-sous-domaine) configurés sur votre hébergement puis regarder si les
+fichiers du site correspondent à WordPress.
+
+<Image
+    src="/img/docs/cpanel/o2switch/wptiger-accueil.png"
+    alt="Capture d'écran de la page d'accueil de WPTiger avec la liste des sites WordPress installés sur l'hébergement web"
+    caption="La page d'accueil de WPTiger liste les sites WordPress détectés sur l'hébergement"
+    title="Page d'accueil de WPTiger sur l'hébergement o2switch"/>
+
+L'outil distingue **deux types d'installations de WordPress** :
+
+<span className="badge badge--danger">1</span> Les sites dits de **production** : cela correspond aux sites internet
+que vous avez installés
+<span className="badge badge--danger">2</span> Les sites de **préproduction** : cela correspond aux préproductions, aux
+sites clonés, créés avec WPTiger
+
+En haut de la page d'accueil de WPTiger, vous avez :
+
+<span className="badge badge--danger">3</span> Un bouton permettant de créer un nouveau site WordPress
+
+<span className="badge badge--danger">4</span> Une barre de recherche pour accéder rapidement à un site WordPress
+précis.
+
+Ensuite, pour chaque site WordPress détectés, vous avez **un bloc** contenant :
+
+<span className="badge badge--danger">5</span> Des informations sur le site internet, le dossier dans lequel le site
+internet installé sur l'hébergement. Le lien vers le dossier est cliquable et mène vers le
+[Gestionnaire de Fichier](/cpanel/fichiers/gestionnaire-fichiers-web).
+
+Le nombre d'extensions installées et une mention sur les mises à jour possibles.
+
+<span className="badge badge--danger">6</span> Le lien vers la page de gestion du site. En cliquant sur ce bouton
+**Gérer le site**, cela vous ménera à une page avec tous les outils de gestions organisés en différents onglets.
+
+<span className="badge badge--danger">7</span> Un lien **phpmyadmin** permet d'accéder rapidement à
+[phpMyAdmin](/cpanel/bases-de-donnees/phpmyadmin). Le lien vous redirigera sur la page de gestion de la base de données
+du site WordPress dans phpmyadmin.
+
+
+<span className="badge badge--danger">8</span> Le bouton **Administration** permet de vous connecter rapidement à un
+compte administrateur du site WordPress. La connexion se fait sans mot de passe, l'outil vous connectera sur le
+premier compte administrateur trouvé.
+
+<span className="badge badge--danger">9</span> L'icône en forme de corbeille <FAIcon icon="fa-solid fa-trash" size="1x" /> permet de supprimer le site.
+
+## Administrer un site WordPress
+
+En cliquant sur le bouton **Gérer le site**, l'outil vous redirige vers la page de gestion d'un site WordPress. Sur
+cette page que vous retrouverez tous les outils organisés en différents onglets.
+
+La gestion d'une instance de WordPress est une page découpée en plusieurs onglets :
+  * **Infos** : la page d'accueil de la page de gestion d'une installation de WordPress. Affiche des informations sur le site.
+  * **Utilisateurs** : les outils pour gérer les utilisateurs WordPress sur le site
+  * **Extensions** : la page pour installer/gérer/supprimer/activer/désactiver des extensions WordPress
+  * **Thèmes** : page pour installer/gérer/supprimer/activer/désactiver des thèmes WordPress
+  * **Sécurité** : cette page regroupe différentes règles de sécurités activables pour durcir le site
+  * **Pré-production** : la page pour gérer et créer des préproductions du site
+  * **Performance** : regroupe des outils permettant de débuguer les problèmes de performances et activer différents systèmes de caches
+  * **Actions Avancées** : regroupe des outils plus avancés, comme le changement d'adresse de site internet
+
+### Informations sur le site
+
+La page d'accueil de l'outil de gestion d'une instance de WordPress, accessible après avoir cliqué sur **Gérer le site**
+affiche différentes informations sur WordPress et permet quelques actions rapides.
+
+<Image
+    src="/img/docs/cpanel/o2switch/wptiger-info-wordpress.png"
+    alt="Capture d'écran de la page de gestion d'une instande WordPress ou s'affiche les informations sur le site"
+    caption="Les informations du site WordPress s'affiche sur la page d'accueil de gestion d'une instance"
+    title="Page d'information de l'outil WPTiger d'un site WordPress hébergé chez o2switch"/>
+
+<span className="badge badge--success">1</span> Le bouton **Retour à la page d'accueil** dans le coin supérieur droit
+permet de revenir à la liste de tous les sites WordPress installés sur l'hébergement.
+
+<span className="badge badge--success">2</span> Le bouton <FAIcon icon="fa-solid fa-refresh" size="1x" /> en forme
+de flèche arrondie permet de rafraichir les informations du site.
+
+Pour accélérer la vitesse de chargement, WPTiger utilise un système de cache. Ce bouton permet de rafraichir les
+données.
+
+<span className="badge badge--success">3</span> Le bouton **Debug** permet de lancer un outil qui va vous assister en
+cas de problèmes sur le site internet.
+
+L'outil de **Debug** va forcer la journalisation des erreurs PHP et forcer l'activation du log d'erreur de WordPress.
+Ensuite l'outil va vous demander de reproduire le comportement qui cause un problème sur le site / reproduire l'erreur.
+L'outil va ensuite consulter les logs collectés, les afficher et vous aider à les interpréter en proposant des solutions.
+
+<span className="badge badge--success">4</span> Le bouton **phpMyAdmin** va vous rediriger vers la page phpMyAdmin de
+gestion de la base de données pour le site concerné. Cela ouvre directement la bonne base de données dans phpmyadmin.
+
+<span className="badge badge--success">5</span> Le bouton **Administration** va vous connecter sur un compte
+administrateur sur le site WordPress, sans mot de passe. L'outil vous connecte sur le premier compte de type
+administrateur qu'il trouve.
+
+<span className="badge badge--success">6</span> Dans la partie des **Informations techniques** s'affichent le dossier
+dans lequel est installé le site internet. Le lien est cliquable et redirige vers le gestionnaire de fichier de
+l'hébergement.
+
+Cela indique également site le site est en HTTP ou HTTPS.
+
+<span className="badge badge--success">7</span> Le bouton **Forcer le site en HTTPS** permet de forcer correctement le
+HTTPS dans WordPress. L'outil va changer proprement l'adresse du site en base de données (incluant les articles et les
+données sérialisées) puis forcer une redirection vers HTTPS en éditant le fichier `.htaccess`.
+
+<span className="badge badge--success">8</span> Dans la section des **bases de données** s'affiche le nom de la base de
+données utilisés par le site ainsi que l'utilisateur MySQL correspondant.
+
+<span className="badge badge--success">9</span> Le bouton **Optimiser la base de données** optimize la base de données
+en lançant une requête SQL `OPTIMIZE TABLE` sur les tables du site. C'est utile de lancer cela après des gros changements
+dans la base de données, comme une insertions ou suppressions massives de données.
+
+<span className="badge badge--success">10</span> La section des **Informations sur WordPress** affiche la version de
+WordPress, affiche si une mise à jour est disponible et le nombre d'extension installés / d'extensions à mettre à jour.
+
+### Gérer les utilisateurs WordPress
+
+La page de **gestion des utilisateurs WordPress** est accessible après avoir cliqué l'onglet **Utilisateurs** de la page
+de gestion d'un site.
+
+Cette page permet de créer/supprimer/gérer les utilisateurs du site WordPress. Elle permet aussi de se connecter
+rapidement à un compte.
+
+<Image
+    src="/img/docs/cpanel/o2switch/wptiger-gestion-utilisateur.png"
+    alt="Capture d'écran de la page de gestion des utilisteurs WordPress sur WPTiger"
+    caption="WPTiger permet de gérer les utilisateurs d'un site WordPress"
+    title="Page de gestion des utilisateurs WordPress dans l'outil WPTiger"/>
+
+<span className="badge badge--warning">1</span> La **barre de recherche** permet de rechercher un utilisateur précis
+pour l'administrer. C'est particulièrement utile sur les sites E-Commerce ou il n'est pas rare d'avoir des centaines
+de comptes utilisateurs.
+
+<span className="badge badge--warning">2</span> Le menu déroulant **Sélectionner un rôle** permet de filtrer la liste
+des utilisateurs par Rôles. C'est pratique pour retrouver rapidement tous les comptes administrateurs par exemple.
+
+<span className="badge badge--warning">3</span> Dans la gestion d'un utilisateur, il est possible de changer le
+rôle d'un utilisateur en cliquant sur le menu déroulant **Rôles**. Vous pouvez passer un compte en administrateur
+via ce menu déroulant, ou rétrograder un compte existant.
+
+<span className="badge badge--warning">4</span> Le champs **Nouveau mot de passe** permet de changer le mot de passe
+d'un compte utilisateur.
+
+<span className="badge badge--warning">5</span> Le bouton **Connexion rapide** permet de se connecter rapidement
+à un compte utilisateur WordPress, sans avoir besoin du mot de passe.
+
+<span className="badge badge--warning">6</span> L'icône en forme de corbeille <FAIcon icon="fa-solid fa-trash" size="1x" />
+permet de supprimer un utilisateur du site WordPress.
+
+<span className="badge badge--warning">7</span> Le bouton **Créer un compte WordPress** permet de créer un nouvel
+utilisateur sur le site WordPress. Un formulaire s'affichera demandant l'identifiant, l'adresse email, mot de passe et
+rôle de l'utilisateur à créer.
+
+### Gérer les extensions WordPress
+
+La page de **gestion des extensions WordPress** est accessible après avoir cliqué l'onglet **Extensions** de la page
+de gestion d'un site.
+
+Cette page permet de créer/supprimer/gérer les extensions du site WordPress. Elle permet aussi de mettre à jour ou
+de revenir en arrière (downgrader) sur la version d'une extension.
+
+<Image
+    src="/img/docs/cpanel/o2switch/wptiger-gestion-extension.png"
+    alt="Capture d'écran de la page de gestion des extensions WordPress sur WPTiger"
+    caption="WPTiger permet de gérer les extensions installées sur un site WordPress"
+    title="Page de gestion des extensions WordPress dans l'outil WPTiger"/>
+
+
+<span className="badge badge--danger">A</span> Le champs **Rechercher une extension** permet de rechercher une extension
+précise dans la liste des extensions installées sur le site internet.
+
+<span className="badge badge--danger">C</span> La **coche** situé en dessous de l'image de l'extension permet d'activer
+ou de désactiver une extension WordPress sur le site
+
+<span className="badge badge--danger">D</span> Le menu de sélection **Version** et le bouton qui se situe à côté permet
+de mettre à jour une extension WordPress ou de revenir en arrière sur une version précédente de l'extension.
+
+Il est possible de choisir précisément la version de l'extension. Cela peut s'avérer pratique lorsque la mise à jour
+d'une extension cause des problèmes et qu'il faut revenir en arrière. Cela permet de revenir en arrière sur la mise à
+jour d'une extension, rapidement, sans nécessairement [restaurer une sauvegarde](/cpanel/fichiers/sauvegarde-jetbackup).
+
+<span className="badge badge--danger">E</span> Le bouton **Vérifier l'intégrité** va vérifier la signature des fichiers
+de l'extension par rapport aux signatures conservés sur le dépot officiel.
+
+Cela permet de détecter si des fichiers de l'extension ont été altérés, supprimés ou ajoutés.
+
+Si vous pensez que votre site a été piraté ou que vous avez un doute, cela peut être pratique pour le vérifier.
+
+<span className="badge badge--danger">F</span> Le bouton en forme de corbeille <FAIcon icon="fa-solid fa-trash" size="1x" />
+permet de supprimer totalement une extension du site.
+
+<span className="badge badge--danger">B</span> Le bouton **Ajouter des extensions** permet d'installer une nouvelle
+extension WordPress. Après avoir cliqué sur le bouton, une popup s'affiche avec un outils permettant de sélectionner
+une extension parmi les extensions disponibles sur wordpress.org.
+
+<Image
+    src="/img/docs/cpanel/o2switch/wptiger-installer-extension-wp.png"
+    alt="Capture d'écran de l'outil permettant de rechercher et sélectionner des extensions WordPress à installer"
+    caption="L'outil permettant de rechercher une extension WordPress à installer"
+    title="Outil pour installer une extension WordPress sur un site"/>
+
+:::info Extensions payantes
+Certaines fonctionnalités ne vont fonctionner que pour les extensions qui sont publiquement accessibles sur
+WordPress.org, le dépot officiel.
+
+Pour des extensions payantes, certaines informations ne seront pas accessibles publiquement. Par exemple les signatures
+pour vérifier l'intégrité des extensions ou la liste des différentes versions. Il peut donc y avoir moins de
+fonctionnalité sur des extensions payantes ou non disponible sur le dépot officiel.
+:::
+
+### Gérer les thèmes WordPress
+
+La page de **gestion des extensions WordPress** est accessible après avoir cliqué l'onglet **Thèmes** de la page
+de gestion d'un site.
+
+Cette page permet de créer/supprimer/gérer les thèmes du site WordPress. Elle permet aussi de mettre à jour ou
+de revenir en arrière (downgrader) sur la version d'un thème.
+
+<Image
+    src="/img/docs/cpanel/o2switch/wptiger-gestion-theme.png"
+    alt="Capture d'écran de la page de gestion des Themes WordPress sur WPTiger"
+    caption="WPTiger permet de gérer les thèmes sur un site WordPress"
+    title="Page de gestion des thèmes WordPress dans l'outil WPTiger"/>
+
+<span className="badge badge--success">A</span> Le champs **Rechercher un thème** permet de rechercher un thème
+précise dans la liste des thèmes installés sur le site internet.
+
+
+<span className="badge badge--success">C</span> Le menu de sélection **Version** et le bouton qui se situe à côté permet
+de mettre à jour un thème WordPress ou de revenir en arrière sur une version précédente du thème.
+
+Cela est utile lorsque la mise à jour d'un thème cause des problèmes et introduit des erreurs. Cela permet de revenir
+en arrière sur le changement sans devoir restaurer de sauvegarde.
+
+
+<span className="badge badge--success">D</span> Le bouton **Activer** permet d'activer le thème sur le site. Activer
+un thème implique que le thème précédemment utilisé sera désactivé.
+
+<span className="badge badge--success">E</span> Le bouton en forme de corbeille <FAIcon icon="fa-solid fa-trash" size="1x" />
+permet de supprimer totalement un thème du site.
+
+<span className="badge badge--success">B</span> Le bouton **Ajouter des thèmes** permet d'installer un nouveau
+thème WordPress. Après avoir cliqué sur le bouton, une popup s'affiche avec un outils permettant de sélectionner
+un thème parmi les thèmes disponibles sur wordpress.org.
+
+<Image
+    src="/img/docs/cpanel/o2switch/wptiger-theme-installer.png"
+    alt="Capture d'écran de l'outil permettant de rechercher et sélectionner des Thèmes WordPress à installer"
+    caption="L'outil permettant de rechercher un Thème WordPress à installer"
+    title="Outil pour installer un Thème WordPress sur un site"/>
+
+### Améliorer la sécurité de WordPress
+
+La page **sécurité** est accessible après avoir cliqué sur l'onglet **Sécurité** de la page de gestion d'un site.
+
+Cette page permet d'activer des sécurités supplémentaires pour durcir WordPress. Il y a également des outils
+pour vérifier l'intégrité des fichiers de toutes les extensions installés et du coeur de WordPress.
+
+<Image
+    src="/img/docs/cpanel/o2switch/wptiger-securite.png"
+    alt="Capture d'écran de l'outil permettant d'activer des sécurités supplémentaires sur WordPress"
+    caption="L'outil permet d'activer des sécurités supplémentaires pour durcir WordPress"
+    title="Outil pour activer des sécurités"/>
+
+L'outil est découpé en trois parties.
+
+<span className="badge badge--warning">A</span> Les **règles .htaccess** correspondent à des règles qui seront ajoutées
+dans le fichier `.htaccess` de WordPress.
+  * *Désactiver le listing des fichiers dans les dossiers sans index* : cette option vous permet de désactiver le listing
+des fichiers "index of" dans les répertoires web dans le cas où les fichiers à afficher par défaut (par exemple index.html, index.php)
+n'existent pas.\
+En activant cette option, vous réduisez la visibilité de l'accès à vos fichiers et cela vous permettra de sécuriser vos
+données sensibles (sauvegarde de base de données, fichiers personnels, listing d'adresses mail, mots de passes, etc.)
+en désactivant la liste des fichiers qui s'affichent lorsqu'on accède à un dossier sans index.
+  * *Masque l'identifiant des auteurs* : cette option permet de complexifier le rôle d'un pirate qui cherche à
+trouver votre mot de passe grâce à votre identifiant.
+  * *Bloque l'accès à la page de commentaires pour les navigateurs sans UserAgent ou Referer* : Permet d'éviter le
+spam et les abus sur les commentaires, en bloquant certaines requêtes mal-formées ou effectuées par des robots.
+  * *Ajoute les règles de sécurité Block Bad Queries* : Le BBQ (Block Bad Queries) est un pare-feu qui sécurise le site
+en ajoutant des règles de sécurité dans le .htaccess pour bloquer certaines attaques courantes et connues, par exemple à
+la recherche d'une faille ou d'un plugin ou thème qui ne serait pas à jour.
+  * *Bloque le téléchargement des fichiers .sql* : Les fichiers .sql contiennent des informations sensibles qui ne
+devraient pas être accessibles. Bloquer leur téléchargement permet d'éviter toute attaque malveillante.
+  * *Bloque l'accès au fichier error_log qui contient les erreurs PHP* : Une erreur PHP peut être source d'une faille de
+sécurité. En bloquant l'accès au fichier qui répertorie les erreurs, vous sécurisez votre site internet.
+  * *Bloque l'accès aux fichiers readme et licence* : Ces fichiers situés à la racine de votre site et/ou plugins,
+contiennent des informations exploitables (telles que leur version) et orientent les pirates sur les failles qu'ils
+peuvent exploiter. Bloquer cet accès permet donc d'augmenter votre sécurité.
+  * *Bloque l'accès au fichier xmlrpc.php* : XML-RPC est un protocole permettant de se connecter à distance à WordPress.
+Son fichier peut être exploité à des fins malveillantes et devrait être bloqué s'il n'est pas utilisé sur le site.
+  * *Interdit l'exécution de PHP dans le dossier uploads* : Votre dossier uploads contient l'ensemble des médias
+téléchargés et divers fichiers créés par certaines extensions. Cette option vous permet d'interdire l'exécution de
+fichier PHP, donc l'écriture ou le téléchargement, dans ce dossier qui, par définition, n'est pas prévu pour cela.
+  * *Force une redirection vers la version HTTPS du site* : Attention, avant de cliquer sur cette option, veillez à
+avoir généré un certificat SSL avec l'outil [Lets Encrypt](/cpanel/outils/lets-encrypt-ssl-gratuit). Une fois avoir
+généré votre certificat, vous pouvez utiliser cette option afin qu'en cas d'appel à votre site en version HTTP,
+l'utilisateur soit automatiquement redirigé vers sa version HTTPS.
+
+<span className="badge badge--warning">B</span> Les **règles Snippets** sont des portions de code qui vont s'appliquer
+via un plugin (extension) WordPress. Lorsque vous activez une ou plusieurs de ces options, une extension appelée
+o2s-wp-tiger sera générée et apparaîtra dans la partie  "Gestion des Extensions".  Vous trouverez ci-dessous les
+explications des différentes options.
+
+  * *Force l'authentification sur les appels à l'API REST de WordPress* : L'API Rest de WordPress permet la
+communication de données entre votre site et un autre site et/ou application. Le fait de forcer l'authentification
+permet d'accroître votre sécurité et d'éviter une communication de données non souhaitée.
+  * *Masque la version de WordPress* : Connaître la version courante de votre WordPress oriente un potentiel pirate
+dans sa recherche de failles. Masquer cette version renforce votre sécurité en apportant une difficulté supplémentaire
+aux personnes malveillantes.
+  * *Désactive le XML-RPC de WordPress* : Une règle htaccess vous permet de bloquer au fichier XML-RPC, protocole
+permettant de se connecter à distance à WordPress, ce qui ne consomme pas de ressources. Une autre méthode en
+remplacement ou en complément, consiste à désactiver ce protocole. Le fait de le désactiver, et non pas de le bloquer,
+va générer des erreurs 404 ou 403 qui vont consommer des ressources.
+  * *Masque le message d'erreur de connexion* : Lorsque vous vous connectez à l'administration de votre site, WordPress
+vous indique si vous faites une erreur dans votre identifiant ou dans votre mot passe, ce qui donne un indice et
+facilite le travail des pirates. En activant cette option, en cas d'erreur que ce soit dans l'identifiant ou dans le mot
+de passe, rien ne s'affichera.
+
+<span className="badge badge--warning">C</span> Dans la section **Autres actions** sont présents :
+  * **Vérifier l'intégrité du coeur de WordPress** : permet de vérifier que les fichiers de WordPress n'ont pas été
+altérés. Permet également de vérifier si des fichiers sont manquants ou ajoutés.
+  * **Vérifier l'intégrité des extensions** : vérifier l'intégrité des extensions WordPress installées, pour détecter
+les extensions modifiées.
+  * **Changer les salts du fichiers de configurations** : Permet de régénérer les salts du fichier de configuration de WordPress
+
+### Sauvegarder un site WordPress
+
+L'outil de **sauvegarde** de WPTiger est accessible en cliquant sur l'onglet **Sauvegardes** sur la page de gestion
+d'un des sites.
+
+L'outil permet de créer une sauvegarde du site et de l'envoyer vers un serveur distant. Cette sauvegarde sera conservée
+pendant 220 jours maximum. Il sera possible de télécharger la sauvegarde ou de la restaurer.
+
+<Image
+    src="/img/docs/cpanel/o2switch/wptiger-sauvegarde.png"
+    alt="Capture d'écran de l'outil de sauvegarde de site WordPress de WPTiger"
+    caption="L'outil permet de réaliser une sauvegarde et la stocke sur un serveur distant pendant 220 jours"
+    title="Outil de sauvegarde"/>
+
+Plusieurs actions sont possibles sur l'outil de sauvegarde :
+
+<span className="badge badge--danger">1</span> Le bouton **Restaurer** permet de restaurer la sauvegarde. Le site de
+l'hébergement sera remplacé par cette sauvegarde.
+
+<span className="badge badge--danger">2</span> Le bouton **Télécharger** permet de télécharger une copie de la
+sauvegarde.
+
+Le format du fichier de sauvegarde est simple : il s'agit d'une archive `.tar.gz` du site internet. La sauvegarde
+de la base de données est incluses dans l'archive, il s'agit d'un fichier `.sql`.
+
+<span className="badge badge--danger">3</span> Le bouton en forme de corbeille <FAIcon icon="fa-solid fa-trash" size="1x" />
+permet de supprimer la sauvegarde.
+
+<span className="badge badge--danger">4</span> le bouton **Créer une sauvegarde** lance le processus de création d'une
+nouvelle sauvegarde.
+
+La création d'une sauvegarde est un processus en 4 étapes qui peut prendre du temps, en fonction de la taille du site
+internet et du nombre de fichiers à sauvegarder.
+
+La dernière étape du processus est l'envoi vers un serveur distant. La sauvegarde n'est pas stockée sur votre
+hébergement.
+
+Il n'est possible de lancer qu'une sauvegarde à la fois. Il faut attendre qu'un processus de sauvegarde se termine
+avant de pouvoir en lancer un nouveau.
+
+### Créer une préproduction WordPress
+
+L'outil de **préproduction** de WPTiger est accessible en cliquant sur l'onglet **Préproduction** sur la page de gestion
+d'un des sites.
+
+Cet outil permet de créer un clone du site internet sur une adresse technique de la forme : `quelquechose.wptiger.fr`
+
+Si vous avez besoin de faire des modifications sur votre site internet, mais que vous n'êtes pas sûr des impacts que
+cela peut avoir sur votre site, alors vous pouvez créer une préproduction puis tester vos modifications sur le site
+cloné. Ainsi que vous ne risquez pas d'endommager le site internet principal.
+
+<Image
+    src="/img/docs/cpanel/o2switch/wptiger-preproduction.png"
+    alt="Capture d'écran de l'outil de création de préproductions sur WPTiger"
+    caption="L'outil préproduction permet de créer cloner le site sur une adresse technique"
+    title="Outil de staging"/>
+
+<span className="badge badge--success">1</span> Le bouton **Changer le mot de passe** permet de changer le mot de passe
+qui sécurise l'accès à la préproduction.
+
+La préproduction étant un clone du site internet, pour éviter que cette adresse de clone se fasse référencer dans Google,
+une protection par mot de passe est ajoutée. Cela permet d'éviter les problèmes de contenu dupliqué sur Google.
+
+Cela vous permet de tester des fonctionnalités sur le site de préproduction de manière privée également.
+
+<span className="badge badge--success">2</span> Le bouton **Supprimer le mot de passe** permet d'enlever la protection
+par mot de passe de la préproduction. Utile si vous souhaitez rendre la préproduction visible / publiquement accessible.
+
+<span className="badge badge--success">3</span> Le bouton **Mettre en ligne** permet de publier la préproduction. Le site
+de production est remplacé par le site de préproduction puis la préproduction sera supprimé.
+
+L'ancien site de production ne sera pas conservé. Il sera totalement remplacé par la préproduction.
+
+<span className="badge badge--success">4</span> Le bouton **Créer une préproduction** permet de lancer le processus de
+création d'une préproduction.
+
+C'est une opération en 4 étapes qui va cloner le site internet. Cela peut prendre du temps, en fonction du volume de
+données à dupliquer et du nombre de fichiers.
+
+### Améliorer les performances de WordPress
+
+Les outils d'analyses et d'amélioration des performances sont disponibles en cliquant sur l'onglet **Performances** dans
+la page de gestion d'un site WordPress.
+
+Cette page regroupe plusieurs outils qui permettent d'analyser les performances du site, profiler le code, analyser les
+requêtes SQL et agir en activant des systèmes de caches.
+
+<Image
+    src="/img/docs/cpanel/o2switch/wptiger-performance.png"
+    alt="Capture d'écran de la page performance de WPTiger avec les différents outils d'analyses"
+    caption="L'onglet performance de WPTiger regroupe plusieurs outils pour analyser les performances de son site WordPress"
+    title="Outil de suivi de performance"/>
+
+#### Flamegraph
+
+Le premier outil <span className="badge badge--warning">1</span> visible est un outil permettant de réaliser des
+**Flamegraph**. Les Flamegraph ont été démocratisés par [Brendan Gregg](https://www.brendangregg.com/flamegraphs.html).
+
+Un Flamegraph est un graphique permettant de visualiser de manière hiérarchique les traces d'appels afin que les chemins
+d'exécution les plus souvent empruntés soient identifiés rapidement.
+
+En résumé, ça permet de comprendre qu'est-ce qui prend du temps dans l'exécution du code, qu'est-ce que fait un
+processus PHP en cours d'exécution.
+
+<Image
+    src="/img/docs/cpanel/o2switch/wptiger-flamegraph.png"
+    alt="Exemple de Flamegraph sur l'exécution de WordPress"
+    caption="Exemple d'un Flamegraph généré par l'outil. On peut voir que sur les 580ms de traitement, la partie render_block a pris 114ms"
+    title="Flamegraph WordPress"/>
+
+#### Analyse des requêtes SQL
+
+Le deuxième outil <span className="badge badge--warning">2</span> est l'analyse des requêtes SQL au chargement d'une
+page.
+
+Si vous avez la page d'accueil du site qui est lente à charger et que vous soupçonnez que cela peut être en rapport
+avec les requêtes SQL, alors vous pouvez utiliser cet outil pour récupérer la liste des requêtes SQL effectuées
+par WordPress au chargement de la page d'accueil.
+
+Vous aurez le détail de chaque requête SQL, incluant le temps d'exécution, la requête SQL complète. Vous disposerez
+également d'un outil pour rejouer les requêtes SQL pour mieux comprendre ce qu'elles font / retournent. Et un
+autre outil permet de lancer un `EXPLAIN` MySQL, pour comprendre comment MySQL traite la requête et si elle est
+optimisée.
+
+<Image
+    src="/img/docs/cpanel/wptiger-performance-sql.png"
+    alt="Analyse des requêtes MySQL d'un site WordPress avec WPTiger"
+    caption="Résultats d'analyse des requêtes MySQL d'une page WordPress avec WPTiger"
+    title="Rapport requête SQL"/>
+
+#### Profil de performance
+
+L'outil **Profil de performance** <span className="badge badge--warning">3</span> permet de générer un graphique, avec un niveau de détails plus ou moins important,
+du chemin d'exécution du code. Ca permet de comprendre visuellement de quelle manière le code est exécuté et de voir
+si un bout de code est appelé plusieurs fois.
+
+<Image
+    src="/img/docs/cpanel/wptiger-performance-path.png"
+    alt="Profil de performance avec wptiger"
+    caption="Résultat d'analyse du profil de performance avec WPTiger : cela génère un graphique montrant l'arbre d'exécution"
+    title="Profil de performance"/>
+
+### Actions avancées
+
+## Erreurs
+
+todo

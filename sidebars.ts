@@ -41,7 +41,7 @@ const sidebars: SidebarsConfig = {
             id: 'cpanel/o2switch/index'
           },
           items: [
-            'cpanel/o2switch/wptiger',
+            'cpanel/o2switch/wptiger/index',
             'cpanel/o2switch/univers-web-sous-comptes',
             'cpanel/o2switch/tiger-protect-waf',
             'cpanel/o2switch/ipxtender-hebergement-multi-ips',
