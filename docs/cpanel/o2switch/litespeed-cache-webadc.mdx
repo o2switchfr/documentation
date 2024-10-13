@@ -1,0 +1,189 @@
+---
+title: Activer le cache LiteSpeed LsCache
+sidebar_label: Litespeed Lscache
+description: L'outil Litespeed lscache permet d'activer un système de cache serveur litespeed/lscache sur un site internet hébergés. Améliore les performances.
+image: /img/docs/tools/o2switch-lscache.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - serveurs infogérés
+  - lscache
+  - litespeed
+  - webadc
+---
+
+# Activer le cache LsCache de LiteSpeed sur l'hébergement o2switch
+
+LiteSpeed est un serveur web alternatif, haute performance, qui propose la technologie de cache serveur nommé
+**lscache**.
+
+L'outil **LiteSpeed LSCache** permet d'activer, gratuitement, **LsCache**, un **outil de cache** directement intégré
+au serveur web.
+
+LsCache présente des performances similaires à [XtremCache](/cpanel/o2switch/xtremcache-varnish), autre outil que nous proposons, mais basé sur Varnish.
+
+LsCache propose un plugin pour les outils/CMS les plus connus : WordPress, Joomla!, Prestashop, Drupal, Magento, etc.
+
+Pour cette raison, le **cache serveur lscache est plus simple** à mettre en place grâce aux extensions proposées sur
+les CMS. Les extensions s'occupant d'optimiser/configurer les sites pour améliorer la mise en cache.
+
+L'outil litespeed dans cPanel vos permet donc de disposer d'un
+[hébergement litespeed lscache](https://www.o2switch.fr/hebergement-illimite/).
+
+<PreviewToolCard tool='o2switch-lscache' />
+
+## Activer LSCache sur un site
+
+Pour activer le cache LiteSpeed LSCache sur un site internet, il faut faire deux choses :
+  1. Il faut activer LiteSpeed LSCache sur le nom de domaine via l'outil LSCache dans cPanel
+  2. Puis, il faut installer l'extension Litespeed sur le site internet. L'extension se charge de configurer le site pour
+optimiser le fonctionnement du cache.
+
+### Activer LiteSpeed sur le nom de domaine
+
+Pour activer le cache sur le nom de domaine, il suffit d'aller dans l'outil **Litespeed lscache** puis de cliquer sur
+le bouton **Activer Litespeed WebADC - LSCache** en face du nom de domaine.
+
+<Image
+    src="/img/docs/cpanel/o2switch/litespeed-lscache-activation.png"
+    alt="Capture d'écran de l'outil LiteSpeed lscache sur le formulaire d'activation"
+    caption="Formulaire d'activation de Litespeed lscache sur un hébergement o2switch"
+    title="Activation de Litespeed lscache"/>
+
+Cette activation aura pour effet de changer l'adresse IP du site internet, cela active automatiquement IpXtender (c'est
+un prérequis) et active le serveur WebADC (une version plus puissante de LiteSpeed fonctionnant en mode cluster).
+
+L'activation peut prendre quelques minutes, car engendre un changement d'adresse IP.
+
+:::info Serveurs DNS
+Si vous utilisez les serveurs DNS d'o2switch, alors le changement dans la zone DNS est réalisée automatiquement.
+
+En revanche, si vous utilisez des serveurs DNS tiers, alors il faudra bien répliquer manuellement le changement dans
+la zone DNS du domaine, car o2switch ne sera pas en mesure de le faire pour vous.
+
+Si vous utilisez un service de CDN, comme CloudFlare, alors il ne faut pas activer le cache LiteSpeed car cela causera
+des problèmes, notamment d'invalidation de cache, car vous aurez 2 niveaux de caches différents : celui de CloudFlare
+et celui de Litespeed. Officiellement, nous ne supportons pas l'activation de CloudFlare et de cet outil.
+:::
+
+
+### Installer l'extension Litespeed sur le site
+
+Ensuite, il faut installer [l'extension LiteSpeed](https://www.litespeedtech.com/products/cache-plugins) sur le site
+internet.
+
+L'extension est très importante, car elle permet de modifier le comportement du site afin d'optimiser la mise en cache
+des ressources.
+
+Le plus difficile dans l'activation d'un cache serveur est de s'assurer que le site répond correctement, avec les
+bonnes entêtes HTTP de contrôle de mise en cache. Or, la majorité des sites ne font pas cela correctement. L'extension
+permet de corriger cela. Pour résumer, c'est l'extension qui permet de piloter le fonctionnement du cache.
+
+Pour WordPress, vous pouvez faire cela en 2 clics avec WPTiger qui dispose d'une option pour
+[activer LiteSpeed rapidement](/cpanel/o2switch/wptiger/#cache-http).
+
+Ou vous pouvez l'installer manuellement à partir de l'administration du site WordPress, en allant dans Extensions >
+Ajouter une extension > Rechercher des extensions puis en cliquant sur le bouton d'installation.
+
+Ensuite il faut bien **activer** l'extension en cliquant sur le bouton d'activation.
+
+
+<Image
+    src="/img/docs/cpanel/o2switch/litespeed-installation-wordpress.png"
+    alt="Capture d'écran de WordPress montrant comment installer l'extension Litespeed"
+    caption="Procédure d'installation de l'extension Litespeed sur WordPress"
+    title="Installation de Litespeed lscache sur WordPress"/>
+
+### Tester le fonctionnement du cache
+
+Après avoir effectué vos réglages, vous pouvez vérifier que le cache est bien actif en cliquant sur le bouton
+**Vérification** dans l'outil Litespeed sur l'hébergement.
+
+<Image
+    src="/img/docs/cpanel/o2switch/litespeed-verifier-cache.png"
+    alt="Capture d'écran de l'outil Litespeed avec la liste des domaines configurés sur l'hébergement"
+    caption="Lien vers l'outil de vérification du cache"
+    title="Vérification du cache"/>
+
+L'outil qui s'affiche permet d'effectuer deux requêtes vers le site internet :
+  * la première pour s'assurer que la page à l'occasion d'entrer dans le cache, pour pré-charger le cache
+  * une deuxième, toujours sur la même page, pour vérifier que le cache fonctionne correctement
+
+<Image
+    src="/img/docs/cpanel/o2switch/litespeed-outil-verification.png"
+    alt="Capture d'écran du formulaire de l'outil de vérification du cache"
+    caption="Outils pour vérifier que le cache est bien actif sur le site internet"
+    title="On s'assure que le cache fonctionne correctement"/>
+
+
+Dans le formulaire de l'outil, il faut choisir :
+
+<span className="badge badge--danger">1</span> Le protocole HTTP ou HTTPS. Si votre site est en HTTPS, alors laissez ce
+réglage sur HTTPS.
+
+<span className="badge badge--danger">2</span> Le choix du sous-domaine. Cela est important, si vous avez forcé
+l'utilisation des WWW sur votre site alors choisissez bien WWW dans cette case.
+
+C'est important, car si votre site force les WWW mais que vous testez sur une adresse non WWW, alors vous allez
+intercepter une réponse de redirection 301, cela ne permettra de vérifier que le cache est bien actif.
+
+<span className="badge badge--danger">3</span> Ensuite vous pouvez remplir l'adresse de la page à tester. Vous pouvez
+vérifier que le cache est bien actif sur une page précise de votre site. Laissez vide si vous souhaitez tester la page
+d'accueil.
+
+<span className="badge badge--danger">4</span> Puis il faut valider en cliquant sur **Vérifier le cache**
+
+<Image
+    src="/img/docs/cpanel/o2switch/litespeed-resultat-verification-cache.png"
+    alt="Capture d'écran avec le résultat du test de la mise en cache litespeed"
+    caption="Le résultat de l'outil de vérification de la mise en cache"
+    title="Résultat de la mise en cache"/>
+
+Ensuite le résultat s'affiche avec le résultat de la mise en cache. Cela affiche les entêtes HTTP important de la
+réponse avec les éléments permettant de voir si la réponse vient du cache ou non.
+
+
+
+
+
+## Erreurs
+
+### LSCache indisponible
+
+Le message suivant peut s'afficher dans l'extension LiteSpeed à installer sur les sites internet.
+
+> Les fonctions de mise en cache de LSCache sur cette page sont actuellement indisponibles !
+
+Cela peut venir de deux choses différentes :
+  * vous venez d'activer le cache serveur LiteSpeed. Dans ce cas, il faut patienter un peu, l'activation peut prendre du
+temps, car engendre un changement d'adresse IP. Le message d'erreur s'enlevera de lui même dés que l'activation sera
+complétée.
+  * le cache n'est pas actif. Dans ce cas, vérifiez que LiteSpeed a bien été activé depuis l'outil dans cPanel. Si oui,
+alors vérifiez que vous utilisez bien les serveurs DNS de o2switch et que le domaine pointe sur la bonne adresse IP.
+
+### Erreurs 503
+
+Durant l'activation / désactivation du cache via l'outil sur le cPanel, cela entraîne une **propagation DNS** de votre
+domaine pour pointer ou non vers le serveur de cache.
+
+Cela prend généralement **quelques heures**, durant ce délai, vous pouvez avoir des **erreurs 503.**
+
+Nous vous conseillons alors d'activer / désactiver le cache durant une période creuse pour limiter l'impact au niveau
+de vos visiteurs.
+
+### Sous-domaines
+
+L'outil Litespeed LSCache tel que proposé dans cPanel n'est pas compatible avec les sous-domaines, vous ne pourrez pas
+l'activer dessus.
+
+### CloudFlare ou autres CDN
+
+N'activez pas Cloudflare en complément de litespeed, cela causera des erreurs. En faisant cela, vous cumulez
+plusieurs niveaux de caches et cela risque de bloquer le mécanisme interne de purge de cache.
+
+ Il faut activer l'une ou l'autre de ces technologies mais pas les deux à la fois. Testez les deux, choisissez ce qui
+ vous convient le mieux.
+
+Le support o2switch ne répondra pas aux problématiques de caches si vous avez Litespeed + CloudFlare activé en même
+temps, officiellement cela n'est pas supporté de notre côté.

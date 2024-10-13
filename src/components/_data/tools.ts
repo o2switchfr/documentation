@@ -80,7 +80,7 @@ const cpanelTool = {
         icon:"o2switch-lscache",
         cat: cpanelCategories.o2switch,
         to: '/cpanel/o2switch/litespeed-cache-webadc',
-        offers: all_offers,
+        offers: [offers.shared, offers.managed],
     },
     'o2switch-memcached-manager': {
         name:"Memcached",
