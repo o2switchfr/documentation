@@ -1,0 +1,172 @@
+---
+title: Instance privée de Memcached
+sidebar_label: Memcached
+description: L'outil Memcached permet d'activer une instance privée de Memcached sur l'hébergement o2switch
+image: /img/docs/tools/o2switch-memcached-manager.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - serveurs infogérés
+  - memcached
+  - cache objet
+  - cache
+---
+
+# Instance privée de Memcached
+
+L'outil **Memcached** permet d'activer une instance privée de Memcached sur votre
+[hébergement web](https://www.o2switch.fr/hebergement-illimite/) o2switch.
+
+Memcached est **système de cache** dans lequel les données sont stockées directement en mémoire RAM (le plus rapide).
+Cela est souvent utilisé pour augmenter la vitesse de réponse des sits web, en mettant en cache le résultat d'opérations
+complexe et longue, par exemple des résultats de requêtes SQL.
+
+Memcached peut être utilisé par certains CMS, comme WordPress, pour servir de **cache d'objets** et améliorer les
+performances des sites hébergés.
+
+<PreviewToolCard tool='o2switch-memcached-manager' />
+
+## Créer une instance privée de Memcached
+
+Lorsqu'on accède à l'outil pour la première fois, l'outil Memcached propose la création d'une instance privée de
+Memcached. L'instance n'est pas créé automatiquement, il faut la demander avec l'outil.
+
+<Image
+    src="/img/docs/cpanel/o2switch/memcached-installation.png"
+    alt="Capture d'écran de l'outil pour installer Memcached sur l'hébergement o2switch"
+    caption="Installation d'une instance privée de Memcached sur un hébergement o2switch"
+    title="Activation de Memcached"/>
+
+A cet instant, seule la version 1.6 de Memcached est proposée. Cela peut évoluer à l'avenir, en fonction des nouvelles
+versions qui peuvent sortir.
+
+:::danger Les données sont éphémères !
+Les données stockées dans Memcached sont **éphémères**. Dès que le serveur se relance, les données sont perdues !
+
+Les données dans Memcached ne sont **pas sauvegardés**. Memcached ne doit pas être utilisée comme une base de données, il
+ne doit pas être utilisé pour stocker des données qui doivent être conservées ou sauvegardées.
+
+Memcached doit **uniquement servir à stocker des données de cache**. Autrement dit, il faut vous attendre à ce que ces
+données puissent disparaître subitement (si le serveur se relance par exemple).
+:::
+
+## Gestion de l'instance Memcached
+
+Après avoir installé Memcached sur l'hébergement, le serveur memcached se lance automatiquement. Une page s'affiche avec
+toutes les informations de configurations nécessaires.
+
+<Image
+    src="/img/docs/cpanel/o2switch/memcached-gestion-o2switch.png"
+    alt="Capture d'écran de l'outil Memcached sur l'hébergement web o2switch"
+    caption="Page de gestion de l'instance privée de Memcached avec toutes les configurations"
+    title="Page de gestion de Memcached chez o2switch"/>
+
+L'outil Memcached contient beaucoup d'informations.
+
+<span className="badge badge--danger">1</span> Dans la partie **Etat du serveur**, il est indiqué si le serveur
+Memcached est bien actif et lancé.
+
+Il est en effet possible d'arrêter le serveur Memcached temporairement si besoin. Le serveur peut donc être lancé ou
+en pause.
+
+<span className="badge badge--danger">2</span> La ligne **Version** précise la version de Memcached qui est installé
+et active. A cet instant, seule la version 1.6 est proposé mais cela peut évoluer à l'avenir.
+
+<span className="badge badge--danger">3</span> Le **Mode de connexion** indique de quelle manière a été lancé le serveur
+Memcached et comment s'y connecter. A cet instant, seul le mode **Socket** est supporté, car memcached ne supporte pas
+nativement d'authentification. Le mode **Socket** permet conserver le serveur Memcached isolé sur votre hébergement.
+
+<span className="badge badge--danger">4</span> Le **PID** correspond à l'identifiant du processus Memcached lancé sur
+votre hébergement. Cela est uniquement utile à des fins de debug.
+
+<span className="badge badge--danger">5</span> Le bouton **arréter** permet de stopper le serveur Memcached. Si vous
+stoppez le serveur, vous aurez plus tard l'option pour le désinstaller totalement de votre hébergement également.
+
+<span className="badge badge--danger">6</span> L'option **Redémarrer** permet de stopper le serveur Memcached puis de le
+relancer dans la foulée. Cela peut s'avérer utile si le serveur Memcached est bloqué / en attente.
+
+<span className="badge badge--danger">7</span> L'option **Purger** permet de supprimer toutes les données contenues dans
+le cache Memcached.
+
+<span className="badge badge--danger">8</span> En cliquant sur le lien **Configurer configurer Memcached sur WordPress**
+cela va lancer un petit tutoriel qui explique comment activer le cache objet sur WordPress avec Memcached. Cela a pour
+effet d'améliorer les performances du site.
+
+<span className="badge badge--danger">9</span> Le **Fichier de logs** contient les logs de Memcached. Ce fichier ne
+contient pas grand chose en temps normal, il peut être utile en cas de problème, pour du debug.
+
+<span className="badge badge--danger">10</span> Le **Fichier de socket** est très important. C'est via ce fichier de
+socket que vous allez communiquer avec le serveur Memcached. Il est toujours nécessaire d'utiliser ce fichier dans les
+configurations.
+
+## Utiliser Memcached sur WordPress
+
+Il y a plusieurs manières d'utiliser Memcached sur WordPress, mais cela commence par installer une extension de cache
+qui supporte Memcached.
+
+La méthode d'installation recommandée va être d'utiliser WPTiger pour
+[activer Memcached en 1 clic](/cpanel/o2switch/wptiger/#cache-objet).
+
+Si vous souhaitez installer Memcached manuellement, alors vous pouvez installer une extension de cache qui supporte
+Memcached. Vous avez par exemple :
+  * [LiteSpeed Cache](https://fr.wordpress.org/plugins/litespeed-cache/) (recommandé)
+  * [W3 Total Cache](https://wordpress.org/plugins/w3-total-cache/)
+  * [Speed Optimizer](https://fr.wordpress.org/plugins/sg-cachepress/)
+
+Nous recommandons l'utilisation de [LiteSpeed Cache](https://fr.wordpress.org/plugins/litespeed-cache/), car l'extension
+est complète et permet également d'activer le [cache HTTP LiteSpeed](/cpanel/o2switch/litespeed-cache-webadc) qui est
+efficace/simple à mettre en place.
+
+### Extension PHP Memcached
+
+Un des prérequis à tous ces outils va être d'activer l'extension PHP **Memcached** qui ajoute les fonctionnalités de
+communication avec un serveur Memcached à PHP.
+
+Pour activer l'extension, il faut se rendre dans l'outil [Sélectionner une version de PHP](/cpanel/logiciels/hebergement-php-multi-version) présent dans la catégorie
+des [Logiciels](http://localhost:3000/cpanel/logiciels/) de l'hébergement.
+
+Dans cet outil, il faut choisir une version dites **Personnalisée** de PHP, puis cliquer sur **Extensions** puis cocher
+**memcached**. Attention, il y a aussi **memcache** (sans le `d` final), ce n'est pas la même chose.
+
+<Image
+    src="/img/docs/cpanel/o2switch/memcached-php.png"
+    alt="Capture d'écran de l'outil de sélection de PHP expliquant comment activer le module Memcached"
+    caption="Activation du module PHP Memcached dans l'outil de sélection d'une version de PHP"
+    title="Activation du module PHP Memcached"/>
+
+### Configuration avec l'extension LiteSpeed Cache
+
+Nous recommandons l'utilisation de l'extension LiteSpeed Cache car l'extension est complète et permet également de gérer
+le cache serveur LiteSpeed (qui est un autre type de cache, activable en complément).
+
+Pour configurer Memcached sur cette extension, il faut commencer par installer l'extension en vous rendant dans
+l'administration de WordPress puis dans "Extensions > Ajouter une extension > Rechercher des extensions", puis en
+cliquant sur le bouton d'installation.
+
+Ensuite, il faut bien activer l'extension en cliquant sur le bouton d'activation.
+
+<Image
+    src="/img/docs/cpanel/o2switch/litespeed-installation-wordpress.png"
+    alt="Capture d'écran du processus d'installation de l'extension LiteSpeed sur WordPress"
+    caption="Installation de l'extension LiteSpeed dans WordPress"
+    title="Installation de LiteSpeed"/>
+
+Ensuite, il faut configurer Memcached dans l'extension LiteSpeed.
+
+<Image
+    src="/img/docs/cpanel/o2switch/memcached-wordpress-o2switch.png"
+    alt="Capture d'écran de la configuration de Memcached dans WordPress"
+    caption="Configuration de Memcached sur un site WordPress hébergé chez o2switch"
+    title="Configuration de Memcache sur un site WordPress sur un hébergement o2switch"/>
+
+Pour configurer Memcached, il faut se rendre dans l'administration puis accéder à : LiteSpeed Cache > Cache > Objet.
+
+Ensuite, il faut **Activer la mise en cache d'objet**, puis choisir la méthode **Memcached**.
+
+Dans la case **Hébergeur**, il faut copier/coller le chemin vers la socket de connexion, communiqué dans la partie
+**Fichier de Socket** de l'outil Memcached de l'hébergement.
+
+Dans **Port** il faut indiquer la valeur `0`.
+
+Ensuite, il faut enregistrer les changements, le **Test de connexion** devrait indiquer que tout va bien.
