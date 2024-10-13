@@ -1,0 +1,79 @@
+---
+title: PageSpeed
+sidebar_label: PageSpeed
+description: L'outil pagespeed vous permet d'activer les règles mod_pagespeed de votre choix sur les sites internet hébergés. Améliore vos sites.
+image: /img/docs/tools/o2switch-pagespeed.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - serveurs infogérés
+  - pagespeed
+---
+
+# PageSpeed
+
+
+Ce module permet de configurer facilement **mod_pagespeed** sur vos sites internet sur votre
+[hébergement web français](https://www.o2switch.fr/hebergement-illimite/).
+
+Les règles **mod_pagespeed** vous permettent d'améliorer les performances de votre site internet en forçant certaines
+bonnes pratiques de manière quasi-immédiate et sans rien changer au site en lui-même.
+
+<PreviewToolCard tool='o2switch-pagespeed' />
+
+## Qu'est-ce que PageSpeed ?
+
+L'outil [PageSpeed Insight](https://developers.google.com/speed/pagespeed/insights/) propulsé par Google permet
+d'évaluer la vitesse de chargement de votre site internet sur mobile et sur ordinateur via un score compris entre 0
+et 100.
+
+Une fois l'analyse effectuée, l'outil donne des détails sur les éléments évalués et donne des pistes d'amélioration.
+
+Le module **PageSpeed** permet d'automatiser les bonnes pratiques de performance Web pour améliorer la vitesse de
+chargement de votre site. Il fonctionne à l'aide de filtres qui optimisent les ressources apportant un gain de temps
+pour les utilisateurs, améliorant la navigation et le référencement.
+
+## Utilisation de PageSpeed
+
+L'outil PageSpeed sur l'hébergement o2switch est découpé en 2 pages :
+  * la première page liste les noms de domaines configurés sur l'hébergement
+  * la deuxième page correspond à la sélection des règles à appliquer sur un domaine
+
+### Liste des noms de domaines
+
+Lorsque vous accédez au module PageSpeed depuis votre interface cPanel, une liste des différents domaines présents sur
+votre hébergement s'affiche.
+
+Ce tableau vous indique pour chacun des domaines si une personnalisation a été réalisée et si le module PageSpeed est
+actif ou non. Vous accédez à la configuration grâce au bouton **Configurer**.
+
+<Image
+    src="/img/docs/cpanel/o2switch/pagespeed-home.png"
+    alt="Capture d'écran de l'outil PageSpeed avec la liste des noms de domaines"
+    caption="Liste des noms de domaines configurés avec la personnalisation PageSpeed"
+    title="Liste des domaines dans l'outil PageSpeed"/>
+
+### Sélection des règles PageSpeed
+
+En cliquant sur le bouton **Configurer**, une page s'affiche avec la liste des règles activables, suivi d'une
+description et d'une recommandation.
+
+<Image
+    src="/img/docs/cpanel/o2switch/o2switch-pagespeed-rules.png"
+    alt="Capture d'écran de l'outil PageSpeed avec la liste des règles activables"
+    caption="Liste des règles PageSpeed activables"
+    title="Règles PageSpeed"/>
+
+La page liste l'ensemble des règles PageSpeed qu'il est possible d'activer, avec :
+
+<span className="badge badge--danger">1</span> Des boutons de sélection rapide pour cocher toutes les règles, tout
+décocher ou cocher que les règles qui sont recommandées.
+
+<span className="badge badge--danger">2</span> Chaque règle est activable ou désactivable avec une case à cocher.
+
+<span className="badge badge--danger">3</span> Pour chaque règle, il y a un score de risque. Certains sites peuvent
+mal réagir avec certaines règles, cela peut introduire des bugs. Pour chaque règle, nous faisons une recommandations.
+
+<span className="badge badge--danger">4</span> Enfin, pour chaque règle, il y a le lien vers la documentation. Ce lien
+menera vers une page qui explique en détails à quoi correspond la règle et ce qu'elle fait. 

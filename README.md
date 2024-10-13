@@ -105,10 +105,11 @@ cohérent, sur les effets de flèches, rectangles et bulles d'étapes, il faut :
   * on aligne au mieux les éléments d'annotation que l'on ajoute. Exemple : on annote un formulaire vertical avec des
   bulles d'étapes, on aligne les bulles d'étapes qu'on ajoute plutôt que de les disperser dans la capture 
   * si on utilise des flèches, on essaye de faire en sorte de ne pas les faire croiser entre elles 
-  * si on ajoute du texte, on s'assure qu'il soit lisible par rapport au fond de l'image 
+  * si on ajoute du texte, on s'assure qu'il reste lisible par rapport au fond de l'image 
   * si on ajoute des annotations/éléments, on s'assure que ce qu'on ajoute ne masque pas une partie importante de la
   capture d'écran 
 
+Ci-dessous une capture d'écran issue d'un des guides, annotée en bleu.
 ![illustration d'exemple](./static/img/readme/exemple-capture-ecran.png)
 
 ### Longueur des lignes 

@@ -104,7 +104,7 @@ const cpanelTool = {
         icon:"o2switch-pagespeed",
         cat: cpanelCategories.o2switch,
         to: '/cpanel/o2switch/optimisation-pagespeed',
-        offers: all_offers,
+        offers: [offers.shared],
     },
     'o2switch-redis-manager': {
         name:"Redis",
