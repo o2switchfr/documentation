@@ -1,0 +1,233 @@
+---
+title: ipXtender, l'outil pour un hébergement SEO Multi IP
+sidebar_label: IpXtender
+description: L'outil ipXtender vous offre la possibilité de changer l'adresse IP liée à votre site internet. Utile pour un réseau de sites et un hébergement SEO
+image: /img/docs/tools/o2switch-ipxtender.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - serveurs infogérés
+  - ipxtender
+  - seo
+  - multi ip
+---
+
+# Changer l'adresse IP de votre site internet avec ipXtender
+
+L'outil **ipXtender** est un outil exclusif, développé par o2switch, qui vous permet de changer l'adresse IP associée
+à vos sites internet, **gratuitement**.
+
+L'outil peut être utilisé à des fins de référencement, il vous permet d'avoir un
+hébergement multi ip](https://www.o2switch.fr/hebergement-illimite/) à bas coût.
+
+Sur chaque compte d'hébergement o2switch, à l'aide de l'outil ipXtender, vous avez la possibilité de personnaliser
+l'adresse IP de vos sites internet hébergés.
+
+Vous avez le **choix** des adresses IP, **plusieurs plages d'IP** sont proposées, sur plusieurs classes et
+**pays différents**. C'est l'outil à utiliser si vous êtes à la recherche d'un **hébergeur SEO** ou un **hébergeur de
+site PBN** (réseau de sites PBN).
+
+<PreviewToolCard tool='o2switch-ipxtender' />
+
+## Choix des adresses IP
+
+Le choix des adresses IP est varié, les adresses IP sont sur des **plages différentes** (plusieurs classes A, B,
+C différentes) et vous avez également le choix du pays dans lequel se trouve le serveur (et le pays associé à
+l'adresse IP).
+
+À ce jour, il y a :
+  * **279 adresses IPs** différentes proposées *(màj 04/12/19)*
+  * les **279 adresses IP d'hébergement** sont réparties sur :
+    * *<ins>A.</ins>B.C.D* : **26** *A.* totalement différents
+    * *<ins>A.B.</ins>C.D* : **38** *A.B.* totalement différents
+    * *<ins>A.B.C.</ins>D* : **75** *A.B.C.* totalement différents
+
+C'est donc parfait pour un **hébergement SEO**.
+
+Ce choix d'adresses IP évoluera (dans le bon sens, il y aura plus d'adresses IP différentes sur des classes différentes
+à terme).
+
+Concernant les adresses IP, il y a deux types d'adresses :
+  * la majorité des adresses IP proposées appartiennent à o2switch (ce sont toutes les IPs Françaises). Ce sont les
+IPs internes.
+  * les autres adresses IP n'appartiennent pas à o2switch et permettent de fournir plus de diversité. Par contre, cela
+ajoute un intermédiaire technique supplémentaire. Ce sont les IPs externes.
+
+:::info Mais, il n'y a que les sites SEO qui utilisent ces adresses IP ?
+Certaines personnes pensent qu'il n'y a que les sites SEO / PBN qui sont hébergés sur ces adresses IP là.
+
+**Ce n'est pas le cas**. L'activation d'ipXtender est un pré-requis à l'activation des systèmes de caches comme
+[xtremCache](/cpanel/o2switch/xtremcache-varnish) ou [Litespeed](/cpanel/o2switch/litespeed-cache-webadc). Une IP est
+sélectionnée aléatoirement dans ce cas.
+
+Donc pour les personnes qui s'inquièteraient du fait que ces adresses IP sont uniquement utilisées à des fins SEO, soyez
+rassuré, il y a une grande proportion de sites "lambda" également, qui correspondent aux activations de caches.
+:::
+
+## Changer l'adresse IP d'un site internet
+
+L'outil ipXtender est divisé en deux parties.
+
+Dans la première partie de l'outil, vous avez la liste des adresses IP proposées par o2switch ainsi que la liste des
+domaines configurés sur l'hébergement.
+
+La description de l'adresse IP contient plusieurs éléments :
+  * l'adresse IP proposée,
+  * si l'adresse IP est géolocalisée, le pays qui est associé à l'adresse IP,
+  * le numéro d'AS du propriétaire de l'adresse IP ([AS50474](https://bgp.he.net/AS50474) pour o2switch),
+  * la mention "interne" s'il s'agit d'une adresse IP gérée et appartenant à o2switch, ou "externe" si cela passe par
+une entité tierce,
+  * si l'adresse IP a déjà été utilisé, il y aura une mention "déjà utilisée" qui s'affichera suivi du premier domaine
+trouvé qui est associé à l'IP en question
+
+Deux raccourcis sont présents sous forme de boutons :
+  * **Choisir une IP interne libre** : choisi au hasard une adresse IP interne (donc appartenant à o2switch) libre
+(non associé à un autre domaine du compte)
+  * **Choisir une IP libre** : la même chose, mais sur les IP internes et externes (donc toutes dans la plage de toutes
+les IPs disponibles)
+
+Pour changer l'adresse IP d'un site, il suffit de choisir une adresse IP dans la liste des adresses proposées puis de
+choisir l'un des domaines configurés sur l'hébergement puis valider.
+
+<Image
+    src="/img/docs/cpanel/o2switch/ipxtender-changer-adresse-ip.png"
+    alt="Capture d'écran de l'outil ipxtender sur le formulaire de changement d'adresse IP"
+    caption="Formulaire de l'outil ipXtender permettant de changer l'adresse IP du site internet"
+    title="Changer l'adresse IP du nom de domaine"/>
+
+Lorsque l'outil va changer l'adresse IP du site internet, il va effectuer plusieurs vérifications. En résumé, il va :
+  * vérifier que l'infrastructure ipxtender est bien fonctionnelle / pas en maintenance, afin d'éviter une activation partielle
+  * détecter la configuration MX du domaine et faire les ajustements nécessaires afin de ne pas casser la partie Email du domaine
+  * changer l'adresse IP du domaine
+
+Le changement d'adresse IP peut prendre du temps. Durant quelques minutes, le site internet peut afficher un message
+d'erreur (erreur 503, erreur avec la page par défaut de cPanel, erreur o2switch powerboost). Dans ce cas, il faut
+patienter quelques minutes et/ou suivre les recommandations détaillées dans la section des erreurs courantes pour gagner
+un peu de temps.
+
+:::info Serveurs DNS
+Si vous utilisez les serveurs DNS d'o2switch, alors le changement dans la zone DNS est réalisée automatiquement.
+
+En revanche, si vous utilisez des serveurs DNS tiers, alors il faudra bien répliquer manuellement le changement dans
+la zone DNS du domaine, car o2switch ne sera pas en mesure de le faire pour vous.
+
+Si vous utilisez un service de CDN, comme CloudFlare, alors ipXtender est totalement inutile, car ce sont les adresses
+IP de CloudFlare qui resteront visibles.
+:::
+
+Lorsque le changement d'adresse IP est effectif, l'outil mets à jour la liste des noms de domaines dans le tableau
+récapitulatif.
+
+<Image
+    src="/img/docs/cpanel/o2switch/ipxtender-adresse-ip-changee.png"
+    alt="Capture d'écran de l'outil ipxtender avec la liste des noms de domaines et adresses IP"
+    caption="L'adresse IP du site a bien été changée correctement"
+    title="L'adresse IP est changée"/>
+
+## Changement en masse
+
+En cliquant sur le bouton **Activer la sélection multiple** vous pouvez changer l'adresse IP de plusieurs noms de
+domaines en une seule fois.
+
+<Image
+    src="/img/docs/cpanel/o2switch/ipxtender-changer-plusieurs-ips.png"
+    alt="Capture d'écran de l'outil ipxtender pour changer l'adresse IP de plusieurs sites"
+    caption="Mode bulk permettant de changer l'adresse IP de plusieurs sites"
+    title="Changement de l'adresse IP en masse"/>
+
+Avec ce mode, l'outil va itérer sur tous les domaines et attribuer des adresses IP aléatoirement.
+
+## Erreurs
+
+### Délai de changement
+
+
+Le changement d'adresse IP prend du temps, généralement, c'est de l'ordre de quelques minutes.
+
+Il y a deux types de délais importants.
+
+Le premier délai est le temps de prise en compte de la configuration sur le serveur. En moyenne, cela prend une minute.
+
+Ensuite, il y a le délai lié à la mise à jour de l'adresse IP du domaine. Ce délai-là est aléatoire, cela dépend de
+votre environnement, mais vous pouvez tenter d'accélérer le processus en suivant les astuces suivantes :
+  * Vous pouvez vider votre cache DNS local. Le plus simple pour faire cela est de suivre [ce tutoriel](https://korben.info/comment-nettoyer-votre-cache-dns-sous-windows-linux-et-mac.html).
+  * vous pouvez vider le cache DNS de votre navigateur.
+    * Sur Chrome, vous pouvez faire cela en accédant sur `chrome://net-internals/#dns` puis en cliquant sur
+    `Clear host cache`
+    * Sur Firefox, le cache DNS peut être désactivé en allant sur `about:config` puis en mettant
+    `network.dnsCacheExpiration` sur 0 ou en installant une extension supplémentaire comme [dns flusher](https://addons.mozilla.org/fr/firefox/addon/dns-flusher)
+  * Vous pouvez vider la liste des connexions établies (sockets pools)
+    * Sur Chrome, vous pouvez faire cela en allant sur `chrome://net-internals/#sockets` puis `Flush socket pools`
+  * évidemment, il faut également vider le cache de votre navigateur
+  * et tester en mode de navigation privée
+
+### Serveurs DNS tiers
+
+Si le domaine configuré utilise des serveurs DNS tiers, c'est-à-dire des serveurs DNS différents de ns1.o2switch.net
+et ns2.o2switch.net, alors il faudra faire la configuration DNS manuellement.
+
+En effet, cPanel et l'outil ipXtender ne pourra pas changer l'adresse IP associée au nom de domaine si ce dernier
+utilise des DNS tiers, qui sont en dehors de notre contrôle.
+
+Il faut faire plusieurs réglages :
+  1. Faire pointer le domaine et les www vers **l'adresse IP sélectionnée dans l'outil ipXtender**
+  2. Créer (ou modifier s'il existe déjà) le sous-domaine mail (mail.le-domaine.tld) pour le faire pointer vers
+**l'adresse IP originale**
+  3. Créer (ou modifier) les entrées MX afin de n'avoir qu'**une seule entrée**, en priorité 0, qui **pointe vers le
+sous-domaine mail** créé/modifié à l'étape précédente
+
+### Erreurs 503
+
+
+Si le serveur retourne une erreur 503 avec un message texte court, cela signifie que le domaine pointe sur le serveur
+d'ipxtender mais que quelque chose ne va pas.
+
+<Image
+    src="/img/docs/cpanel/o2switch/ipxtender-503.png"
+    alt="Capture d'écran de l'erreur 503 qui s'affiche en cas de problème de configuration"
+    caption="Erreur 503 qui s'affiche lorsqu'il y a un problème de configuration"
+    title="Le domaine est inconnu et rejeté"/>
+
+Premièrement, le serveur retourne une erreur 503 pour éviter que le message d'erreur se retrouve référencé à la place
+de votre site internet dans les moteurs de recherches.
+
+Ce n'est pas une erreur liée au serveur en lui-même mais bien un problème de configuration. Le texte qui s'affiche
+ensuite explique la raison de l'erreur.
+
+> Pas de configuration pour le domaine 'domain.tld' (ipxtender/lscache/xtremcache actif/configuré ?)
+
+L'erreur là indique que le nom de domaine pointe sur le serveur d'ipxtender mais le serveur ipxtender n'a pas
+connaissance de votre nom de domaine, il n'a pas été configuré pour l'accepter.
+
+Solution : faire l'association domaine et de l'adresse IP dans l'outil ipXtender sur cPanel
+
+> Une configuration serveur existe pour 'domaine.tld' mais le domaine pointe sur la mauvaise adresse IP :
+'xxx.xxx.xxx.xxx' à la place de 'yyy.yyy.yyy.yyy'
+
+L'erreur là indique que le domaine est configuré sur le serveur ipXtender mais le nom de domaine ne pointe pas vers la
+bonne adresse IP. Cela peut arriver dans plusieurs cas :
+  * vous avez changé l'adresse IP liée au domaine récemment, en attendant que votre cache DNS se vide, vous allez avoir
+l'erreur là temporairement. Cela indique que vous accéder au domaine avec la mauvaise adresse IP (l'ancienne adresse)
+  * vous utilisez un serveur DNS tiers, vous n'avez pas fait pointer le domaine sur la bonne adresse IP
+
+Solutions :
+  * faire pointer le domaine vers la bonne adresse IP (yyy.yyy.yyy.yyy)
+  * ou, refaire l'association dans ipXtender pour choisir l'adresse IP vers laquelle pointe actuellement le domaine
+(xxx.xxx.xxx.xxx)
+
+### CloudFlare ou autres CDN
+
+
+**N'activez pas CloudFlare** (ou autres CDN similaires) en complément d'ipxtender, cela est **totalement inutile**,
+voire-même contre productif. En activant Cloudflare, ce sont les adresses IPs de Cloudflare qui seront associées au nom
+de domaine donc l'IP choisie dans ipXtender ne sera pas affichée publiquement (donc sans effet).
+
+C'est même contre productif, car cela ajoute un serveur intermédiaire et une étape supplémentaire dans le cycle de vie
+d'une requête HTTP à destination de votre site internet.
+
+### Sous-domaines
+
+ipXtender n'est pas compatible avec les sous-domaines, vous ne pourrez pas l'activer dessus.
+
