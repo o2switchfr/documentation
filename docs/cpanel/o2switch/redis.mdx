@@ -1,0 +1,238 @@
+---
+title: Instance privée de Redis
+sidebar_label: Redis
+description: L'outil Redis permet d'activer une instance privée de Redis sur l'hébergement web o2switch
+image: /img/docs/tools/o2switch-redis-manager.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - serveurs infogérés
+  - redis
+  - cache objet
+  - cache
+---
+
+
+# Instance privée de Redis
+
+L'outil **Redis** permet d'activer une instance privée de Redis sur votre
+[hébergement web o2switch](https://www.o2switch.fr/hebergement-illimite/).
+
+Redis est **système de cache** dans lequel les données sont stockées directement en mémoire RAM. Ce type de service
+est souvent utilisé pour augmenter la vitesse de réponse des sits web, en mettant en cache le résultat d'opérations
+complexe et longue : par exemple des résultats de requêtes SQL.
+
+Redis peut être utilisé par certains CMS, comme WordPress, pour servir de **cache d'objets** et améliorer les
+performances des sites hébergés. D'autres usages sont possibles, comme le stockage de sessions PHP.
+
+Redis est beaucoup plus complet que [Memcached](/cpanel/o2switch/memcached) sur les opérations qu'il supporte. Redis
+fourni nativement une liste de fonctions bien plus importante.
+
+<PreviewToolCard tool='o2switch-redis-manager' />
+
+## Créer une instance privée de Redis
+
+Lorsqu'on accède à l'outil pour la première fois, l'outil Redis propose la création d'une instance privée de
+Redis. L'instance n'est pas créé automatiquement, il faut la demander avec l'outil.
+
+<Image
+    src="/img/docs/cpanel/o2switch/o2switch-instance-redis.png"
+    alt="Capture d'écran de l'outil pour installer Redis sur l'hébergement o2switch"
+    caption="Installation d'une instance privée de Redis sur un hébergement o2switch"
+    title="Activation de Redis"/>
+
+A cet instant, il est possible de choisir entre les versions 6 et 7 de Redis. Si vous ne savez pas quoi installer alors
+choisissez la version 7 par défaut.
+
+Il est également possible de choisir entre le mode **Socket** et **Port**.
+
+Le mode Socket est à privilégier, car il s'agit du mode le plus performant. Cependant, certaines applications peuvent
+ne pas supporter ce mode et dans ce cas, vous pouvez choisir le mode **Port** à la place.
+
+:::danger Les données sont éphémères !
+Les données stockées dans Redis sont **éphémères**. Dès que le serveur se relance, les données sont perdues !
+
+Les données dans Redis ne sont **pas sauvegardés**. Redis ne doit pas être utilisée comme une base de données, il
+ne doit pas être utilisé pour stocker des données qui doivent être conservées ou sauvegardées.
+
+Redis doit **uniquement servir à stocker des données de cache**. Autrement dit, il faut vous attendre à ce que ces
+données puissent disparaître subitement (si le serveur se relance par exemple).
+:::
+
+## Gestion de l'instance Redis
+
+Après avoir installé Redis sur l'hébergement, le serveur Redis se lance automatiquement. Une page s'affiche avec
+toutes les informations de configurations nécessaires.
+
+<Image
+    src="/img/docs/cpanel/o2switch/redis-instance-privee.png"
+    alt="Capture d'écran de l'outil Redis sur l'hébergement web o2switch"
+    caption="Page de gestion de l'instance privée de Redis avec toutes les configurations"
+    title="Page de gestion de Redis chez o2switch"/>
+
+L'outil Redis contient beaucoup d'informations.
+
+<span className="badge badge--danger">1</span> Dans la partie **Etat du serveur**, il est indiqué si le serveur
+Redis est bien actif et lancé.
+
+Il est en effet possible d'arrêter le serveur v temporairement si besoin. Le serveur peut donc être lancé ou
+en pause.
+
+<span className="badge badge--danger">2</span> La **Version** de Redis est rappelé, actuellement il est possible de
+choisir entre la version 6 ou 7.
+
+<span className="badge badge--danger">3</span> Le **Mode de connexion** est noté, il est possible de choisir entre le
+mode **Socket** ou **Port**.
+
+Le mode **Socket** sera le mode recommandé, car il est légèrement plus rapide. La communication avec le serveur Redis
+passe par un fichier de socket créé sur l'hébergement.
+
+Le mode **Port** peut être choisi. Dans ce cas, la communication avec le serveur Redis passera par l'adresse `localhost`
+sur un port libre sélectionné aléatoirement lors de l'installation du serveur. Le mode **Port** peut être compatible
+avec plus d'applications.
+
+<span className="badge badge--danger">4</span> Le **PID** correspond à l'identifiant du processus Redis lancé sur
+votre hébergement. Cela est uniquement utile à des fins de debug.
+
+<span className="badge badge--danger">5</span> La **Commande d'accès** est très importante. C'est la commande à lancer
+pour utiliser `redis-cli` en [SSH](/guides/webmastering/connexion-ssh] ou avec le
+[Terminal](/cpanel/outils-avances/terminal-ssh-web).
+
+Cela est indispensable pour utiliser Redis en ligne de commande et cela s'avère très pratique pour du débug.
+
+<span className="badge badge--danger">6</span> Le bouton **arréter** permet de stopper le serveur Redis. Si vous
+stoppez le serveur, vous aurez plus tard l'option pour le désinstaller totalement de votre hébergement également.
+
+
+<span className="badge badge--danger">7</span> L'option **Redémarrer** permet de stopper le serveur Redis puis de le
+relancer dans la foulée. Cela peut s'avérer utile si le serveur Redis est bloqué / en attente.
+
+<span className="badge badge--danger">8</span> L'option **Purger** permet de supprimer toutes les données contenues dans
+le cache Redis.
+
+<span className="badge badge--danger">9</span> En cliquant sur le lien **Configurer configurer Redis sur WordPress**
+cela va lancer un petit tutoriel qui explique comment activer le cache objet sur WordPress avec Redis. Cela a pour
+effet d'améliorer les performances du site.
+
+<span className="badge badge--danger">10</span> Le **Fichier de logs** contient les logs de Redis. Ce fichier ne
+contient pas grand chose en temps normal, il peut être utile en cas de problème, pour du debug.
+
+<span className="badge badge--danger">11</span> Le **Fichier de socket** est très important. C'est via ce fichier de
+socket que vous allez communiquer avec le serveur Redis. Il est toujours nécessaire d'utiliser ce fichier dans les
+configurations.
+
+<span className="badge badge--danger">12</span> Le **Mot de passe** est également très important, une authentification
+par mot de passe est obligatoire pour se connecter au serveur Redis, que cela soit avec le mode de connexion Port ou
+Socket.
+
+<span className="badge badge--danger">13</span> Le serveur Redis va créer **32 bases**. Si plusieurs applications
+utilisent le même serveur Redis, alors pour éviter des conflits entre plusieurs applications, vous pouvez les isoler
+sur des numéros de bases différentes.
+
+Les bases sont identifiés par un nombre de 0 à 31.
+
+:::warning Si plusieurs applications utilisent Redis
+
+Si plusieurs applications utilisent Redis, alors assurez-vous que les applications utilisent :
+  * des **préfixes de clés** différents
+  * ou des numéros de **bases Redis** différentes
+
+Cela fin d'éviter les conflits.
+
+Exemple de conflits : vous avez deux sites WordPress, sur deux domaines différents, tous les deux configurés avec le
+cache Redis. Les deux sites utilisent la même base Redis.
+
+Le premier site (site1.com) va enregistrer dans son cache sa propre adresse site1.com avec la clé "adresse_site".
+Le deuxième site (site2.com) utilise la même base de données et la même clé, car il s'agit de la même application
+(WordPress). Lorsqu'il va charger l'élément "adresse_site", il va récupérer la valeur du site1.com, ce qui va causer
+des bugs bizarres (la mauvaise adresse de site s'affiche).
+
+Pour éviter cela, il est impératif d'utiliser un préfixe de clés. C'est-à-dire que tous les sites qui utilisent la
+même instance de Redis doivent préfixer leurs clés avec un élément unique au site.
+
+Pour reprendre l'exemple, le premier site peut utiliser le préfixe "site1_" et le deuxième "site2_".
+
+Ainsi le premier site ira chercher la clé "site1_adresse_site" et la valeur sera correcte.
+
+Le deuxième site ira chercher la clé "site2_adresse_site" et la valeur sera correcte aussi, sans conflit.
+
+Ou, vous pouvez utiliser deux bases différentes dans Redis, afin que les deux jeux de données soient isolés dans Redis.
+:::
+
+## Utiliser Redis sur WordPress
+
+Il y a plusieurs manières d'utiliser Redis sur WordPress, mais cela commence par installer une extension de cache
+qui supporte Redis.
+
+La méthode d'installation recommandée va être d'utiliser WPTiger pour
+[activer Redis en 1 clic](/cpanel/o2switch/wptiger/#cache-objet).
+
+Si vous souhaitez installer Redis manuellement, alors vous pouvez installer une extension de cache qui supporte
+v. Vous avez par exemple :
+  * [LiteSpeed Cache](https://fr.wordpress.org/plugins/litespeed-cache/) (recommandé)
+  * [Redis Object Cache](https://fr.wordpress.org/plugins/redis-cache/) (deuxième choix recommandé)
+  * [W3 Total Cache](https://wordpress.org/plugins/w3-total-cache/)
+
+Nous recommandons l'utilisation de [LiteSpeed Cache](https://fr.wordpress.org/plugins/litespeed-cache/), car l'extension
+est complète et permet également d'activer le [cache HTTP LiteSpeed](/cpanel/o2switch/litespeed-cache-webadc) qui est
+efficace/simple à mettre en place.
+
+### Extension PHP Redis
+
+Un des prérequis à tous ces outils va être d'activer l'extension PHP **Redis** qui ajoute les fonctionnalités de
+communication avec un serveur Redis à PHP.
+
+Pour activer l'extension, il faut se rendre dans l'outil [Sélectionner une version de PHP](/cpanel/logiciels/hebergement-php-multi-version) présent dans la catégorie
+des [Logiciels](http://localhost:3000/cpanel/logiciels/) de l'hébergement.
+
+Dans cet outil, il faut choisir une version dites **Personnalisée** de PHP, puis cliquer sur **Extensions**, puis cocher
+**redis**.
+
+<Image
+    src="/img/docs/cpanel/o2switch/redis-extension-php.png"
+    alt="Capture d'écran de l'outil de sélection de PHP expliquant comment activer le module Redis"
+    caption="Activation du module PHP Redis dans l'outil de sélection d'une version de PHP"
+    title="Activation du module PHP Redis"/>
+
+### Configuration avec l'extension LiteSpeed Cache
+
+
+Nous recommandons l'utilisation de l'extension LiteSpeed Cache, car l'extension est complète et permet également de
+gérer le cache serveur LiteSpeed (qui est un autre type de cache, activable en complément).
+
+Pour configurer Redis sur cette extension, il faut commencer par installer l'extension en vous rendant dans
+l'administration de WordPress puis dans "Extensions > Ajouter une extension > Rechercher des extensions", puis en
+cliquant sur le bouton d'installation.
+
+Ensuite, il faut bien activer l'extension en cliquant sur le bouton d'activation.
+
+<Image
+    src="/img/docs/cpanel/o2switch/litespeed-installation-wordpress.png"
+    alt="Capture d'écran du processus d'installation de l'extension LiteSpeed sur WordPress"
+    caption="Installation de l'extension LiteSpeed dans WordPress"
+    title="Installation de LiteSpeed"/>
+
+Ensuite, il faut configurer Redis dans l'extension LiteSpeed.
+
+<Image
+    src="/img/docs/cpanel/o2switch/redis-wordpress-o2switch.png"
+    alt="Capture d'écran de la configuration de Redis dans WordPress"
+    caption="Configuration de Redis sur un site WordPress hébergé chez o2switch"
+    title="Configuration de Redis sur un site WordPress sur un hébergement o2switch"/>
+
+Pour configurer Redis, il faut se rendre dans l'administration puis accéder à : LiteSpeed Cache > Cache > Objet.
+
+Ensuite, il faut **Activer la mise en cache d'objet**, puis choisir la méthode **Redis**.
+
+Dans la case **Hébergeur**, il faut copier/coller le chemin vers la socket de connexion, communiqué dans la partie
+**Fichier de Socket** de l'outil Redis de l'hébergement.
+
+Dans **Port**, il faut indiquer la valeur `0`.
+
+Dans le **Mot de passe** il faut indiquer le mot de passe donné par l'outil Redis dans cPanel.
+
+Dans **ID de la base de données Redis**, il faut choisir un ID de base de données qui n'est pas utilisé par un site
+internet, il s'agit d'un nombre entre 0 et 31.
+
+Ensuite, il faut enregistrer les changements, le **Test de connexion** devrait indiquer que tout va bien.

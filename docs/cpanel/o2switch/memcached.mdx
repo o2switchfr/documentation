@@ -25,6 +25,8 @@ complexe et longue, par exemple des résultats de requêtes SQL.
 Memcached peut être utilisé par certains CMS, comme WordPress, pour servir de **cache d'objets** et améliorer les
 performances des sites hébergés. D'autres usages sont possibles, comme le stockage de sessions.
 
+O2switch propose également [Redis](/cpanel/o2switch/redis) qui est un outil similaire, mais bien plus complet.
+
 <PreviewToolCard tool='o2switch-memcached-manager' />
 
 ## Créer une instance privée de Memcached
@@ -100,6 +102,30 @@ contient pas grand chose en temps normal, il peut être utile en cas de problèm
 socket que vous allez communiquer avec le serveur Memcached. Il est toujours nécessaire d'utiliser ce fichier dans les
 configurations.
 
+
+:::warning Si plusieurs applications utilisent Memcached
+
+Si plusieurs applications utilisent Memcached, alors assurez-vous que les applications utilisent des **préfixes de clés**
+de cache afin d'éviter les conflits.
+
+Exemple de conflits : vous avez deux sites WordPress, sur deux domaines différents, tous les deux configurés avec le
+cache Memcached.
+
+Le premier site (site1.com) va enregistrer dans son cache sa propre adresse site1.com avec la clé "adresse_site".
+Le deuxième site (site2.com) utilise la même base de données et la même clé car il s'agit de la même application
+(WordPress). Lorsqu'il va charger l'élément "adresse_site", il va récupérer la valeur du site1.com, ce qui va causer
+des bugs bizarres (la mauvaise adresse de site s'affiche).
+
+Pour éviter cela, il est impératif d'utiliser un préfixe de clés. C'est-à-dire que tous les sites qui utilisent la
+même instance de Memcached doivent préfixer leurs clés avec un élément unique au site.
+
+Pour reprendre l'exemple, le premier site peut utiliser le préfixe "site1_" et le deuxième "site2_".
+
+Ainsi le premier site ira chercher la clé "site1_adresse_site" et la valeur sera correcte.
+
+Le deuxième site ira chercher la clé "site2_adresse_site" et la valeur sera correcte aussi, sans conflit.
+:::
+
 ## Utiliser Memcached sur WordPress
 
 Il y a plusieurs manières d'utiliser Memcached sur WordPress, mais cela commence par installer une extension de cache
@@ -137,8 +163,8 @@ Dans cet outil, il faut choisir une version dites **Personnalisée** de PHP, pui
 
 ### Configuration avec l'extension LiteSpeed Cache
 
-Nous recommandons l'utilisation de l'extension LiteSpeed Cache car l'extension est complète et permet également de gérer
-le cache serveur LiteSpeed (qui est un autre type de cache, activable en complément).
+Nous recommandons l'utilisation de l'extension LiteSpeed Cache, car l'extension est complète et permet également de
+gérer le cache serveur LiteSpeed (qui est un autre type de cache, activable en complément).
 
 Pour configurer Memcached sur cette extension, il faut commencer par installer l'extension en vous rendant dans
 l'administration de WordPress puis dans "Extensions > Ajouter une extension > Rechercher des extensions", puis en
