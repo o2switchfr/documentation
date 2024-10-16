@@ -3,6 +3,8 @@
 La nouvelle version de la documentation o2switch est construite avec [Docusaurus](https://docusaurus.io/), un 
 générateur de site statique moderne.
 
+
+
 ## Comment lancer le projet ?
 
 Dans un premier temps, il faut installer une version récente de [NodeJS](https://nodejs.org/fr/download/package-manager).
