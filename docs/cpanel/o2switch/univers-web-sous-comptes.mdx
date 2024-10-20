@@ -1,0 +1,300 @@
+---
+title: Mon Univers Web, l'outil pour isoler les sites internet
+sidebar_label: Mon Univers Web
+description: L'outil Mon Univers Web améliore le cloisonnement et sécurités de vos sites en permettant la création de sous comptes cPanel isolés.
+image: /img/docs/tools/o2switch-multiple-accounts.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - serveurs infogérés
+  - sécurité
+  - univers web
+  - sous compte
+---
+
+
+# Créer des sous-comptes avec l'outil Mon Univers Web
+
+L'outil **Mon Univers Web** permet de créer des sous-comptes d'hébergement cPanel, gratuitement.
+
+Cela vous permet d'**isoler vos sites internet** sur des comptes différents, afin d'améliorer la sécurité de vos sites.
+
+Les sous-comptes créés (appelés “lune”) sont similaires à des comptes d'hébergements indépendants, à la différence
+qu'ils partagent les ressources (CPU/Mémoire/accès disque) du compte principal.
+
+En résumé, l'[hébergeur web français](https://www.o2switch.fr/hebergement-illimite/) o2switch vous permet avec cet
+outil découper votre compte principal en plusieurs sous-comptes, afin d'améliorer l'isolement et la sécurité de vos
+sites internet.
+
+L'outil permet de créer gratuitement **4 sous-comptes**, ce qui vous permet d'avoir 5 comptes au total (4 sous-comptes +
+le compte principal).
+
+Depuis peu, il est également possible de commander des lunes en plus. Vous pouvez commander jusqu'à 16 lunes
+supplémentaires, pour arriver à un maximum de 20 lunes au total (les 16 payantes + 4 gratuites). Les lunes
+supplémentaires sont facturées mensuellement 1.5€ TTC.
+
+<PreviewToolCard tool='o2switch-multiple-accounts' />
+
+## Quels sont les avantages ?
+
+L'outil **Mon Univers Web** est utile pour :
+  * améliorer la sécurité des sites internet hébergés en isolant les sites sur des comptes à part
+  * pour les webmaster, cela peut vous aider à améliorer la gestion des clients en isolant les clients sur des comptes distincts
+
+
+### Isolement des sites
+
+Par défaut, sur un hébergement mutualisé classique (o2switch ou autre), il est généralement possible de configurer
+plusieurs noms de domaines pour avoir plusieurs sites internet différents.
+
+Cependant, tous les sites se retrouvent sur **le même espace d'hébergement**, le même espace de stockage. Il n'y a **pas
+d'isolement**. Cela signifie que la sécurité de l'ensemble des sites du compte d'hébergement **dépend du maillon
+faible** : autrement dit, le site le moins sécurisé de l'espace d'hébergement en question.
+
+<Image
+    src="/img/docs/cpanel/o2switch/univers-web-attaque-infection-sites.svg"
+    alt="Schéma explicatif sur la propagation d'un malware sur un hébergement web"
+    caption="Exemple d'une attaque pirate qui cible le site le moins protégé pour atteindre les autres sites du même compte d'hébergement"
+    title="Le malware se répand  sur l'hébergement"/>
+
+Généralement "le maillon faible" correspond à un site qui n'est pas à jour. L'un des conseils que l'on retrouve le
+plus est de mettre à jour régulièrement ces outils / sites internet. Malheureusement, dans la réalité, ce n'est pas
+forcément simple à mettre en œuvre :
+  * la mise à jour peut être très complexe sur certains CMS
+  * cela peut casser la compatibilité des extensions et des thèmes
+  * donc nécessite du développement supplémentaire (et donc du temps ou du budget)
+
+
+Ce n'est pas recommandé de rester dans ce cas de figure mais malheureusement, ce sont des choses qui arrivent et il
+n'est pas rare d'avoir un site de la sorte sur un hébergement.
+
+Sur un hébergement avec plusieurs sites configurés, **la sécurité des sites à jour dépendent aussi des sites voisins
+qui ne le sont pas forcément**. Si l'un des sites voisins est compromis, la compromission des données peut remonter
+jusqu'à l'ensemble des sites du même compte.
+
+Le premier avantage de cet outil est **d'isoler les sites internet sur des sous-comptes**, appelés "lunes".
+Ces sous-comptes sont totalement isolés les uns des autres. Il est intéressant d'avoir un site internet par compte.
+Si le nombre de sites internet est trop important et qu'il n'est pas possible d'avoir un compte par site, alors,
+il est au moins possible d'isoler les sites qui ne sont pas à jour sur un compte spécifique (les maillons faibles).
+
+Au besoin, il est également possible de commander d'autres offres d'hébergements pour bénéficier de plus de sous-comptes possible.
+
+<Image
+    src="/img/docs/cpanel/o2switch/univers-web-sites-isoles-lunes.svg"
+    alt="Schéma explicatif sur la non propagation du virus avec l'outil Univers Web"
+    caption="Exemple d'organisation sur un hébergement où les sites sont isolés sur des comptes séparés"
+    title="Le malware ne se répand pas"/>
+
+Autrement dit, mettre les "maillons faibles" sur un compte sous-compte à part.
+
+Cela ne règle pas le problème de compromission possible des maillons faibles, mais permet d'isoler les autres sites qui
+eux sont à jour. Cela permet de **limiter les dégâts** et de gagner un peu de temps pour mettre à jour petit à petit ces
+sites qui ne sont pas à jour.
+
+### Gestion client pour les webmasters
+
+Le deuxième gros avantage concerne les **créateurs de sites**. Un webmaster ou une **agence web** peut prendre un
+compte d'hébergement, à son nom, pour héberger plusieurs de ces clients dessus. Plusieurs clients se retrouvent sur la
+même offre d'hébergement et c'est le webmaster qui gère tout pour eux.
+
+De notre côté, nous recommandons plutôt d'avoir un compte d'hébergements différents par client mais tous les webmasters
+ne souhaitent pas faire cela.
+
+Il y a toujours la problématique d'**isolement des sites internet**, un client A du compte d'hébergement peut impacter
+les données du client B hébergé sur le même compte mais dans ce cas de figure, c'est le rôle du webmater de gérer cela.
+
+L'autre problématique est l'accès aux comptes par les clients (finaux). Parfois il est utile qu'un client puisse avoir
+accès à cPanel, pour créer lui-même ces comptes emails par exemple. Cela permet de laisser un peu plus de liberté au
+client final et permet au webmaster de gagner du temps.
+
+Cependant, dans le cas classique d'un hébergement avec plusieurs sites/clients, ce n'est pas possible car les accès
+à cPanel donnent les accès à l'ensemble de l'hébergement et cPanel ne gère pas (nativement) les sous-accès ou une
+gestions des droits très avancés.
+
+
+Les sous-comptes permettent de remédier à ce problème. Le webmaster peut créer un sous-compte pour chacun de ses clients.
+
+Il peut fournir les identifiants/mots de passes des sous-comptes aux clients directement et de son côté, il conservera
+les accès à tout avec son compte principal (cf. partie "authentification").
+
+<Image
+    src="/img/docs/cpanel/o2switch/univers-web-webmaster.svg"
+    alt="Schéma explicatif du fonctionnement des mots de passes sur l'outil Univers Web"
+    caption="Une lune est accessible depuis 2 codes d'accès différents"
+    title="Les manières de s'authentifier avec les lunes"/>
+
+Avec le système de lunes, il y a donc trois manières de s'authentifier et accéder aux sous-comptes :
+  * avec l'identifiant de la lune (sc1qqch0000 par exemple) et son mot de passe : vous pouvez fournir les accès là au
+client final
+  * avec l'identifiant de la lune mais avec le mot de passe du compte d'hébergement principal : vous pouvez utiliser ce
+code-là, c'est l'équivalent du code administrateur
+  * ou en étant connecté depuis votre compte principal, vous pouvez vous connecter rapidement aux lunes depuis l'outil
+et naviguer de lunes en lunes ainsi, avec la même session
+
+## Accès à l'outil Mon Univers Web
+
+Au premier accès sur l'outil, dans certains cas, un message vous préviendra qu'il faut **cliquer sur un bouton pour
+débloquer l'accès** à l'outil.
+
+<Image
+    src="/img/docs/cpanel/o2switch/univers-web-deblocage-lune-o2switch.png"
+    alt="Capture d'écran du bouton de déblocage de l'outil Univers Web"
+    caption="Capture d'écran du message qui apparaît lorsqu'il faut demander le déblocage de la fonctionnalité"
+    title="Déblocage de l'outil de création de sous-comptes o2switch"/>
+
+L'outil est **gratuit** et est **disponible sur l'ensemble des comptes d'hébergements o2switch**.
+Cependant, certaines opérations doivent être effectuées, individuellement, sur chaque compte afin de profiter de l'outil.
+C'est pour cette raison qu'il faut débloquer l'outil en cliquant sur le bouton visible sur la page d'accueil.
+
+L'accès à l'outil sera automatiquement **débloqué 5 minutes plus tard**.
+
+## Commander des lunes supplémentaires
+
+Depuis l'outil, il est possible de commander jusqu'à 16 lunes supplémentaires en plus des 4 gratuites incluses.
+
+Chaque lune supplémentaire est facturée 1.5€ TTC / mois. La facturation est mensuelle, vous pouvez commander
+1 lune supplémentaire pour 2 mois par exemple puis décider de ne pas la renouveler plus tard.
+
+Une lune ne peut pas expirer après la date d'expiration de l'hébergement principal associé. Donc si votre hébergement
+expire dans moins de 30 jours, la commande de lunes supplémentaires ne sera pas possible avant d'avoir renouvelé
+l'hébergement.
+
+Le processus de commande commence via le sélecteur qui se trouve dans l'outil. Choisissez le nombre de lunes que vous
+souhaitez commander en plus puis cliquez sur le bouton de commande.
+Vous serez redirigé vers un panier de commande, qui sera créé automatiquement sur votre espace client.
+
+<Image
+    src="/img/docs/cpanel/o2switch/univers-web-commande-lunes.png"
+    alt="Capture d'écran du formulaire de commande de sous comptes supplémentaires"
+    caption="Commande de sous-comptes lunes supplémentaires"
+    title="Commande de lunes supplémentaires"/>
+
+
+## Créer un sous-compte lune
+
+La création d'un sous-compte cPanel (lune) est très simple.
+Il suffit de cliquer sur **Activer la lune** en face de la lune que vous souhaitez activer.
+
+<Image
+    src="/img/docs/cpanel/o2switch/univers-web-activation-lune.png"
+    alt="Capture d'écran de l'outil Mon Univers Web sur l'activation d'une lune supplémentaire"
+    caption="Première étape de la création d'un sous-compte lune"
+    title="Première étape de la création d'une lune"/>
+
+
+Puis de remplir le formulaire qui s'affiche en indiquant un mot de passe. Il y a quelques restrictions concernant le mot de passe :
+  * 6 caractères au minimum
+  * doit être suffisamment complexe
+  * le mot de passe ne peut pas contenir l'identifiant
+
+<Image
+    src="/img/docs/cpanel/o2switch/univers-web-creation-lune.png"
+    alt="Capture d'écran de l'outil Mon Univers Web sur l'activation d'une lune supplémentaire"
+    caption="Définition du mot de passe du sous compte d'hébergement"
+    title="Formulaire de création d'une lune o2switch"/>
+
+La création du compte peut prendre du temps, de quelques secondes jusqu'à une minute dans le pire des cas, cela est normal :
+**il ne faut pas interrompre la page en cours de traitement**.
+
+Il faut patienter jusqu'à que la ligne s'actualise dans la liste des lunes :
+
+<Image
+    src="/img/docs/cpanel/o2switch/univers-web-etape-lunes.png"
+    alt="Capture d'écran des étapes de création d'un compte supplémentaire"
+    caption="La lune ne s'affiche plus de manière grisée, elle a été créée correctement"
+    title="La lune a été crééLa lune a été créée"/>
+
+
+L'identifiant ainsi que le domaine principal du sous-compte lune est **imposé**.
+L'identifiant sera de la forme : `sc[1-4][identifiant compte maître tronqué à 9 caractères]`
+
+Le domaine principal associé sera de la forme : `[identifiant généré].universe.wf`
+
+Dans la gestion des sous-comptes (lune), il est possible de :
+  * changer le mot de passe du compte en question
+  * se connecter sur le cPanel du compte (en 1 clic, cf. partie "authentification")
+  * supprimer le compte
+  * annoter la lune avec un commentaire personnel. Peut-être utile pour votre organisation, par exemple pour mémoriser qu'un site est configuré sur une lune précise.
+
+## Supprimer un sous-compte lune
+
+Pour supprimer un sous-compte, il suffit de cliquer sur l'icône de suppression visible dans l'outil pour la lune concernée.
+
+
+
+<Image
+    src="/img/docs/cpanel/o2switch/univers-web-supprimer-lune.png"
+    alt="Capture d'écran du bouton pour supprimer un sous compte lune"
+    caption="Première étape pour supprimer une lune o2switch"
+    title="Suppression d'une lune"/>
+
+Ensuite, il faut valider le formulaire en tapant (ou copiant/collant) la phrase de confirmation.
+
+<Image
+    src="/img/docs/cpanel/o2switch/univers-web-confirmation-suppression.png"
+    alt="Confirmation avant la suppression du compte"
+    caption="Confirmation de la suppression de la lune"
+    title="Confirmation de suppression"/>
+
+La suppression du compte peut prendre du temps, le délai est proportionnel à la taille des données stockées sur le compte, il ne faut pas quitter et patienter jusqu'à voir le message de confirmation.
+
+La suppression du compte est définitive, une fois l'opération lancée, il n'est plus possible de revenir en arrière.
+
+Après avoir supprimé le compte, il est possible de re-créer la lune, pour ré-obtenir d'une lune neuve/vierge.
+
+
+## Méthodes d'authentifications
+
+Il existe plusieurs manières de s'authentifier sur un sous-compte :
+  * avec l'identifiant et le mot de passe du compte en question, définis lors de la création du compte
+  * avec l'identifiant du compte et le mot de passe du compte maître, c'est-à-dire le compte d'hébergement d'origine
+  * depuis le compte maître, en cliquant sur le bouton "se connecter" visible sur l'outil.
+
+<Image
+    src="/img/docs/cpanel/o2switch/univers-web-authentification-rapide.png"
+    alt="Capture d'écran de l'outil Mon Univers Web avec les liens de connexion rapide"
+    caption="Lien de connexion rapide vers un compte indépendant"
+    title="Connexion rapide à un sous compte d'hébergement"/>
+
+Si vous êtes connecté sur votre compte principal (avec votre mot de passe principal), vous pouvez naviguer de lunes en lunes avec la même session en retournant dans l'outil "Mon univers web" en étant connecté sur une lune :
+
+<Image
+    src="/img/docs/cpanel/o2switch/univers-web-authentification-principale.png"
+    alt="Capture d'écran de l'outil Mon Univers Web avec les liens de connexion rapide"
+    caption="En étant connecté au compte principal, vous pouvez naviguer d'un compte à l'autre"
+    title="Navigation de lunes en lunes"/>
+
+Pour le changement de mot de passe, il est possible de changer cela :
+  * en étant connecté sur le compte avec l'identifiant/mot de passe du compte d'origine, en cliquant sur l'identifiant cPanel visible en haut à droite de l'écran
+  * ou depuis le compte maître avec le lien "mot de passe"
+
+Il est possible d'avoir un accès SSH et un accès shell sur les sous-comptes. Il faut suivre la même procédure que pour
+le compte principal.
+
+
+## Transférer des sites vers des sous-comptes
+
+L'outil de sous-compte permettant un cloisonnement plus fort, il est logique de vouloir séparer ces sites internet sur
+des comptes distincts.
+
+Si les domaines sont déjà configurés sur le compte principal, alors il faut faire attention durant l'étape de migration
+du domaine principal vers un sous-compte.
+
+Il faudra faire cette migration dans l'ordre suivant :
+
+  - Création du sous-compte depuis l'outil " Gestion de son Univers Web"
+  - Création d'un dossier à la racine du sous-compte, qui servira au stockage du site à migrer. Nommez le dossier
+comme le site internet. Si vous souhaitez migrer un site qui se nomme "mon-site.com", il faut que le dossier à la racine
+du sous-compte se nomme "mon-site.com" aussi
+  - Il faut installer les données du site internet dans le dossier créé à l'étape précédente
+  - Si le site en question dispose d'une base de données, il faut l'exporter du premier compte d'hébergement puis
+recréer une base de données sur le nouveau compte pour importer la sauvegarde.
+  - Il faut revoir les fichiers de configuration du site internet (exemple : wp-config.php pour WordPress)
+  - Il faut **supprimer le domaine supplémentaire ou l'alias** correspondant au domaine sur le compte maître
+  - Puis recréer le **domaine supplémentaire** sur le sous compte. (dans cet ordre, supprimer puis recréer)
+  - Il faut refaire les différents comptes emails liés au domaine puis tester.
+
+Le plus important est de bien respecter **les étapes 6 et 7**, c'est-à-dire d'abord supprimer le domaine du premier compte
+**AVANT** de le reconfigurer sur le sous-compte.
+
