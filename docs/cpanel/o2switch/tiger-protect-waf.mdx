@@ -1,0 +1,319 @@
+---
+title: "Tiger Protect : règles de sécurité web"
+sidebar_label: Tiger Protect
+description: L'outil TigerProtect vous permet de personnaliser les règles de sécurité activées sur l'hébergement o2switch.
+image: /img/docs/tools/o2switch-tiger-protect.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - serveurs infogérés
+  - tiger protect
+  - sécurité
+  - waf
+---
+
+# Tiger Protect : règles de sécurité web
+
+L'outil **Tiger Protect** vous permet de **personnaliser les règles de sécurité** qui sont en place sur la partie web
+de votre espace d'hébergement.
+
+Ces sécurités agissent directement au niveau du serveur web, c'est-à-dire là où cela est le plus efficace et consomme
+le moins de ressources possibles.
+
+Les requêtes sont contrôlées avant l'arrivée sur vos pages par des serveurs "WAF". TigerProtect devient un véritable
+bouclier pour protéger vos projets.
+
+L'outil n'est pas qu'un "simple" WAF comme pourrait l'être ModSecurity par exemple. La majorité des règles proposées
+sont des règles exclusives à o2switch et sont le fruit de plusieurs années de recherches et affinage.
+
+Ces règles-là sont proposées depuis plusieurs années, mais le fait de pouvoir les personnaliser depuis un outil dans
+cPanel est récent.
+
+<PreviewToolCard tool='o2switch-tiger-protect' />
+
+## Récapitulatifs des règles de sécurité
+
+Voici un tableau récapitulatif des règles de sécurité proposées.
+
+| **Description** | **Recommandation** | **Actions** |
+| --------------- | ------------------ | ----------- |
+| règles de sécurité par défaut de o2switch | <span className="badge badge--success">Recommandé</span> | Activer, désactiver  |
+| Bloque les accès automatisés (robots, brute force) sur les pages d'administrations courantes des sites internet | <span className="badge badge--success">Recommandé</span> | Challenge Complexe, Challenge Simple |
+| Bloque l'accès aux fichiers utilisés dans le développement des sites internet. Par exemple `.git` | <span className="badge badge--success">Recommandé</span> | Tout bloquer (403) |
+| Bloque l'accès direct au fichier .php | <span className="badge badge--warning">Contexte</span> | Tout bloquer (403) |
+| Active le mode "Je suis attaqué". Vérifie que toutes les requêtes sont réalisées depuis un vrai navigateur web | <span className="badge badge--warning">Temporaire</span> | Challenge complexe, Challenge simple |
+| Bloque l'accès au fichier xmlrpc.php de WordPress | <span className="badge badge--success">Recommandé</span> | Tout bloquer (403) |
+| Permet de limiter le nombre d'accès par IP et par minute aux /wp-login et /wp-admin | <span className="badge badge--warning">Contexte</span> | 5req/min, 20req/min, 40req/min |
+| Bloque l'accès direct aux fichiers .php sensibles de WordPress | <span className="badge badge--success">Recommandé</span> | Tout bloquer (403) |
+| Permet de bloquer ou de mettre en place un taux limite pour les robots SEO | <span className="badge badge--success">Recommandé</span> | Tout bloquer (403), 5req/min, 20 req/min, 40req/min  |
+| Bloquer les robots malveillants ou suspects  | <span className="badge badge--success">Recommandé</span> | Tout bloquer (403), Bloquer POST, Bloquer GET  |
+| Bloquer les robots se faisant passer pour Google | <span className="badge badge--success">Recommandé</span> | Tout bloquer (403), Bloquer POST, Bloquer GET  |
+| Bloquer les requêtes venant du réseau Tor | <span className="badge badge--success">Recommandé</span> | Tout bloquer (403), Bloquer POST, Bloquer GET  |
+| Bloquer les requêtes venant d'adresses IP considérées comme malveillante | <span className="badge badge--success">Recommandé</span> | Tout bloquer (403), Bloquer POST, Bloquer GET  |
+
+## règles de sécurité
+
+Les règles de sécurité dans TigerProtect sont organisées en plusieurs catégories. Chaque catégorie dispose d'une ou
+plusieurs règles de sécurité.
+
+<Image
+    src="/img/docs/cpanel/o2switch/tiger-protect-regles-securite.png"
+    alt="Capture d'écran des règles de sécurité du WAF Tiger Protect o2switch"
+    caption="L'outil TigerProtect contient plusieurs règles de sécurité organisées en catégories"
+    title="Les règles de sécurité du WAF Tiger Protect" />
+
+Pour chaque sécurité, il est possible de choisir une **action**. L'action correspond à ce qui sera fait lorsque la règle
+de sécurité est déclenchée. Chaque règle de sécurité à ces spécificités, il est par exemple possible de :
+  * Tout bloquer (403)
+  * Bloquer que les requêtes de type GET ou POST
+  * Mettre en place un taux limite (pour limiter le nombre de connexions maximum et par IP)
+  * Vérifier que la requête vient d'un vrai navigateur web, via un challenge (Proof of work)
+
+<Image
+    src="/img/docs/cpanel/o2switch/tiger-protect-action-regle.png"
+    alt="Capture d'écran des actions possibles pour la règle du mode attaqué"
+    caption="Exemple des actions possibles pour le mode Je suis attaqué"
+    title="Mode je suis attaqué" />
+
+Les règles de sécurité s'activent instantanément, le délai de prise en compte est très court (quelques secondes) et
+c'est compatible avec des outils comme [ipxtender](/cpanel/o2switch/ipxtender-hebergement-multi-ips),
+[xtremCache](http://localhost:3000/cpanel/o2switch/xtremcache-varnish) ou [litespeed](http://localhost:3000/cpanel/o2switch/litespeed-cache-webadc).
+
+### Règles de sécurité génériques
+
+Les règles génériques sont les règles de sécurité qui peuvent être activés sur n'importe quel type de site internet.
+Ces règles-là ne sont pas spécialement conçus pour un type de site particulier par exemple un site conçu avec WordPress.
+
+#### Sécurité par défaut d'o2switch
+
+La règle de sécurité **par défaut** correspond à toutes les règles de sécurité mises en place, nativement, par
+o2switch. Ces règles-là sont activées par défaut, pour tous les noms de domaines hébergés.
+
+Si cette règle-là ne pose pas de problème particulier, il est recommandé de la **laisser active**.
+
+La règle de sécurité **par défaut** peut changer régulièrement, cela étant mis à jour en fonctions des attaques ou
+scans détectés par nos équipes. La règle **par défaut** correspond en réalité à un grand nombre sous-règles.
+
+Voici un exemple des sous-règles qui peuvent être utilisées par cette règle **par défaut**.
+  * des blocages sur des adresses IP considérées malveillantes sur des ressources sensibles. Exemple : une IP ayant
+mauvaise réputation se verra refusé un accès à une page `/wp-login.php` d'un site internet.
+  * des contrôles de navigateur web. Si une requête est effectuée avec un User-Agent qui correspond à celui d'un vrai
+navigateur web, le serveur peut être susceptible de vérifier qu'il s'agit d'un vrai navigateur web en envoyant un
+challenge (Proof of work) à résoudre. Cela permet de bloquer des robots se faisant passer pour des vrais navigateurs web
+  * des contrôles sur la validité d'un User-Agent. Par exemple, un robot se faisant passer pour Google-Bot peut être
+bloqué si l'accès est effectuée depuis une adresse IP n'appartenant au réseau de Google.
+  * des blocages ou rate-limit de robots ayant mauvaise réputation ou étant utilisé sur des outils de scans /
+téléchargement de sites internet
+  * les requêtes HTTP sont analysées pour voir si cela correspond à des patterns d'attaques connus, par exemple pour
+bloquer des tentatives d'injections SQL grossières via des paramètres passées dans l'URL
+  * blocage de l'accès à des fichiers PHP qui ne devraient pas être directement accessible, par exemple, sur WordPress,
+la majorité des fichiers du dossier `wp-includes` ne doivent pas être accessibles publiquement.
+  * blocage de l'accès à des fichiers PHP qui ne devraient pas exister. Pour reprendre l'exemple de WordPress, cela va
+bloquer la tentative d'accès à un fichier qui ne devrait pas exister / n'est pas natif à WordPress, par exemple un shell
+dans `wp-includes`
+
+#### Contrôle du navigateur sur les pages d'administrations courantes
+
+Cette règle de sécurité permet de vérifier que les accès effectués à destination des pages d'administrations
+(exemple : `/wp-admin`, `/administrator`) sont réalisées depuis des vrais navigateurs web et non des robots automatisés.
+
+Pour cela, le navigateur web retournera un challenge que le navigateur web à l'origine de la requête devra résoudre.
+Ce challenge peut facilement être passé par un vrai navigateur web, mais cela bloquera un robot conventionnel qui ne
+s'attendra pas à ce type de réponse.
+
+Le challenge se base sur le principe de **proof of work**. Autrement dit, le serveur demande au navigateur web de
+calculer le résultat d'une opération et vérifiera la réponse avant de laisser passer la requête.
+
+#### Bloquer l'accès aux fichiers de développement
+
+Cette règle de sécurité permet de bloquer l'accès à des fichiers qui ne devraient normalement pas être accessibles ou
+publiés.
+
+Cela correspond aux fichiers de développements, par exemple le fichier `.env` d'un site internet qui peut
+contenir des secrets. Un autre exemple de blocage concerne les fichiers se terminant par `.sql` pour bloquer le
+téléchargement d'un fichier de sauvegarde de base de données qui pourrait se trouver à la racine d'un site et oublié.
+
+#### Bloquer l'accès directs aux fichiers `.php`
+
+Cette règle-là permet de bloquer tous les accès directs aux fichiers se terminant par `.php`. Cette règle de sécurité
+là n'est pas compatible avec tous les sites internet, c'est donc à activer avec vigilance et en fonction du type de site que vous avez.
+
+Cette règle de sécurité peut être activé si votre site fait appel à des règles de redirections, via un fichier
+`.htaccess` et que vous êtes sûr à 100% qu'il n'y a pas d'appel légitime vers des fichiers `.php`.
+
+Par exemple, cette règle est **incompatible avec WordPress** (voir la règles **Bloquer les fichiers sensibles de
+WordPress** en remplacement).
+
+Cette règle devrait  cependant être compatible avec un site utilisant le Framework Symfony car ce dernier utilise
+massivement les règles de redirections et c'est rare de conserver des appels vers des fichiers `.php` directement.
+
+#### Mode "Je suis attaqué"
+
+Cette règle de sécurité peut être activé dans le cas ou votre site se fait attaquer massivement par des accès automatisés
+ou des robots. Cette sécurité-là va vérifier que l'accès est effectuée depuis un vrai navigateur web, en envoyant un
+challenge (simple ou complexe) que seul un vrai navigateur web peut résoudre.
+
+Cela se base sur le principe de **proof of work**. Le serveur web va demander au navigateur d'effectuer un calcul et
+de renvoyer la réponse avant d'autoriser l'accès au site internet. Cela bloquera tous les robots ou systèmes
+automatisés qui ne s'attendent pas à ce genre de réponse.
+
+Il y a quelques exceptions sur les robots bloqués. Par exemple, le robot de Google est en liste blanche, il ne sera pas
+bloqué lorsque cette sécurité est activée.
+
+Il est recommandé de n'activer cette sécurité que lorsque le site est attaqué. Il ne faut pas laisser cette sécurité
+active 7j/7 car cela peut être contraignant pour les visiteurs qui verront une page de sécurité sur leur premier accès au
+site internet.
+
+### Règles de sécurité WordPress
+
+#### Contrôler les requêtes vers le `xmlrpc.php`
+
+Cette règle permet de bloquer l'accès direct au fichier `xmlrpc.php` de WordPress.
+
+Ce fichier-là sert à exposer une API pour WordPress. Ce fichier est de moins en moins utilisé légitimement sur
+WordPress mais reste un vecteur d'attaque important. Si votre site n'utilise pas ce fichier/API, il est recommandé de
+bloquer l'accès.
+
+Ces règles de sécurité sont spécifiques au CMS WordPress.
+
+#### Mettre en place un taux limite sur le /wp-admin et /wp-login.php
+
+Cette règle de sécurité permet d'activer un **taux limite** sur les pages `/wp-login.php` et `/wp-admin` de WordPress.
+Cela permet de limiter les attaques de types brutes forces sur des adresses IP qui ne seraient pas bloquées par d'autres
+sécurités (par exemple si une adresse IP à une très bonne réputation).
+
+L'activation systématique de cette sécurité n'est pas nécessairement recommandé. Il faut voir en fonction du contexte
+et tester que cela fonctionne bien avec votre site internet.
+
+Pour éviter des faux positifs et blocages intempestifs, le fichier `admin-ajax.php` est exclu de cette sécurité, bien
+que présent dans `wp-admin`.
+
+#### Bloquer l'accès directs aux fichiers .php sensible de WordPress
+
+Cette règle de sécurité permet de bloquer l'accès direct aux fichiers `.php` sensible de WordPress.  
+
+Les fichiers PHP dit sensibles sont ceux pour lesquels ils ne devraient pas y avoir d'accès direct légitimes.
+Cette règle de sécurité est similaire à la règle **bloquer l'accès à tous les fichiers PHP** mais est spécialement conçu
+pour les sites WordPress, avec des exceptions pour éviter de bloquer des usages légitimes.
+
+Par exemple, cette règle de sécurité bloquera l'accès aux fichiers dans `wp-includes`, `wp-content/uploads/*.php` mais
+ne bloquera pas l'accès au `wp-login.php` ou `admin-ajax.php`.
+
+### Règles de sécurité réputation Robots
+
+Ces règles de sécurité sont en rapport avec les robots qui peuvent scanner votre site internet. Ce sont des règles
+qui se basent sur le `User-Agent` défini dans chaque requête.
+
+#### Contrôler les requêtes venant des robots SEO
+
+Cette règle permet de bloquer totalement ou de limiter le nombre de requêtes effectués par des robots de SEO.
+
+Les robots de SEO comme Majestic, Semrush, Ahrefs (et d'autres) peuvent générer massivement des requêtes vers des sites
+internet. Cela peut engendrer une consommation excessive de ressources et donc laisser moins de ressources pour les vrais
+visiteurs, voire être à l'origine de plantage ou d'erreurs.
+
+Avec cette règle de sécurité, vous pouvez décider de totalement bloquer l'accès à ces robots, si vous estimez que cela
+ne vous apporte rien et est même négatif pour votre site. Ou mettre en place un taux limite, par exemple autoriser 5
+requêtes / minute pour ce robots vers votre site internet.
+
+#### Contrôler les requêtes venant des robots malveillants ou suspects
+
+Cette sécurité permet de bbloquer les requêtes effecutées par des robots considérés comme malveillants ou suspects.  
+
+Les robots malveillants scannent les sites internet à la recherche d'informations ou de failles.  
+
+Bloquer ou limiter les accès effectués depuis ces robots malveillants (ou inutiles) permet de protéger votre site
+internet et d'économiser des ressources qui seront utilisés pour répondre aux visites légitimes.
+
+#### Contrôler les requêtes venant des faux robots Google Bot
+
+Cette sécurité permet de bloquer les robots qui se font passer pour le robots de Google.  
+
+Bien souvent, il existe des exceptions de sécurités en ce qui concerne le robots de Google. Des robots malveillants
+ont compris cela et usurpe le `User-Agent` du robots de Google dans le but de contourner certaines sécurités.
+
+Cette règle de sécurité permet de bloquer tous les accès qui sont effectuées par un logiciel qui imite le `User-Agent`
+de Google mais dont l'accès est effecutée depuis une adresse IP qui n'appartient pas à Google.
+
+####  Contrôler les requêtes n'ayant pas de User-Agent
+
+Cette sécurité permet de bloquer les requêtes venant de logiciels ne définissant par de `User-Agent`.  
+
+La majorité des requêtes qui sont effectuées sans `User-Agent` sont des requêtes qui sont lancées par des systèmes
+automatisés (robots), souvent à des fins malveillantes (ou inutiles).
+
+Bloquer ce type de requêtes permet de protéger votre site internet et d'économiser des ressources sur votre hébergement.
+
+### Règles de sécurité réputation IP
+
+Ces règles-là se basent sur l'adresse IP du visiteur, son origine, sa réputation.
+
+#### Bloquer le trafic venant des adresses IP du réseau Tor
+
+Permet de bloquer les requêtes qui viennent d'un noeud de sortie du réseau Tor.  
+
+Se connecter au réseau Tor permet de naviguer sur internet améliorant sont anonymat. Il est difficile, voire impossible,
+de tracer l'origine d'une visite effectuée depuis le réseau Tor.
+C'est en théorie quelque chose d'intéressant mais force est de constater que la majorité du trafic web reçu depuis Tor
+est malveillant. Pour cette raison, cela peut être une bonne idée de bloquer le trafic venant de Tor.
+
+#### Bloquer le trafic venant des adresses IP ayant une mauvaise réputation
+
+Permet de bloquer les accès qui sont effectués depuis des adresses IP ayant une mauvaise réputation.  
+
+o2switch maintient en interne une liste d'adresse IP ayant une mauvaise réputation. Cela est basée sur notre expérience
+et les attaques que nos systèmes d'intrusions peuvent détecter.
+Lorsqu'une attaque est averré et confirmée, l'adresse IP à l'origine de l'attaque est listée dans une RBL interne.
+Si l'adresse IP est à l'origine de plusieurs attaques, sur plusieurs serveurs différents, elle est considirée comme
+malveillante.
+
+Bloquer les adresses IP considérées comme malveillante amélioera la sécurité des sites hébergés et économisera des
+
+ressources sur votre hébergement.
+
+### Règles ModSecurity
+
+Nous avons intégré ModSecurity dans l'outil TigerProtect. Il s'agit en réalité d'un autre type de protection, un WAF
+conventionnel, mais l'option a été ajouté dans TigerProtect pour unifier ce type de sécurité au même endroit. Depuis
+l'outil TigerProtect vous pouvez décider d'activer ou non ModSecurity par défaut.
+
+ModSecurity à un fonctionnement différents de TigerProtect. Ce dernier va analyser en profondeur les requêtes
+effectuées et bloquer en fonction de pattern d'attaque pré-définies. Les règles utilisées par ModSecurity sont mise à
+jour quotidiennement. O2switch utilise les règles ModSecurity commerciales de [malware.expert](https://malware.expert/).
+
+Si ModSecurity ne cause pas de problème avec votre site internet, nous vous recommandons de le laisser actif.
+
+## Que faire en cas d'erreurs 403 ?
+
+De nouvelles règles de sécurité, plus restrictives, ont été déployées. L'objectif de ces règles est de bloquer, le
+plus tôt possible, les scans automatisés des sites internet, les accès malveillants et les activations de backdoor
+sur des sites qui seraient déjà compromis. Une grande partie de ces règles ciblent WordPress spécifiquement. Les
+nouvelles règles de sécurité s'ajoutent aux règles existantes.
+
+Plutôt que de fonctionner avec un mode de blacklist, c'est-à-dire de bloquer une liste pré-établie de fichiers/patterns
+d'URL, la mise à jour de sécurité fait l'inverse.
+
+Pour illustrer cela, prenons l'exemple WordPress et de son dossier `wp-admin`.
+
+Plutôt que d'avoir des règles qui bloquent wp-admin/fichier-malveillant.php manuellement, l'inverse est fait.
+
+Tout le dossier wp-admin est bloqué SAUF ce qui est nécessaire au fonctionnement du site, c'est-à-dire les fichiers
+devant rester accessibles publiquement (exemple `wp-admin/admin-ajax.php`).
+
+Un fichier, non natif à WordPress, ajouté dans ce dossier, ou un fichier n'ayant aucune raison d'être accessible
+publiquement, se retrouvera bloqué, par défaut, affichant l'erreur 403 comme ci-dessous.
+
+<Image
+    src="/img/docs/cpanel/o2switch/tiger-protect-403.png"
+    alt="Capture d'écran de la page d'erreur qui s'affiche lorsque TigerProtect bloque l'accès"
+    caption="La page d'erreur qui s'affiche lorsque TigerProtect bloque quelque chose"
+    title="Le WAF Tiger Protect bloque l'accès"/>
+
+Les listes de fichiers ont été testées de manière approfondie pour éviter des blocages qui ne seraient pas légitimes.
+
+Cependant, si vous vous retrouvez dans un cas particulier, avec quelque chose qui serait bloqué à tort, vous pouvez :
+  * désactiver la règle “Règles de sécurité par défaut d'o2switch” dans Tiger Protect, cela désactivera les règles de
+sécurité les plus restrictives
+  * contacter le support en indiquant l'URL / la page qui est bloquée, pour que nous puissions analyser le cas et
+ajuster les règles de sécurité
