@@ -1,0 +1,50 @@
+---
+title: ModSecurity
+sidebar_label: ModSecurity
+description: L'outil ModSecurity permet d'activer ou non des sécurités complémentaires sur le serveur Web WAF.
+image: /img/docs/tools/modsecurity.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - securite
+  - ModSecurity
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Fonctionnement de ModSecurity
+
+L'outil **ModSecurity** permet de rajouter une surcouche de sécurité sur le serveur Web.
+
+Il est présent sur toutes les offres d'hébergement Web [o2switch](https://www.o2switch.fr/).
+
+Cela permet de bloquer certaines requêtes potentiellement malveillantes et donc améliore la sécurité de votre hébergement et de vos sites.
+
+Avec cet outil, c'est assez simple, vous pouvez activer / désactiver la surcouche de sécurité pour vos domaines de manière distinct et en un clic.
+
+<PreviewToolCard tool='mod_security' />
+
+Vous pouvez également gérer cet outil depuis l'outil [Tiger Protect](/cpanel/o2switch/tiger-protect-waf) sur votre **cPanel**.
+
+## Quelles type d'erreur ModSecurity peut générer ?
+
+ModSecurity est assez puissant et permet de filtrer beaucoup de choses.
+
+Vous pouvez avoir différents codes d'erreur `HTTP` renvoyés par celui-ci :
+
+* `406 Not acceptable`
+* `403 Forbidden`
+* `429 Too many redirect`
+
+Si vous rencontrez l'une de ces erreurs et que vous ne savez d'où elle peut provenir, vous pouvez alors simplement essayer de désactiver **ModSecurity** sur votre domaine.
+
+Vous pouvez par exemple voir ce type d'erreur dans les logs du serveur Web depuis l'outil [Erreurs](/cpanel/mesures/erreurs-apache) sur votre **cPanel**.
+
+Si l'erreur ne vient pas de là, vous pourrez le réactiver à la volée.
+
+L'activation / désactivation est à effet immédiat.
