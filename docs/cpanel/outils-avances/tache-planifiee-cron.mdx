@@ -1,0 +1,183 @@
+---
+title: Tâches planifiées cron
+sidebar_label: Tâches cron
+description: L'outil tâches cron permet l'ajout de tâches planifiées sur l'hébergement
+image: /img/docs/tools/cron_jobs.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - cron
+  - tâches cron
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Créer et gérer des tâches cron
+
+L'outil tâches cron permet l'ajout de tâches planifiées sur votre [compte d'hébergement web o2switch](https://www.o2switch.fr/hebergement-illimite/).
+
+
+Une tâche planifiée
+permet d’exécuter automatiquement une commande (ou un script) à une date et une heure spécifiées à l'avance ou selon un
+cycle défini (toutes les heures, toutes les semaines etc…).
+
+<PreviewToolCard tool='cron_jobs' />
+
+Dans le cPanel, l'ajout d'une tache cron se fait facilement.
+
+Dans un premier temps, il faut sélectionner une périodicité dans le premier formulaire.
+
+Des options pré-configurées sont disponibles, n'hésitez pas à utiliser les différentes cases pour `minute, heure, jour, mois, jour”`
+sont remplies automatiquement.
+
+<div style={{ display: 'flex', justifyContent: 'center' }}>
+    <div style={{ flex: '1', textAlign: 'center', padding: '20px', maxWidth: '650px' }}>
+        <Image
+            src="/img/docs/cpanel/outils-avances/options-pre-configuree-cron.png"
+            title="Les options pré-configurées pour une tâche cron"
+            caption="Sélection de la périodicité des tâches cron"
+            alt="Capture d'écran de l'outil tâche cron qui affiche options pré-configurées pour une tâche cron sur l'hébergement o2switch"
+        />
+    </div>
+    <div style={{ flex: '1', textAlign: 'center', padding: '20px', maxWidth: '650px' }}>
+        <Image
+            src="/img/docs/cpanel/outils-avances/resultat-options-pre-configuree.png"
+            title="Ajout d'un domaine additionnel sur l'hébergement o2switch"
+            caption="Sélection de la périodicité des tâches cron"
+            alt="Capture d'écran de l'outil d'ajout de domaine complémentaire sur l'hébergement o2switch"
+        />
+    </div>
+</div>
+
+
+Si vous souhaitez connaître la syntaxe cron fournie par un plugin, vous pouvez utiliser l'outil en ligne suivant :
+[Crontab.guru](https://crontab.guru/).
+
+Ensuite, il faut définir la commande à exécuter. Plusieurs variantes sont possibles et il y a également plusieurs pièges
+courants. Voici les formats de commandes les plus courants :
+
+* `wget -qO /dev/null 'http://mon-site.fr/dossier/cron.php?param1=valeur&param2=valeur`<br />
+  * Il ne faut pas oublier la partie `-o /dev/null` sinon un fichier va se générer à la racine de votre hébergement à chaque exécution de la tâche.<br />
+  * Il faut bien placer l'adresse web entre double guillemet, c'est très important et d'autant plus si vous faites un passage de paramètres dans l'adresse comme `?param1=valeur&param2=valeur`.<br />
+  * Attention, la méthode WGET peut entraîner un dépassement du délai d'attente web, qui est fixé à 360 secondes (soit 5 minutes).<br />
+
+    * Si votre requête déclenche une erreur 504, cela signifie que le délai d'attente web a été dépassé.<br />
+    Dans ce cas, il vous faudra ajuster votre requête de votre côté.
+
+    * Le support ne pourra pas augmenter le délai d'attente web dans le cadre d'un hébergement mutualisé.<br />
+
+    * Dans ce cas, vous pouvez essayer de passer par PHP plutôt que d'effectuer une requête directement sur le serveur web, afin de contourner ce problème.
+
+* `php /home/monUtilisateur/public_html/dossier/cron.php`
+  * Il faut faire attention au chemin, il doit être absolu. Si besoin, vous pouvez le récupérer dans le [gestionnaire
+  de fichier](/cpanel/fichiers/gestionnaire-fichiers-web) de cPanel ou bien remplacer par une commande
+  similaire comme `php -q ~/public_html/dossier/cron.php`. Le `~` représente la racine de votre hébergement.
+  * Il ne faut pas oublier l'option -q pour quiet (ne rien renvoyer).
+
+* `/home/monUtilisateur/monscript.sh`
+  * Le fichier doit être en `chmod 755` vous pouvez modifier les permissions depuis le [gestionnaire de fichier](/cpanel/fichiers/gestionnaire-fichiers-web)
+
+## Cas particuliers
+
+Si vous utilisez une Cron en PHP et que celle-ci ne s'exécute pas correctement, vous pouvez remplacer “php” par le
+binaire de PHP en fonction de la version que vous avez défini dans [Sélectionner une version de PHP](/cpanel/logiciels/hebergement-php-multi-version)
+sur votre cPanel.
+
+Par exemple si on reprend le cas précédent : `php /home/monUtilisateur/public_html/dossier/cron.php`
+
+On le remplace par `/opt/alt/php81/usr/bin/php /home/monUtilisateur/public_html/dossier/cron.php` si vous utilisez PHP 8.0.
+
+Vous retrouverez juste ici les exemples de binaires PHP :
+
+```scala
+/opt/alt/php56/usr/bin/php
+/opt/alt/php70/usr/bin/php
+/opt/alt/php71/usr/bin/php
+/opt/alt/php72/usr/bin/php
+/opt/alt/php73/usr/bin/php
+/opt/alt/php74/usr/bin/php
+/opt/alt/php80/usr/bin/php
+/opt/alt/php81/usr/bin/php
+/opt/alt/php82/usr/bin/php
+/opt/alt/php83/usr/bin/php
+```
+
+## Retour par email
+
+Dans les tâches cron, il est possible de configurer un retour par email. Pour faire cela, il suffit d'indiquer l'adresse
+email dans le champ prévu à cet effet dans l'outil.
+
+<Image
+    src="/img/docs/cpanel/outils-avances/notification_cron_email.png"
+    title="Alerte mail pour les tâches cron"
+    caption="Définition de l'adresse email d'alerte pour les tâches cron"
+    alt="Capture d'écran pour les notifications des tâches cron par email"
+/>
+:::warning
+Plusieurs détails concernant cette alerte email :
+
+* un email est généré uniquement si le script affiche quelque chose sur sa sortie standard.
+* cela veut dire que la non réception d'un email n'est pas forcément signe que la tâche cron ne s'exécute pas, ça veut
+simplement dire que le script se lance mais s'exécute en silence, sans rien afficher
+* il est possible d'ajouter `>/dev/null 2>&1` à la fin de certaines tâches cron pour rediriger la sortie d'affichage vers
+la poubelle, ce qui évite l'envoi d'un email
+:::
+
+## Éviter qu'une commande se lance plusieurs fois
+
+Lorsque vous travaillez avec des tâches cron, il est possible d'être confronté au problème des processus qui s'accumulent
+/ se lancent en parallèles et saturent l'hébergement.
+
+Par exemple, si vous mettez en place une tâche cron qui s'exécute toutes les minutes sur votre hébergement, si cette
+tâche planifiée prend plus d'une minute à s'exécuter, cela va engendrer la création d'une infinité de processus, jusqu'à
+saturation de votre hébergement. Car la commande à M+2 sera lancée alors que M+1 n'est pas encore terminé.
+
+Il est **possible d'éviter cela en utilisant** `flock`. Cette commande permet de s'assurer qu'un processus ne se lance qu'une
+seule fois, avec un mécanisme de verrouillage (lock).
+
+Un autre usage de `flock` dans le contexte des tâches cron est de **s'assurer qu'un processus reste actif en permanence sur
+votre hébergement**.
+
+Par exemple, vous avez un processus qui traite des tâches aynchrones sur votre hébergement. Vous avez besoin que ce
+processus reste en plac et soit relancé régulièrement lorsqu'il s'interrompt ou est tué. Vous pouvez mettre en place
+cela en créant une tâche planifiée qui s'exécute toutes les minutes, couplé à `flock` pour s'assurer qu'il n'y qu'un seul
+processus en permanence (sinon l'outil de cron lancera un processus toutes les minutes jusqu'à saturation). Si le
+processus meurt, il sera relancé au plus tard une minute plus tard par les tâches cron.
+
+La commande `flock` peut être utilisé de la manière suivante :
+
+```
+# Exemple générique
+flock -n /home/votreUtilisateurcPanel/.cron.lock votrecommande --avec --les --options
+
+# Exemple avec le composant messenger de Symfony
+# Le --time-limit=3600 est conservé, suivant les recommandations de Symfony
+# Messenger doit être relancé de temps en temps pour éviter les fuites mémoires
+flock -n /home/demo/.messenger-cron.lock php /home/demo/projet_symfony/bin/console messenger:consume --time-limit=3600 --memory-limit=128M async > /home/demo/log-messenger.txt  2>&1
+```
+
+Avec `flock` :
+
+* lorsque la commande est lancée la première fois, un fichier de verrou est créé (`/home/votreUtilisateurcPanel/.cron.lock` dans l'exemple)
+* tant que la commande est en cours d'exécution, le fichier de verrou n'est pas acquérable
+* donc lorsque la commande est lancée la seconde fois, flock regarde s'il est possible d'acquérir le verrou. Si ce n'est
+pas possible (si la commande est en cours d'exécution), alors flock ne fait rien
+* dès que le processus meurt ou se termine normalement, il est à nouveau possible d'acquérir le verrou et donc la
+commande se relance
+* ça permet de garantir qu'il n'y aura qu'une seul processus en cours d'exécution, même si la commande est lancée
+plusieurs fois d'affilée
+
+:::info
+Si vous avez plusieurs commandes différentes à lancer avec `flock` pensez à indiquer un fichier de verrou différents pour
+chaque commande. Sinon ça ne lancera qu'une des commandes.
+
+```
+flock -n /home/demo/.commande1.lock ma-commande-1
+flock -n /home/demo/.commande2.lock ma-commande-2
+```
+
