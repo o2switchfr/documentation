@@ -1,0 +1,86 @@
+---
+title: Création d'un jeton d'API et son utilisation
+sidebar_label: Manage API Tokens
+description: L'outil Manage API Tokens permet de créer et de gérer des jetons API pour cPanel API 2 et UAPI. Utile pour l'utilisation avec l'API de cPanel.
+image: /img/docs/tools/api_tokens.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - offre scale'up
+  - api cpanel
+---
+import ToolCard from '@site/src/components/ToolCard';
+import Image from '@site/src/components/Image';
+import CpanelIcon from '@site/src/components/CpanelIcon';
+import PreviewToolCard from '@site/src/components/PreviewToolCard';
+import YoutubeVideo from "@site/src/components/YoutubeVideo";
+
+# Créer un jeton d'API cPanel
+
+L'outil **Manage API Tokens** de cPanel permet de créer un jeton d'API cPanel qui puisse être par la suite utilisé avec
+l'API de cPanel pour votre [hébergement o2switch](https://www.o2switch.fr/hebergement-illimite/).
+
+Cet outil est très pratique, étant donné que celui-ci offre ainsi un moyen sécurisé et flexible d'accéder aux fonctionnalités de cPanel depuis l'API.
+
+Voici quelques exemples sur le quelle, l'utilisation d'un jeton d'API peut être utilisé :
+  * Création d'adresses e-mail : Utilisez le jeton pour automatiser la création de nouvelles adresses e-mail via l'API.
+  * Gestion des bases de données : Créez, modifiez ou supprimez des bases de données et des utilisateurs de bases de données.
+  * Gestion des comptes FTP : Créez, modifiez ou supprimez des comptes FTP, ce qui facilite la gestion des accès aux fichiers.
+
+:::warning
+Une fois votre **jeton d'API** généré, il faudra bien conserver le jeton de votre côté et noté quelque part.
+
+
+Celle-ci ne peut pas être **visualisé** à nouveau si vous quittez la page ou que vous la rafraichissez, si vous la perdez,
+il vous faudra la supprimer et en généré une nouvelle.
+
+Soyez vigilant.
+:::
+
+<PreviewToolCard tool='api_tokens' />
+
+:::danger
+Il est recommandé de ne pas divulguer votre **jeton d'API** à quiconque.
+
+Cela permet **d'effectuer** des actions sur votre cPanel comme ceux mentionnés précédemment sans avoir accès à votre cPanel
+
+Soyez vigilant.
+:::
+
+# Comment utiliser mon jeton d'API avec l'API de cPanel ?
+
+Vous pouvez utiliser l'API de cPanel dans les contextes suivants :
+  * créer une nouvelle adresse e-mail
+  * créer une base de données
+  * un utilisateur SQL et cetera.
+
+Voici un exemple de l'utilisation de l'API pour ajouter une adresse e-mail à un domaine spécifique par
+exemple, en utilisant votre jeton d'API pour l'autorisation.
+
+Voici un exemple de l'utilisation du jeton d'API pour la création d'une adresse mail depuis l'API :
+
+```bash title="Création d'une adresse mail"
+# Il faut que la commande soit exécuté sur une seule ligne.
+curl -H "Authorization: cpanel dojo2567:PT2B2663Z00R1OSPV9939759OSV2NO62" "https://chabot.o2switch.net:2083/execute
+/Email/add_pop?email=test@mon-deuxieme-site.com&password=123456luggage@@@"
+
+# Une fois la commande exécuté, vous devriez avoir le retour suivant
+{"warnings":null,"data":"test+mon-deuxieme-site.com","errors":null,"metadata":{},"status":1,"messages":[""]}
+
+#Si vous avez le retour "status":1 c'est que cela est bon, vous pouvez alors vérifier depuis le cPanel et sur l'outil Comptes de messageries
+```
+
+<Image
+    src="/img/docs/cpanel/securite/token-api-creation-adresse-mail.png"
+    alt="Capture d'écran de la commande pour la création de l'adresse mail et la réponse."
+    caption="La commande à lancer pour créer une adresse mail via l'API sur l'hébergement o2switch"
+    title="Commandes pour créer une adresse mail depuis l'API de cPanel" />
+
+# Et si je souhaite utiliser d'autres fonctions de l'API ?
+
+Dans l'exemple précédent, vous avez appris à créer une adresse mail. Cependant, l'API de cPanel offre une grande
+flexibilité et permet d'effectuer de nombreuses autres actions.
+
+Si nécessaire, vous pouvez consulter l'intégralité de la documentation de l'API ici :
+https://api.docs.cpanel.net/
