@@ -1,0 +1,88 @@
+---
+title: XtremCache, le cache HTTP Varnish
+sidebar_label: XtremCache
+description: XtremCache permet l'activation d'un cache serveur Varnish personnalisé sur vos sites internet. Améliore les performances.
+image: /img/docs/tools/o2switch-xtrem-cache.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - serveurs infogérés
+  - xtremcache
+  - varnish
+  - cache
+---
+
+# Activer un cache HTTP Varnish avec XtremCache
+
+L'outil **XtremCache** est un outil qui permet d'**améliorer la vitesse de chargement de votre site internet** grâce à
+l'activation d'un mécanisme de cache HTTP avancé, configuré directement au niveau du serveur web : **Varnish**.
+
+Varnish est un **mécanisme de cache**, qui se gère au niveau serveur et qui permet d'améliorer les performances de 
+votre site internet en gardant les pages et ressources générées en mémoire. Cela permet d'améliorer la 
+vitesse de chargement d'un site hébergé sur l'[hébergement web o2swich](https://www.o2switch.fr/hebergement-illimite/).
+
+Cela permet d'éviter toute la partie de **traitement dynamique** (PHP par exemple) qui sert à générer la page et qui est
+consommateur en ressources. Les pages sont générées une première fois puis sont **gardées en mémoire** pour les 
+futures visites. 
+
+Varnish est très utilisé sur les sites ayant un trafic important, comme les sites de presse par exemple. 
+
+<PreviewToolCard tool='o2switch-xtrem-cache' />
+
+## Principe de fonctionnement 
+
+Pour comprendre le fonctionnement du système de cache Varnish, il faut d'abord voir comment cela fonctionne sans cache.
+
+### Fonctionnement sans cache HTTP 
+
+<Image
+    src="/img/docs/cpanel/o2switch/traitement-requete-sans-cache.png"
+    alt="Capture d'écran d'une illustration expliquant le fonctionnement sans cache HTTP"
+    caption="Traitement d'une requête sans cache serveur"
+    title="Cas du traitement d'une requête sans cache serveur"/>
+
+Lorsqu'il n'y a pas de cache serveur, voici les différentes étapes qui sont suivies pour l'affichage d'une page 
+  - Le navigateur web du visiteur demande au serveur une page particulière, dans cet exemple, index.php
+  - Le serveur, voyant qu'il s'agit d'une page PHP, va lancer l'exécution de la page PHP pour obtenir une réponse (par
+    exemple, une page HTML)
+  - Le moteur PHP va renvoyer la réponse au serveur
+  - Le serveur va renvoyer la réponse, la page générée, au visiteur
+
+### Fonctionnement avec cache
+
+Lorsque le cache Varnish est activé, **Varnish se place devant le serveur web** pour intercepter les appels des
+navigateurs web ainsi que les réponses du serveur web. Pour chaque appel, il va regarder si la ressource demandée est en
+cache ou s'il faut transmettre la demande au serveur web. Pour chaque réponse du serveur web, il va regarder s'il est
+possible de la placer en cache. 
+
+Avec Varnish, l'idée est **d'éviter toute la partie de génération de la page** au niveau du serveur, par exemple, dans
+le cas d'un site conçu en PHP, on cherche à éviter tous les traitements PHP car c'est ce qui consomme des ressources et
+c'est également ce qui est le plus lent (comparativement aux autres traitements effectués).
+
+<Image
+    src="/img/docs/cpanel/o2switch/traitement-requete-avec-cache-varnish.png"
+    alt="Capture d'écran d'une illustration expliquant le fonctionnement avec un cache HTTP"
+    caption="Traitement d'une requête lorsque le cache Varnish est activé"
+    title="Cas du traitement d'une requête avec un cache varnish actif"/>
+
+Lorsque le cache Varnish est activé, voici ce qu'il se passe (de manière simplifiée) : 
+  * Le navigateur web du visiteur demande une page particulière. Cette demande arrive sur le cache Varnish dans un
+    premier temps, plutôt que d'arriver sur le serveur web.
+  * Varnish regarde si la ressource est en cache
+    * Si oui, alors Varnish renvoie la réponse qu'il a en cache au navigateur web *(sur l'image étape <Badge text="3"/> en vert et <Badge text="4"/>)*
+    * Si non, alors Varnish transmet la demande au serveur web pour avoir la page à renvoyer *(sur l'image, étape <Badge text="3"/> en
+      rouge)*
+      * Le serveur web constate qu'il s'agit d'une page PHP donc lance le traitement PHP *(étape <Badge text="4"/>)*
+      * Le moteur PHP retourne la page générée au serveur web *(étape <Badge text="5"/>)*
+      * Le serveur web retourne la page générée à Varnish, Varnish regarde si cette page peut être mise en cache ou non
+        *(étape <Badge text="6"/>)*
+        * Si oui, Varnish place la page en cache puis retourne la réponse au visiteur *(étape <Badge text="7"/>)*
+        * Si non, Varnish retourne la réponse sans la mettre en cache  *(étape <Badge text="7"/>)*
+
+On constate donc que lorsqu'une page est en cache, **plusieurs étapes sont évitées** :
+  * L'appel vers le serveur web
+  * Toute la **partie de traitement PHP** utilisée pour générer la page. Dans cet exemple, le langage de programmation
+    pour la création du site est PHP mais le principe est identique pour d'autres langages (Python, Ruby, etc...)
+
+Le cache Varnish étant directement en mémoire RAM, ce qu'il y a de plus rapide, la page est servie très rapidement. 

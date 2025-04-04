@@ -14,6 +14,7 @@ import Image from "@site/src/components/Image";
 import ToolCard from "@site/src/components/ToolCard";
 import YoutubeVideo from "@site/src/components/YoutubeVideo";
 import CpanelIcon from "@site/src/components/CpanelIcon"; // Probably won't be used directly in docs pages
+import Badge from "@site/src/components/Badge";
 
 export default {
     // Re-use the default mapping
@@ -23,5 +24,6 @@ export default {
     ToolCard,
     YoutubeVideo,
     CpanelIcon,
+    Badge,
     FAIcon: FontAwesomeIcon, // Make the FontAwesomeIcon component available in MDX as <icon />.
 };
