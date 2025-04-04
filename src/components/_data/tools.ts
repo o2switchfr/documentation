@@ -38,13 +38,14 @@ const cpanelCategories = {
 };
 
 const offers = {
-    shared: {name:"Offre Unique", url:'https://www.o2switch.fr/hebergement-illimite/'},
-    scaleup: {name:"Scale'UP", url:'https://www.o2switch.fr/hebergement-entreprise/'},
+    grow: {name:"Offre Unique Grow", url:'https://www.o2switch.fr/hebergement-illimite/'},
+    cloud: {name:"Offre Unique Cloud", url:'https://www.o2switch.fr/hebergement-illimite/'},
+    pro: {name:"Offre Unique Pro", url:'https://www.o2switch.fr/hebergement-illimite/'},
     managed: {name:'Serveurs infogérés', url:'https://www.o2switch.fr/serveurs-dedies/'},
     domains: {name: 'Domaines', url:'https://clients.o2switch.fr/domaine/prix-domaines'},
 };
-const all_offers = [offers.shared, offers.scaleup, offers.managed];
-const all_shared_hosting = [offers.shared, offers.scaleup];
+const all_offers = [offers.grow, offers.cloud, offers.pro, offers.managed];
+const all_shared_hosting = [offers.grow, offers.cloud, offers.pro];
 
 
 /**
@@ -80,7 +81,7 @@ const cpanelTool = {
         icon:"o2switch-lscache",
         cat: cpanelCategories.o2switch,
         to: '/cpanel/o2switch/litespeed-cache-webadc',
-        offers: [offers.shared, offers.managed],
+        offers: all_offers,
     },
     'o2switch-memcached-manager': {
         name:"Memcached",
@@ -104,7 +105,7 @@ const cpanelTool = {
         icon:"o2switch-pagespeed",
         cat: cpanelCategories.o2switch,
         to: '/cpanel/o2switch/optimisation-pagespeed',
-        offers: [offers.shared],
+        offers: all_shared_hosting,
     },
     'o2switch-redis-manager': {
         name:"Redis",
@@ -512,7 +513,7 @@ const cpanelTool = {
         icon:"mailing_lists",
         cat: cpanelCategories.email,
         to: '/cpanel/emails/liste-diffusion',
-        offers: [offers.shared],
+        offers: all_offers,
     },
     'manage_calendar_access': {
         name:"Calendriers et contacts",
