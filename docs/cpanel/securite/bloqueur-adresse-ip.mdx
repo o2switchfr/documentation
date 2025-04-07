@@ -1,0 +1,68 @@
+---
+title: Bloqueur d'adresses IP
+sidebar_label: Bloqueur d'IP
+description: L'outil bloqueur d'adresses IP permet de bloquer des adresses ou plages d'adresses IP sur tous les sites hébergés
+image: /img/docs/tools/ip_blocker.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - sécurité
+  - parefeu
+---
+# Bloqueur d'adresses IP
+
+L'outil bloqueur d'adresse IP vous permet de **bloquer une adresse IP**, ou une **plage d'adresses IP** pour les
+empêcher d'accéder à l'ensemble des sites hébergés sur votre 
+[hébergement web](https://www.o2switch.fr/hebergement-illimite/).
+
+Vous pouvez également saisir un nom de domaine complet, le gestionnaire de refus d'IP essaiera de le convertir en 
+adresse IP.
+
+<PreviewToolCard tool='ip_blocker' />
+
+## Comment bloquer une adresse IP ? 
+
+Pour bloquer une adresse IP, ou une plage d'adresse IP, il suffit de remplir le formulaire visible en page d'accueil de
+l'outil. 
+
+<Image
+    src="/img/docs/cpanel/securite/bloquer-adresse-ip.png"
+    alt="Capture d'écran de l'outil pour bloquer une adresse IP ou une plage d'adresses IP"
+    caption="Formulaire pour bloquer une adresse IP ou une plage d'adresses IP"
+    title="Bloquer une adresse IP depuis cPanel" />
+
+Plusieurs format d'adresse IP ou de plage d'adresses IP sont supportées : 
+  * Vous pouvez bloquer une adresse IP. Exemple : `1.2.3.4` ou une IPv6 `2001:db8::1`
+  * Vous pouvez bloquer une plage d'adresse IP au format CIDR : `1.2.3.0/24` ou `1.2.0.0/16`
+  * Vous pouvez bloquer une plage d'adresse IP en énumérant : `1.2.3.0-1.2.3.128`
+  * Vous poubvez bloquer une plage d'adresse IP en énumérant implicement : `1.2.3.0-128`
+  * Vous pouvez bloquer une plage d'adresse IP en notant que le début de la plage : `1.2.3`
+
+Nous vous recommandons d'utiliser le format CIDR. Vous pouvez vous aider du site 
+[SubnetCalculator](https://www.subnet-calculator.com/cidr.php) si vous n'êtes pas à l'aise avec cette notation.
+
+Les adresses IP bloquées se retrouvent dans un tableau récapitulatif.
+
+<Image
+    src="/img/docs/cpanel/securite/liste-ip-bloquees.png"
+    alt="Capture d'écran de l'outil de blocage d'adresse IP montrant la liste des IP bloquées"
+    caption="Plusieurs IP et plages d'IPs sont bloqués par l'outil"
+    title="Liste des adresses IP bloquées" />
+
+## Impact sur les fichiers .htaccess
+
+L'outil bloqueur d'adresse IP fonctionne en éditant les fichiers `.htaccess` à la racine de tous les domaines et
+sous-domaines configurés sur hébergement. 
+
+Pour chaque domaine, l'outil va ajouter des règles qui ressemblent aux règles suivantes : 
+
+```apacheconf
+deny from 1.2.3.4
+deny from 2.2.2.0/24
+deny from 192.168.0.1
+deny from 192.168.1.0/27
+deny from 192.168.1.32/29
+deny from 192.168.1.40
+deny from 2.0.0.0/8
+```
