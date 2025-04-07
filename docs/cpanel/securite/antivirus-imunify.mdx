@@ -1,0 +1,68 @@
+---
+title: Imunify360, la suite de sécurité antivirus
+sidebar_label: Antivirus Imunify360
+description: L'outil Imunify360 est une suite de sécurité dont un puissant antivirus et nettoyeur de malware
+image: /img/docs/tools/imunify-antivirus.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - antivirus
+  - sécurité
+  - imunify
+---
+
+# Imunify360, l'antivirus et nettoyeur de malware 
+
+Imunify360 est une suite de sécurité complète comprenant un puissant **logiciel antivirus** et un **nettoyeur de 
+malware**.
+
+L'outil permet de faire un scan de tous les fichiers de votre hébergement, afin de détecter les potentiels fichiers 
+malveillants. L'outil est également capable de supprimer les fichiers malveillants ou de tenter de réparer les fichiers
+infectés. 
+
+L'outil est également capable de scanner les bases de données des sites WordPress pour détecter certains types
+d'injections dans les sites WordPress.
+
+<PreviewToolCard tool='imunify-antivirus' />
+
+## Lancer un scan antivirus 
+
+Pour lancer un scan antivirus de votre hébergement, vous pouvez cliquer sur le bouton 
+<Badge text="1" type="danger" />**débuter le scan**.
+
+<Image
+    src="/img/docs/cpanel/securite/imunify360-scan-antivirus.png"
+    alt="Capture d'écran de l'outil Imunify360 montrant comment lancer un scan antivirus"
+    caption="On peut lancer un scan antivirus depuis la page d'accueil de l'outil Imunify360"
+    title="Comment lancer un scan antivirus sur l'hébergement"/>
+
+Le scan va passer en revue **tous les fichiers** de votre hébergement. Cela peut prendre du temps, potentiellement
+quelques heures. La durée du scan va dépendre : 
+  * du nombre de fichiers présent sur votre hébergement. Attention aux dossiers de cache qui peuvent contenir des
+    milliers de fichiers et ralentir fortement la vitesse de scan !
+  * de la taille des fichiers
+
+Le résultat du scan s'affiche dans le tableau récapitulatif. La liste des fichiers malveillants trouvés sera affiché.
+Pour chaque fichiers malveillant, l'outil va  :
+  * soit supprimer le fichier, s'il s'agit d'un fichier qui est purement malveilant 
+  * soit corriger le fichier, s'il s'agit d'un fichier légitime qui a été infecté 
+
+En cas de faux positifs, vous pouvez cliquer sur l'icone <Badge type="danger" text="4" /> 
+<FAIcon icon="fa-solid fa-clock-rotate-left" size="1x" /> pour **restaurer le fichier**
+et revenir en arrière sur l'opération effectuée par Imunify. Les fichiers modifiés par Imunify360 sont conservés en 
+sauvegarde pendant 7 jours.
+
+Lorsqu'un fichier est corrigé, il est possible de cliquer sur <Badge type="danger" text="3" /> 
+<FAIcon icon="fa-solid fa-eye" size="1x" /> pour ouvrir le fichier
+et vérifier manuellement que la correction a bien été réalisée. 
+
+## Historique des scans 
+
+L'onglet Historique permet d'accéder à l'historique des scans réalisées depuis l'outil. 
+
+<Image
+    src="/img/docs/cpanel/securite/imunify360-historique.png"
+    alt="Capture d'écran de l'outil Imunify360 affichant l'historique des scans réalisées depuis l'outil"
+    caption="Historique des scans et des actions réalisées par Imunify360"
+    title="Historique des scans "/>
