@@ -1,7 +1,7 @@
 # Documentation o2switch
 
-La nouvelle version de la documentation o2switch est construite avec [Docusaurus](https://docusaurus.io/), un 
-générateur de site statique moderne.
+La nouvelle version de la [documentation o2switch](https://faq.o2switch.fr/) est construite avec 
+[Docusaurus](https://docusaurus.io/), un générateur de site statique moderne.
 
 ## Comment lancer le projet ?
 
@@ -11,7 +11,7 @@ Ensuite, pour lancer l'environnement de développement du projet, il suffit de c
 les dépendances du projet avec `npm install` puis de lancer `npm start` : 
 
 ```bash
-git clone git@github.com:xxxxxxx/documentation.git
+git clone git@github.com:o2switchfr/documentation.git
 npm install
 npm start
 ```
@@ -20,9 +20,9 @@ Cela lancera le serveur web inclus à NodeJS sur l'adresse `http://localhost:300
 
 On peut ensuite modifier le projet, la page `http://localhost:3000` se rafraichira automatiquement et en direct. 
 
-Après avoir effectué une modification sur le projet, avant de publier cela, il est recommandé de lancer `npm run build`. 
-Cela forcera la création d'un build et cela permet de vérifier que les modifications réalisées n'introduisent pas 
-d'erreurs (par exemple, des liens cassés / des IDs de pages en double). La phase de build détecte des erreurs qui 
+Après avoir effectué une modification sur le projet, avant de publier cela, il est recommandé de lancer `npm run build`.
+Cela forcera la création d'un build et cela permet de vérifier que les modifications réalisées n'introduisent pas
+d'erreurs (par exemple, des liens cassés / des IDs de pages en double). La phase de build détecte des erreurs qui
 passent parfois inaperçues avec le mode de développement. 
 
 ## Quelques règles pour participer
@@ -87,13 +87,12 @@ Pour les bulles d'aides, on peut utiliser les badges dans le texte écrit pour f
 précise de la capture d'écran. 
 
 ```mdx 
-<span className="badge badge--danger">1</span> 
-<span className="badge badge--danger">2</span>
-<span className="badge badge--danger">3</span>  
-
-<span className="badge badge--warning">1</span> 
-
-<span className="badge badge--success">1</span> 
+<Badge text="1" type="primary" />
+<Badge text="1" type="secondary" /> 
+<Badge text="1" type="success" /> 
+<Badge text="1" type="info" /> 
+<Badge text="1" type="warning" /> 
+<Badge text="1" type="danger" /> 
 ```
 
 Pour les captures d'écrans, on peut utiliser le logiciel [Snagit](https://www.techsmith.fr/snagit/). Pour rester
@@ -118,7 +117,7 @@ Une ligne dans un document doit faire 120 caractères au maximum. Si cela dépas
 ligne pour conserver la lisibilité.
 
 Faites cela lorsque c'est techniquement possible. Configurez votre IDE pour inclure une barre visuelle (`editor.rulers`
-dans vscode).
+dans vscode + l'extension [Rewrap](https://marketplace.visualstudio.com/items?itemName=stkb.rewrap)).
 
 ### Référencement / SEO
 
