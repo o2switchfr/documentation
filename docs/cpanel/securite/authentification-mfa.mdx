@@ -1,0 +1,103 @@
+---
+title: Authentification à deux facteurs 
+sidebar_label: Auth à 2 facteurs 
+description: L'authentification à deux facteurs renforce la sécurité de votre hébergement en demandant une seconde forme d'identification
+image: /img/docs/tools/two_factor_authentication.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - 2fa
+  - sécurité
+  - mfa
+  - google authenticator
+---
+
+# Authentification à deux facteurs 
+
+L'authentification à deux facteurs, aussi appelé **2FA** ou **MFA**, **améliore la sécurité** de votre hébergement en
+changeant le processus d'authentification.
+
+Pour se connecter à cPanel **deux codes d'accès** seront demandés. Le premier code correspond à votre mot de passe.
+
+Le second correspond à un **code à usage unique**, généré depuis une **application** sur votre téléphone. Ce code à 
+usage unique change toutes les 30 secondes. 
+
+<PreviewToolCard tool='two_factor_authentication' />
+
+## Activer l'authentification à deux facteurs 
+
+Pour activer l'authentification à deux facteurs sur cPanel, il faut cliquer sur le bouton 
+``Configurer l'authentification à deux facteurs`` dans l'outil **Authentification à deux facteurs**.
+
+<Image
+    src="/img/docs/cpanel/securite/authentification-deux-facteurs-cpanel.png"
+    alt="Capture d'écran de l'outil d'activation de l'authentification à deux facteurs sur cPanel"
+    caption="Première étape de l'activation de l'authentification à deux facteurs pour cPanel"
+    title="Activation de la 2FA cPanel"/>
+
+La page suivante affiche un **QR Code**. Ce QR Code doit être scanné depuis une application d'authentification à deux 
+facteurs qu'il faut installer sur votre téléphone.
+
+Il existe plusieurs applications que vous pouvez installer : 
+  * Google Authenticator est l'application qui est le plus souvent recommandée. Elle existe pour 
+  [Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=fr) et pour 
+  [Application Iphone / IOS / Apple](https://apps.apple.com/fr/app/google-authenticator/id388497605) 
+  * [2FAS](https://2fas.com/), Open Source, disponible pour Android & Apple 
+  * [Aegis Authenticator](https://getaegis.app/), Open Source, disponible pour Android uniquement
+
+<Image
+    src="/img/docs/cpanel/securite/configure-2fa-cpanel.png"
+    alt="Capture d'écran du QR Code à scanner pour activer l'authentification à deux facteurs"
+    caption="Il faut scanner un QR Code depuis une application pour activer la 2FA"
+    title="QRCode à scanner pour activer la 2FA"/>
+
+Après avoir scanné le QR Code depuis votre application, celle-ci devrait **afficher un code** à 6 chiffres qui 
+**se régénère** toutes les **30 secondes**.
+
+Pour s'assurer que vous avez correctement scanné le code, il faut entrer le code à 6 chiffres que l'application génère
+dans le champs `Code de sécurité` <Badge type="danger" text="2" /> du formulaire puis terminer en cliquant sur 
+`Configurer l'authentification à deux facteurs`.
+
+<Image
+    src="/img/docs/cpanel/securite/2fa-exemple-code.png"
+    alt="Capture d'écran de l'application Google Authenticator avec des codes de 2FA"
+    caption="L'application Google Authenticator régénère des codes de 2FA toutes les 30 secondes"
+    title="Exemple de code de 2FA"/>
+
+:::warning[Sauvegardez ou exportez vos codes]
+Nous vous recommandons fortement de réaliser une sauvegarde, ou un export, de vos configurations d'authentification à
+deux facteurs.
+
+Si vous perdez votre téléphone, vous pouvez réimporter les codes dans l'application depuis un autre téléphone et vous
+ne serez pas bloqué. 
+
+Par défaut, Google Authenticator réalise une sauvegarde sur votre compte Google. Pour les autres applications, il faut
+rechercher une option d'export ou de sauvegarde.
+:::
+
+## Comment se déloquer en cas de perte d'accès ? 
+
+Si vous perdez votre téléphone, alors vous ne serez plus en mesure de vous connecter sur cPanel car la deuxième étape
+de l'authentification sera bloquante.
+
+C'est pour cette raison que nous recommandons de réaliser une suavegarde de vos configurations d'authentification à 
+deux facteurs.
+
+Si jamais vous êtes bloqué, la seule solution sera de contacter le support technique pour demander la désactivation de
+l'authentification à deux facteurs.
+
+## Impact sur l'utilisation de l'API cPanel 
+
+Lorsque vous activez l'authentification à deux facteurs, cela est également effectif pour l'**API de cPanel**.
+
+Cela est peu courant, mais c'est la seule manière de protéger efficacement. Sinon il serait possible de bypasser
+l'authentification à deux facteurs simplement en appelant l'API de cPanel qui est publiquement accessible.
+
+Il est donc nécessaire de **générer** vous même les codes de double authentification et de les passer dans les entêtes
+HTTP d'appel d'API.
+
+Cela est expliqué en édtails dans la page [2FA with non-session-based authentication](https://api.docs.cpanel.net/guides/guide-to-api-authentication/guide-to-api-authentication-two-factor-authentication/#2fa-with-non-session-based-authentication)
+ de la documentation de cPanel.
+
+Vous trouverez un exemple détaillé dans cette [discussion github](https://gist.github.com/webaxones/54a9aee13bd9152e900ef30a0fcef3ed) également.
