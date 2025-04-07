@@ -1,0 +1,192 @@
+---
+title: Gestionnaire de certificats SSL
+sidebar_label: Certificats SSL/TLS
+description: L'outil SSL/TLS permet de gérer les certificats SSL de l'hébergement. L'outil permet également de générer des certificats autosignés.
+image: /img/docs/tools/ssl_tls.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - sécurité
+  - ssl
+  - certificat ssl
+  - https 
+---
+# Gestion des certificats SSL
+
+L'outil **SSL/TLS** permet de gérer les certificats SSL sur un [hébergement o2switch](https://www.o2switch.fr/). 
+
+Cet outil permet de :
+  * **lister** et **consulter les informations** des certificats SSL gérés sur l'hébergement 
+  * générer des **certificats autosignés** 
+  * installer des **certificats SSL**
+  * générer un CSR *(une demande de certificat)* et une **clé privée** pour commander un certificat payant 
+
+En revanche, l'outil ne permet pas de générer un certificat SSL valide. Pour générer et installer un certificat SSL
+gratuitement, il faut utiliser l'[outil Let's Encrypt](/cpanel/outils/lets-encrypt-ssl-gratuit).
+
+L'outil permet d'installer des certificats SSL payant que vous avez pu commandé au préalable. 
+
+<PreviewToolCard tool='ssl_tls' />
+
+## Installer un certificat SSL payant 
+
+Si vous souhaitez commander un certificat SSL payant, chez un fournisseur SSL de votre choix, il y a deux étapes :
+  * dans un premier temps, il faut créer une demande de certificat. Cela s'appelle un CSR *(certificate signing request)*
+  * ensuite il faut commander le certificat SSL chez un revendeur SSL en utilisant le CSR généré précédemment
+  * enfin il faut installer le certificat SSL sur votre hébergement 
+
+### Demande de certificat CSR
+
+Pour commander un certificat SSL chez un revendeur SSL, il est nécessaire de générer une demande de certificat : un CSR.
+
+Le CSR peut être générés depuis l'outil SSL/TLS en naviguant dans ` Générez, consultez ou supprimez des demandes de 
+signature de certificat SSL.`. 
+
+Ensuite, il suffit de remplir le formulaire.
+
+<Image
+    src="/img/docs/cpanel/securite/create-csr-form.png"
+    alt="Capture d'écran de l'outil SSL/TLS pour créer une demande de certificat CSR"
+    caption="Formulaire pour générer une demande de certificat SSL CSR"
+    title="Générer une demande de certificat SSL" />
+
+Dans le formulaire, il faut remplir les champs suivants : 
+  * <Badge type="danger" text="A" /> **Clé** : laissez le champs sur `Generate a new key`, cela va créer une nouvelle
+  clé privée pour le certificat SSL 
+  * <Badge type="danger" text="B" /> **Domaines** : indiquez le ou les domaines que devra couvrir le certificat SSL. 
+  Dans la majorité des cas, il suffit de noter le domaine + la version avec les WWW du domaine. Si vous ajoutez d'autres
+  domaines, alors il faudra commander un certificat SSL multi-domaines *(SAN)*
+  * Les champs suivants sont demandés pour des raisons historiques et n'ont plus vraiment d'importance : 
+    * <Badge type="danger" text="C" /> **Ville** : indiquez le nom de la ville
+    * <Badge type="danger" text="D" /> **Etat** : vous pouvez remettre la ville
+    * <Badge type="danger" text="E" /> **Pays** : FR
+    * <Badge type="danger" text="F" /> **Société** : le nom de votre société ou NA 
+    * <Badge type="danger" text="G" /> **Service** : SSL
+    * <Badge type="danger" text="H" /> **Email** : votre adresse email
+  * <Badge type="danger" text="I" /> **Phrase secrète** : il est impératif de laisser ce champs vide 
+
+Puis vous pouvez valider en cliquant sur <Badge type="danger" text="J" /> **Générer**. 
+
+Suite à cela, cPanel va générer et afficher : 
+  * une clé privé qu'il va également conserver en mémoire donc vous n'avez pas besoin de la copier
+  * la demande de certificat (CSR). C'est ce bloc qu'il faut copier et donner au fournisseur de certificat SSL 
+
+<Image
+    src="/img/docs/cpanel/securite/generer-csr-2.png"
+    alt="Capture d'écran du résultat de la génération de la demande de certificat CSR"
+    caption="Le CSR s'affiche dans le bloc Demande de signature de certificat encodée"
+    title="CSR pour commander un certificat SSL" />
+
+### Commander un certificat SSL
+
+Lorsque vous allez commander votre certificat SSL chez le fournisseur SSL de votre choix, il faudra copier/coller le 
+bloc de code visible dans `Demande de signature de certificat encodée`.
+
+Suite à cela, le fournisseur SSL lancera une procédure pour confirmer que vous êtes bien le propriétaire du nom de 
+domaine. Généralement trois options se présentent : 
+  * valider un email qui est envoyé au contact propriétaire du nom de domaine visible dans le whois 
+  * mettre en ligne un fichier avec un nom et une valeur pré-déterminé à la racine de votre domaine 
+  * créer une entrée DNS de type TXT avec un nom et une valeur pré-déterminé 
+
+Après cette étape de validation, vous obtiendrez les fichiers constituants le certificat SSL.
+
+:::info[Si vous commandez un certificat payant chez o2switch]
+Si vous commandez un certificat SSL payant depuis o2switch, alors toute cette partie (CSR, vérification, installation)
+sera gérée automatiquement. Vous n'aurez rien à faire.  
+:::
+
+### Installer le certificat SSL
+
+Après avoir commandé le certificat SSL, votre fournisseur de certificat doit vous donner : 
+  * votre certificat SSL, il s'agit du fichier qui se termine par `.crt` 
+  * et éventuellement la chaine de certificiat associé à l'autorité de certificat, appelé le **cabundle** 
+
+Pour installer le certificat SSL, il faut naviguer dans SSL/TLS puis `Gérer les sites SSL`. Il faut remplir le 
+formulaire `Installer un site Web SSL`.
+
+<Image
+    src="/img/docs/cpanel/securite/installer-certificat-ssl-payant.png"
+    alt="Capture d'écran du formulaire d'installation d'un certificat SSL"
+    caption="Formulaire d'installation du certificat SSL payant"
+    title="Installation du certificat SSL" />
+
+Dans ce formulaire, il faut : 
+  * <Badge text="1" type="danger" /> **Domaine** : il faut sélectionner le nom de domaine dans le menu déroulant 
+  * <Badge text="2" type="danger" /> **Certificat CRT** : il faut copier/coller le certificat, c'est-à-dire le contenu
+  du fichier qui se termine par `.crt` 
+  * <Badge text="3" type="danger" /> Puis cliquer sur **Remplir automatiquement**. Cela va remplir le champs avec la 
+  <Badge text="4" type="danger" /> **clé privée** ainsi que le champs <Badge text="5" type="danger" /> **Fichier CA**
+  * Si le champs **Fichier CA** reste vide, alors vous pouvez copier-coller le contenu du **Ca Bundle** fourni par votre
+  fournisseur SSL 
+
+Ensuite il faut valider en cliquant sur **Installer un certificat**.  
+
+Un message s'affichera pour vous informer que le certificat SSL a été installé. La tableau récapitulatif des certificats
+SSL installés montrera que le certificat a bien été installé et est valide. 
+
+<Image
+    src="/img/docs/cpanel/securite/recapt-ssl-payant.png"
+    alt="Capture d'écran du récapitulatif des certificats SSL"
+    caption="Le certificat SSL a été installé correctement"
+    title="Le certificat SSL est installé" />
+
+## Obtenir un certificat SSL gratuitement
+
+L'outil SSL/TLS de cPanel **ne permet pas** de créer ou générer un certificat SSL valide gratuitement. 
+
+Pour faire cela, il faut utiliser l'[outil Let's Encrypt](/cpanel/outils/lets-encrypt-ssl-gratuit) qui se trouve dans 
+la catégorie des **Outils**.
+
+<ToolCard tool="letsencrypt-cpanel" />
+
+## Désinstaller un certificat SSL 
+
+Si vous souhaitez **déinstaller un certificat SSL**, vous pouvez faire cela en naviguant dans SSL/TLS puis 
+`Gérer les sites SSL` puis en cliquant sur `Désinstaller` en face du domaine concerné dans la tableau récapitulatif.
+
+<Image
+    src="/img/docs/cpanel/securite/desinstaller-certificat-ssl.png"
+    alt="Capture d'écran du récapitulatif des certificats SSL installés"
+    caption="Comment désinstaller un certificat SSL"
+    title="Désinstaller un certificat SSL sur un nom de domaine" />
+
+La désinstallation d'un certificat SSL peut être utile pour débloquer des cas ou le certificat SSL ne s'est pas installé
+correctement sur l'hébergement. 
+
+## Générer un certificat autosigné 
+
+Depuis l'outil, vous pouvez générer un **certificat SSL autosigné**. 
+
+Un certificat SSL autosigné est un certificat créé par un site web pour lui-même, sans validation externe, 
+utilisé pour sécuriser les communications. Le certificat ne sera pas reconnu (signé) donc affichera un **avertissement 
+de sécurité** dans les navigateurs web, avec le HTTPS affiché en rouge.
+
+Générer un certificat SSL autosigné peut être utile pour des besoins de développements, lorsque la génération d'un 
+certificat Let's Encrypt gratuit n'est pas possible. 
+
+Pour générer un certificat SSL autosigné, il faut naviguer dans SSL/TLS puis `Générez, consultez, chargez ou supprimez 
+des certificats SSL.`.
+
+Il faut remplir le formulaire `Générer un nouveau certificat`.
+
+<Image
+    src="/img/docs/cpanel/securite/certificat-autosigne.png"
+    alt="Capture d'écran de l'outil pour générer un certificat SSL autosigné"
+    caption="Formulaire pour générer un certificat SSL autosigné"
+    title="Génératin d'un certificat SSL autosigné" />
+
+Dans le formulaire, il faut remplir les champs suivants : 
+  * <Badge type="danger" text="A" /> **Clé** : laissez le champs sur `Generate a new key`, cela va créer une nouvelle
+  clé privée pour le certificat SSL 
+  * <Badge type="danger" text="B" /> **Domaines** : indiquez le ou les domaines que devra couvrir le certificat SSL. 
+  Dans la majorité des cas, il suffit de noter le domaine + la version avec les WWW du domaine. 
+  * Les champs suivants sont demandés pour des raisons historiques et n'ont plus vraiment d'importance : 
+    * <Badge type="danger" text="C" /> **Ville** : indiquez le nom de la ville
+    * <Badge type="danger" text="D" /> **Etat** : vous pouvez remettre la ville
+    * <Badge type="danger" text="E" /> **Pays** : FR
+    * <Badge type="danger" text="F" /> **Société** : le nom de votre société ou NA 
+    * <Badge type="danger" text="G" /> **Service** : SSL
+    * <Badge type="danger" text="H" /> **Email** : votre adresse email
+
+Puis vous pouvez valider en cliquant sur <Badge type="danger" text="I" /> **Générer**. 
