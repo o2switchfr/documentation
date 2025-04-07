@@ -464,7 +464,7 @@ du site internet.
 Généralement, cela arrive lorsque les règles du `.htaccess` vérifient si la requête est en HTTPS ou non en se basant sur
 le port d'écoute du serveur web. Voici un exemple de règle : 
 
-```apache
+```apacheconf
 # Exemple de règles de redirections permettant de forcer le HTTPS qui ne fonctionnerait pas correctement
 RewriteEngine On 
 RewriteCond %{SERVER_PORT} ^80$
@@ -479,7 +479,7 @@ nos hébergements, ceci est lié à la manière dont sont configurés les serveu
 
 Ce code peut être remplacé par l'équivalent suivant qui fonctionne correctement : 
 
-```apache
+```apacheconf
 # Exemple de redirection qui fonctionne pour forcer le HTTPS
 RewriteEngine On 
 RewriteCond %{HTTP:X-Forwarded-Proto} !https
