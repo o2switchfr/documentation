@@ -13,7 +13,7 @@ tags:
   - cache
 ---
 
-# Activer un cache HTTP Varnish avec XtremCache
+# xtremCache, le cache HTTP Varnish
 
 L'outil **XtremCache** est un outil qui permet d'**améliorer la vitesse de chargement de votre site internet** grâce à
 l'activation d'un mécanisme de cache HTTP avancé, configuré directement au niveau du serveur web : **Varnish**.
@@ -86,3 +86,433 @@ On constate donc que lorsqu'une page est en cache, **plusieurs étapes sont évi
     pour la création du site est PHP mais le principe est identique pour d'autres langages (Python, Ruby, etc...)
 
 Le cache Varnish étant directement en mémoire RAM, ce qu'il y a de plus rapide, la page est servie très rapidement. 
+
+### Cachable ou pas ?
+
+
+Afin d'avoir un bon ratio de HIT/MISS, c'est-à-dire le ratio des pages servies depuis le cache (HIT) par rapport aux
+pages qui ne sont pas servies depuis le cache (MISS), il est important de comprendre comment Varnish s'y prend pour
+déterminer si une page peut être gardée en mémoire (cache) ou non.
+
+Toutes les pages ne peuvent pas être conservées en mémoire cache. Certaines pages sont générées de manière totalement
+dynamique et il n'est pas pertinent de garder cela en cache. Par exemple, des pages qui sont générées en fonction d'un
+utilisateur connecté sur le site internet. Le contenu dépendant de l'utilisateur connecté, il n'est pas possible de
+garder cette page en mémoire pour la transmettre à d'autres visiteurs. 
+
+Voici les cas où Varnish ne peut pas garder en mémoire une page donnée : 
+  * Toutes les requêtes **différentes des requêtes HEAD/GET** ne sont pas mises en cache. Dans le cas d'une requête
+    POST, la page générée peut très probablement varier en fonction du contenu du POST.
+  * Si un **cookie**, qui n'est pas dans la liste des cookies à exclure, est présent. La page générée peut varier en
+    fonction de la valeur de certains cookies, un cookie peut contenir la langue de préférence du site par exemple.
+  * Certaines parties ou fichiers des sites spécifiques, par exemple, dans le cas de WordPress, le dossier wp-admin va
+    être exclu du cache
+  * Toutes les **requêtes AJAX**, que cela soit GET ou POST
+  * Les pages ayant des headers "Authorization" ou "Authenticate", ce sont des pages privées et protégées par des
+    authentifications (authentification basique avec .htacess par exemple)
+  * Le serveur va également respecter la politique de cache renvoyée par le site internet, notamment via les header
+    **cache-control** par exemple
+
+C'est en partie dû à l'algorithme qui sert à déterminer si une page peut être en cache ou non, que la configuration de
+Varnish dépend fortement du type de CMS utilisé. C'est pour cette raison qu'il y a différents **templates** de cache
+proposés, ce sont des configurations adaptées au CMS utilisé par votre site internet. 
+
+Par exemple, dans le cas de WordPress, il y aura des règles pour exclure le dossier *wp-admin*, dans le cas de Joomla,
+ça sera *administrator*, etc.
+
+## Présentation de XtremCache
+
+L'outil XtremCache est découpé en plusieurs parties / sous outils. Il y a également un vocabulaire, spécifique à l'outil
+et au mécanisme de cache Varnish qu'il faut connaître pour comprendre l'outil.
+
+### Page d'accueil
+
+La page d'accueil va lister tous les domaines configurés sur l'hébergement. Pour le moment, seul les `domaines
+supplémentaires` et le `domaine principal` sont listés. Les sous-domaines ne sont pas supportés.
+
+<Image src="/img/docs/cpanel/o2switch/xtrem-cache-varnish-o2switch-1.png" 
+    alt="Capture d'écran de la page d'accueil de l'outil XtremCache" 
+    caption="Page d'accueil de l'outil XtremCache permettant d'ajouter un cache Varnish" 
+    title="Page d'accueil de l'outil d'ajout de cache varnish o2switch"/>
+
+Différentes actions sont possibles pour chaque nom de domaine listé : 
+  * Le cache n'est pas actif sur le domaine
+    * Le bouton `Activer XtremCache - Varnish` lance l'outil permettant de configurer un cache sur le nom de domaine
+      concerné
+  * Le cache est actif sur le domaine 
+    * Le bouton `Vérifier` affiche un outil qui permet de vérifier si le cache est bien actif sur le site ou une page en
+      particulier. C'est un **outil de debug**
+    * Le bouton `Vider le cache` permet de vider l'intégralité du cache associé au domaine
+    * Le bouton `Désactiver` permet de désactiver temporairement le cache, le temps de faire un test par exemple. Le
+      cache peut être réactivé très rapidement, sans coupure.
+    * Le bouton `Remettre à zéro` enlève toutes les personnalisations effectuées sur le domaine, comme le cache mais
+      également ipxtender (les deux outils étant compatibles l'un avec l'autre)
+
+L'outil `xtremCache` est compatible avec l'outil [ipXtender](/cpanel/o2switch/ipxtender-hebergement-multi-ips).
+
+### Activer le cache 
+
+La page d'activation de cache permet d'**activer un cache** sur un nom de domaine particulier et de **choisir** puis
+**personnaliser** la configuration en fonction du site internet.
+
+<Image src="/img/docs/cpanel/o2switch/activation-cache-varnish-o2switch-2.png" 
+    alt="Capture d'écran de la page d'activation de XtremCache" 
+    caption="Page d'activation du cache Varnish de l'outil XtremCache o2switch" 
+    title="Page d'activation du cache Varnish o2switch" />
+
+Dans la page d'activation du cache Varnish, à cet instant, il est possible de configurer trois éléments : 
+  * **Template de cache** <Badge type="danger" text="2"/> : sert à définir quelle est la configuration Varnish à activer
+    pour le nom de domaine. Plusieurs templates sont proposés, la plupart correspondent à un CMS ou Framwork
+    particulier. Le bouton de détection automatique permet de choisir le template automatiquement, l'outil va essayer de
+    détecter le CMS utilisé puis remplir le champs en fonction du résultat trouvé.
+  * **Forcer le cache** <Badge type="danger" text="3"/> : permet de forcer le cache en ignorant les entêtes de cache
+    comme `Cache-control: max-age=0`. Ceci n'est **pas recommandé**
+  * **Ignorer les cookies** <Badge type="danger" text="4"/> : (*déprécié*) sert à définir une liste de cookie à ignorer,
+    pour améliorer la mise en cache et le ratio HIT/MISS
+
+
+:::info[Changement d'adresse IP]
+L'activation du cache sur le domaine implique un **changement d'adresse IP** pour ce domaine. Cela implique plusieurs
+choses :
+  * Le domaine **doit utiliser nos serveurs DNS**. Si ce n'est pas le cas, pensez à changer l'adresse IP du site
+    manuellement dans vos DNS sinon cela générera une erreur 502
+  * Il y aura un délai avant que le changement d'IP soit pris en compte, cela peut prendre quelques heures. Pendant ce
+  temps, le site devrait continuer de fonctionner normalement. 
+  * Nous vous conseillons de réaliser cette action dans une période creuse
+:::
+
+L'outil est compatible avec [ipXtender](/cpanel/o2switch/ipxtender-hebergement-multi-ips), en fonction de la
+configuration détectée, l'adresse IP d'ipXtender est conservée :
+  * Le domaine n'est pas sur ipXtender : une adresse IP interne sera sélectionnée aléatoirement 
+  * Le domaine est sur ipXtender : l'adresse IP sélectionnée dans ipXtender est conservée
+
+### Outil de vérification 
+
+
+L'outil **Vérification** permet de faire des requêtes sur la page d'accueil du site internet ou une page spécifique afin
+de vérifier si la page en question est dans le cache. 
+
+Pour cela, l'outil va faire deux requêtes :
+  * une première requête `GET` pour s'assurer que la page a été visitée au moins une fois *(afin de lui laisser une
+    chance d'être dans le cache)*
+  * une deuxième requête, de type `GET` pour vérifier si la page servie vient du cache ou non
+
+L'outil liste aussi les cookies détectés, cela peut être utile pour ajuster les règles de cache.
+
+Le premier formulaire de l'outil vous permet de sélectionner ce que vous souhaitez tester. Il faut choisir : 
+  * <Badge text="1" type="success" /> Le **protocole** : HTTP ou HTTPS 
+  * <Badge text="2" type="success" /> Le **sous-domaine** : avec ou sans les WWW 
+  * <Badge text="3" type="success" /> L'**URL** de la page à tester : laissez vide pour tester la page d'accueil 
+
+<Image src="/img/docs/cpanel/o2switch/o2switch-verification-cache-varnish-4.png" 
+    alt="Capture d'écran de l'outil de vérification du cache" 
+    caption="Outil de vérification du cache sur une page particulière du site" 
+    title="Outil de vérification du cache sur le site internet" />
+
+L'outil va afficher un rapport similaire au rapport suivant : 
+
+<Image src="/img/docs/cpanel/o2switch/o2switch-server-cache-result-5.png" 
+    alt="Capture d'écran du résultat du test de cache" 
+    caption="Rapport généré par l'outil de vérification du cache" 
+    title="Rapport de la vérification du cache" />
+
+Le rapport contient plusieurs éléments : 
+  * Le rapport indique si la page a été servie depuis le cache ou non 
+  * Ensuite, s'affichent les entêtes HTTP *(headers)* renvoyés par la réponse du serveur, certains headers sont plus
+    intéressants que d'autres
+    * __X-Storage__ : affiche la stratégie de cache utilisée pour la ressource. Les pages et certains fichiers statiques
+      sont stockés en mémoire RAM (memory), d'autres types de ressources peuvent être stockés sur un cache SSD NVMe
+      local (les images)
+    * __X-Cache__ : peut contenir les valeurs `HIT`, qui signifie que la page a été servie depuis le cache, ou `MISS`
+      qui signifie que la page n'a pas été servie depuis le cache
+    * __X-Cache-Hits__ : affiche le nombre de fois que la ressource a été chargée depuis le cache
+
+:::info[J'ai une redirection 301]
+Si le rapport affiche une redirection 301 alors cela signifie que vous n'avez pas correctement remplis le premier
+formulaire. 
+
+Par exemple, si vous forcez les WWW et/ou le HTTPS sur votre site internet, et que vous testez la version HTTP sans WWW,
+le site retournera une redirection 301. Dans ce cas, il suffit de refaire le test en ajustant le premier formulaire.
+:::
+
+### Vider le cache 
+
+Cet outil permet de vider le cache associé au domaine. Cette option vide l'intégralité du cache associé au domaine.
+
+### Désactiver le cache 
+
+Le bouton **Désactiver** permet de **désactiver temporairement** le cache associé au site internet. La désactivation
+temporaire du cache est assez rapide à être prise en compte et n'engendre pas de coupure du site internet. 
+
+Contrairement à la **remize à zéro**, la désactivation temporaire **ne change pas l'adresse IP liée** au domaine donc il
+n'y a pas de coupure/délai de propagation DNS à prévoir. 
+
+Cette option est adaptée pour faire des tests, par exemple, si vous soupçonnez que le cache peut être à l'origine d'un
+comportement anormal sur votre site. 
+
+:::info[Désactivation temporaire du cache]
+La désactivation temporaire du cache est la méthode de désactivation recommandée car elle est rapidement prise en compte
+et n'engendre pas de coupure. 
+
+La désactivation totale (remise à zéro) du cache peut engendrer une coupure des services car l'adresse IP associée au
+site est changée pour remettre l'adresse IP d'origine.
+:::
+
+### Remize à zéro 
+
+La **remize à zéro** efface l'ensemble des configurations effectuées sur le nom de domaine, c'est-à-dire les
+**configurations de cache** mais également les **configurations [ipXtender](/cpanel/o2switch/ipxtender-hebergement-multi-ips)**. 
+
+En résumé, cela permet de remettre le domaine à son état d'origine. 
+
+:::warning[Changement d'adresse IP]
+La remize à zéro **change l'adresse IP** du domaine pour **remettre l'adresse IP d'origine**. Cela peut causer des
+perturbations sur le site internet (erreur 502)  le temps que la modification DNS soit prise en compte (délai de
+propagation DNS). 
+
+Cet outil est à utiliser en dernier recours, si vous souhaitez juste désactiver le cache, utilisez l'outil de
+désactivation temporaire. 
+:::
+
+## Templates de cache 
+
+Les **Templates** correspondent aux configurations de cache disponibles, ces configurations là sont gérées au niveau du
+serveur.
+
+Les **Templates** définissent les **règles de caches**. Le rôle d'un template est d'optimiser le ratio HIT/MISS
+(autrement dit, avoir le plus d'éléments possible en cache) pour une technologie de création de site donnée, tout en
+évitant les erreurs.
+
+Par exemple, un template va :
+  * définir des listes d'URL exclues comme les pages d'administrations, pour éviter les erreurs
+  * définir une liste de cookies à ignorer, pour améliorer la mise en cache
+  * faire des exceptions sur des extensions et thèmes qui peuvent être utilisés et à l'origine de problèmes
+
+Plusieurs templates sont proposés, Vous en trouverez certains adaptés aux CMS les plus utilisés et d'autres plus
+génériques qui peuvent être utilisés pour des sites "fait main".
+
+Les templates suivants sont proposés : 
+  * WordPress
+  * Fichiers statiques uniquement : pour ne mettre en cache que les images, css etc...
+  * Joomla
+  * PrestaShop
+  * Symfony
+
+## Purge du cache 
+
+Il existe différentes manières de purger le cache : 
+  * depuis l'outil pour vider le cache dans cPanel
+  * manuellement ou avec un script PHP en effectuant des requêtes de purges
+
+### Purger le cache depuis cPanel 
+
+Pour purger le cache depuis cPanel, il suffit de cliquer sur le bouton **Vider le cache** dans visible dans la page d'accueil
+de l'outil. 
+
+<Image src="/img/docs/cpanel/o2switch/xtremcache-vider-cache.png" 
+    alt="Capture d'écran de la page d'accueil de xtremcache montrant le bouton de purge de cache" 
+    caption="Bouton pour vider le cache xtremcache d'un domaine" 
+    title="Bouton de purge de cache" />
+
+### Purger manuellement ou depuis un script 
+
+Pour vider le cache, il faut envoyer une requête de type`PURGE` sur la page à purger (c'est-à-dire la page pour
+laquelle nous souhaitons vider le cache). 
+
+Donc par exemple, en utilisant `curl` cela donne la requête suivante : 
+
+```bash
+curl -X 'PURGE' http://mon-dev.xyz
+```
+
+La requête ci-dessus ne purge que la page d'accueil du site internet, c'est la forme la plus simple de purge proposée. 
+Il est également possible de purger une page spécifique, par exemple : 
+
+```bash
+curl -X 'PURGE' http://mon-dev.xyz/ma-page
+```
+
+Si le domaine se trouve derrière une solution comme Cloudflare (il n'est **pas recommandé** de mixer les deux) ou si le
+domaine ne pointe pas directement vers l'adresse IP du cache (pour une raison ou pour une autre) alors il faut générer
+l'entête  `host` manuellement et indiquer l'adresse IP du serveur de cache. Ce cas est très rare et c'est un usage
+avancé, par exemple : 
+
+```bash
+# pour connaitre l'adresse IP du serveur de cache
+dig +short @ns1.o2switch.net mon-dev.xyz
+
+# requête de purge en précisant l'host manuellement
+curl -X 'PURGE' -H 'Host:mon-dev.xyz' http://109.234.164.18/ma-page
+```
+
+Le mécanisme de cache supporte un autre type de purge, les purges en utilisant une `regex`. Cette méthode de purge est
+très pratique car elle permet de vider le cache de manière rapide et précise : 
+  * il est possible de vider tout le cache lié au domaine en une seule requête
+  * ou de vider le cache de certains types de fichiers spécifiques ou d'adresses, par exemple, tous les fichiers png
+
+Pour utiliser cette méthode, il faut faire une requête de purge comme vu dans les exemples précédents puis ajouter une
+entête `X-Purge-Regex` qui contient l'expression régulière (regex) à utiliser pour vider le cache.
+
+Par exemple, pour vider tout le cache associé au domaine : 
+
+```bash
+curl -X 'PURGE' -H 'X-Purge-Regex:.*' http://mon-dev.xyz
+```
+
+Pour ne vider que le cache du répertoire wp-content/uploads (donc les images pour WordPress) : 
+
+```bash
+curl -X 'PURGE' -H 'X-Purge-Regex:wp-content/uploads/.*' http://mon-dev.xyz
+```
+
+Pour ne vider que les images se terminant par .jpg: 
+
+```bash
+curl -X 'PURGE' -H 'X-Purge-Regex:.*\.jpg$' http://mon-dev.xyz
+```
+
+L'outil retourne un code `HTTP 200` si la purge s'est bien passée.
+
+L'outil affiche également un retour HTML simple, le message varie légèrement si la méthode par `regex` est utilisée : 
+
+```html
+<!-- Retour lorsque c'est une purge simple -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>200 Purged.</title>
+  </head>
+  <body>
+    <h1>Error 200 Purged.</h1>
+    <p>Purged.</p>
+    <h3>Guru Meditation:</h3>
+    <p>XID: 62717987</p>
+    <hr>
+    <p>Varnish cache server</p>
+  </body>
+</html>
+
+<!-- Retour lorsque la méthode REGEX est utilisée -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>200 Purged using the Purge Regex Method</title>
+  </head>
+  <body>
+    <h1>Error 200 Purged using the Purge Regex Method</h1>
+    <p>Purged using the Purge Regex Method</p>
+    <h3>Guru Meditation:</h3>
+    <p>XID: 62849276</p>
+    <hr>
+    <p>Varnish cache server</p>
+  </body>
+</html>
+```
+
+## Erreurs courantes 
+
+Ci-dessous la liste des erreurs courantes et solutions en rapport avec l'outil xtremCache.
+
+### Erreurs 502 
+
+L'erreur 502 peut venir de plusieurs raisons mais si l'erreur s'affiche suite à l'activation du cache, la désactivation
+totale du cache ou l'activation d'ipXtender, cela signifie l'une des trois choses suivantes : 
+  * L'erreur est liée au délai de propagation DNS. Toutes les opérations listées ci-dessus change l'adresse IP associée
+    au domaine. Ce changement d'IP peut prendre du temps, tant que la **bonne adresse IP** n'est pas prise en compte,
+    vous risquez d'avoir une erreur de type `HTTP 502`, **cela est normal** (temporairement du moins)
+  * Le **nom de domaine ne pointe pas vers la bonne adresse IP**. Cela peut arriver si vous utilisez des serveurs DNS
+    tiers, la mise à jour de l'IP associée au domaine n'est pas automatique. Dans ce cas, il faut configurer la bonne
+    adresse IP (listée dans la page d'accueil de l'outil) dans votre zone DNS
+  * Peu probable, même erreur que précédemment, l'adresse IP ne pointe pas au bon endroit mais la cause est différente.
+    Cela peut être lié à votre environnement local, par exemple, si vous avez fait des tests en **modifiant votre ficher
+    hosts**
+
+Pour le délai de propagation DNS, vous ne pouvez pas faire grand chose, sauf vider votre cache DNS local. 
+Cela peut vous faire gagner quelques heures mais ce n'est pas forcément suffisant !
+
+Pour vider votre cache DNS local, vous pouvez suivre 
+[la procédure expliquée sur la page de l'outil ipXtender](cpanel/o2switch/ipxtender-hebergement-multi-ips#délai-de-changement).
+
+Pour vérifier si le domaine pointe vers la bonne adresse IP, si vous disposez de la ligne de commande et de la commande `dig`, vous pouvez lancer les deux commandes suivantes : 
+
+```bash
+# l'ip côté o2switch, celle du cache donc 
+dig +short @ns1.o2switch.net mon-domaine.fr
+
+# l'ip depuis un DNS tiers, celui de Google dans ce cas
+dig +short @8.8.8.8 mon-domaine.fr
+# les deux IPs doivent être identiques, si elles sont différentes, il y a un problème
+```
+
+Ou vous pouvez utiliser un outil en ligne comme [Dig sur Kloth.net](http://www.kloth.net/services/dig.php) :
+
+<Image src="/img/docs/cpanel/o2switch/verification-dns-kloth.png" 
+    alt="Capture d'écran du site Kloth montrant comment vérifier que l'adresse IP est correcte" 
+    caption="Vérification de la configuration DNS sur l'outil DIG en ligne de Kloth.net" 
+    title="Vérification de la configuration DNS sur Kloth" />
+
+
+Sur l'outil en ligne de  [Kloth.net](http://www.kloth.net/services/dig.php), il faut faire deux requêtes : 
+  * la première avec locahost ou 8.8.8.8 comme adresse de serveur, pour trouver l'adresse IP associée au domaine
+  * la deuxième avec ns1.o2switch.net comme adresse de serveur DNS pour comparer cela avec l'adresse IP que devrait avoir le site internet 
+
+Les deux IPs devraient être identiques, sinon cela signifie qu'il y a probablement un problème. 
+
+### HTTPS, boucle de redirections 
+Certaines configurations de `.htaccess` peuvent générer des boucles de redirections à l'infini et empêcher le chargement
+du site internet. 
+
+Généralement, cela arrive lorsque les règles du `.htaccess` vérifient si la requête est en HTTPS ou non en se basant sur
+le port d'écoute du serveur web. Voici un exemple de règle : 
+
+```apache
+# Exemple de règles de redirections permettant de forcer le HTTPS qui ne fonctionnerait pas correctement
+RewriteEngine On 
+RewriteCond %{SERVER_PORT} ^80$
+RewriteRule ^(.*)$ https://%{SERVER_NAME}%{REQUEST_URI} [L,R]
+```
+
+Le code ci-dessus ne fonctionne pas à tous les coups car cela suppose que le serveur web utilise le port 80 pour le
+traitement d'une requête HTTP.
+
+Cette méthode de détection du https ne fonctionnera pas car le port 80 n'est jamais utilisé par le serveur web apache de
+nos hébergements, ceci est lié à la manière dont sont configurés les serveurs. 
+
+Ce code peut être remplacé par l'équivalent suivant qui fonctionne correctement : 
+
+```apache
+# Exemple de redirection qui fonctionne pour forcer le HTTPS
+RewriteEngine On 
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTPS} !on
+RewriteRule ^(.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+```
+
+### SSL non détecté 
+
+
+Dans certains cas, l'outil `xtremCache` ou même `ipXtender` ne détecte pas correctement le certificat SSL lié au nom 
+de domaine à personnaliser. 
+
+Cela arrive lorsque le **certificat SSL n'est pas installé correctement** sur l'hébergement.
+
+Vous pouvez corriger cela en forçant la réinstallation du certificat SSL puis en relançant l'outil d'activation du cache
+ou de changement d'ip.
+
+Cela peut être fait de deux manières différentes : 
+  * Depuis l'outil [Let's Encrypt](/cpanel/outils/lets-encrypt-ssl-gratuit) qui se trouve dans la catégorie `sécurité`
+    de cPanel : il suffit de cliquer sur `réinstaller`
+  * Depuis l'outil [SSL/TLS](/cpanel/securite/certificat-ssl) de cPanel, toujours dans la catégorie `sécurité` : il faut
+    cliquer sur `Gérer les sites SSL` puis sélectionner le domaine, cliquer sur  `remplir automatiquement` puis valider. 
+
+### CloudFlare ou autres CDN
+
+**N'activez pas Cloudflare** en complément d'xtremCache, cela est inutile et contre productif. En faisant cela, vous
+cumulez **plusieurs niveaux de caches** et cela va bloquer le mécanisme interne de purge d'xtremcache. 
+
+Au niveau d'xtremCache il n'y a pas de réglage de compatibilité avec CloudFlare. Il faut activer l'une ou l'autre de ces
+technologies mais **pas les deux à la fois**. Testez les deux, choisissez ce qui vous convient le mieux. 
+
+### Sous-domaines 
+
+XtremCache n'est **pas compatible** avec les sous-domaines, vous ne pourrez pas l'activer dessus.
+
