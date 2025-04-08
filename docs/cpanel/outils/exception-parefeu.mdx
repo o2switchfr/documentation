@@ -1,0 +1,236 @@
+---
+title: Autorisation SSH - Liste blanche parefeu
+sidebar_label: Exception parefeu
+description: L'outil autorisation SSH vous permet de placer des adresses IP ou domaine en liste blanche sur le firewall de l'hébergement
+image: /img/docs/tools/ssh-whitelist.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - serveurs infogérés
+  - ssh
+  - parefeu
+  - firewall
+  - liste blanche
+  - sécurité
+---
+
+# Autorisation SSH - Liste blanche parefeu
+
+L'outil **autorisation SSH** vous permet de placer une adresse IP ou un nom de domaine, de type dyndns, en **liste
+blanche sur le parefeu du serveur** pour l'accès SSH sur votre hébergement. 
+
+L'outil permet également de placer des exceptions pour l'utilisations de bases de données MongoDB externe
+([Atlas](https://www.mongodb.com/cloud/atlas) par exemple). 
+
+Cela vous permet donc d'être autonome sur votre **accès SSH** et cela ne requiert pas le déblocage de la part du support
+comme ce fût le cas précédemment.
+
+<PreviewToolCard tool='ssh-whitelist' />
+
+## Comment ajouter une adresse IP en liste blanche ? 
+
+A cet instant, l'outil permet de placer des exceptions sur : 
+  * **SSH** *(port 22)* sur les connexions entrantes *(une machine tierces vers votre hébergement)* et sortante *(depuis
+    votre hébergement vers une autre machine)*,
+  * **MongoDB** *(ports 27017, 27018, 27019)* sur les connexions sortantes, afin que votre hébergement puisse se
+    connecter à une base de données MongoDB externe comme Atlas,
+  * **Port 8888** sur les connexions sortantes, cela est utilisé par CDiscount pour leurs API
+
+Vous avez le droit de configurer **5 exceptions** au total. Une exception pour SSH *(connexion entrante + sortante)* est
+compté comme une seule exception.
+
+Pour placer une exception, il faut cliquer sur le bouton `Ajouter une exception`. 
+
+Ensuite, il faut remplir le formulaire avec votre adresse IP *(ou DNS)* en choisissant le type d'exceptions à 
+mettre en place. 
+
+<Image
+    src="/img/docs/cpanel/outils/o2switch-ssh-liste-blanche-firewall.png"
+    alt="Capture d'écran de l'outil de création d'une exception parefeu"
+    caption="Formulaire d'ajout d'une adresse IP en liste blanche pour SSH"
+    title="Ajout d'une adresse IP en liste blanche pour SSH" />
+
+<Badge type="danger" text="1" /> Votre adresse IP courante s'affiche dans l'outil.
+
+<Badge type="danger" text="2" /> Dans le champs **Adresse IP ou DNS**, il faut renseigner votre adresse IP ou votre
+dyndns. Pour les exceptions sur des **noms de domaines** (ou des noip/dyndns), le domaine doit répondre au niveau DNS et
+doit pointer vers une adresse IP sinon l'outil retournera une erreur. 
+
+<Badge type="danger" text="3" /> Dans le champs **Port** il faut sélectionner le port à ouvrir pour l'exception. 
+Il n'est **pas possible de créer des exceptions parefeu sur des ports différents que ceux listés** dans l'outil, 
+même en contactant le support. 
+
+La seule exception à ce sujet consiste à la mise en liste blanche de services massivement utilisés, comme par exemple 
+GitHub, Bitbucket. La plupart de ces services là devraient déjà être en liste blanche mais si ce n'est pas le cas, 
+vous pouvez contacter le support pour voir s'il est possible de l'ajouter. 
+
+La mise en liste blanche peut prendre quelques secondes à être effective. L'outil rend la main lorsque l'exception a 
+bien été prise en compte dans le parefeu du serveur. 
+
+## Gestion des exceptions existantes
+
+Les exceptions que vous avez déjà configurés sont listés dans un tableau et vous avez la possibilité de les supprimer 
+*(afin par exemple d'en ajouter de nouvelles à la place)*. 
+
+<Image
+    src="/img/docs/cpanel/outils/o2switch-ssh-whitelist-parefeu.png"
+    alt="Capture d'écran de la liste des exceptions parefeu"
+    caption="Les adresses en liste blanche sont listés dans l'outil"
+    title="Les adresses en liste blanche" />
+
+A noter que les adresses IP / domaine placés en liste blanche par le support o2switch avant la création de cet outil
+*(donc avant le 01/12/20)* ne sont pas listés dans l'outil. Cependant ces exceptions là existent toujours et n'ont pas
+été enlevées. 
+
+## Utilisation dans un contexte CI/CD
+
+Il est possible d'utiliser cet outil en **mode API**. Cela est particulièrement utile dans un contexte de CI/CD pour
+**placer en liste blanche dynamiquement l'adresse IP** d'un runner Github / Gitlab, afin de l'autoriser à se conneter à
+l'hébergement en SSH.
+
+### Documentation de la micro API
+
+L'outil fourni une micro API avec 3 endpoints différents.
+
+En supposant que les variables suivantes sont déclarées à l'avance : 
+
+```bash
+SERVER="le-serveur.o2switch.net"
+LOGIN="toto1234"
+# Le mot de passe doit être urlencodé, pour faire cela, trois options :
+# A) si "JQ" installé : printf %s 'le mot de passe' | jq -sRr @uri
+# B) si PHP installé : php -r "echo urlencode('Le mot de passe');"
+# C) si OK avec un site tiers, attention à ne pas ajouter un saut de ligne à la fin : https://www.urlencoder.org/fr/
+PASSWORD='Le mot de passe cPanel'
+ENDPOINT='frontend/o2switch/o2switch-ssh-whitelist/index.live.php'
+```
+
+#### Lister les adresses en liste blanche 
+
+```bash
+curl -sX GET "https://$LOGIN:$PASSWORD@$SERVER:2083/$ENDPOINT?r=list" | jq
+```
+
+```json
+{
+  "success": true,
+  "data": {
+    "ip": "10.20.0.20",
+    "list": [
+      {
+        "address": "1.2.3.4",
+        "direction": "out",
+        "port": 22,
+        "updateDate": "21/08/2024"
+      },
+      {
+        "address": "1.2.3.4",
+        "direction": "in",
+        "port": 22,
+        "updateDate": "21/08/2024"
+      }
+    ],
+    "count": 1
+  }
+}
+```
+
+#### Ajouter une adresse IP en liste blanche 
+
+```bash
+curl -sX POST -d 'whitelist[address]=3.3.3.3' -d 'whitelist[port]=22' "https://$LOGIN:$PASSWORD@$SERVER:2083/$ENDPOINT?r=add" | jq
+```
+
+```json
+{
+  "success": true,
+  "message": "L'autorisation a été ajoutée avec succès."
+}
+```
+
+#### Supprimer une adresse IP de la liste blanche 
+
+Il faut bien penser à supprimer l'exception sur les directions `in` et `out` sinon cela ne décrémente pas le compteur
+d'exceptions.
+
+```bash
+curl -sX GET "https://$LOGIN:$PASSWORD@$SERVER:2083/$ENDPOINT?r=remove&address=1.2.3.4&direction=in&port=22" | jq
+```
+
+```json
+{
+  "success": true,
+  "message": "L'autorisation a été supprimée avec succès, elle sera effective d'ici quelques minutes (~5mins)."
+}
+```
+
+### Exemple de CI/CD Github 
+
+Pour un exemple de CI/CD avec Github, vous pouvez regarder [ce gist /
+discussion](https://gist.github.com/webaxones/54a9aee13bd9152e900ef30a0fcef3ed).
+
+Pour un usage de CI/CD, l'idée est de : 
+- détecter dynamiquement l'adresse IP du runner. Sur GitHub il est possible d'utiliser une action comme
+  `haythem/public-ip@v1.3` ou un service externe comme [Ipify](https://www.ipify.org/)
+- récupérer la liste de toutes les adresses IP qui sont déjà en liste blanche 
+- s'assurer qu'il reste au moins une place pour ajouter une exception 
+- s'il ne reste pas de place, alors il faut supprimer des exceptions existantes
+- ou pour simplifier, on peut d'abord supprimer toutes les exceptions avant d'en ajouter une nouvelle 
+- ajouter l'adresse IP du runner en liste blanche    
+
+Pour Github, en supposant que les variables suivantes `REMOTE_USER`, `URL_ENCODED_PASSWORD`, `REMOTE_HOST` sont 
+déclarées dans les variables secrètes du projet, on peut utiliser quelque chose de similaire à ceci : 
+
+```yaml 
+# Extrait de https://gist.github.com/webaxones/54a9aee13bd9152e900ef30a0fcef3ed
+steps:
+  # Checkout le code depuis GitHub
+  - uses: actions/checkout@v4
+
+  #
+  # Ici vos autres actions ...
+  # Exemple installation des dépendences avec npm / composer etc...
+  #
+  
+  # Récupérer l'IP publique du runner GitHub
+  - name: Get runner's public IP
+    id: ip
+    uses: haythem/public-ip@v1.3
+
+  # Ajouter l'IP du runner à la whitelist SSH de o2Switch
+  - name: Whitelist IP on hosting & delete github old ones (o2switch)
+    shell: bash
+    run: |
+      ENDPOINT='frontend/o2switch/o2switch-ssh-whitelist/index.live.php'
+
+      echo "Get actual whitelisted IPs..."
+      RESPONSE=$(curl -sX GET "https://${{ secrets.REMOTE_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.REMOTE_HOST }}:2083/$ENDPOINT?r=list")
+      echo "Response: $RESPONSE"
+      UNIQUE_IPS=$(echo "$RESPONSE" | jq -r '.data.list[] | .address' | sort -u)
+
+      for address in $UNIQUE_IPS; do
+        echo "Delete this github IP: $address (in & out)"
+        curl -sX GET "https://${{ secrets.REMOTE_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.REMOTE_HOST }}:2083/$ENDPOINT?r=remove&address=$address&direction=in&port=22" | jq
+        sleep 3
+        curl -sX GET "https://${{ secrets.REMOTE_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.REMOTE_HOST }}:2083/$ENDPOINT?r=remove&address=$address&direction=out&port=22" | jq
+        sleep 3
+      done
+      echo "All non-whitelisted IPs deleted!"
+
+      echo "Attempt to whitelist IP..."
+      curl -sX POST -d 'whitelist[address]=${{ steps.ip.outputs.ipv4 }}' -d 'whitelist[port]=22' "https://${{ secrets.REMOTE_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.REMOTE_HOST }}:2083/$ENDPOINT?r=add" | jq
+  
+  # 
+  # Ici le reste de vos actions, par exemple le déploiement avec Rsync
+  # 
+```
+
+:::warning[Double authentification]
+Si vous avez activé la [double authentification](/cpanel/securite/authentification-mfa) sur cPanel, alors celle-ci est
+également nécessaire pour les appels d'API.
+
+Lorsque la double authentification est active, il faut passer le code à usage unique dans les appels d'API.
+
+Vous retrouverez plus de détails sur la page suivante : [2FA with non-session-based authentication](https://api.docs.cpanel.net/guides/guide-to-api-authentication/guide-to-api-authentication-two-factor-authentication/#2fa-with-non-session-based-authentication)
+:::
