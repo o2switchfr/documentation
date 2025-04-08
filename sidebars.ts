@@ -201,7 +201,6 @@ const sidebars: SidebarsConfig = {
             'cpanel/outils-avances/terminal-ssh-web',
             'cpanel/outils-avances/pages-erreurs-personnalises',
             'cpanel/outils-avances/gestionnaire-index',
-            'cpanel/outils-avances/gestionnaire-type-mime',
           ],
         },
        

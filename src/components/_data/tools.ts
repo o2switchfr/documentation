@@ -172,14 +172,14 @@ const cpanelTool = {
         to: '/cpanel/emails/import-massif-compte-email',
         offers: all_offers,
     },
-    'apache_handlers': {
+    /*'apache_handlers': {
         name:"Gestionnaire apache",
         desc:"Contrôle la façon dont le serveur web apache traite certains types de fichiers via l'ajout d'handlers",
         icon:"apache_handlers",
         cat: cpanelCategories.advanced,
         to: '/cpanel/outils-avances/gestionnaire-type-mime',
         offers: all_offers,
-    },
+    },*/
     'apache_spam_assassin': {
         name:"Comportement Antispam",
         desc:"Permet de gérer l'antispam, en désactivant le trie automatique des emails en spam ou en désactivant totalement l'antispam",
