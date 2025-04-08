@@ -1,0 +1,99 @@
+---
+title: Softaculous, l'installateur d'applications
+sidebar_label: Softaculous
+description: Softaculous permet d'installer une variété de CMS, comme WordPress, très simplement et rapidement. Cela évite de faire l'installation manuellement.
+image: /img/docs/tools/softaculous.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - serveurs infogérés
+  - softaculous
+  - auto installer
+---
+
+# Installateur de scripts Softaculous
+
+L'outil **softaculous** permet d'**installer des CMS** *(scripts préconçus)* très rapidement et simplement sur votre
+espace d'**[hébergement web]([https://www.o2switch.fr/hebergement-illimite/)**.
+
+**Softaculous va simplifier l'étape d'installation** des différents CMS en s'occupant de la partie technique pour vous.
+
+
+Il va par exemple télécharger la dernière version du CMS désiré *(les plus utilisés sont présents)*, créer une base de
+données, un utilisateur, déplacer les données au bon endroit, etc. A la fin du processus d'installation vous avez votre
+CMS et les accès à sa partie d'administration. 
+
+Softaculous permet l'installation de la plupart des CMS les plus connus. Il permet entre autres d'installer
+(liste non exhaustive) : Wordpress, Joomla, Drupal, Prestashop, Magento, Moodle, Mahara, phpBB, Piwigo, Dokuwiki,
+Vtiger, Dolibarr, etc. A l'heure actuelle, plus de **300 scripts** sont supportés !
+
+<PreviewToolCard tool='softaculous' />
+
+## Comment installer un script avec Softaculous ?
+
+Les outils pour Softaculous apparaissent en bas de page d'accueil de cPanel. Il y a deux outils pour accéder à Softaculous :
+  * l'icône softaculous : pour accéder à l'outil et choisir le CMS dans l'outil
+  * le menu de sélection rapide : permet d'arriver directement sur la page d'installation du CMS désiré 
+
+<Image
+    src="/img/docs/cpanel/outils/cpanel-softaculous-acces-1-o2switch.png"
+    alt="Capture d'écran de l'affichage de Softaculous dans cPanel"
+    caption="Les deux moyens d'accéder à Softaculous"
+    title="Les deux façons d'accéder à Softaculous dans cPanel" />
+
+En cliquant sur l'icône de Softaculous, vous accédez à sa page d'accueil. Softaculous est un outil indépendant, tout
+comme cPanel. 
+
+En utilisant le lien d'installation rapide, vous êtes directement dirigé vers la page d'installation du CMS, ce qui vous
+permet d'éviter la page d'accueil de Softaculous.
+
+
+La page d'accueil est regroupé en deux grandes parties :
+  * à gauche, tous les CMS installables organisés en catégories
+  * à droite, la zone de présentation des CMS ou bien d'installation 
+
+Dans la barre supérieure, vous avez également des outils : vous pouvez retrouver la liste de vos installations
+existantes, voir quelles sont les mises à jours à faire, lancer les mises à jour automatiques, etc. 
+
+<Image
+    src="/img/docs/cpanel/outils/cpanel-softaculous-accueil-2-o2switch.png"
+    alt="Capture d'écran de la page d'accueil de Softaculous"
+    caption="Page d'accueil de Softaculous avec les catégories de scripts à gauche"
+    title="Page d'accueil de Softaculous" />
+
+En cliquant sur un CMS, comme WordPress par exemple, vous accédez à une page de présentation dédiée à ce CMS. Cette page
+comprend une capture d'écran, des avis, des suggestions de CMS similaires, ainsi qu'une description détaillée.
+
+Pour démarrer l'installation, cliquez sur le bouton bleu `Installation`. Notez que, malgré sa couleur, ce bouton
+n'indique pas l'onglet actuellement sélectionné.
+
+Dès que vous cliquez sur la section `Installation`, vous êtes dirigé vers une page plus technique. Vous pouvez laisser
+la plupart des configurations par défaut, faites attention à : 
+- choisir le bon nom de domaine 
+- si vous avez installé un certificat SSL, choisissez HTTPS également 
+- laissez vide le champs `Dans le dossier` sinon cela va installer le CMS dans un sous-dossier *(ceci est rarement
+  voulu)*
+- ne cochez pas la case `WPMU`, c'est pour créer un multisite WordPress, cela est rarement voulu, c'est pour des usages 
+  bien précis
+- assurez-vous que le CMS est installé en Français 
+
+<Image
+    src="/img/docs/cpanel/outils/cpanel-softaculous-installation-wp-4-o2switch.png"
+    alt="Capture d'écran du formulaire d'installation de WordPress dans Softaculous"
+    caption="Formulaire d'installation de WordPress dans Softaculous"
+    title="Page d'installation de WordPress dans Softaculous" />
+
+Une fois l'installation terminée, Softaculous vous fait un petit rapport et vous donne différentes adresses de connexion
+: 
+
+<Image
+    src="/img/docs/cpanel/outils/cpanel-softaculous-rapport-5-o2switch.png"
+    alt="Capture d'écran du rapport d'installation de WordPress avec Softaculous"
+    caption="Rapport d'installation de WordPress"
+   title="WordPress est installé" />
+
+
+L'installation est terminée, vous pouvez dès à présent travailler sur votre site internet. Nous avons pris l'exemple de
+Wordpress mais le processus d'installation est similaire pour l'ensemble des scripts proposés par Softaculous, ça
+restera toujours aussi simple à gérer !
