@@ -151,6 +151,7 @@ const sidebars: SidebarsConfig = {
             'cpanel/securite/token-api-cpanel',
             'cpanel/securite/status-certificat-ssl',
             'cpanel/securite/bloqueur-adresse-ip',
+            'cpanel/securite/lets-encrypt-ssl-gratuit',
             'cpanel/securite/certificat-ssl',
           ],
         },
@@ -184,8 +185,6 @@ const sidebars: SidebarsConfig = {
           items: [
             'cpanel/outils/exception-parefeu',
             'cpanel/outils/installateur-softaculous',
-            'cpanel/outils/lets-encrypt-ssl-gratuit',
-            'cpanel/outils/site-builder-sitepad',
           ],
         },
         {

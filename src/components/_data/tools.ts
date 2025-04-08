@@ -147,6 +147,7 @@ const cpanelTool = {
         to: '/cpanel/o2switch/xtremcache-varnish',
         offers: all_offers,
     },
+    /*
     'sitepad_div_icons': {
         name:"Sitepad",
         desc:"Sitepad permet de créer un site internet facilement via système de construction de site visuel et facile d'utilisation",
@@ -154,7 +155,7 @@ const cpanelTool = {
         cat: cpanelCategories.tools,
         to: '/cpanel/outils/site-builder-sitepad',
         offers: all_offers,
-    },
+    },*/
     'soft_div_icons': {
         name:"Softaculous App Installer",
         desc:"Lance l'outil softaculous qui permet d'installer un grand nombre de CMS de manière quasi-automatique",
@@ -448,7 +449,7 @@ const cpanelTool = {
         desc:"Permet de générer un certificat SSL Let's Encrypt gratuitement",
         icon:"letsencrypt-cpanel",
         cat: cpanelCategories.security,
-        to: '/cpanel/outils/lets-encrypt-ssl-gratuit',
+        to: '/cpanel/securite/lets-encrypt-ssl-gratuit',
         offers: all_offers,
     },
     'lvenodejssel': {
@@ -635,6 +636,7 @@ const cpanelTool = {
         to: '/cpanel/bases-de-donnees/mysql-distant',
         offers: all_offers,
     },
+    /*
     'sitepad': {
         name:"Sitepad",
         desc:"Sitepad permet de créer un site internet facilement via système de construction de site visuel et facile d'utilisation",
@@ -642,7 +644,7 @@ const cpanelTool = {
         cat: cpanelCategories.tools,
         to: '/cpanel/outils/site-builder-sitepad',
         offers: all_offers,
-    },
+    },*/
     'softaculous': {
         name:"Softaculous Apps Installer",
         desc:"Lance l'outil softaculous qui permet d'installer un grand nombre de CMS de manière quasi-automatique",

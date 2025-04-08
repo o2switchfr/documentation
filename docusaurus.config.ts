@@ -83,70 +83,8 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
-      links: [
-        {
-          title: "Solutions d'hébergements",
-          items: [
-            {
-              label: "L'Offre Unique",
-              title: "Hébergement web illimité",
-              to: 'https://www.o2switch.fr/hebergement-illimite/',
-            },
-            {
-              label: "L'Offre Scale'UP",
-              title: "Hébergement web entreprise",
-              to: 'https://www.o2switch.fr/hebergement-entreprise/',
-            },
-            {
-              label: "Managed Bare Metal",
-              title: "Serveur dédié infogéré",
-              to: 'https://www.o2switch.fr/serveurs-dedies/',
-            },
-          ],
-        },
-        {
-          title: 'TODO',
-          items: [
-            {
-              label: 'TODO',
-              title:"tst",
-              to:'/',
-            },
-            {
-              label: 'TODO',
-              to:'/',
-
-            },
-            {
-              label: 'TODO',
-              to:'/',
-
-            },
-          ],
-        },
-        {
-          title: 'Nos satellites',
-          items: [
-            {
-              label: 'Espace client',
-              title: "L'espace client o2switch",
-              to: 'https://clients.o2switch.fr',
-            },
-            {
-              label: 'Blog',
-              title: "Le blog d'o2switch",
-              to: 'https://www.o2switch.fr/blog/',
-            },
-            {
-              label: 'GitHub',
-              title: 'GitHub o2swich',
-              to: 'https://github.com/o2switchfr',
-            },
-
-          ],
-        },
-      ],
-      copyright: `© ${new Date().getFullYear()} o2switch, Tous droits réservés. | <a class="footer__link-item" href="https://www.o2switch.fr/cgv/" target="_blank" title="CGV o2swich">Conditions Générales de vente</a> - <a class="footer__link-item" href="https://www.o2switch.fr/du-rgpd.pdf" target="_blank" title="D.U RGPD">Document Unique RGPD</a>`,
+      links: [],
+      copyright: `© ${new Date().getFullYear()} documentation <a class="footer__link-item" href="https://www.o2switch.fr" target="_blank" title="o2switch.fr">o2switch</a>, Tous droits réservés.`,
     },
     prism: {
       theme: prismThemes.github, // nightOwlLight oneLight vsLight
