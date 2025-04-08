@@ -152,7 +152,6 @@ const sidebars: SidebarsConfig = {
             'cpanel/securite/status-certificat-ssl',
             'cpanel/securite/bloqueur-adresse-ip',
             'cpanel/securite/certificat-ssl',
-            'cpanel/securite/cle-ssh',
           ],
         },
         {

@@ -667,14 +667,15 @@ const cpanelTool = {
         to: '/cpanel/outils/exception-parefeu',
         offers: all_offers,
     },
-    'ssh_access': {
+    /* Useless */
+    /*'ssh_access': { 
         name:"Accès SSH",
         desc:"Permet de gestion/génération de clés SSH. N'enlève pas la nécessité de demander l'ouverture de SSH et le passage en liste blanche.",
         icon:"ssh_access",
         cat: cpanelCategories.security,
         to: '/#todo',
         offers: all_offers,
-    },
+    },*/
     'ssl_tls': {
         name:"SSL/TLS",
         desc:"Permet de créer et gérer vos certificats SSL pour vos sites (HTTPS)",
