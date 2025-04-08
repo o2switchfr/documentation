@@ -1,0 +1,51 @@
+---
+title: Terminal SSH web
+sidebar_label: Terminal SSH Web
+description: L'outil terminal permet d'accéder à votre hébergement en SSH, depuis un navigateur web sur cPanel, sans avoir besoin d'un client SSH comme Putty
+image: /img/docs/tools/terminal.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - terminal
+  - ssh
+---
+# Terminal SSH Web : Accès shell sur l'hébergement
+
+L'outil **Terminal** dans cPanel vous offre un **accès shell SSH** directement sur votre [hébergement
+web](https://www.o2switch.fr/hebergement-illimite/), via votre navigateur web, sans avoir besoin d'un client SSH comme
+PuTTY.
+
+C'est un outil pratique si vous avez besoin de lancer des commandes sur votre hébergement mais que vous n'avez pas envie
+d'installer un logiciel comme Putty et demander le passage en liste blanche. 
+
+L'outil est simple, il vous fourni un shell dans lequel vous pouvez exécuter des commandes. L'auto-complétion est
+fonctionnelle.
+
+<PreviewToolCard tool='terminal' />
+
+## L'outil n'est pas visible ?
+
+Si l'outil Terminal n'est pas visible, contactez le support technique et demandez l'accès au shell de l'hébergement.
+Cela est actif de base sur la majorité des nouveaux comptes d'hébergements mais sur un compte plus anciens, l'accès n'a
+peut être pas été attribué automatiquement. Le support peut corriger cela.
+
+## Les limitations de l'outil Terminal
+
+L'outil terminal dans cPanel à quelques restrictions supplémentaires sur le nombre de processus qu'il est possible de
+lancer ainsi que l'utilisation mémoire, comparé à un client SSH conventionnel comme PuTTy.
+
+
+Par conséquent, cela peut générer des erreurs `wasm memory`, `fork failed` ou `out of memory` comme sur la capture
+d'écran ci-dessous. 
+
+<Image
+    src="/img/docs/cpanel/outils-avances/o2switch_wasm_memory_error.png"
+    title="Erreur wasm out of memory"
+    caption="Cette erreur est liée aux restrictions supplémentaires de l'outil Terminal"
+    alt="Capture d'écran de l'erreur wasm out of memory avec l'outil Terminal"
+/>
+
+
+Dans ce cas, il faut essayer en passant par un [client SSH classique](/docs/guides/webmastering/connexion-ssh),
+comme PuTTy. Avec un client SSH classique, il y a moins de restrictions en place.
