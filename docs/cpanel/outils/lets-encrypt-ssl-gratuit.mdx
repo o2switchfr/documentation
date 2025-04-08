@@ -1,0 +1,280 @@
+---
+title: Let's Encrypt, certificat SSL gratuit
+sidebar_label: Let's Encrypt SSL
+description: L'outil Let's Encrypt SSL permet de générer gratuitement un certificat SSL valide, ce qui permet d'avoir le HTTPS sur votre site internet.
+image: /img/docs/tools/letsencrypt-cpanel.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - serveurs infogérés
+  - ssl
+  - let's encrypt
+---
+
+# Let's Encrypt, certificat SSL gratuit
+
+L'outil **Let's encrypt SSL** de cPanel permet d'installer un **certificat SSL gratuit** reconnu délivré par l'autorité
+de certificat **Let's Encrypt**.
+
+Le projet [Let's Encrypt](https://letsencrypt.org/) est une autorité de certification qui fournit des certificats SSL
+gratuitement. La particularité des certificats Let's Encrypt est qu'ils sont très bien reconnus et permettent d'avoir le
+cadenas vert dans la barre d'adresse du navigateur, sans message d'erreur. Le projet vise à démocratiser l'usage de
+connexions chiffrées sur internet.
+
+En résumé, c'est l'outil à utiliser si vous souhaitez que votre site réponde sur la version **HTTPS** sans erreurs, ni
+avertissement de sécurité, sur votre **[hébergement web](https://www.o2switch.fr/hebergement-illimite/)**.
+
+
+<PreviewToolCard tool='letsencrypt-cpanel' />
+
+## Présentation vidéo 
+
+Dans ce tutoriel vidéo, nous voyons comment activer simplement un certificat Let's Encrypt sur un des domaines hébergés.
+ Nous voyons également comment passer outre les deux erreurs les plus courantes.
+
+<YoutubeVideo id='krYdlo7Thik' title="Comment installer un certificat SSL gratuitement ?"/>
+
+## Comment générer gratuitement un certificat SSL ?
+
+L'outil Let's Encrypt SSL de l'hébergement permet de générer gratuitement deux types de certificats SSL :
+  * les certificats SSL classiques
+  * les certificats SSL dits Wildcards 
+
+### Comment générer un certificat Let's Encrypt ?
+
+Pour activer un certificat SSL Let's Encrypt, il faut vous rendre dans l'outil **Let's Encrypt** de cPanel puis cliquer
+sur le lien `Générer` en face du domaine sur lequel vous souhaitez installer le certificat. 
+
+<Image
+    src="/img/docs/cpanel/outils/o2switch-generer-certificat-ssl-2.png"
+    alt="Capture d'écran de l'outil Let's Encrypt mettant en évidence le lien de génération d'un certificat SSL"
+    title="Première étape de l'activation d'un certificat let's encrypt"
+    caption="Première étape de l'activation d'un certificat let's encrypt : sélection du domaine"
+/>
+
+Ensuite, vous avez quelques options et choix possibles : 
+
+<Badge type="danger" text="A" /> Vous pouvez inclure des sous-domaines supplémentaires dans le certificat SSL. 
+
+:::warning[N'incluez pas les sous-domaines techniques]
+Prenez garde à ne jamais inclure des sous-domaines techniques. Ce sont les sous-domaines qui se terminent par `odns.fr`,
+`o2switch.net` ou `universe.wf` car cela échouera systématiquement. 
+:::
+
+<Badge type="danger" text="B" /> Vous pouvez cocher la case `Inclure le Wildcard *` si vous souhaitez générer un
+certificat SSL WildCard, c'est-à-dire un certificat SSL qui protège le domaine principal ainsi que tous ses
+sous-domaines de premier niveau.  
+
+Pour générer un certificat SSL Wildcard, il est impératif de cocher la méthode de validation par DNS.
+
+<Badge type="danger" text="C" /> Vous pouvez cocher `Inclure les sous-domaines cPanel?` pour générer le certificat SSL
+sur les sous domaines spéciaux, comme *cpanel.domaine.com* par exemple. Ce n'est pas nécessaire de le cocher.
+
+<Badge type="danger" text="D" /> La "Méthode de validation" permet de sélectionner la méthode utilisée par Let's Encrypt pour vérifier que vous êtes bien le propriétaire du domaine.
+
+Il y a deux méthodes : 
+  * `http-01` : il s'agit de la méthode utilisée par défaut et recommandée. Let's Encrypt vérifie qu'un fichier, généré
+  automatiquement par notre outil, est bien présent sur votre site internet.
+  * `dns-01` : Cette méthode nécessite l'utilisation de nos serveurs DNS pour votre nom de domaine. Au lieu de vérifier
+  un fichier généré automatiquement, elle vérifie l'existence d'une entrée DNS générée automatiquement.
+
+<Badge type="danger" text="E" /> Nous recommandons fortement d'utiliser le bouton `Générer la simulation` qui permet
+de faire une simulation d'émission du certificat SSL. En effet, en cas d'erreurs, il ne faut pas insister sinon vous
+allez atteindre les limites de requêtes de Let's Encrypt, qui vous bloquera temporairement.
+
+Le mode de simulation permet de faire des tests, sans que Let's Encrypt incrémente son compteur d'erreur en cas de 
+problème.
+
+Si la simulation s'effectue correctement, vous pouvez cliquer sur `Générer` pour générer le certificat SSL.
+
+<Image
+    src="/img/docs/cpanel/outils/o2switch-certificat-ssl-lets-encrypt.png"
+    alt="Capture d'écran du formulaire pour générer un certificat SSL Let's Encrypt"
+    title="Formulaire pour générer un certificat SSL Let's Encrypt"
+    caption="Activation du certificat SSL sur un ou plusieurs domaines"
+/>
+
+Si tout se passe bien, un message apparaît indiquant que le certificat SSL a bien été installé.
+
+<Image
+    src="/img/docs/cpanel/outils/cpanel-lets-encrypt-3-o2switch.png"
+    alt="Capture d'écran du message indiquant que le certificat SSL a été généré correctement"
+    title="Le certificat a été installé correctement"
+    caption="Le certificat a été installé correctement"
+/>
+
+Le site répond correctement en HTTPs, le certificat est bien détecté par le navigateur en HTTPs. 
+
+<Image
+    src="/img/docs/cpanel/outils/cpanel-lets-encrypt-4-o2switch.png"
+    alt="Capture d'écran des propriétés du certificat SSL généré"
+    title="Certificat Let's Encrypt actif"
+    caption="Le certificat SSL Let's Encrypt est actif"
+/>
+
+### Comment générer un certificat SSL Wildcard ? 
+
+Il est possible de générer des **certificats SSL Wildcard** avec l'outil Let's Encrypt d'o2switch. 
+
+Pour générer un certificat SSL Wildcard, il faut : 
+  - Il faut créer un [sous-domaine](/cpanel/domaines/configuration-sous-domaine) Wildcard. Il suffit de se rendre dans
+    l'outil sous-domaine et de créer un sous domaine ayant comme nom `*`
+  - Dans Let's Encrypt, il faut choisir ce sous-domaine Wildcard dans la liste des domaines proposés
+  - Sur la page des préférences de génération du certificat SSL, il faut impérativement choisir **la méthode de
+    validation DNS**. C'est la seule méthode qui permet d'obtenir un certificat SSL Wildcard. Cela implique également
+    que le domaine doit impérativement utiliser nos serveurs DNS. 
+
+<Image
+    src="/img/docs/cpanel/outils/o2switch-wildcard-ssl.png"
+    title="Configuration pour émettre un certificat SSL Wildcard"
+    caption="Génération d'un certificat SSL Wildcard sur un hébergement o2switch"
+    alt="Génération d'un certificat SSL Wildcard"
+/>
+
+Avoir un certificat SSL Wildcard **ne signifie pas** que tous les sous-domaines concernés l'auront automatiquement 
+installé par défaut.
+
+Ceci est une subtilité de cPanel, qu'il est plus facile de comprendre avec un exemple : 
+  * Vous avez un sous domaine `*.mondomaine.tld` sur lequel vous avez généré un Wildcard avec Let's encrypt 
+  * Vous avez également un autre sous-domaine, définie manuellement dans l'outil
+    [sous-domaine](/cpanel/domaines/configuration-sous-domaine) de cPanel : `sous-domaine.mondomaine.tld` 
+  * Par défaut, `sous-domaine.mondomaine.tld` ne bénéficiera pas du certificat SSL Wildcard de `*.mondomaine.tld`
+  * Si vous souhaitez que `sous-domaine.mondomaine.tld` ait un certificat SSL valide installé, il faut :
+    * Soit générer un certificat SSL sur ce sous domaine avec Let's Encrypt 
+    * Soit installer le certificat SSL Wildcard, sur ce sous-domaine, avec l'
+    [outil SSL/TLS](/cpanel/securite/certificat-ssl) de cPanel
+
+Il y a une différence entre avoir un certificat Wildcard à disposition et le fait qu'il soit installé sur les
+sous-domaines. 
+
+## Recevoir des alertes d'expiration
+
+Il est possible de recevoir des **alertes** de la part de l'outil Let's Encrypt sur cPanel ! C'est notamment pratique
+pour **suivre les renouvellements automatiques** de certificats SSL et en cas de problème agir avant que le certificat
+expire. 
+
+Dans un premier temps, il faut aller définir votre adresse email dans la partie `coordonnées` de cPanel, accessible en
+ cliquant sur votre identifiant en haut à droite puis en allant dans `Coordonnées`. 
+ 
+Sur la page suivante, il faut renseigner son adresse email et cocher les `préférences de contacts`. 
+
+<Image
+    src="/img/docs/cpanel/outils/coordonnees-cpanel.png"
+    title="Configuration pour recevoir les alertes d'expiration SSL"
+    caption="Configuration des préférences de contact de cPanel"
+    alt="Définition de l'adresse email de contact dans cPanel"
+/>
+
+Ensuite, il faut aller dans l'outil Let's Encrypt, puis cliquer sur les `Voir les paramètres` pour vérifier que les
+notifications de renouvellement n'ont **pas** été désactivées. 
+
+<Image
+    src="/img/docs/cpanel/outils/alerte-lets-encrypt.png"
+    title="Configuration pour recevoir les alertes d'expiration Let's Encrypt"
+    caption="Configuration des emails d'alertes de renouvellement de SSL"
+    alt="Notification de renouvellement de certificat SSL"
+/>
+
+## Erreurs et solutions 
+
+Il y a trois erreurs courantes lors de l'activation d'un certificat SSL :
+  * la première erreur se produit lorsque let's encrypt ne peut pas vérifier que vous êtes le propriétaire du site
+  * la seconde erreur arrive si vous avez dépassé le quota imposé par let's encrypt
+  * la troisième erreur arrive si le nom de domaine ne pointe pas vers o2switch *(variante de la 1ère erreur)*
+
+
+### Erreur de validation
+
+Lors de la demande d'un certificat let's encrypt, ce dernier vérifie que vous êtes **bien le propriétaire** du nom de 
+domaine.
+
+Pour cela, il y a deux méthodes de validations : 
+  * **http-01** : Let's Encrypt va vérifier qu'un fichier avec un nom et contenu généré aléatoirement existe bien sur 
+  votre nom de domaine dans le dossier `.well-known` situé à la racine du site 
+  * **dns-01** : Let's Encrypt va vérifier qu'une entrée DNS de type TXT avec une valeur aléatoire a bien été créé
+  
+Lorsqu'un site est protégé par une authentification basique *(via un `.htaccess`) ou lorsqu'il y a des redirections 
+en place, cela génère une erreur indiquant que Let's Encrypt est dans l'incapacité de vérifier que la demande est 
+légitime. L'une des deux erreurs suivantes s'affiche : 
+
+<Image
+    src="/img/docs/cpanel/outils/cpanel-lets-encrypt-error-auth-1-o2switch.png"
+    title="Erreur lors du processus de validation Let's Encrypt"
+    caption="Erreur indiquant que Let's Encrypt ne peut pas vérifier que vous êtes le propriétaire à cause de l'authentification basique"
+    alt="Capture d'écran du message d'erreur d'échec de validation Let's Encrypt"
+/>
+
+> The Let's Encrypt HTTP challenge failed: acme error `urn:acme:error:unauthorized`: Invalid response from
+> `http://mon-tuto.com/.well-known/acme-challenge/ZwX0175cq5EA1-V6su-kKaTDuyYXKsjbRFsHrt2gVNY` [109.234.162.16]: 401
+
+<Image
+    src="/img/docs/cpanel/outils/cpanel-lets-encrypt-error-redirect-1-o2switch.png"
+    title="Erreur lors du processus de validation Let's Encrypt"
+    caption="Erreur indiquant que Let's Encrypt ne peut pas vérifier que vous êtes le propriétaire à cause d'une redirection"
+    alt="Capture d'écran du message d'erreur d'échec de validation Let's Encrypt"
+/>
+
+> The Let's Encrypt HTTP challenge failed: acme error `urn:acme:error:unauthorized`: Error parsing key authorization
+> file: Invalid key authorization: 147 parts
+
+Pour remédier à ces deux erreurs, il faut rendre le dossier `.well-known` accessible à Let's Encrypt, une manière de
+faire cela est de placer un fichier `.htaccess` dans le répertoire `.well-known` avec les règles suivantes : 
+
+```apacheconf title=".well-known/.htaccess"
+RewriteEngine off
+Order Deny,Allow
+Allow from all
+Satisfy any
+```
+
+Vous pouvez également essayer de **changer la méthode de validation** pour utiliser la **validation DNS** à la place
+*(implique que le domaine doit utiliser les DNS o2switch)*. 
+
+### Rate Limit - Trop d'erreurs
+
+La deuxième erreur est liée aux restrictions *(rate limit)* mises en place par Let's Encrypt. Ces limites sont mises en
+place par Let's Encrypt pour éviter les abus et conserver la stabilité du service. Let's Encrypt évoque cela dans
+[cet article](https://letsencrypt.org/docs/rate-limits/).
+
+Lorsque vous atteignez l'une de ces limites, l'erreur suivante apparaît : 
+
+<Image
+    src="/img/docs/cpanel/outils/cpanel-lets-encrypt-error-ratelimit-1-o2switch.png"
+    title="Erreur de Rate Limit Let's Encrypt"
+    caption="Erreur liée aux limitations de Let's Encrypt"
+    alt="Capture d'écran du message d'erreur de rate limit de Let's Encrypt"
+/>
+
+> Error during certificate generation: acme error `rateLimited`: Error creating new cert :: Too many certificates
+> already issued for exact set of domains: mon-tuto.com
+
+
+Si vous rencontrez cette erreur, il faut être patient et attendre quelques jours *(une semaine même)* avant de tenter à
+nouveau l'opération.
+
+### Le domaine ne pointe pas vers o2switch
+
+Il est impératif que le nom de domaine pointe vers l'hébergement o2switch, sinon le processus de validation de Let's
+Encrypt échouera. 
+
+Pour la méthode de validation **http-01**, il faut que le nom soit associé correctement à l'hébergement.
+Cela veut dire que : 
+  * le domaine n'a pas nécessairement besoin d'utiliser nos serveurs DNS `ns1.o2switch.net` / `ns2.o2switch.net`
+  * le domaine doit pointer vers l'hébergement. Si un fichier `toto.txt` est créé à la racine du site sur l'hébergement,
+    ce dernier doit répondre
+  * l'utilisation d'un CDN comme CloudFlare n'est pas un problème, tant que le CDN proxifie correctement vers
+    l'hébergement o2switch et qu'il ne bloque pas les requêtes de validations en amont  
+
+Pour la méthode de validation **dns-01** il est impératif que le nom de domaine utilise les serveurs DNS d'o2switch : 
+`ns1.o2switch.net` / `ns2.o2switch.net` 
+
+Avec la méthode de validation DNS, l'utilisation d'un CDN sera bloquante pour générer un certificat SSL Let's Encrypt. 
+Cela n'est pas nécessairement un problème en soit, car le CDN prendra la responsabilité de gérer la partie SSL a son 
+niveau.
+
+## Pages connexes 
+
+  * [Forcer un site WordPress existant en HTTPS en quelques clics et simplement](/guides/wordpress/forcer-https)
+  * [Forcer le HTTPS sur un site générique](/guides/webmastering/forcer-https)
+
