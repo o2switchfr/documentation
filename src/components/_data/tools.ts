@@ -252,14 +252,14 @@ const cpanelTool = {
         to: '/cpanel/preferences/mot-de-passe',
         offers: all_offers,
     },
-    'clam_av': {
+    /*'clam_av': {
         name:"Antivirus",
         desc:"Permet de lancer un scan antivirus avec le logiciel ClamAV (legacy)",
         icon:"clam_av",
         cat:"Sécurité",
         to: '/cpanel/securite/antivirus-imunify',
         offers: all_offers,
-    },
+    },*/
     'contact_information': {
         name:"Coordonnées",
         desc:"Permet de mettre à jour les préférences de contacts",

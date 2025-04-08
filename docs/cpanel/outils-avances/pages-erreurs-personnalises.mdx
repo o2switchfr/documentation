@@ -1,0 +1,70 @@
+---
+title: Pages d'erreurs personnalisées
+sidebar_label: Erreurs personnalisées
+description: L'outils des pages d'erreurs personnalisées vous permet de changer l'apparence des pages d'erreurs
+image: /img/docs/tools/error_pages.png
+tags:
+  - cpanel
+  - hébergement mutualisé
+  - offre unique
+  - erreurs
+---
+
+# Pages d'erreurs personnalisées
+
+Une page d'erreur informe un visiteur en cas de problème pour accéder à votre site. 
+
+Chaque type de problème dispose de son propre code HTTP. Par exemple, un visiteur qui entre une URL non existante 
+voit s'afficher une page d'erreur 404, tandis qu'un utilisateur non autorisé qui essaie d'accéder à une zone restreinte 
+de votre site voit s'afficher une page d'erreur 401.
+
+Le serveur Web fournit automatiquement des pages d'erreur de base. Vous pouvez toutefois créer une page d'erreur
+ personnalisée pour tout code d'erreur HTTP valide commençant par 4 ou 5.
+
+<PreviewToolCard tool='error_pages' />
+
+## Comment créer une page d'erreur personnalisée ?
+
+Pour créer une page d'erreur personnalisée, il faut naviguer dans l'outil `Page d'erreur` puis :
+  * Sélectionner le nom de domaine à personnaliser à l'étape 1 
+  * Cliquez sur le code d'erreur pour lequel vous souhaitez créer une page d'erreur personnalisée.
+
+<Image
+    src="/img/docs/cpanel/outils-avances/page-erreurs-personnalisees.png"
+    title="Sélection d'un code d'erreur à personnaliser"
+    caption="Personnalisation du code d'erreur 404"
+    alt="Capture d'écran de l'outil de personnalisation des pages d'erreurs HTTP"
+/>
+
+Cela ouvre un éditeur de code, qui vous permet de créer votre page d'erreur personnalisée.
+
+Dans le menu supérieur, vous pouvez cliquer sur des tags. Les tags correspondent à des balises qui seront remplacées
+par la valeur qu'elle représente.
+
+Par exemple, dans le cas d'une page d'erreur 404, l'url de la page demandée peut être affichée.
+
+<Image
+    src="/img/docs/cpanel/outils-avances/erreurs-personnalisees.png"
+    title="Création d'une page d'erreur personnalisée"
+    caption="Création de la page d'erreur personnalisée"
+    alt="Capture d'écran de l'outil d'édition d'une page d'erreur personnalisée"
+/>
+
+
+## Les codes d'erreurs HTTP 
+
+Les codes d'erreurs les plus courants sont : 
+  * `HTTP 400` : Cette réponse indique que le serveur n'a pas pu comprendre la requête à cause d'une syntaxe invalide.
+  * `HTTP 401` : Non authentifié, le client doit s'authentifier afin d'obtenir la réponse demandée
+  * `HTTP 403` : Le client n'a pas les droits d'accès au contenu, donc le serveur refuse de donner la véritable réponse.
+  * `HTTP 404` : Le serveur n'a pas trouvé la ressource demandée. La page n'existe pas.
+  * `HTTP 422` : La requête a bien été constituée mais n'a pas pu être traitée à cause d'erreurs sémantiques. Souvent 
+  liée à des erreurs de validations
+  * `HTTP 500` : Le serveur a rencontré une situation qu'il ne sait pas traiter.
+  * `HTTP 502` : Cette réponse d'erreur signifie que le serveur, alors qu'il fonctionnait en tant que passerelle pour 
+recevoir une réponse nécessaire pour traiter la requête, a reçu une réponse invalide.
+  * `HTTP 503` : Le serveur n'est pas prêt pour traiter la requête. Les causes les plus communes sont que le serveur est 
+  éteint pour maintenance ou qu'il est surchargé.
+  * `HTTP 504` : Cette réponse d'erreur est renvoyée lorsque le serveur sert de passerelle et ne peut pas donner de 
+  réponse dans les temps.
+

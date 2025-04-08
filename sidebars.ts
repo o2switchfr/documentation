@@ -199,7 +199,6 @@ const sidebars: SidebarsConfig = {
           items: [
             'cpanel/outils-avances/tache-planifiee-cron',
             'cpanel/outils-avances/terminal-ssh-web',
-            'cpanel/outils-avances/antivirus-clamav',
             'cpanel/outils-avances/pages-erreurs-personnalises',
             'cpanel/outils-avances/gestionnaire-index',
             'cpanel/outils-avances/gestionnaire-type-mime',
