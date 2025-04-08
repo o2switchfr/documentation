@@ -178,10 +178,11 @@ notifications de renouvellement n'ont **pas** été désactivées.
 
 ## Erreurs et solutions 
 
-Il y a trois erreurs courantes lors de l'activation d'un certificat SSL :
+Il y a quatre erreurs courantes lors de l'activation d'un certificat SSL :
   * la première erreur se produit lorsque let's encrypt ne peut pas vérifier que vous êtes le propriétaire du site
   * la seconde erreur arrive si vous avez dépassé le quota imposé par let's encrypt
   * la troisième erreur arrive si le nom de domaine ne pointe pas vers o2switch *(variante de la 1ère erreur)*
+  * l'inclusion de domaines techniques (`.odns.fr`, `.o2switch.net`, `.universe.wf`) aux certificats 
 
 
 ### Erreur de validation
@@ -272,6 +273,21 @@ Pour la méthode de validation **dns-01** il est impératif que le nom de domain
 Avec la méthode de validation DNS, l'utilisation d'un CDN sera bloquante pour générer un certificat SSL Let's Encrypt. 
 Cela n'est pas nécessairement un problème en soit, car le CDN prendra la responsabilité de gérer la partie SSL a son 
 niveau.
+
+### Domaines techniques 
+
+Il n'est pas possible de générer des certificats SSL Let's Encrypt pour les noms de domaines techniques générés sur 
+l'hébergement.
+
+Les domaines techniques sont tous les domaines ou sous-domaines se terminant par : 
+  * `.odns.fr`
+  * `.o2switch.net`
+  * `.universe.wf`
+
+La génération de certificats SSL échouera systématiquement pour ces domaines. 
+
+Il est également important de veiller à ne pas inclure l'un de ces domaines lors de la génération d'un certificat SSL
+pour un autre de vos noms de domaine.
 
 ## Pages connexes 
 
