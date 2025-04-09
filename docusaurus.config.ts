@@ -1,13 +1,10 @@
 import {
-  duotoneLight,
-  gruvboxMaterialLight,
-  jettwaveLight,
-  nightOwl, nightOwlLight, oneLight, synthwave84,
   themes as prismThemes,
-  vsLight
 } from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
+import type {Options as PageOptions} from '@docusaurus/plugin-content-pages';
 
 const config: Config = {
   title: 'Documentation o2switch',
@@ -22,11 +19,11 @@ const config: Config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'o2switchfr', // Usually your GitHub org/user name.
-  projectName: 'doc', // Usually your repo name.
+  organizationName: 'o2switchfr', 
+  projectName: 'documentation', 
 
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenMarkdownLinks: 'throw',
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -42,13 +39,16 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
+          showLastUpdateTime: true,
           editUrl:
             'https://github.com/o2switchfr/documentation/edit/main/',
           routeBasePath: '/',
-        },
+        } satisfies DocsOptions,
         blog: false,
+        pages: {
+          showLastUpdateAuthor: false,
+          showLastUpdateTime: false,
+        } satisfies PageOptions,
         theme: {
           customCss: [
               './src/css/o2switch.scss',
@@ -63,6 +63,8 @@ const config: Config = {
   themeConfig: {
     colorMode: {
       defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
     },
 
     image: 'img/docusaurus-social-card.jpg',
@@ -75,8 +77,8 @@ const config: Config = {
       },
       items: [
         {
-          href: 'https://github.com/o2switchfr/documentation',
-          label: 'GitHub',
+          type: 'html',
+          value: '<a href="https://github.com/o2switchfr/documentation" target="_blank" rel="noopener noreferrer nofollow" class="navbar__item navbar__link">GitHub</a>',
           position: 'right',
         },
       ],
@@ -84,7 +86,7 @@ const config: Config = {
     footer: {
       style: 'dark',
       links: [],
-      copyright: `© ${new Date().getFullYear()} documentation <a class="footer__link-item" href="https://www.o2switch.fr" target="_blank" title="o2switch.fr">o2switch</a>, Tous droits réservés.`,
+      copyright: `© ${new Date().getFullYear()} documentation <a class="footer__link-item" href="https://www.o2switch.fr" target="_blank">o2switch.fr</a>, Tous droits réservés.`,
     },
     prism: {
       theme: prismThemes.github, // nightOwlLight oneLight vsLight

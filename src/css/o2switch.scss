@@ -42,6 +42,7 @@
 :root {
   .menu {
     font-weight: 400;
+    font-size: 0.9rem;
   }
   --ifm-color-primary: #FF6918;
   --ifm-color-secondary: #faf7f1;
@@ -291,4 +292,64 @@
 
 .footer {
   padding: 10px;
+}
+
+.card-container {
+  display: flex;
+  flex: 1 1 1;
+  .card {
+    width: 50%;
+  }
+}
+
+.flex-grid {
+  display: flex;
+  .col {
+    flex: 1;
+    display: flex;
+    .card { 
+      display: flex;
+    }
+  }
+}
+
+.home-card-container {
+  .card {
+    .card__header {
+      h3 {
+        font-weight: 400;
+        font-size:1.1rem;
+      }
+      svg {
+        margin-right: 0.5rem;
+        box-shadow: var(--ifm-global-shadow-lw);
+      }
+    }
+    &:hover {
+      .card__footer svg {
+        margin-left:0.75rem;
+        margin-right: 0;
+        transition: 0.5s;
+      }
+    }
+    margin-top: 1rem;
+    a {
+      float: right;
+    }
+    .card__footer svg {
+      margin-right: 0.25rem;
+      margin-left:0.5rem;
+      transition: 0.5s;
+    }
+  }
+}
+
+
+@media (max-width: 800px) {
+  .flex-grid {
+    display: block;
+    .col {
+      display: block;
+    }
+  }
 }
