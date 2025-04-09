@@ -1,20 +1,103 @@
 import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 
-/**
- * Creating a sidebar enables you to:
- - create an ordered group of docs
- - render a sidebar for each doc of that group
- - provide next/previous navigation
 
- The sidebars can be generated from the filesystem, or explicitly defined here.
-
- Create as many sidebars as you want.
- */
 const sidebars: SidebarsConfig = {
 
   /**
-   * Page related to the customer interface (clients.o2switch.fr)
-   * /espace-client/* on the documentation
+   * Sidebar for /guides/*
+   */
+  guideSidebar: [
+    {
+      type: 'link',
+      href: '/',
+      label: 'Accueil'
+    },
+    {
+      type: 'link',
+      href: '/cpanel',
+      label: 'Hébergement web'  
+    },
+    {
+      type: 'link',
+      href: '/espace-client',
+      label: 'Espace client'  
+    },
+    {
+      type: 'link',
+      href: '/nom-de-domaine',
+      label: 'Nom de domaine'
+    },
+    {
+      type: 'link',
+      href: '/questions',
+      label: 'Questions Fréquentes'
+    },
+    {
+      type: 'category',
+      label: 'Guides & Tutoriels',
+      collapsible: true,
+      collapsed: false,
+      link: {
+        type: 'doc',
+        id: 'guides/index'
+      },
+      items: [
+        {
+          type: 'category',
+          label: 'Base de données',
+          collapsible: true,
+          collapsed: true,
+          link: {
+            type: 'doc',
+            id: 'guides/base-de-donnees/index'
+          },
+          items: [
+            'guides/base-de-donnees/importer-grosse-base',
+            'guides/base-de-donnees/phpmyadmin-independant',
+            'guides/base-de-donnees/utilisateurs-droits-mysql'
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Configuration logiciel',
+          collapsible: true,
+          collapsed: true,
+          link: {
+            type: 'doc',
+            id: 'guides/configuration-logiciel/index'
+          },
+          items: [
+            'guides/configuration-logiciel/configuration-ftp',
+            'guides/configuration-logiciel/cyberduck',
+            'guides/configuration-logiciel/filezilla',
+            'guides/configuration-logiciel/iweb',
+            'guides/configuration-logiciel/open-element',
+            'guides/configuration-logiciel/toweb',
+            'guides/configuration-logiciel/webacappella',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'cPanel',
+          collapsible: true,
+          collapsed: true,
+          link: {
+            type: 'doc',
+            id: 'guides/cpanel/index'
+          },
+          items: [
+            'guides/cpanel/changer-mot-de-passe',
+            'guides/cpanel/comment-se-connecter',
+            'guides/cpanel/mot-de-passe-perdu',
+            {type: 'link', href: '/cpanel', label: 'Les Outils cPanel'}
+          ],
+        },
+      ]
+    },
+  ],
+
+  /**
+   * Sidebar for /espace-client/*
    */
   customerInterface: [
     {
@@ -54,9 +137,28 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'category',
+          label: 'Les Offres',
+          collapsible: true,
+          collapsed: true,
+          link: {
+            type: 'doc',
+            id: 'espace-client/offre/index'
+          },
+          items: [
+            'espace-client/offre/delai-ouverture',
+            'espace-client/offre/nom-de-domaine',
+            'espace-client/offre/offre-unique-grow',
+            'espace-client/offre/offre-unique-cloud',
+            'espace-client/offre/offre-unique-pro',
+            'espace-client/offre/periode-engagement',
+            'espace-client/offre/serveur-infogere',
+          ],
+        },
+        {
+          type: 'category',
           label: 'Authentification',
           collapsible: true,
-          collapsed: false,
+          collapsed: true,
           link: {
             type: 'doc',
             id: 'espace-client/auth/index'
@@ -117,9 +219,8 @@ const sidebars: SidebarsConfig = {
     },
   ],
 
-  /**
-   * Page related to the shared web hosting (cPanel tools)
-   * /cpanel/* on the documentation
+   /**
+   * Sidebar for /cpanel/*
    */
   webHosting: [
     {
