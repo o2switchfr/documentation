@@ -8,20 +8,251 @@ tags:
   - administratif 
   - facturation
 ---
+
 # L'espace client : votre plateforme de gestion administrative
 
 Votre [espace client](https://clients.o2switch.fr/auth/connexion) vous permet de gérer votre compte, d'un point de vue
 **administratif**. 
 
 Sur votre espace client, vous pouvez : 
-  * commander des nouveaux services, comme des hébergements, des noms de domaines, des certificats SSL ou serveurs
-    infogérés
+  * [commander des nouveaux services](/espace-client/commande/comment-commander), comme des hébergements, des noms de
+    domaines, des certificats SSL ou serveurs infogérés
   * renouveler vos produits,
-  * récupérer vos factures et avoirs,
+  * récupérer vos [factures et avoirs](/espace-client/commande/facturation),
   * contacter le support technique par ticket,
   * initier une demande de transfert de domaine avec le code de transfert,
-  * récupérer le code de transfert d'un nom de domaine réservé via o2switch,
-  * changer les serveurs DNS d'un nom de domaine géré,
-  * utiliser le système des contacts techniques et administratifs,
-  * changer la titulaire d'une prestation avec le système de trade
-  * gérer le renouvellement automatique 
+  * [récupérer le code de transfert](/nom-de-domaine/code-transfert/o2switch) d'un nom de domaine réservé via o2switch,
+  * [changer les serveurs DNS](/nom-de-domaine/changer-dns/o2switch) d'un nom de domaine géré,
+  * utiliser le système des [contacts techniques et administratifs](/espace-client/gestion-contact),
+  * [changer la titulaire](/espace-client/trade/) d'une prestation avec le système de trade
+  * gérer le [renouvellement automatique](/espace-client/commande/renouvellement-automatique) 
+  * gérer l'[authentification à deux facteurs](/espace-client/auth/double-authentification)
+
+## Présentation de l'espace client 
+
+L'espace client o2switch est organisé en plusieurs catégories. Ces catégories correspondent aux liens du menu principal
+qui se trouve dans la partie gauche de l'espace client : 
+  * `Informations Personnelles` : dans cette rubrique vous trouverez vos informations *(nom, prénom, adresse postale)*,
+    une page pour les modifier et une autre page pour changer de mot de passe
+  * `Gérer mes services` : dans cette rubrique vous trouverez la liste des services que vous avez chez o2switch. Cela
+    correspond aux services actifs, mais aussi ceux qui peuvent être expirés ou les commandes en attente de traitement. 
+  * `Gestion des contacts` : c'est dans cette partie que vous pouvez gérer les
+    [contacts techniques et administratifs](/espace-client/gestion-contact)
+  * `Commander un service` : c'est dans cette catégorie que vous pouvez commander un nouveau compte d'hébergement ou un
+    nouveau nom de domaine 
+  * `Facturation & Paiements` : dans cette rubrique vous retrouverez la liste de vos factures et avoirs 
+  * `Support & Assistance` : c'est sur cette page que vous pouvez ouvrir un ticket d'assistance et suivre les échanges
+    en cours avec le support technique
+
+### Connexion à l'espace client 
+
+L'espace client est disponible via [clients.o2switch.fr](https://clients.o2switch.fr/auth/connexion). Vous devez vous
+connecter avec les informations que vous avez fournies lors de votre inscription.
+
+Si vous n'avez plus ces informations de connexion, vous pouvez :
+  * rechercher dans vos mails, dans les premiers messages vous avez un email intitulé `Votre compte client o2switch`
+    qui contient les informations de connexion
+  * vous pouvez faire une demande de [mot de passe perdu](/espace-client/auth/mot-de-passe-perdu)
+
+<Image
+    src="/img/docs/espace-client/clients.o2switch.fr.png"
+    title="Connexion à l'espace client o2switch"
+    caption="Page de connexion pour l'espace client o2switch"
+    alt="Capture d'écran de la page de connexion de l'espace client o2switch"
+/>
+
+### Dashboard 
+
+Sur la page d'accueil de votre espace client o2switch, vous pouvez retrouver en un coup d'œil :
+  * le nombre de comptes d'hébergements et de domaines que vous avez,
+  * si un service expire ou est expiré depuis peu de temps, un message d'alerte vous l'indiquera,
+  * la liste de vos dernières prestations commandées,
+  * la liste de vos derniers échanges avec le support
+
+<Image
+    src="/img/docs/espace-client/dashboard-client.png"
+    title="Accueil de l'espace client o2switch"
+    alt="Page de connexion pour l'espace client o2switch"
+    caption="La page d'accueil de l'espace client o2switch avec un résumé rapide de vos offres actives et demandes en cours"
+/>
+
+### Informations Personnelles
+
+Dans la page des informations personnelles, vous pouvez retrouver trois onglets :
+  * Le premier onglet `Mes informations` affiche les informations liées à votre espace client ainsi que la liste des
+    dernières adresses IP s'étant connecté à votre compte,
+  * L'onglet `Modifier mes informations` vous permet de mettre à jour vos informations personnelles. C'est très
+    important de conserver votre fiche client à jour. Ces informations seront utilisées pour réserver vos domaines par
+    exemple mais peuvent aussi servir dans le cadre d'une procédure de récupération de compte client. 
+  * Le dernier onglet `Changer de mot de passe` vous permet de modifier votre mot de passe client d'accès pour votre
+    espace client 
+
+<Image
+    src="/img/docs/espace-client/espace-client-info-perso.png"
+    title="Page des informations personnelles de l'espace client"
+    alt="Capture d'écran de la page des informations personnelles de l'espace client o2switch"
+    caption="La page sur l'espace client o2switch vous permettant de visualiser et modifier vos informations personnelles"
+/>
+
+### Gestion des services
+
+La page de gestions des services est certainement la page la plus importante de votre espace client o2switch. Sur cette
+page, vous retrouverez plusieurs onglets : 
+  * `Services actifs` : liste les prestations o2switch qui sont encore actives *(donc celle qui ne sont pas
+    expirés/suspendues)*. Vous retrouverez la liste des comptes d'hébergements que vous gérez ainsi que vos noms de
+    domaines.
+  * `Services expirés` : liste les prestations o2switch qui sont inactives, expirés, suspendues ou remboursées. En
+    résumé, c'est dans cette partie que vous retrouvez tout ce qui n'est pas actif.
+  * `Etat des domaines` : il s'agit d'un onglet dédié uniquement aux noms de domaines. Cela va lister les domaines
+    commandés et indiquera si l'état du domaine est correct ou non
+  * `En attente` : liste les commandes payées et en attente de traitement, ainsi que vos paniers enregistrés *(mais pas
+    encore payés)*
+  * `Trade` : contient des formulaires qui permettent de [changer le propriétaire d'une prestation d'hébergement ou d'un nom de domaine](/espace-client/trade)
+
+espace-client-services-actifs
+
+<Image
+    src="/img/docs/espace-client/espace-client-services-actifs.png"
+    title="Page listant les services actifs "
+    alt="Capture d'écran de la page listant les services actifs sur l'espace client o2switch"
+    caption="Page sur l'espace client o2switch qui permet de gérer les prestations d'hébergements et noms de domaines
+    commandés"
+/>
+
+Sur les pages qui contiennent des listes *(de services actifs, expirés ou autre)*, chaque ligne correspond à un service
+et le bouton le plus à droite "<FAIcon icon="fa-solid fa-ellipsis-h" size="1x" />" permet de voir quelles sont les
+actions disponibles pour le services concernés.
+
+En cliquant sur ce bouton, vous pouvez : 
+  * Changer les serveurs DNS d'un domaine
+  * Récupérer le code de transfert
+  * Télécharger la dernière facture
+  * Afficher une page avec le détails du service concerné
+  * Lancer une procédure de mot de passe perdu pour l'hébergement
+  * Suivre un transfert de domaine en cours
+  * Renouveler ou réactiver une prestation
+  * Associer/dissocier un domaine avec une offre d'hébergement
+  * Choisir un domaine offert 
+  * Mettre à niveau ou rétrograder une offre d'hébergement 
+  * etc.... 
+
+<Image
+    src="/img/docs/espace-client/gestion-service-menu-produit.png"
+    title="Actions disponibles sur les services o2switch"
+    alt="Capture d'écran de l'affichage du menu d'action sur un produit o2switch"
+    caption="Pour chaque services o2switch, certaines actions sont possibles comme par exemple changer les DNS, 
+    lancer un renouvellement etc..."
+/>
+
+Sur les pages qui affichent des listes, il y a souvent une barre de recherche qui est proposée et un système de filtre
+plus avancés. N'hésitez pas à l'utiliser, cela peut vous simplifier fortement l'utilisation de l'espace client. Vous
+pouvez par exemple lancer une recherche sur :
+  * l'identifiant d'un des hébergements que vous avez,
+  * un de vos noms de domaines,
+  * un ID de compte, 
+  * un type de prestation,
+  * le status d'un nom de domaine 
+
+<Image
+    src="/img/docs/espace-client/o2switch-recherche-espace-client.png"
+    title="L'espace client o2switch dispose de filtres de recherches"
+    alt="Capture d'écran des fonctionnalités de recherches et de filtrages de l'espace client o2switch"
+    caption="Sur l'espace client o2switch, il est possible d'utiliser la fonctionnalité de recherches ainsi que des 
+    filtres avancés."
+/>
+
+### Gestion des contacts
+
+Sur la page des contacts, il y a trois onglets : 
+  * `Contacts techniques` sur cette page, vous retrouvez la liste des comptes que vous pouvez gérer en tant que contact
+    technique, ainsi que la liste des comptes pour lesquels vous avez configurés un contact technique tiers
+  * `Contacts administratifs` sur cette page, vous retrouvez la liste des contacts administratifs que vous gérez, ainsi
+    que la liste des clients qui ont votre compte en tant que contact administratif
+  * `Demande de contact` contient les formulaire permettant de lancer une demande de contact technique ou
+    administrative 
+  * `Créer un contact` pour créer vous même un compte client sur lequel vous serez défini en tant que contact 
+  administratif. Plus tard, cela vous permet de commander au nom d'un autre client.
+
+Si vous voulez savoir comment fonctionne ce système de contact, vous pouvez consulter la page :
+[Gestion des contacts techniques et administratifs o2switch](/espace-client/gestion-contact)
+
+<Image
+    src="/img/docs/espace-client/contact-technique-administratif.png"
+    title="Gestion des contacts techniques et administratif o2switch"
+    alt="Capture d'écran du formulaire de demande de contact technique ou administratif o2switch"
+    caption="Gestion des contacts techniques et administratifs"
+/>
+
+### Commander un service 
+
+Sur cette page, deux blocs d'affichent : 
+  * le premier pour commander une prestation d'hébergement, l'offre unique o2switch,
+  * le second pour commander un nom de domaine seul *(sans l'hébergement)* 
+
+
+<Image
+    src="/img/docs/espace-client/o2switch-page-commande.png"
+    title="Première étape du processus de commande"
+    alt="Capture d'écran de la page de commande o2switch"
+    caption="Vous pouvez commander une offre d'hébergement, un nom de domaine seul ou un serveur infogéré depuis l'espace client o2switch"
+/>
+
+### Facturation & Avoirs
+
+Sur la page de facturation, vous trouverez deux onglets : 
+  * `Mes factures` qui contiendra la liste de toutes vos factures
+  * `Mes avoirs` contiendra la liste des avoirs comptables qui peuvent être émis lors d'un remboursement par exemple 
+
+Pour les factures et avoirs, un résumé rapide s'affiche sur chaque liste afin que vous avez un aperçu rapide. Il est
+également possible de cliquer sur l'icône en forme d'oeil dans la partie droite afin d'afficher plus d'éléments. Cela
+est utile dans le cas ou une facture est liée à plusieurs produits différents.
+
+Vous pouvez cliquer sur l'icone de téléchargement à gauche pour télécharger rapidement la facture ou l'avoir correspondant.
+
+Vous pouvez utiliser la barre de recherche pour rechercher rapidement une facture liée à une de vos prestations. Par
+exemple, vous pouvez faire une recherche sur un identifiant d'hébergement ou un nom de domaine.
+
+<Image
+    src="/img/docs/espace-client/facture-avoir.png"
+    title="Factures et avoirs"
+    alt="Capture d'écran de la page des factures et avoirs o2switch"
+    caption="Liste des factures et avoirs o2switch"
+/>
+
+### Modes de Paiement
+
+Dans la rubrique des `Modes de paiement`, vous retrouverez : 
+  * `Mes Cartes Bancaires` liste les moyens de paiements enregistrés, permet de les gérer ou d'en configurer de nouveaux
+  * `Paiements Planifiés` permet de suivre les paiements *(à venir ou passés)* issus des renouvellements automatiques 
+
+<Image
+    src="/img/docs/espace-client/modes-paiement.png"
+    title="Modes de paiement enregistrés"
+    alt="Capture d'écran de la page avec les moyens de paiements enregistrés"
+    caption="Liste des moyens de paiements enregistrés sur l'espace client"
+/>
+
+### Support & Assistance
+
+Enfin, la rubrique support et assistance affiche 4 onglets : 
+  * `Tickets en cours` correspond à vos dernières demandes de support, les plus récentes,
+  * `Ouvrir un ticket` permet de créer une nouvelle demande d'assistance,
+  * `Mes anciens tickets` affiche les tickets les plus anciens
+  * `Documentation` renvoi vers la FAQ o2switch 
+
+<Image
+    src="/img/docs/espace-client/o2switch-assistance.png"
+    title="Tickets d'assitance"
+    alt="Capture d'écran de la page listant les tickets d'assitance ouverts"
+    caption="Assistance depuis l'espace client o2switch, il est possible d'ouvrir des tickets"
+/>
+
+## Questions fréquentes
+
+  * [Comment s'inscrire ?](/espace-client/auth/ouvrir-un-compte)
+  * [Quelles sont les méthodes de paiement ?](/docs/espace-client/commande/facturation)
+  * [Comment récupérer ma facture ? Je suis une entreprise, comment ça fonctionne avec la TVA ?](/docs/espace-client/commande/facturation)
+  * [J'ai perdu mon mot de passe, que puis-je faire ?](/espace-client/auth/mot-de-passe-perdu)
+  * [Comment récupérer le code de transfert d'un domaine réservé chez o2switch ?](/nom-de-domaine/code-transfert/o2switch)
+  * [Comment réaliser un transfert de propriété d'une prestation o2switch ?](/espace-client/trade)
+  * [Comment fonctionne le système des contacts techniques et administratifs chez o2switch ?](/espace-client/gestion-contact)
