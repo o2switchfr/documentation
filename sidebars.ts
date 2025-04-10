@@ -401,7 +401,6 @@ const sidebars: SidebarsConfig = {
             'espace-client/auth/changer-mot-de-passe',
             'espace-client/auth/comment-se-connecter',
             'espace-client/auth/ouvrir-un-compte',
-            'espace-client/auth/mot-de-passe-perdu',
             'espace-client/auth/double-authentification',
           ],
         },
