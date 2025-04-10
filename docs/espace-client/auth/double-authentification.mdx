@@ -1,0 +1,110 @@
+---
+title: Authentification à deux facteurs - 2FA - MFA
+sidebar_label: Double authentification
+description: Procédure pour activer ou désactiver la double authentification sur l'espace client o2switch
+image: /img/docs/espace-client/auth/gerer-double-authentification.png
+tags:
+  - espace client
+  - authentification
+  - mfa 
+  - 2fa 
+  - double authentification 
+---
+
+# Gestion de la double authentification
+
+Vous pouvez activer la **double authentification** sur votre espace client o2switch.
+
+L'authentification à deux facteur est une méthode de sécurité qui nécessite deux formes d'identification pour accéder à
+un compte, comme un mot de passe et un code envoyé sur votre téléphone ou adresse email.
+
+Par défaut, la double authentification *(2FA)* par email est active pour les adresses IP inconnues.
+
+## Comment gérer la double authentification ? 
+
+Vous pouvez gérer les réglages de la double authentification depuis votre espace client, en naviguant dans 
+`Informations Personnelles` puis `Modifier les informations`. 
+
+Sur cette page, vous pouvez choisir : 
+  * **désactiver** totalement la double authentifiation 
+  * activer la double authentification avec l'envoi d'un **code par email** 
+  * activer la double authentification **TOTP**, c'est-à-dire que c'est une application à installer sur votre téléphone qui
+  génère des codes toutes les 30 secondes 
+  * d'activer ou désactiver la **liste blanche d'adresse IP**. Lorsque la liste blanche est active, le code de double 
+  authentification n'est pas demandée pour les demandes de connexions qui proviennent d'adresses IP connues 
+  *(c'est-à-dire les adresses IP ayant réussies à s'authentifier  une fois précédemment)*
+
+Par défaut, l'authentification à deux facteurs par email avec la liste blanche d'adresse IP est active.
+
+La liste blanche d'adresse IP permet de rendre un peu moins contraingnante l'utilisation l'authentification renforcée. 
+
+<Image
+    src="/img/docs/espace-client/auth/gerer-double-authentification.png"
+    title="Gestion de la double authentification sur l'espace client o2switch"
+    caption="Page de gestion de la double authentification"
+    alt="Capture d'écran du formulaire de gestion de la double authentification o2switch"
+/>
+
+## Activer la double authentification TOTP 
+
+Pour activer l'authentification à double facteur TOTP, qui utilise une application installée sur votre smartphone,
+suivez ces étapes :
+
+1. [Connectez-vous](https://clients.o2switch.fr/auth/connexion) sur votre espace client 
+
+2. Naviguez dans `Informations personnelles` puis `Modifier les informations`
+
+3. Dans la rubrique ``Modifier mes préférences`, dans le champs `Double Authentification`, choisissez `Activer la double
+authentification TOTP`. 
+
+4. Valider votre choix en cliquant sur ``Mettre à jour mes préférences`. Il sera nécessaire de saisir votre mot de passe
+pour confirmer le choix. 
+
+<Image
+    src="/img/docs/espace-client/auth/2fa-totp-google-authenticator.png"
+    title="Activer la double authentification TOTP"
+    caption="Activation de la double authentification TOTP sur l'espace client o2switch"
+    alt="Capture d'écran du formulaire d'activation de la double authentification TOTP"
+/>
+
+La page suivante affiche un **QR Code**. Ce QR Code doit être scanné depuis une application d'authentification à deux
+facteurs qu'il faut installer sur votre téléphone.
+  * Google Authenticator est l'application qui est recommandée par défaut. Elle existe pour 
+  [Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=fr) et pour 
+  [Iphone / IOS](https://apps.apple.com/fr/app/google-authenticator/id388497605)
+  * [2FAS](https://2fas.com/) est une application Open Source, disponible pour Android & Apple 
+  * [Aegis Authenticator](https://getaegis.app/) est une application Open Source, disponible sur Android uniquement 
+
+<Image
+    src="/img/docs/espace-client/auth/2fa-qrcode.png"
+    title="QRCode pour activer l'authentification à deux facteurs"
+    caption="Le QRCode doit être scanné depuis une application d'authentification à deux facteurs"
+    alt="Capture d'écran du formulaire affichant le QRCode à scanner pour la 2FA"
+/>
+
+Après avoir scanné le QRCode depuis votre application, il faut cliquer sur `Activer mon secret code`, puis il faut
+renseigner le code fourni par l'application puis cliquer sur `Vérifier le code` pour valider la configuration. 
+
+<Image
+    src="/img/docs/espace-client/auth/activation-2fa-o2switch.png"
+    title="Validation de l'activation de l'authentification à facteur multiple"
+    caption="Vous devez renseigner l'un des codes générés par l'application pour valider l'activation de la 2FA"
+    alt="Capture d'écran de l'écran de confirmation de l'activation de la 2FA"
+/>
+
+Nous vous recommandons de sauvegarder vos réglages de double authentification sur votre téléphone. En cas de perte de 
+votre téléphone ou changement d'appareil, vous pourrez ainsi réimporter toutes vos préférences de double 
+authentification et vous ne serez pas bloqué. 
+
+## Désactiver la double authentification
+
+L'authentification à facteur multiple peut être désactivé depuis votre espace client.
+
+Si vous n'êtes pas en mesure de vous connecter sur votre espace client, à cause de la double authentification qui est
+devenue bloquante *(à cause d'une perte de téléphone par exemple)*, alors la seule solution sera de contacter le support
+technique.
+
+Le support technique devra être contacté depuis la même adresse email que celle renseignée en fiche client.
+
+Le support peut être amené à demander des documents supplémentaires, comme une pièce d'identité, pour procéder à la 
+désactivation de l'authentification multiple. 
