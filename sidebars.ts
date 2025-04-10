@@ -3,6 +3,92 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 
 const sidebars: SidebarsConfig = {
 
+
+  /**
+   * Sidebar for /nom-de-domaine/*
+   */
+  domainSidebar: [
+    {
+      type: 'link',
+      href: '/',
+      label: 'Accueil'
+    },
+    {
+      type: 'link',
+      href: '/cpanel',
+      label: 'Hébergement web'  
+    },
+    {
+      type: 'link',
+      href: '/espace-client',
+      label: 'Espace client'  
+    },
+    {
+      type: 'link',
+      href: '/guides',
+      label: 'Guides & Tutoriels'
+    },
+    {
+      type: 'link',
+      href: '/questions',
+      label: 'Questions Fréquentes'
+    },
+    {
+      type: 'category',
+      label: 'Nom de domaine',
+      collapsible: true,
+      collapsed: false,
+      link: {
+        type: 'doc',
+        id: 'nom-de-domaine/index'
+      },
+      items: [
+        {
+          type: 'category',
+          label: 'Changement de DNS',
+          collapsible: true,
+          collapsed: true,
+          link: {
+            type: 'doc',
+            id: 'nom-de-domaine/changer-dns/index'
+          },
+          items: [
+            'nom-de-domaine/changer-dns/bookmyname',
+            'nom-de-domaine/changer-dns/gandi',
+            'nom-de-domaine/changer-dns/ionos-1and1',
+            'nom-de-domaine/changer-dns/o2switch',
+            'nom-de-domaine/changer-dns/online',
+            'nom-de-domaine/changer-dns/ovh',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Code de transfert',
+          collapsible: true,
+          collapsed: true,
+          link: {
+            type: 'doc',
+            id: 'nom-de-domaine/code-transfert/index'
+          },
+          items: [
+            'nom-de-domaine/code-transfert/bookmyname',
+            'nom-de-domaine/code-transfert/gandi',
+            'nom-de-domaine/code-transfert/ionos-1and1',
+            'nom-de-domaine/code-transfert/o2switch',
+            'nom-de-domaine/code-transfert/online',
+            'nom-de-domaine/code-transfert/ovh'
+          ],
+        },
+        'nom-de-domaine/dns/configurer-txt-google-search-console',
+        'nom-de-domaine/acheter-un-domaine',
+        'nom-de-domaine/pointage-domaine',
+        'nom-de-domaine/renouveler-un-domaine',
+        'nom-de-domaine/transferer-un-domaine',
+        'nom-de-domaine/verification-titulaire',    
+      ],
+    },
+  ],
+
   /**
    * Sidebar for /guides/*
    */
@@ -42,6 +128,10 @@ const sidebars: SidebarsConfig = {
         id: 'guides/index'
       },
       items: [
+        {
+          type: 'doc',
+          id: 'guides/pour-commencer'
+        },
         {
           type: 'category',
           label: 'Base de données',
@@ -90,6 +180,150 @@ const sidebars: SidebarsConfig = {
             'guides/cpanel/comment-se-connecter',
             'guides/cpanel/mot-de-passe-perdu',
             {type: 'link', href: '/cpanel', label: 'Les Outils cPanel'}
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Emails',
+          collapsible: true,
+          collapsed: true,
+          link: {
+            type: 'doc',
+            id: 'guides/emails/index'
+          },
+          items: [
+            {
+              type: 'category',
+              label: 'Logiciel de Messagerie',
+              collapsible: true,
+              collapsed: true,
+              link: {
+                type: 'doc',
+                id: 'guides/emails/client/index'
+              },
+              items: [
+                'guides/emails/client/configurer-android',
+                'guides/emails/client/configurer-iphone',
+                'guides/emails/client/configurer-outlook',
+                'guides/emails/client/configurer-thunderbird',
+                'guides/emails/client/configurer-mail-mac'
+              ],
+            },
+            'guides/emails/webmail/webmail',
+            'guides/emails/configurer-import-gmail',
+            'guides/emails/configurer-mx-google-apps',
+            'guides/emails/creer-filtre-email',
+            'guides/emails/difference-chiffree-vs-non-chiffree',
+            'guides/emails/differences-pop-vs-imap',
+            'guides/emails/probleme-envoi-mail',
+            'guides/emails/redirecteur-email-vers-script', 
+            'guides/emails/serveurs-smtp-sortant'
+          ],
+        },
+        {
+          type: 'category',
+          label: "Migration de site",
+          collapsible: true,
+          collapsed: true,
+          link: {
+            type: 'doc',
+            id: 'guides/migrations/index'
+          },
+          items: [
+            'guides/migrations/changer-hebergeur',
+            'guides/migrations/deplacer-site-hebergement-o2switch',
+            'guides/migrations/transferer-site-ovh-vers-o2switch',
+            'guides/migrations/transferer-site-wordpress-ovh-vers-o2switch',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Langages',
+          collapsible: true,
+          collapsed: false,
+          items: [
+            {
+              type: 'category',
+              label: 'NodeJS',
+              collapsible: true,
+              collapsed: true,
+              link: {
+                type: 'doc',
+                id: 'guides/nodejs/index'
+              },
+              items: [
+                'guides/nodejs/utiliser-binaire-nodejs-npm-yarn',
+                'guides/nodejs/application-reactjs',
+                'guides/nodejs/installer-etherpad',
+                'guides/nodejs/installer-wikijs',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'PHP',
+              collapsible: true,
+              collapsed: true,
+              link: {
+                type: 'doc',
+                id: 'guides/php/index'
+              },
+              items: [
+                'guides/php/changer-version-php-et-php-ini',
+                'guides/php/comment-activer-soap',
+                'guides/php/comment-augmenter-taille-upload',
+                'guides/php/comment-changer-version-php-hebergement',
+                'guides/php/comment-desactiver-cache-php',
+                'guides/php/comment-forcer-affichage-erreurs-php',
+                'guides/php/installer-composer',
+              ],
+            },
+            /* TODO : Python, but we don't have any guides about Python yet */
+            {
+              type: 'category',
+              label: 'Ruby',
+              collapsible: true,
+              collapsed: true,
+              link: {
+                type: 'doc',
+                id: 'guides/ruby/index'
+              },
+              items: [
+                'guides/ruby/installer-redmine'
+              ],
+            },
+          ],
+        },
+        {
+          type: 'category',
+          label: "Webmastering",
+          collapsible: true,
+          collapsed: true,
+          link: {
+            type: 'doc',
+            id: 'guides/webmastering/index'
+          },
+          items: [
+            'guides/webmastering/connexion-ssh',
+            'guides/webmastering/debuguer-page-blanche-erreur-500',
+            'guides/webmastering/forcer-https',
+            'guides/webmastering/structure-recommandee-multisite'
+          ],
+        },
+        {
+          type: 'category',
+          label: "WordPress",
+          collapsible: true,
+          collapsed: true,
+          link: {
+            type: 'doc',
+            id: 'guides/wordpress/index'
+          },
+          items: [
+            'guides/wordpress/changer-adresse',
+            'guides/wordpress/comment-installer-wordpress',
+            'guides/wordpress/forcer-https',
+            'guides/wordpress/introduction-wpcli',
+            'guides/wordpress/mot-de-passe-administrateur-perdu'
           ],
         },
       ]
