@@ -1,1 +1,128 @@
-https://faq.o2switch.fr/espace-client/renouvellement-automatique
+---
+title: Renouvellement automatique
+sidebar_label: Renouvellement automatique
+description: Ce tutoriel explique comment mettre en place le renouvellement automatique chez l'hébergeur web o2switch
+image: /img/docs/espace-client/commande/telecharger-facture-o2switch.png
+tags:
+  - espace client
+  - facturation 
+  - renouvellement automatique
+---
+
+# Comment activer le renouvellement automatique ?
+
+Sur l'espace client o2switch, il est possible d'**enregistrer un moyen de paiement** et de mettre en place un
+renouvellement automatique de vos produits. 
+
+Ce guide explique **comment activer le renouvellement automatique** chez o2switch. 
+
+## Comment fonctionne le renouvellement automatique ?
+
+Le renouvellement automatique chez o2switch s'active en plusieurs étapes. 
+
+
+<Badge text="1" /> La première étape est d'**enregistrer** votre moyen de paiement. Cela se passe sur votre espace client,
+dans la rubrique `Modes de paiement` vous pouvez enregistrer votre carte bancaire. Cela permet à o2switch de
+ré-utiliser ce moyen de paiement plus tard, lors d'un renouvellement ou lors d'une nouvelle commande. 
+
+Dès que vous avez enregistré une carte bancaire, vous pouvez également l'utiliser pour passer de nouvelles commandes. Ce
+moyen de paiement enregistré sera proposé comme méthode de paiement par défaut pour vos futures commandes.
+
+<Badge text="2" /> Ensuite vous décidez de ce que vous souhaitez placer en tant que renouvellement automatique sur votre
+espace client. 
+
+Cette sélection se fait dans la rubrique `Gérer mes services`, dans la page des `Services actifs`. Pour chaque
+service / prestation, vous pouvez décider d'activer ou non un renouvellement automatique. 
+
+<Badge text="3" /> Un renouvellement automatique est planifié 15 jours (voire J-22, voire l'explication ci-dessous)
+avant la date d'expiration d'une de vos prestations.
+
+Afin d'éviter de générer 1 panier (et donc une facture) pour chaque produit à renouveler, nous **groupons** les
+renouvellements sur une période de 7 jours. Cela signifie que nous listons toutes les prestations éligibles à un
+renouvellement automatique, c'est-à-dire tout ce qui expire entre J+15 et J+22.
+
+Dès que le renouvellement automatique est planifié, vous recevez un email informatif, qui liste ce qui sera renouvelé et
+qui contient un lien pour annuler le renouvellement si vous avez changé d'avis. Cela vous laisse 7 jours pour annuler.
+
+<Badge text="4" /> A J-7 de la date d'expiration la plus proche, le renouvellement automatique est exécuté. C'est à
+cette date-là que le paiement est effectué.
+
+En cas d'erreurs avec le renouvellement (carte refusée par exemple), cela vous laisse 7 jours supplémentaires pour
+renouveler manuellement.
+
+Si plusieurs cartes sont enregistrées dans l'espace client, si une carte est en erreur, o2switch essayera d'utiliser les
+cartes secondaires qui sont enregistrées à la place. 
+
+:::info[Est-ce sécurisée ? Est-ce que o2switch détient mon numéro de carte bancaire ?]
+Nous utilisons le processeur de paiement **[Stripe](https://stripe.com/fr)** pour les paiements par carte bancaire.
+C'est Stripe qui gère toute la partie paiement et qui manipule les données de la carte bancaire.
+
+A aucun moment o2switch n'a connaissance de votre numéro de carte bancaire complet. Pour être transparent, voici un
+résumé du mode de [fonctionnement des cartes enregistrées](https://stripe.com/docs/payments/save-and-reuse) :
+  * Sur l'espace client o2switch, un formulaire Stripe est affiché et permet d'indiquer son numéro de carte bancaire.
+    Les données de ce formulaire ne sont pas envoyées vers les serveurs de o2switch, c'est envoyé directement à Stripe.
+  * Stripe transmets à o2switch un Token, qui est une chaine de caractère aléatoire et qui correspond à ce moyen de
+    paiement. Le Token, c'est ce qui permet d'identifier le moyen de paiement chez Stripe, c'est la référence de la
+    carte enregistrée. o2switch enregistre ce Token, ainsi que la date d'expiration de la carte bancaire et les 4
+    derniers chiffres.
+  * O2switch utilise ce Token lorsqu'un paiement est planifié. Stripe s'occupe ensuite de la partie paiement et
+autorisation.
+:::
+
+
+### Enregistrer sa carte bancaire
+
+Pour enregistrer sa carte bancaire, il faut se connecter sur l'espace client, puis cliquer sur la rubrique `Modes de
+paiement` <Badge text="A" type="danger" /> puis `Ajouter une carte bancaire` <Badge text="B" type="danger"/>
+
+
+<Image
+    src="/img/docs/espace-client/commande/o2switch-enregistrer-carte-bancaire.png"
+    title="Enregistrer une carte bancaire en méthode de paiement"
+    caption="Première étape pour ajouter une carte bancaire dans les méthodes de paiements enregistrées"
+    alt="Capture d'écran de la première étape d'ajout d'une carte bancaire en méthode de paiement"
+/>
+
+Ensuite il suffit de remplir le formulaire qui s'affiche avec les informations de votre carte bancaire. 
+
+<Image
+    src="/img/docs/espace-client/commande/o2switch-sauvegarder-carte-bancaire.png"
+    title="Enregistrer une carte bancaire en méthode de paiement"
+    caption="Enregistrement d'une carte bancaire comme méthode de paiement chez o2switch"
+    alt="Conserver sa carte bancaire en mémoire chez o2switch"
+/>
+
+Si tout se passe bien, vous serez redirigé sur la page qui liste les cartes bancaires qui sont enregistrées. 
+
+
+
+### Renouvellement automatique
+
+Après avoir enregistré votre moyen de paiement, vous pouvez choisir quelques sont les prestations que vous souhaitez
+activer en renouvellement automatique en allant dans <Badge text="1" type="warning" /> `Gérer mes services` 
+puis <Badge text="2" type="warning" /> `Services actifs`. 
+
+Dans la liste de vos services, il faut cliquer sur l'icône  `...` <Badge text="3" type="warning" /> permettant de voir
+les actions qu'il est possible de réaliser sur la prestation. 
+
+Ensuite il faut cliquer sur  <Badge text="1" type="warning" /> `Activer le renouvellement automatique`. 
+
+o2switch-activer-renouvellement-automatique.png
+
+<Image
+    src="/img/docs/espace-client/commande/o2switch-activer-renouvellement-automatique.png"
+    title="Activation du renouvellement automatique"
+    caption="Procédure pour activer le renouvellement automatique sur une prestation o2switch"
+    alt="Capture d'écran de la procédure pour activer le renouvellement automatique sur une offre o2switch"
+/>
+
+A noter que vous pouvez également activer le renouvellement automatique en masse en sélectionnant manuellement les
+prestations pour lesquels vous souhaitez un renouvellement automatique puis utiliser le formulaire d'action de masse de
+l'espace client.  
+
+<Image
+    src="/img/docs/espace-client/commande/activer-renouvellement-auto-o2switch.png"
+    title="Activation en massage du renouvellement automatique"
+    caption="Procédure pour activer massivement le renouvellement automatique chez o2switch"
+    alt="Capture d'écran de la procédure pour activer massivement le renouvellement automatique chez o2switch"
+/>
