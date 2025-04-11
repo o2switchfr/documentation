@@ -414,7 +414,6 @@ const sidebars: SidebarsConfig = {
             id: 'espace-client/commande/index'
           },
           items: [
-            'espace-client/commande/comment-commander',
             'espace-client/commande/renouvellement-automatique',
             'espace-client/commande/facturation',
             'espace-client/commande/remboursement',           
