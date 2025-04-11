@@ -1,1 +1,174 @@
-https://faq.o2switch.fr/espace-client/contact-technique-administration
+---
+title: Contact administratif
+sidebar_label: Contact administratif
+description: Informations sur le système des contacts administratifs sur l'espace client o2switch
+image: /img/docs/espace-client/commande/clients.o2switch.fr.png
+tags:
+  - espace client
+  - contact
+---
+
+# Contact administratif
+
+Sur l'espace client o2switch, il y a une gestion des contacts techniques et des contacts administratifs.
+
+Ce mode de gestion a été mis en place pour les agences web, ou les webmasters, lorsqu'ils ont besoins de pouvoir commander et gérer des prestations pour leurs clients.
+
+Lorsqu'un client, généralement un webmaster ou une agence web est définie en tant que **contact administratif** sur un
+autre compte client o2switch, cela lui permet de :
+  * commander une nouvelle prestation, au nom de cette autre personne *(qui sera le propriétaire final)*,
+  * le webmaster sera automatiquement placé en tant que contact technique des prestations commandées de la sorte car il
+    est à l'origine de la commande
+
+Le système de contact administratif établi donc un client entre une fiche client A *(le webmaster)* et une fiche client B
+*(le client final, le propriétaire)*.
+
+Cela autorise le client A *(webmaster)* à commander des prestations qui appartiendront au client B *(client client
+final)*. Le client A sera automatiquement placé en tant que contact technique des prestations commandées de la sorte. 
+
+## Impact sur la facturation 
+
+Le système de contact technique et administratif est indépendant du système de facturation. 
+
+Une règle simple à retenir est que **la facture sera toujours émise au nom de la personne qui est à l'origine du
+paiement**. Donc au nom de la fiche client qui est connecté et qui réalise le paiement. 
+
+La seule exception à cette règle concerne les **liens de renouvellement rapide**. Ce sont les liens qui sont envoyés
+dans les emails d'alertes d'expirations et qui permettent de renouveler rapidement une prestation d'hébergement, sans se
+connecter. 
+
+Lorsqu'un paiement est effectué à partir d'un **lien de renouvellement rapide, la facture est toujours émise avec les
+coordonnées de la personne propriétaire** du compte d'hébergement. 
+
+Voici quelques exemples de bien illustrer ce principe. 
+
+**Cas n°1** : Vous êtes le webmaster, vous êtes connecté sur votre fiche client. Vous allez dans votre espace client
+dans la partie `Gestion des contacts` pour renouveler une prestation pour laquelle vous êtes définie en tant que
+`contact technique`. Vous n'êtes donc pas le propriétaire de cette prestation mais vous avez un droit d'accès dessus.
+La **facture sera émise à votre nom** (le webmaster) car vous avez payé en étant connecté depuis **votre espace
+client**. 
+
+**Cas n°2** : Vous êtes le client final, le propriétaire d'une prestation. Vous êtes connecté à votre espace client et
+vous renouveler l'une de vos prestations visibles dans la partie `Gérer mes services`. Vous avez défini un contact
+technique pour cette prestation, un webmaster est lié à cette prestation également. La facture **sera émise à votre
+nom** (le propriétaire) car vous êtes connecté sur **votre espace client** et vous êtes à l'origine du paiement. 
+
+**Cas n°3** : Vous êtes le webmaster, vous vous connectez sur la fiche client du propriétaire de l'hébergement car vous
+avez ces codes d'accès. Vous payez la prestation en étant connecté depuis ce compte là (celui du propriétaire). La
+facture sera émise avec les coordonnées de la personne propriétaire de l'hébergement car le paiement a été lancé depuis
+son compte client. 
+
+Normalement ce cas n°3 ne devrait pas arriver. Le webmaster n'est pas censé se connecter sur l'espace client du
+propriétaire de l'hébergement, le système de contact vise justement à éviter ce genre de choses. 
+
+**Cas n°4** : Vous êtes le webmaster, vous renouvelez une prestation sans être connecté à votre espace client, en
+utilisant un lien de renouvellement rapide communiqué par email. La facture sera émise avec les coordonnées du
+propriétaire de la prestation. 
+
+Normalement ce cas n°4 ne devrait pas se produire car nous n'envoyons pas de lien de renouvellement rapides aux contacts
+techniques. Seuls les clients propriétaires des prestations ont ce lien de renouvellement rapide.
+
+## Comment créer une relation de contact administratif ?
+
+Pour créer un lien de contact administratif entre deux fiches clients, il y a deux solutions : 
+  * depuis votre espace client, vous pouvez créer un nouveau contact, c'est-à-dire une nouvelle fiche client o2switch. 
+  Vous serez automatiquement placé en tant que contact administratif de cette fiche client car vous l'avez créé. 
+  * vous pouvez demander à être le contact administratif d'un compte client existane, que vous n'avez pas créé 
+
+### Créer un nouveau contact 
+
+Vous pouvez créer un nouveau contact en naviguant dans `Gestion des contacts` <Badge type="danger" text="1" /> 
+puis dans l'onglet `Créer un contact` <Badge type="danger" text="2" /> . 
+
+Le formulaire pour créer un nouveau contact s'affichera <Badge type="danger" text="3" />.
+
+<Image
+    src="/img/docs/espace-client/commande/creer-contact.png"
+    title="Créer un nouveau contact o2switch"
+    caption="Formulaire pour créer une nouvelle fiche client o2switch"
+    alt="Capture d'écran du formulaire de création d'un contact"
+/>
+
+En validant le formulaire, cela va :
+  * créer une nouvelle fiche client o2switch
+  * vous serez défini en tant que contact administratif de cette nouvelle fiche client créée
+
+Cela vous permettra de commander des offres au nom de cette fiche client. 
+
+### Demander à être le contact administratif d'un compte existant 
+
+Vous pouvez demander à être le contact administration d'un compte client existant.
+
+Pour cela, il faut naviguer dans `Gestion des contacts` puis dans l'onglet `Demande de contact`.
+
+Dans le formulaire pour être le contact administratif d'un client, il faut renseigner :
+  * l'adresse email de l'autre fiche client
+  * le code client de l'autre compte client (cela peut être retrouvé dans la partie `Informations personnelles`)
+
+<Image
+    src="/img/docs/espace-client/commande/demande-contact-technique.png"
+    title="Formulaire de demande de contact administratif"
+    caption="Formulaire pour demander à être le contact administratif d'un autre compte client"
+    alt="Capture d'écran du formulaire de demande de contact administratif chez o2switch"
+/>
+
+Lorsque la demande de contact administratif est lancé, l'autre client doit valider cela depuis son espace client en 
+naviguant dans `Gestion des contacts` puis `Contact administratifs`. 
+
+La demande de contact administratif s'affichera, en cliquant sur le bouton `...`, il sera possible d'accepter ou de 
+refuser la demande. 
+  
+<Image
+    src="/img/docs/espace-client/commande/validation-contact-administratif-o2switch.png"
+    title="Validation de la demande de contact administratif o2switch"
+    caption="Le client final peut valider la demande de contact administratif depuis son compte client"
+    alt="Capture d'écran de la page pour valider les demandes de contacts administratifs"
+/>
+
+## Comment commander au nom d'une autre personne ? 
+
+Lorsque la relation de contact administratif est bien validée, il est possible de commander au nom d'un des contacts
+gérés. 
+
+Pour cela, il faut activer le mode de commande avancé, en naviguant dans `Gestion des contacts` puis en cliquant sur 
+le bouton `Activer le mode avancé`.
+
+<Image
+    src="/img/docs/espace-client/commande/activer-mode-commande-avance.png"
+    title="Activation du mode de commande avancé"
+    caption="Il faut activer le mode de commande avancé depuis l'espace client"
+    alt="Capture d'écran de la page pour activer le mode de commande avancé chez o2switch"
+/>
+
+Lorsque le mode de commande avancé est activé, cela ajoute une étape supplémentaire dans le processus de commande, 
+la sélection du propriétaire pour l'offre commandée. 
+
+<Image
+    src="/img/docs/espace-client/commande/selection-proprietaire-offre-commandee.png"
+    title="Sélection du propriétaire de l'offre commandée"
+    caption="Avec le mode de commande avancé, il est possible de choisir le propriétaire d'une offre commandée"
+    alt="Capture d'écran de l'étape supplémentaire pour sélectionner le propriétaire de l'offre commandée"
+/>
+
+La dernière étape du panier de commande mets en évidence à qui appartiendra la prestation commandée et avec quelle
+coordonnées sera émise la facture. 
+
+<Image
+    src="/img/docs/espace-client/commande/contact-technique-recap-commande.png"
+    title="Récapitulatif de commande"
+    caption="Le récapitulatif de commande affiche clairement le propriétaire de la prestation et la facturation"
+    alt="Capture d'écran de la dernière étape de commande, le récapitulatif"
+/>
+
+Une relation de contact technique  est automatiquement créée et validée sur les prestations qui ont été commandés avec
+le mode avancé.
+
+Cela signifie que le contact administratif à une visibilité sur les comptes commandés ainsi depuis son espace client,
+dans la rubrique `Gestion des contacts` puis `Contact Technique`.
+
+<Image
+    src="/img/docs/espace-client/commande/administratif-technique.png"
+    title="Une relation de contact technique est automatiquement créé"
+    caption="Une relation de contact technique est automatiquement créée"
+    alt="Capture d'écran de la page des contacts techniques listant les prestations gérées"
+/>
