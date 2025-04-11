@@ -1,1 +1,126 @@
-https://faq.o2switch.fr/espace-client/contact-technique-administration
+---
+title: Contact technique
+sidebar_label: Contact technique
+description: Informations sur le système des contacts techniques sur l'espace client o2switch
+image: /img/docs/espace-client/commande/selection-proprietaire-offre-commandee.png
+tags:
+  - espace client
+  - contact
+---
+
+# Contact technique
+
+Sur l'espace client o2switch, il y a une gestion des contacts techniques et des contacts administratifs.
+
+Ce mode de gestion a été mis en place pour les agences web, ou les webmasters, lorsqu'ils ont besoins de pouvoir
+commander et gérer des prestations pour leurs clients.
+
+Lorsqu'une personne *(généralement un webmaster ou une agence web)* est définie en tant que **contact technique** sur
+une prestation o2switch *(appartenant donc à un autre client)*, cela lui permet : 
+  * d'avoir une visibilité sur la prestation concernée, dans la partie `Gestion des contacts` de son espace client.
+  * il peut par exemple renouveler la prestation, depuis son espace client, à la place du propriétaire.
+  * il reçoit une copie des emails envoyés concernant cette prestation. Par exemple, une copie du mail `Bienvenue chez
+    O2switch` qui contient les codes d'accès à l'hébergement lors de l'ouverture du compte. Ou encore une copie des
+    emails des alertes d'expirations.
+  * il est autorisé à contacter le support o2switch concernant cette prestation là. Le support o2switch lui répondra
+    comme s'il s'agissait du propriétaire de la prestation. Il peut par exemple demander à changer les codes d'accès
+    pour un hébergement cPanel. 
+
+Le système de contact technique établi donc un lien entre un client A *(le webmaster)* et une prestation *(un domaine,
+un hébergement)* appartenant à un client B *(le client final, le propriétaire)*. 
+
+
+## Impact sur la facturation 
+
+Le système de contact technique et administratif est indépendant du système de facturation. 
+
+Une règle simple à retenir est que **la facture sera toujours émise au nom de la personne qui est à l'origine du
+paiement**. Donc au nom de la fiche client qui est connecté et qui réalise le paiement. 
+
+La seule exception à cette règle concerne les **liens de renouvellement rapide**. Ce sont les liens qui sont envoyés
+dans les emails d'alertes d'expirations et qui permettent de renouveler rapidement une prestation d'hébergement, sans se
+connecter. 
+
+Lorsqu'un paiement est effectué à partir d'un **lien de renouvellement rapide, la facture est toujours émise avec les
+coordonnées de la personne propriétaire** du compte d'hébergement. 
+
+Voici quelques exemples de bien illustrer ce principe. 
+
+**Cas n°1** : Vous êtes le webmaster, vous êtes connecté sur votre fiche client. Vous allez dans votre espace client
+dans la partie `Gestion des contacts` pour renouveler une prestation pour laquelle vous êtes définie en tant que
+`contact technique`. Vous n'êtes donc pas le propriétaire de cette prestation mais vous avez un droit d'accès dessus.
+La **facture sera émise à votre nom** (le webmaster) car vous avez payé en étant connecté depuis **votre espace
+client**. 
+
+**Cas n°2** : Vous êtes le client final, le propriétaire d'une prestation. Vous êtes connecté à votre espace client et
+vous renouveler l'une de vos prestations visibles dans la partie `Gérer mes services`. Vous avez défini un contact
+technique pour cette prestation, un webmaster est lié à cette prestation également. La facture **sera émise à votre
+nom** (le propriétaire) car vous êtes connecté sur **votre espace client** et vous êtes à l'origine du paiement. 
+
+**Cas n°3** : Vous êtes le webmaster, vous vous connectez sur la fiche client du propriétaire de l'hébergement car vous
+avez ces codes d'accès. Vous payez la prestation en étant connecté depuis ce compte là (celui du propriétaire). La
+facture sera émise avec les coordonnées de la personne propriétaire de l'hébergement car le paiement a été lancé depuis
+son compte client. 
+
+Normalement ce cas n°3 ne devrait pas arriver. Le webmaster n'est pas censé se connecter sur l'espace client du
+propriétaire de l'hébergement, le système de contact vise justement à éviter ce genre de choses. 
+
+**Cas n°4** : Vous êtes le webmaster, vous renouvelez une prestation sans être connecté à votre espace client, en
+utilisant un lien de renouvellement rapide communiqué par email. La facture sera émise avec les coordonnées du
+propriétaire de la prestation. 
+
+Normalement ce cas n°4 ne devrait pas se produire car nous n'envoyons pas de lien de renouvellement rapides aux contacts
+techniques. Seuls les clients propriétaires des prestations ont ce lien de renouvellement rapide.
+
+## Comment créer une relation de contact technique ?
+
+Pour créer une relation de contact technique, le webmaster doit initier la demande depuis son espace client en se 
+rendant dans `Gestion des contacts` puis dans l'onglet `Demande de contact`.
+
+Il doit ensuite noter l'`UUID` de la prestation pour laquelle il souhaite devenir le contact technique.
+
+C'est toujours le webmaster ou le client qui va devenir le contact technique qui initie la demande. Il n'est pas 
+possible de faire l'inverse. 
+
+<Image
+    src="/img/docs/espace-client/commande/o2switch-demande-contact-technique.png"
+    title="Comment initier une demande de contact technique chez o2switch"
+    caption="Formulaire pour initier une demande de contact technique chez o2switch"
+    alt="Capture d'écran du formulaire pour initier la demande de contact technique chez o2switch"
+/>
+
+:::info[Comment je récupère cet UUID ?]
+Cet `UUID` doit être fourni par le propriétaire de l'offre. 
+
+Le propriétaire de l'offre peut retrouver cette information dans sa fiche client, dans le détails de sa prestation. 
+
+Cela est accessible en allant dans `Gérer mes services` puis en cliquant sur les `...` en face de la prestation 
+puis `Détails de la prestation`.  L'`UUID` s'affiche dans l'onglet `Contact`.
+
+<Image
+    src="/img/docs/espace-client/commande/comment-recuperer-uuid-o2switch.png"
+    title="Comment récupérer l'UUID de prestation chez o2switch"
+    caption="Procédure pour récupérer l'UUID d'une prestation chez o2switch"
+    alt="Procédure qui montre comment récupérer l'UUID d'une prestation chez o2switch"
+/>
+:::
+
+Après initier la demande de contact technique, le propriétaire de la prestation doit l'accepter en naviguant dans son 
+espace client dans `Gestion des contact`.
+
+
+<Image
+    src="/img/docs/espace-client/commande/acceptation-contact-technique.png"
+    title="Acceptation de la demande de contact technique"
+    caption="Le propriétaire de la prestation doit accepter la demande de contact technique"
+    alt="Capture d'écran de la page qui montre comment accepter la demande de contact technique"
+/>
+
+Lorsque la relation est validée, le status change et le contact technique à plus de permissions sur la prestation gérée.
+
+<Image
+    src="/img/docs/espace-client/commande/gestion-technique.png"
+    title="Le contact technique peut gérer lui même la prestation"
+    caption="Le contact technique à désormais plus de permissions et peut gérer la prestation"
+    alt="Capture d'écran de la page de gestion des prestations en gestion technique"
+/>
