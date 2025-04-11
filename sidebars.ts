@@ -426,7 +426,7 @@ const sidebars: SidebarsConfig = {
           collapsed: true,
           link: {
             type: 'doc',
-            id: 'espace-client/commande/index'
+            id: 'espace-client/gestion-contact/index'
           },
           items: [
             'espace-client/gestion-contact/administratif',
