@@ -384,6 +384,7 @@ const sidebars: SidebarsConfig = {
             'espace-client/offre/offre-unique-grow',
             'espace-client/offre/offre-unique-cloud',
             'espace-client/offre/offre-unique-pro',
+            'espace-client/offre/comparatif-offre-unique-o2switch',
             'espace-client/offre/periode-engagement',
             'espace-client/offre/serveur-infogere',
           ],
