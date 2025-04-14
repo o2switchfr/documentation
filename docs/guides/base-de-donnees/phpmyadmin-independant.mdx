@@ -1,1 +1,187 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-web/phpmyadmin-independant
+---
+title: Installation de phpmyadmin avec des permissions limitées
+sidebar_label: PhpMyAdmin indépendant
+description: Ce tutoriel explique comment installer un phpmyadmin avec des droits limités sur un compte d'hébergement o2switch
+tags:
+  - guides
+  - base de données
+  - import
+---
+
+# Installation de phpmyadmin avec des accès limités
+
+Sur cPanel, un phpmyadmin est installé et permet de gérer l'**ensemble des bases de données créées** sur le compte
+d'**[hébergement web](https://www.o2switch.fr/hebergement-illimite/)**.
+
+Cependant, pour accéder à ce phpmyadmin, il est nécessaire d'être **connecté sur cPanel**. Dans certains cas, ce n'est
+pas pratique.
+
+Par exemple, si vous souhaitez qu'une personne tierce puisse travailler sur votre site, sans forcément qu'elle ait accès
+à l'ensemble de l'hébergement avec les accès à cPanel. 
+
+Pour des raisons de sécurité, il est parfois nécessaire d'avoir une **instance de phpmyadmin indépendante de cPanel**
+sur laquelle il est possible de se connecter avec un identifiant/mot de passe qui donne l'accès uniquement à certaines
+bases de données, de votre choix, de votre hébergement.
+
+## Installation de phpmyadmin
+
+L'application phpmyadmin n'est qu'un simple script PHP. Vous pouvez l'**installer dans un dossier de votre hébergement**
+en quelques clics. 
+
+Vous pouvez installer phpmyadmin de plusieurs façons : 
+  * en quelques clics et rapidement avec [Softaculous](/cpanel/outils/installateur-softaculous)
+  * ou manuellement, en transférant phpmyadmin sur l'hébergement 
+  
+### Installation avec Softaculous
+
+Pour **installer phpmyadmin avec [Softaculous](/cpanel/outils/installateur-softaculous)**, il suffit de se rendre sur
+cPanel puis de cliquer sur l'icône `Softaculous Apps Installer` visible dans la partie des `Logiciels` et qui est
+présente dans la partie inférieur de la page d'accueil de cPanel.
+
+
+Ensuite, il faut rechercher `phpmyadmin` dans la barre de recherche puis cliquer sur le résultat de recherche
+`phpmyadmin` présent dans la catégorie des `DB Tools` : 
+
+<Image
+    src="/img/docs/guides/base-de-donnees/recherche-phpmyadmin-softaculous-2.png"
+    title="Recherche de phpmyadmin dans Softaculous"
+    caption="Résultat de la recherche sur le termine phpmyadmin dans Softaculous"
+    alt="Capture d'écran du résultat de recherche de Softaculous"
+/>
+
+Sur la page de présentation de `phpmyadmin`, il faut cliquer sur l'onglet d'installation puis indiquer les choses
+suivantes : 
+  * `Protocole` : vous pouvez laisser la valeur par défaut, cela permet de choisir entre HTTP/HTTPS et www/non www. Si
+    vous souhaitez intaller cela en HTTPS, il faudra [générer un certificat SSL
+    valide](/cpanel/securite/lets-encrypt-ssl-gratuit) sur le domaine
+  * `Domaine` : le domaine sur lequel vous souhaitez installer l'application
+  * `Dossier` : le dossier dans le lequel sera phpmyadmin. Avec le domaine, ça définit l'adresse de phpmyadmin. Nous
+    recommandons une valeur personnalisée, par exemple `mon-phpmyadmin` et pas juste `phpmyadmin` pour éviter les
+    attaques de types brute force.
+  * `Database host` : il faut laisser la valeur `localhost`
+
+<Image
+    src="/img/docs/guides/base-de-donnees/installation-phpmyadmin-softaculous-3.png"
+    title="Installation de phpmyadmin avec Softaculous"
+    caption="Page d'installation de phpmyadmin depuis cPanel et l'outil Softaculous"
+    alt="Capture d'écran du formulaire d'installation de phpmyadmin avec Softaculous"
+/>
+
+L'installation de phpmyadmin est terminée, l'adresse d'accès de l'outil dépend des paramètres que vous avez indiqués
+mais cela est rappelé à la fin de l'installation : 
+
+<Image
+    src="/img/docs/guides/base-de-donnees/o2switch-phpmyadmin-fin-installation-4.png"
+    title="phpmyadmin est installé"
+    caption="Message de confirmation de l'installation de phpmyadmin avec le lien de connexion"
+    alt="Capture d'écran du rapport d'installation de phpmyadmin"
+/>
+
+Maintenant, pour l'utiliser vous pouvez regarder le chapitre concernant l'authentification.
+  
+### Installation manuelle
+
+Pour **installer manuellement phpmyadmin**, il faut commencer par récupérer la dernière version de l'outil.
+
+Pour cela, il faut se rendre sur le [site officiel](https://www.phpmyadmin.net/) puis cliquer sur le bouton `Download`
+visible en haut à droite du site : 
+
+
+<Image
+    src="/img/docs/guides/base-de-donnees/telechargement-phpmyadmin-5.png"
+    title="Téléchargement de phpmyadmin depuis le site officiel"
+    caption="Télécharger phpmyadmin depuis le site officiel"
+    alt="Capture d'écran du site de phpmyadmin"
+/>
+
+Ensuite, il faut **envoyer cette archive** dans un dossier de votre hébergement, pour cela deux méthodes : 
+  * Vous pouvez extraire l'archive sur votre ordinateur puis envoyer le dossier extrait en FTP sur l'hébergement, à
+    l'aide de [Filezilla](/guides/configuration-logiciel/filezilla) par exemple
+  * Ou, plus simple, vous pouvez envoyer le fichier d'archive avec le gestionnaire de fichier de cPanel puis l'extraire
+    directement sur l'hébergement
+  
+Nous allons choisir la deuxième méthode, celle du [gestionnaire de fichier](/cpanel/fichiers/gestionnaire-fichiers-web),
+qui est plus simple et plus rapide.
+
+Dans un premier temps, il faut aller dans l'outil `gestionnaire de fichier` de cPanel qui se trouve dans la partie des
+`fichiers`.
+
+Une fois dans l'outil, il faut naviguer dans le dossier dans lequel nous souhaitons installer cela, dans notre cas
+`public_html` car le domaine est associé à ce dossier. 
+
+Ensuite, il faut envoyer l'archive avec le formulaire d'envoi puis l'extraire avec le gestionnaire de fichier : 
+
+<Image
+    src="/img/docs/guides/base-de-donnees/gestionnaire-fichier-phpmyadmin-6.png"
+    title="Utilisation du gestionnaire de fichier pour extraire phpmyadmin"
+    caption="Extraction et installation de phpmyadmin avec le gestionnaire de fichier de cPanel"
+    alt="Capture d'écran de la procédure avec le gestionnaire de fichier pour extraire phpmyadmin sur l'hébergement"
+/>
+
+L'installation est terminée, il n'est pas nécessaire d'aller plus loin, phpmyadmin est fonctionnel ainsi.
+
+Vous pouvez renommer le dossier si vous le souhaitez, l'adresse d'accès sera : `le-domaine.tld/nom-du-dossier`
+
+## Authentification 
+
+La connexion à phpmyadmin se fait à l'aide d'un **identifiant et mot de passe**. 
+
+L'identifiant/mot de passe doit correspondre à un **utilisateur MySQL valide**. Vous n'avez pas besoin de préciser le
+nom de la base de données sur laquelle vous souhaitez travailler. 
+
+Un utilisateur MySQL dispose de **certains droits**, sur **certaines bases de données**. Phpmyadmin va automatiquement
+lister les bases de données sur lequel l'utilisateur a les droits. 
+
+La création d'utilisateurs MySQL et la gestion des droits *(quel utilisateur a accès à quelle(s) base(s))* se fait
+depuis l'outil [base de données mysql](/cpanel/bases-de-donnees/mysql) de cPanel.
+
+### Créer un utilisateur MySqL 
+
+Pour créer un utilisateur MySQL, il faut se rendre dans l'outil [base de données mysql](/cpanel/bases-de-donnees/mysql)
+de cPanel.
+
+Dans cet outil, il faut utiliser le deuxième formulaire intitulé `ajouter un nouvel utilisateur` pour créer un nouveau compte :
+  * il faut indiquer un identifiant, qui sera préfixé de l'identifiant cPanel 
+  * puis un mot de passe 
+
+<Image
+    src="/img/docs/guides/base-de-donnees/phpmyadmin-creation-utilisateur-7.png"
+    title="Création d'un utilisateur MySQL"
+    caption="Création d'un utilisateur MySQL dans cPanel"
+    alt="Capture d'écran du formulaire de création d'un utilisateur MySQL cPanel"
+/>
+
+### Gestion des permissions de l'utilisateur
+
+Pour donner les droits à un utilisateur sur une, ou plusieurs bases de données, il faut utiliser les deux derniers menus
+déroulant de l'outil `base de données mysql` de cPanel : 
+  * dans le premier menu, il faut choisir l'utilisateur
+  * puis dans le second, la base de données sur laquelle il aura les droits 
+  * puis valider
+
+<Image
+    src="/img/docs/guides/base-de-donnees/phpmyadmin-gestion-droits-utilisateurs-8.png"
+    title="Sélection de l'utilisateur et de la base de données"
+    caption="Sélection de l'utilisateur et la base de données pour l'attribution des permissions SQL"
+    alt="Capture d'écran du formulaire de sélection de l'utilisateur et de la base de données pour gérer les permissions SQL"
+/>
+
+Sur la page suivante, il faut cocher les types de droits que vous souhaitez attribuer à l'utilisateur sur la base en
+question ou cocher `tous privilèges` : 
+
+<Image
+    src="/img/docs/guides/base-de-donnees/validation-droit-mysql-cpanel-9.png"
+    title="Attribution des permissions MySQL à l'utilisateur"
+    caption="Attribution des droits SQL à l'utilisateur sur la base de données"
+    alt="Capture d'écran du formulaire d'attribution des permissions MySQL dans cPanel"
+/>
+
+Ensuite, vous pouvez vous connecter sur phpmyadmin avec l'identifiant/mot de passe de l'utilisateur MySQL créé et dans
+la partie gauche de phpmyadmin, il y aura toutes les bases sur lesquelles l'utilisateur a les droits. 
+
+<Image
+    src="/img/docs/guides/base-de-donnees/phpmyadmin-independant-o2switch-10.png"
+    title="L'utilisateur MySQL à les droits sur la base de données"
+    caption="Dans le phpmyadmin indépendant, l'utilisateur n'a les permissions que sur une seule base de données"
+    alt="Capture d'écran de la connexion à phpmyadmin"
+/>
