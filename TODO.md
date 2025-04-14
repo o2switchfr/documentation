@@ -12,3 +12,11 @@ Une petite note interne des choses à faire, des pages à améliorer ou idées.
   * outil de debug litespeed pour comprendre pourquoi le cache ne s'active pas sur une page précise + mention de la constante DONOTCACHEPAGE de WP
 
 📄 Documenter les opérations associer un domaine / dissocier un domaine de l'espace client 
+
+📄 Documenter le système de parrainage / renouvellement gratuit de l'espace client 
+
+📄 Parler de la partie des "domaines configurés" dans l'espace client. Expliquer à quoi cela correspond / sert.
+
+📄 Voir si c'est nécessaire de parler des renouvellement au tarif dégressif pour les hébergements sur l'espace client. 
+
+📄 Comment commander comme sur l'ancienne FAQ ? Est-ce vraiment utile ? 
