@@ -417,7 +417,8 @@ const sidebars: SidebarsConfig = {
           items: [
             'espace-client/commande/renouvellement-automatique',
             'espace-client/commande/facturation',
-            'espace-client/commande/remboursement',           
+            'espace-client/commande/remboursement', 
+            'espace-client/commande/changer-offre',          
           ],
         },
         {
