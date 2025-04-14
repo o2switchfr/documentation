@@ -10,3 +10,5 @@ Une petite note interne des choses à faire, des pages à améliorer ou idées.
   * explication sur quic.cloud, à quoi cela correspond, est-ce nécessaire
   * explication sur les services additionnels de litespeed (optimisations images etc...)
   * outil de debug litespeed pour comprendre pourquoi le cache ne s'active pas sur une page précise + mention de la constante DONOTCACHEPAGE de WP
+
+📄 Documenter les opérations associer un domaine / dissocier un domaine de l'espace client 
