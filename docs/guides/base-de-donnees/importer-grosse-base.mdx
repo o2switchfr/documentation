@@ -1,1 +1,85 @@
-https://faq.o2switch.fr/tuto-rapide/comment-importer-grosse-base-donnees-commande
+---
+title: Comment importer une grosse base de données ?
+sidebar_label: Importer une grosse base
+description: Ce tutoriel explique comment importer une grosse base de données mysql sur un hébergement o2switch, en ligne de commande SSH
+# image: /img/docs/espace-client/commande/changer-offre-o2switch.png
+tags:
+  - guides
+  - base de données
+  - import
+---
+
+# Comment importer une grosse base de données MySQL ?
+Vous pouvez importer des bases de données de petites tailles ou de taille moyenne (250 Mo) depuis
+l'[outil phpmyadmin](/cpanel/bases-de-donnees/phpmyadmin) qui se trouve dans la section bases de données de cPanel. 
+
+Cependant, l'[outil phpmyadmin](/cpanel/bases-de-donnees/phpmyadmin) n'est pas adapté pour importer des bases de données
+de plus de 250Mo. Pour des bases de données volumineuse, il **faut importer cela en ligne de commande** avec la commande
+mysql directement.  
+
+Ce tutoriel explique **comment importer un gros fichier SQL** dans une base de données MySQL avec la commande `mysql`
+en ligne de commande chez l'**[hébergeur site web](https://www.o2switch.fr/hebergement-illimite/)** o2switch
+
+La première étape est de **créer une base de données vierge** via l'[outil bases de données mysql de
+cPanel](/cpanel/bases-de-donnees/mysql). Le fichiers de sauvegardes sql sera importée dans cette base de données vierge.
+Si vous avez déjà une base de données, vous pouvez ignorer cette étape. 
+
+<Image
+    src="/img/docs/guides/base-de-donnees/o2switch-creer-bases-donnees.png"
+    title="Création d'une nouvelle base de données"
+    caption="Création d'une nouvelle base de données dans laquelle sera importée la sauvegarde/fichier sql"
+    alt="Capture d'écran du formulaire de création d'une nouvelle base de données"
+/>
+
+La deuxième étape est **d'envoyer votre gros fichier SQL sur l'hébergement**. Plusieurs méthodes pour faire cela : 
+  * vous pouvez envoyer cela en FTP avec l'aide de [Filezilla](/guides/configuration-logiciel/configuration-ftp) par
+    exemple
+  * ou bien utiliser le [gestionnaire de fichier de cPanel](/cpanel/fichiers/gestionnaire-fichiers-web), qui est un
+    outil de dépannage bien pratique dans des cas comme celui-ci
+
+Envoyez le fichier directement à la **racine de votre hébergement**, pour que cela soit plus simple à gérer pour la
+phase d'importation. 
+
+<Image
+    src="/img/docs/guides/base-de-donnees/import-grosse-base-donnees-1.png"
+    title="Envoi du gros fichier SQL à importer avec l'outil Gestionnaire de Fichiers"
+    caption="Envoi du fichier SQL avec l'outil Gestionnaire de Fichiers de cPanel"
+    alt="Capture d'écran du gestionnaire de fichier de cPanel pour l'envoi d'un gros fichier"
+/>
+
+Enfin, il faut se rendre dans [l'outil Terminal de cPanel][/cpanel/outils-avances/terminal-ssh-web] pour **importer la
+base de données en lignes de commandes**. Pour cela, nous allons utiliser la **commande mysql**. 
+
+```bash
+# Exemple 1 d'importation avec la commande mysql
+# L'option -p est bien collé au mot de passe
+# Si votre mot de passe contient des caractères spéciaux, utilisez la commande 2
+mysql -u identifiantCpanel -pMotDePasseCpanel nom_de_la_base_de_donnes < ~/nom_du_fichier.sql
+
+# Exemple 2 d'importation avec la commande mysql
+# Le mot de passe sera demandé de manière intéractive
+mysql -u identifiantCpanel -p nom_de_la_base_de_donnes < ~/nom_du_fichier.sql
+```
+
+Quelques compléments sur les commandes : 
+  * `mysql` est le nom de la commande à lancer. C'est un utilitaire, qui permet entre autre d'importer des sauvegardes
+    de bases de données
+  * `option -u` permet d'indiquer l'identifiant à utiliser pour travailler sur la base de données. Vous ne pouvez pas
+    travailler sur une base de données sans vous identifier avant ! Le plus simple est d'utiliser le **même identifiant
+    que celui que vous utilisez pour vous connecter sur cPanel**
+  * `option -p` permet d'indiquer le mot de passe. Avec l'identifiant de cPanel, c'est le **même mot de passe que
+    cPanel** qu'il faut renseigner. Deux choix possible, si votre mot de passe est alphénumérique, vous pouvez **coller
+    l'option `-p` à votre mot de passe** directement dans la ligne de commande comme dans l'exemple 1. Si votre mot de
+    passe contient des carractères spéciaux, utilisez l'exemple 2 en ajoutant juste `-p`, le mot de passe sera demandé
+    plus tard.
+  * ensuite il faut indiquer  le nom de la base de données **dans laquelle vous souhaitez importer votre
+    sauvegarde/fichier SQL**, donc cela correspond au nom de la base créée à l'étape 1 par exemple.
+  * `< ~/nom_du_fichier.sql` correspond au chemin vers votre fichier SQL, que vous avez du mettre à la racine de
+    l'hébergement si vous avez suivi ce guide
+
+<Image
+    src="/img/docs/guides/base-de-donnees/o2switch-importer-grosse-base-mysql.png"
+    title="Import d'une base de données volumineuse avec l'outil Terminal de cPanel"
+    caption="Import de la grosse base de données avec l'outil Terminal et la commande mysql"
+    alt="Capture d'écran du terminal avec les commandes à lancer pour importer une base de données"
+/>
