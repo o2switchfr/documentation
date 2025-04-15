@@ -1,1 +1,117 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-web/configuration-webacappella
+---
+title: Comment configurer le logiciel Webacappella ?
+sidebar_label: Webacappella
+description: Ce tutoriel explique comment configurer le logiciel de création de site internet Webacappella sur un hébergement web o2switch
+image: /img/docs/guides/configuration-logiciel/webacappella-configuration-o2switch-2bis.png
+tags:
+  - guides
+  - ftp
+---
+
+# Configuration du logiciel de création de site Webacappella
+
+[Webacappella](https://www.webacappella.com/fr/download.html) est un éditeur de site internet permettant de créer des
+sites internet de manière très simple et visuelle qui ne nécessite pas de connaissances en programmation web. Il s'agit
+d'un logiciel de type **WYSIWYG**, *What You See Is What You Get (Ce que vous voyez est ce que vous obtenez)*.
+
+Le logiciel existe en version gratuite et en version payante et est entièrement compatible avec les 
+[offres d'hébergements mutualisé o2switch](https://www.o2switch.fr/hebergement-illimite/)
+
+Cependant, le logiciel requiert quelques configurations détaillées dans cette documentation. 
+
+## Configurer Webacappella
+
+Dans un premier temps, retrouvez l'email `Bienvenue chez o2switch`. Ce mail contient une rubrique `Accès FTP` qui
+donne toute la configuration. 
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/mail-bienvenue-o2switch.png"
+    title="Le mail Bienvenue chez O2switch donne la configuration FTP"
+    caption="Le mail Bienvenue chez o2switch contient une rubrique FTP avec tous les éléments de configuration"
+    alt="Capture d'écran du mail Bienvenue chez o2switch"
+/>
+
+Ensuite, ouvrez votre logiciel ainsi que votre projet web puis cliquez dans la partie `Avancé` 
+<Badge type="danger" text="1"/> en haut à droite de l'écran pour accéder aux paramètres de publications de sites.
+Ensuite cliquez sur `Ouvrir les paramétrages` <Badge type="danger" text="2"/>.
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/webacappella-configuration-o2switch-1.png"
+    title="Ouverture des paramétrages Webacappella"
+    caption="Ouverture des Paramètres de publications Webacappella"
+    alt="Capture d'écran du logiciel Webacappella à l'ouverture des paramètres de publication"
+/>
+
+Un écran s'ouvre et affiche l'onglet `Publier sur internet`. Dans cet écran de configuration, il est nécessaire de
+configurer les paramètres FTP de votre hébergement o2switch. Ces paramètres là sont donnés dans le mail `Bienvenue chez
+o2switch` qui est envoyé et fait suite à la commande d'un hébergement. 
+
+Dans l'écran de configuration FTP de Webacappella, il faut renseigner : 
+
+<Badge type="danger" text="1"/> `Adresse de votre site internet` : Correspond au nom de domaine que vous avez du
+demander en offert avec votre hébergement. 
+
+Ou bien à un nom de domaine que vous avez acheté en supplément et configuré sur votre hébergement avec l'outil
+[Domaines Configurés](/cpanel/domaines/configuration-domaine). 
+
+Nous vous recommandons de mettre l'adresse avec le `https` devant. Afin de ne pas avoir d'erreur en rapport avec le
+certificat SSL, il faut au préalable générer un certificat SSL Lets encrypt avec [l'outil Let's
+Encrypt](/cpanel/securite/lets-encrypt-ssl-gratuit) de l'hébergement. C'est ce qui permet d'obtenir le `HTTPS` dans un
+navigateur web sans erreur de sécurité. 
+
+<Badge type="danger" text="2" /> `Sous-dossier de votre adresse Internet` : Dans la grande majorité des cas, vous voulez
+laisser cette case vide. 
+
+A remplir uniquement si vous souhaitez publier votre site dans un sous-dossier. Donc cela veut dire avoir une adresse de
+site internet de la forme suivante : `monsite.fr/sous-dossier/`. 
+
+<Badge type="danger" text="3"/> `Type de publication` : Choisissez `Synchronisation FTP / SFTP` 
+
+<Badge type="danger" text="4"/> `Paramètres FTP` : Choisissez une publication `FTP`. 
+
+Le `SFTP` est également possible mais plus compliqué à mettre en place car requiert le [déblocage de votre accès
+SSH](/guides/webmastering/connexion-ssh) et [une mise en liste blanche](/cpanel/outils/exception-parefeu) de votre
+adresse IP.
+
+<Badge type="danger" text="5"/> `Serveur FTP` : Il faut reprendre ce qui est indiqué dans le mail `Bienvenue chez
+o2switch`, cela correspond à la partie `Hôte de connexion` dans le mail. 
+
+C'est toujours de la forme `quelque-chose.o2switch.net`. 
+
+Vous pouvez laisser le port FTP sur `21` et le mode `passif`.
+
+<Badge type="danger" text="6"/> `Identifiant` : Correspond à votre identifiant d'hébergement, c'est le même identifiant
+que pour cPanel. C'est également communiqué dans le mail `Bienvenue chez o2switch`.
+
+<Badge type="danger" text="7"/> `Mot de passe` : Le mot de passe de votre hébergement. 
+
+<Badge type="danger" text="8"/> `Dossier FTP Distant` : Dans la majorité des cas, ce sera le dossier `/public_html/`.
+Lorsque vous commandez un hébergement avec 1 nom de domaine, ce nom de domaine est pré-configuré pour être associé avec
+`public_html`. 
+
+Si jamais vous avez plusieurs sites internet sur votre hébergement, alors ça change. Dans ce cas, il faut regarder dans
+l'outil [Domaines Configurés](/cpanel/domaines/configuration-domaine) avec quel dossier de votre hébergement est associé
+un nom de domaine. Dans l'outil [Domaines Configurés](/cpanel/domaines/configuration-domaine), c'est visible dans le
+tableau récapitulatif dans la colonne `Racine du document`.
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/racine-du-document-1.png"
+    title="Retrouver le dossier qui est lié à un nom de domaine configuré"
+    caption="Comment retrouver avec quel dossier de votre hébergement est lié un nom de domaine"
+    alt="Capture d'écran de l'outil Domaines Configurés qui montre comment retrouver le dossier lié à un domaine"
+/>
+
+<Badge type="danger" text="9" /> `Optimisations` vous pouvez régler l'envoi simultanées sur 5 connexions pour envoyer
+plus rapidement votre site internet sur votre hébergement. 
+
+<Badge type="danger" text="10" /> Enfin il ne reste plus qu'à valider en cliquant sur `Ok`.
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/webacappella-configuration-o2switch-2bis.png"
+    title="Configuration du logiciel webacappella"
+    caption="Configuration des réglages de publication de Webacappella"
+    alt="Capture d'écran de la fenetre de configuration de Webacappella"
+/>
+
+La configuration est terminée, vous pouvez cliquer sur le bouton `Publier` dans Webacappella  pour mettre en ligne votre
+site internet.
