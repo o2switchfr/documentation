@@ -144,7 +144,6 @@ const sidebars: SidebarsConfig = {
           items: [
             'guides/base-de-donnees/importer-grosse-base',
             'guides/base-de-donnees/phpmyadmin-independant',
-            'guides/base-de-donnees/utilisateurs-droits-mysql'
           ],
         },
         {

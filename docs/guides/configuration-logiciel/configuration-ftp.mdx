@@ -1,1 +1,72 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-web/parametres-ftp
+---
+title: Paramètres de configuration FTP
+sidebar_label: Configuration FTP
+description: Ce tutoriel explique comment configurer un logiciel FTP pour se connecter à un hébergement web o2switch
+tags:
+  - guides
+  - ftp
+---
+
+# Configuration FTP
+
+Cette page donne les paramètres nécessaires pour la configuration d'un client FTP sur un **[hébergement site
+web](https://www.o2switch.fr/hebergement-illimite/)** o2switch.
+
+Cette page est générique et devrait convenir pour tous les clients FTP, cependant il existe des guides plus précis : 
+- [Filezilla](/guides/configuration-logiciel/filezilla)
+- [Cyberduck](/guides/configuration-logiciel/cyberduck)
+- [Webacappella](/guides/configuration-logiciel/webacappella)
+- [Iweb](/guides/configuration-logiciel/iweb)
+- [Open Element](/guides/configuration-logiciel/open-element)
+- [Toweb](/guides/configuration-logiciel/toweb)
+
+## Compte FTP principal
+
+Pour votre compte FTP principal, voici les paramètres que vous devez préciser sur votre client FTP :
+
+  * `Hôte de connexion / Adresse de connexion / Serveur` : votre nom de domaine, par exemple, votre-site.fr ou l'adresse
+    temporaire que vous avez reçue dans l'email intitulé "Bienvenue chez o2switch" si jamais le domaine ne pointe pas
+    encore sur votre espace. De manière générale, il faut simplement une adresse qui pointe vers votre espace
+    d'hébergement *(donc un de vos sites hébergés ou sous-domaine convient)*. Il est conseillé d'utiliser le nom du
+    serveur *(node)* indiqué dans le mail de Bienvenue.
+  * `Login / Identifiant` : votre login cPanel
+  * `Mot de passe` : le mot de passe de votre compte cPanel
+  * `Port` : 21
+  * `Protocole` : FTP
+  * `Authentification` : normale, mot de passe *(pas "anonyme")*
+
+La plupart de ces informations, comme votre login/mot de passe cPanel sont disponibles dans le mail "Bienvenue chez
+o2switch" que vous avez reçu après la création de votre offre. Si vous n'avez plus ces accès ou ce mail, vous pouvez
+contacter le [support o2switch](https://www.o2switch.fr/support-hebergeur/) pour demander de nouveaux accès.
+
+## Compte FTP secondaire
+
+Sur votre compte cPanel, vous pouvez créer des comptes FTP secondaires via l'outil [Comptes
+FTP](/cpanel/fichiers/comptes-ftp). La création de comptes FTP secondaires permet de restreindre l'accès FTP à un
+dossier de votre choix. 
+
+Les configurations sont identiques que pour la configuration du compte principal à la différences du login et du mot de
+passe. Concernant le login, ce dernier ressemble à une adresse email, il est de la forme
+`ceQueVousVoulez@un-domaine.tld`. 
+
+Lors de vos configurations, précisez bien `ceQueVousVoulez@un-domaine.tld`.  et pas seulement la première partie
+`ceQueVousVoulez` sinon cela ne fonctionnera pas. 
+
+Malheureusement il n'est pas possible d'enlever la deuxième partie de ce login, c'est-à-dire le
+"@un-domaine.tld", cPanel impose ce mode de fonctionnement.
+
+## Particularités
+
+Vous pouvez également configurer votre client FTP pour utiliser une connexion FTPS ou même SFTP pour chiffrer la
+connexion entre votre ordinateur et le serveur.
+
+Si vous souhaitez configurer votre client avec l'une ou l'autre de ces options, vous devrez obtenir le déblocage de
+votre adresse IP et des accès en faisant une demande sur l'[outil Autorisation SSH](/cpanel/outils/exception-parefeu) du
+cPanel.
+
+Ensuite, il faut adapter les configurations de votre logiciel :
+  * pour SFTP, précisez le protocole SFTP et le port 22
+  * pour FTPS, précisez le protocole FTPS en mode explicite en laissant les ports par défaut sur votre logiciel
+
+Pour une connexion SFTP, il faut impérativement utiliser le compte principal : donc le même identifiant et mot de passe
+que cPanel. 
