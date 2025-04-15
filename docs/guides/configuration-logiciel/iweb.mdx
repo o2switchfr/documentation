@@ -1,1 +1,61 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-web/configuration-iweb
+---
+title: Comment configurer le logiciel iWeb ?
+sidebar_label: iWeb
+description: Ce tutoriel explique comment configurer le logiciel de création de site internet iweb avec un hébergement web o2switch
+tags:
+  - guides
+  - ftp
+---
+
+# Configuration du logiciel de création de site iWeb 
+
+
+iWeb était un logiciel de la suite iLife sur Mac qui permet de créer des sites internet simplement, à partir de modèles
+et qui ne nécessite pas de connaissances particulières en programmation web. Ce logiciel est 100% compatible avec
+les [offres d'hébergements o2switch](https://www.o2switch.fr/)
+
+Cependant, le logiciel a besoin d'être configuré une première fois pour publier votre site internet sur votre espace
+d'hébergement.
+
+## Configurer iWeb
+
+Dans un premier temps, retrouvez l'email `Bienvenue chez o2switch`. Ce mail contient une rubrique `Accès FTP` qui
+donne toute la configuration. 
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/mail-bienvenue-o2switch.png"
+    title="Le mail Bienvenue chez O2switch donne la configuration FTP"
+    caption="Le mail Bienvenue chez o2switch contient une rubrique FTP avec tous les éléments de configuration"
+    alt="Capture d'écran du mail Bienvenue chez o2switch"
+/>
+
+Lancez le logiciel et ouvrez votre projet web. En cliquant sur le nom du projet, vous accédez au paramétrage de
+publication du site internet. 
+
+À l'aide du mail "Bienvenue chez o2switch" que vous avez reçu lors de votre inscription, renseignez les paramètres
+suivant dans le logiciel :
+  * `Publier sur` : précisez "Serveur FTP" à la place de "MobileMe"
+  * `Nom du site` : renseignez le nom de votre site internet ou votre nom de domaine
+  * `Adresse électronique` : renseignez votre adresse email
+  * `Adresse de serveur` : votre nom de domaine ou si ce dernier n'est pas encore disponible *(en cours de transfert)*
+    l'adresse temporaire que vous avez reçu *(de la forme qqch.o2switch.net)*
+  * `Nom d'utilisateur` : votre identifiant cPanel
+  * `Mot de passe` : mot de passe de votre compte cPanel
+  * `Chemin / Répertoire` : le répertoire qui contient votre site internet. Si c'est votre site principal, il s'agit de
+    `public_html`, si c'est un site supplémentaire (configuré avec l'[outil Domaines
+    Configurés](/cpanel/domaines/configuration-domaine)) il s'agit du chemin du dossier que vous avez choisi, par défaut
+    `nom-du-site.fr`. Si vous avez un doute, cela est retrouvable en allant dans l'[outil Domaines
+    Configurés](/cpanel/domaines/configuration-domaine) de votre compte cPanel, c'est le `document root`. Faites
+    attention avec ce paramétrage car vous risquez d'écraser des données en publiant votre site.
+  * `Protocole` : FTP
+  * `Port` : 21 (laissez le choix par défaut)
+  * `URL` : adresse de votre site internet, par exemple `http://votresite.fr`
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/iweb.png"
+    title="Configuration du logiciel iWeb chez o2switch"
+    caption="Paramétrage du logiciel iWeb pour la publication de votre site sur votre espace d'hébergement"
+    alt="Capture d'écran de la configuration du logiciel iWeb"
+/>
+
+La configuration du logiciel est terminée, vous pouvez lancer la publication de votre site internet.
