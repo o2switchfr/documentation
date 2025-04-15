@@ -1,1 +1,83 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-web/configuration-open-element
+---
+title: Comment configurer le logiciel Open Element ?
+sidebar_label: Open Element
+description: Ce tutoriel explique comment configurer le logiciel de création de site internet Open Element sur un hébergement o2switch
+image: /img/docs/guides/configuration-logiciel/open-element-configuration.png
+tags:
+  - guides
+  - ftp
+---
+
+# Configuration du logiciel de création de site Open Element
+
+OpenElement est un logiciel de création de site internet, gratuit, que vous pouvez télécharger directement depuis le
+[site officiel](https://www.openelement.uk/Download.fr.htm).
+
+Le logiciel permet de créer des sites internet simplement, de manière visuelle et ne nécessite pas de connaissance en
+développement HTML/CSS. Ce type de logiciel est parfois appelé un **WYSIWYG**, *What You See Is What You Get* *(Ce que
+vous voyez est ce que vous obtenez)*.
+ 
+Il est idéal pour des sites vitrines et est 100% compatible avec
+l'[hébergement internet](https://www.o2switch.fr/hebergement-illimite/) o2switch.
+
+Le logiciel nécessite quelques configurations : des accès FTP et des accès SMTP pour l'envoi d'emails. 
+
+## Configuration d'Open Element
+
+Dans un premier temps, retrouvez l'email `Bienvenue chez o2switch`. Ce mail contient une rubrique `Accès FTP` qui
+donne toute la configuration. 
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/mail-bienvenue-o2switch.png"
+    title="Le mail Bienvenue chez O2switch donne la configuration FTP"
+    caption="Le mail Bienvenue chez o2switch contient une rubrique FTP avec tous les éléments de configuration"
+    alt="Capture d'écran du mail Bienvenue chez o2switch"
+/>
+
+Ensuite, ouvrez votre projet web puis allez dans l'onglet `Projet` puis `Préférences`. 
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/open-element-preferences.png"
+    title="Menu des préférences du logiciel Open Element"
+    caption="Menu de préférences dans Open Element"
+    alt="Capture d'écran du menu des préférences du logiciel de création de site OpenElement"
+/>
+
+Après un petit temps de chargement, s'ouvrent les préférences du logiciel et l'outil de configuration. Il faut
+renseigner plusieurs éléments, des accès FTP et des accès sur une adresse email pour l'envoi de messages. 
+
+Le mail que vous avez reçu à la création de votre compte o2switch et intitulé "Bienvenue chez o2switch" contient une
+grande partie de ces informations, à l'aide de ce mail paramétrez le logiciel avec les informations suivantes :
+  * `Adresse du serveur` : votre nom de domaine ou le cas échéant l'adresse temporaire `qqch.o2switch.net` que vous avez
+  * `Nom d'utilisateur` : votre identifiant cPanel 
+  * `Mot de passe` : le mot de passe de votre compte cPanel
+  * `Adresse URL de votre site` : l'adresse finale de votre site, donc `http://votre-domaine.fr`
+  * `Répertoire par défaut` : public_html pour votre nom de domaine principal ou bien le répertoire que vous avez choisi
+    lors de la création de votre [domaine supplémentaire](/cpanel/domaines/configuration-domaine)
+  * `Répertoire d'upload` : laissez la configuration par défaut
+  * `Port` : laissez par défaut sur 21
+
+Pour la configuration d'envoi de mail, vous avez deux alternatives :
+  * Laissez par défaut et configurez un compte SMTP *(recommandé)*
+    * `Serveur` : votre domaine ou adresse temporaire que vous avez (localhost devrait également fonctionner)
+    * `Nom d'utilisateur` : une adresse email complète (précédemment créée via l'outil
+      [comptes de messagerie](/cpanel/emails/adresse-email) de cPanel par exemple.
+    * `Mot de passe` : celui de l'adresse email
+    * `Port` : par défaut, 25
+  * Ou, sélectionnez "mail", la configuration est plus simple mais l'envoi d'email sera légèrement moins bien gérée.
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/open-element-configuration.png"
+    title="Fenêtre de configuration du logiciel Open Element"
+    caption="Configuration du logiciel OpenElement avec les accès FTP et mail"
+    alt="Capture d'écran de la fenêtre de configuration d'Open Element pour la configuration FTP et Email"
+/>
+
+:::warning[Attention au répertoire de publication]
+Faites attention au répertoire de publication que vous configurez dans le logiciel. Un répertoire mal configuré peut
+engendrer une perte de vos données car le logiciel peut écraser/effacer le répertoire avant une publication complète de
+votre site. Assurez-vous que le répertoire est bon en regardant avec le [gestionnaire de
+fichiers](/cpanel/fichiers/gestionnaire-fichiers-web) de cPanel par exemple.
+:::
+
+La configuration du logiciel est terminée, vous pouvez publier votre site internet.
