@@ -1,1 +1,113 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-web/configuration-toweb
+---
+title: Comment configurer le logiciel TOWeb ?
+sidebar_label: TOWeb
+description: Ce tutoriel explique comment configurer le logiciel de création de site TOWeb sur un hébergement web o2switch
+image: /img/docs/guides/configuration-logiciel/toweb-preference-hebergeur.png
+tags:
+  - guides
+  - ftp
+---
+
+# Configuration du logiciel de création de site internet Toweb
+
+[TOWeb](https://www.lauyan.com/fr/download-toweb.html) est un logiciel de création de site internet et de boutique. Il
+permet de créer des sites internet très simplement sans avoir besoin de connaissance en programmation.
+
+Il s'agit d'un logiciel **WYSIWYG**, *What You See Is What You Get (Ce que vous voyez est ce que vous obtenez)*.
+
+Il existe une version gratuite (limitée) et une version payante débloquant différentes fonctionnalités comme la boutique.
+
+Le logiciel est entièrement compatible avec l'**[hébergement web](https://www.o2switch.fr/hebergement-illimite/)**
+o2switch mais requiert des configurations pour la publication de votre site. Ce guide donne tous les paramétrages
+nécessaires pour ToWeb. 
+
+## Configuration de ToWeb
+
+Dans un premier temps, retrouvez l'email `Bienvenue chez o2switch`. Ce mail contient une rubrique `Accès FTP` qui
+donne toute la configuration. 
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/mail-bienvenue-o2switch.png"
+    title="Le mail Bienvenue chez O2switch donne la configuration FTP"
+    caption="Le mail Bienvenue chez o2switch contient une rubrique FTP avec tous les éléments de configuration"
+    alt="Capture d'écran du mail Bienvenue chez o2switch"
+/>
+
+Lancez le logiciel et ouvrez votre projet web. Ensuite allez dans le menu de publication, c'est la dernière option
+disponible dans le menu présent en haut du logiciel.
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/toweb-preference-hebergeur.png"
+    title="Configuration de l'hébergeur dans le logiciel TOWeb"
+    caption="Préférence de l'hébergeur dans toweb"
+    alt="Capture d'écran du logiciel TOWeb à la première étape de configuration d'un hébergeur"
+/>
+
+Ensuite choisissez une configuration personnalisée et précisez votre nom de domaine en hôte FTP. Si votre nom de domaine
+n'est pas encore disponible *(en cours de transfert)*, vous pouvez précisez l'adresse temporaire que vous avez reçue dans
+l'email "Bienvenue chez o2switch" (`qqch.o2switch.net`) que vous avez reçu juste après la création de votre compte
+d'hébergement. 
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/toweb-etape1.png"
+    title="Première étape de la configuration hébergeur dans TOWeb"
+    caption="Étape 1 de Toweb : précision de l'adresse FTP"
+    alt="Capture d'écran du logiciel TOWeb à l'étape de configuration FTP"
+/>
+
+
+Ensuite, précisez votre identifiant et mot de passe cPanel que vous pouvez retrouver dans l'email "Bienvenue chez
+o2switch".
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/toweb-etape2.png"
+    title="Deuxième étape de la configuration hébergeur dans TOWeb"
+    caption="Étape 2 de Toweb : paramétrage du login et du mot de passe FTP"
+    alt="Capture d'écran du logiciel TOWeb à l'étape de configuration FTP"
+/>
+
+:::danger[Attention au répertoire de publication]
+L'étape suivante est très importante et potentiellement source d'erreurs, faites très attention lors de la configuration
+de votre répertoire de publication. 
+
+En cas d'erreurs, le logiciel peut supprimer ou écraser des fichiers de votre hébergement. 
+:::
+
+Si votre espace d'hébergement est vierge et que vous souhaitez publier votre site principal, vous pouvez renseignez
+`public_html` en répertoire de publication.
+
+Si vous voulez publier un site supplémentaire que vous avez configuré en [domaines
+supplémentaires](/cpanel/domaines/configuration-domaine), indiquez le chemin du dossier que vous avez précisé lors de la
+création de votre domaine supplémentaire. Si vous avez laissé les configurations par défaut, il s'agit de
+`/nom-du-site.fr`. Vous pouvez le vérifier en allant dans l'[outil domaines
+configurés](/cpanel/domaines/configuration-domaine) de votre espace cPanel et en notant le `document root` du site.
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/toweb-etape3.png"
+    title="Troisième étape de la configuration hébergeur dans TOWeb"
+    caption="Étape 3 de Toweb : configuration du répertoire de publication du site"
+    alt="Capture d'écran du logiciel TOWeb à l'étape de configuration du répertoire de publiation du site"
+/>
+
+À l'étape suivante, précisez l'adresse de votre site internet et testez les paramètres du logiciel, normalement tout
+devrait être bon. Dans le cas contraire, revoyez les configurations et vérifiez que vos login/mot de passe sont bons en
+vous connectant sur cPanel par exemple *(les accès étant identiques)*.
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/toweb-etape4.png"
+    title="Quatrième étape de la configuration hébergeur dans TOWeb"
+    caption="Étape 4 de Toweb : vérification des paramètres et du mapping répertoire/domaine"
+    alt="Capture d'écran du logiciel TOWeb à l'étape de vérification des paramètres"
+/>
+
+La dernière étape du logiciel vous laisse le choix entre FTP passif et actif, laissez le choix par défaut et modifiez
+cela si vous n'arrivez pas vous connecter.
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/toweb-etape5.png"
+    title="Cinquième étape de la configuration hébergeur dans TOWeb"
+    caption="Étape 5 de Toweb : choix entre FTP actif et passif"
+    alt="Capture d'écran du logiciel TOWeb à l'étape du choix FTP passif ou actif"
+/>
+
+La configuration du logiciel est terminée, vous pouvez publier votre site internet.
