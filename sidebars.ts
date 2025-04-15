@@ -177,7 +177,12 @@ const sidebars: SidebarsConfig = {
             'guides/cpanel/changer-mot-de-passe',
             'guides/cpanel/comment-se-connecter',
             'guides/cpanel/mot-de-passe-perdu',
-            {type: 'link', href: '/cpanel', label: 'Les Outils cPanel'}
+            {
+              type: 'link', 
+              href: '/cpanel', 
+              label: 'Les Outils cPanel', 
+              description: "Documentation de tous les outils cPanel"
+            }
           ],
         },
         {

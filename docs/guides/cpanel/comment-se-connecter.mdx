@@ -1,1 +1,83 @@
-https://faq.o2switch.fr/hebergement-mutualise/tutoriels-cpanel/acceder-cpanel
+---
+title: Comment se connecter sur son hébergement o2switch ?
+sidebar_label: Comment se connecter ?
+description: Ce tutoriel explique comment se connecter sur cPanel sur l'offre d'hébergement web mutualisé o2switch
+image: /img/docs/guides/cpanel/changer-mot-de-passe-cpanel-1.png
+tags:
+  - guides
+  - cpanel
+---
+
+# Comment se connecter sur cPanel ?
+
+Il est possible de se connecter sur votre compte d'[hébergement cPanel](https://www.o2switch.fr/hebergement-illimite/)
+de plusieurs manières différentes :
+
+<Badge text="A" type="danger" /> Via l'adresse principale, qui est communiquée dans le mail `Bienvenue chez o2switch`.
+
+Il s'agit d'une adresse de la forme : `https://nom-serveur.o2switch.net:2083`
+
+<Badge text="B" type="danger" /> Lia l'adresse technique qui est liée à votre compte d'hébergement.
+
+Par exemple `https://votre-identifiant.odns.fr:2083` *(attention, il y aura au avertissement de sécurité SSL)*
+
+<Badge text="C" type="danger" /> Via n'importe lequel des domaines que vous hébergez sur votre compte d'hébergement.
+
+Par exemple : `https://votre-domaine.tld:2083`. Attention, le domaine doit directement pointer vers o2switch 
+*(sans CDN)* et vous aurez probablement un avertissement de sécurité concernant le certificat SSL.
+
+<Badge text="D" type="danger" /> via l'adresse dites, de secours, qui permet d'accéder à cPanel lorsque le port 2083 est
+bloqué.
+
+Il suffit d'ajouter `cpanel.` devant un domaine que vous hébergez *(et qui pointe vers nos services)*, exemple :
+`https://cpanel.un-de-vos-domaines.tld` *(sans :2083 à la fin)*
+
+Il existe aussi des versions non https de toutes ces adresses là. Ce sont les mêmes adresses, en `http` avec 2082 à la
+place de 2083.
+
+Au final, vous devez avoir une page de connexion qui ressemble à celle ci-dessous.
+
+<Image
+    src="/img/docs/guides/cpanel/o2switch-connexion-cpanel.png"
+    title="Page de connexion cPanel"
+    caption="Page de connexion à cPanel, l'interface technique de l'hébergement o2switch"
+    alt="Capture d'écran de la page de connexion pour cPanel"
+/>
+
+Le mail  `Bienvenue chez o2switch` soit ressembler au mail ci-dessous. Tous les codes d'accès sont communiqués dans ce
+mail.
+
+<Image
+    src="/img/docs/guides/cpanel/mail-bienvenue-o2switch.png"
+    title="Le mail Bienvenue chez O2switch avec les codes pour cPanel"
+    caption="Le mail Bienvenue chez o2switch contient tous les codes d'accès pour cPanel"
+    alt="Capture d'écran du mail Bienvenue chez o2switch"
+/>
+
+Si vous n'avez pas vos codes et que vous ne retrouvez pas le mail, vous pouvez lancer la [procédure de mot de passe perdu
+pour cPanel](/guides/cpanel/mot-de-passe-perdu).
+
+## Tutoriel vidéo 
+
+Dans ce tutoriel vidéo, nous vous apprenons à vous connecter sur cPanel à partir des deux adresses *(l'adresse de base
+et l'adresse de secours)*.
+
+<YoutubeVideo id='qMB33mFXexU' title="Comment se connecter sur cPanel ?"/>
+
+## Page inaccessible / Timeout
+
+Si vous avez une page inaccessible dans votre navigateur web et que vous êtes sûr et certain de l'adresse que vous avez
+entrée *(celle du mail de bienvenue par exemple)*, cela veut probablement dire que le port 2083 est bloqué de votre côté.
+
+Le blocage peut être au niveau de votre pare-feu ou de votre connexion internet. Très souvent, les connexions
+d'entreprises ou de Wifi public ou gratuit ne permettent pas la connexion sur le port 2083.
+
+Dans ce cas, vous pouvez utiliser l'adresse de secours suivante : **cpanel.votre-domaine-principal.fr**. Si cette
+dernière ne fonctionne pas non plus, contactez le [support technique](https://www.o2switch.fr/support-hebergeur/) 
+
+Vous pouvez également débloquer le port 2083 de votre côté. Pour cela, vous pouvez :
+  * regarder si vous avez un pare-feu sur votre ordinateur
+  * vous connecter sur l'interface d'administration de votre box internet et regarder si des filtrages par défaut ne
+    sont pas activés 
+  * demander directement à l'administrateur de votre réseau dans le cas où vous utilisez une connexion internet
+    d'entreprise
