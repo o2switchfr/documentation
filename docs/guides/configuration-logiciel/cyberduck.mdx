@@ -1,1 +1,96 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-web/cyberduck-config-ftp
+---
+title: Comment configurer le logiciel FTP Cyberduck ?
+sidebar_label: Cyberduck
+description: Ce tutoriel explique comment configurer le logiciel FTP Cyberduck sur un compte d'hébergement mutualisé o2switch
+tags:
+  - guides
+  - ftp
+---
+
+# Configuration du logiciel FTP Cyberduck 
+
+Ce guide explique comment configurer le logiciel FTP Cyberduck sur un [espace
+d'hébergement](https://www.o2switch.fr/hebergement-illimite/) o2switch. 
+
+Cyberduck est compatible Mac et PC, le logiciel vous permet d'envoyer et de récupérer massivement des fichiers sur votre
+compte d'hébergement. 
+
+## Télécharger Cyberduck
+
+Commencez par télécharger le logiciel directement depuis [le site officiel](https://cyberduck.io/download/). Prenez la
+version .exe si vous êtes sur Windows et la version .dmg si vous êtes sur Mac. 
+
+Si vous êtes sur Mac, préférez la version de l'appstore. Double cliquez sur le fichier et laissez vous guider pour
+l'installation.
+
+## Configurer Cyberduck
+
+Dans un premier temps, retrouvez l'email `Bienvenue chez o2switch`. Ce mail contient une rubrique `Accès FTP` qui
+donne toute la configuration. 
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/mail-bienvenue-o2switch.png"
+    title="Le mail Bienvenue chez O2switch donne la configuration FTP"
+    caption="Le mail Bienvenue chez o2switch contient une rubrique FTP avec tous les éléments de configuration"
+    alt="Capture d'écran du mail Bienvenue chez o2switch"
+/>
+
+Ensuite, ouvrez le logiciel puis cliquez sur `Ouvrir une connexion` pour ajouter une connexion FTP.
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/cyberduck-nouvelle-connexion.png"
+    title="Ajout d'une nouvelle connexion FTP"
+    caption="Configuration d'une nouvelle connexion dans Cyberduck"
+    alt="Capture d'écran du logiciel FTP Cyberduck montrant l'ajout d'une connexion FTP"
+/>
+
+A l'aide du mail intitulé `Bienvenue chez o2switch` que vous avez reçu lors de votre inscription, précisez les
+paramètres suivants :
+  * `Protocole FTP` dans la liste déroulante
+  * `Serveur` : votre nom de domaine ou le cas échéant l'adresse temporaire de la forme `qqch.o2switch.net` précisé dans
+    le mail de bienvenue
+  * `Port` : par défaut, 21
+  * `Nom d'utilisateur` : votre login cPanel
+  * `Mot de passe` : mot de passe de votre compte cPanel
+  * `Enregistrer le mot de passe` : oui
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/cyberduck-parametres.png"
+    title="Paramètres de configuration pour la connexion FTP Cyberduck"
+    caption="La configuration à appliquer dans Cyberduck pour la connexion FTP"
+    alt="Capture d'écran du logiciel FTP Cyberduck montrant les réglages FTP à utiliser"
+/>
+
+Ensuite, lorsque vous allez vous connecter pour la première fois, le logiciel affichera un avertissement de la sorte
+pour indiquer que la connexion n'est pas chiffrée, cliquez sur continuer *(et cochez "ne plus afficher")*. 
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/cyberduck-avertissement.png"
+    title="Avertissement de sécurité sur le chiffrement de la connexion"
+    caption="Avertissement de sécurité sur la connexion FTP non chiffrée"
+    alt="Capture d'écran du message d'avertissement de sécurité d'une connexion FTP non chiffrée"
+/>
+
+La configuration du logiciel est terminée, vous pouvez envoyer vos données.
+
+:::info[Connexion FTP chiffrée]
+Si vous souhaitez établir une connexion FTP chiffrée, alors :
+- choisissez le protocole `SFTP` à la place de `FTP` dans Cyberduck
+- utilisez le port `22` à la place de `21`
+- il faut impérativement utiliser votre identifiant et mot de passe cPanel. La connexion FTP n'est pas possible sur
+un compte FTP secondaire.
+:::
+
+## Transferer des fichiers 
+
+Pour transférer vos données, il suffit de vous placer dans le dossier côté serveur où vous souhaitez que les données
+soient transférées puis de cliquer sur `Téléverser`.
+
+Le dossier "public_html" est le dossier qui doit contenir les fichiers de votre site internet principal.
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/cyberduck-connexion-ok-legende.png"
+    title="Envoi de fichiers avec cyberduck"
+    caption="Explication rapide du fonctionnement de Cyberduck"
+    alt="Capture d'écran de Cyberduck pour l'envoi de fichiers"
+/>
