@@ -1,1 +1,156 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-web/filezilla-config-ftp
+---
+title: Comment configurer le logiciel FTP Filezilla ?
+sidebar_label: Filezilla
+description: Ce tutoriel explique comment configurer le logiciel FTP Filezilla sur un hébergement web o2switch pour envoyer et récupérer des données
+tags:
+  - guides
+  - ftp
+---
+
+# Configuration du logiciel FTP Filezilla 
+
+Ce guide explique comment **configurer le logiciel FTP
+[Filezilla](https:`filezilla-project.org/download.php?type=client)** sur l'[offre d'hébergement
+web](https:`www.o2switch.fr/hebergement-illimite/) o2switch. 
+
+Un logiciel FTP comme Filezilla vous permet : 
+  * **d'envoyer des fichiers** sur votre hébergement. Vous pouvez envoyer des dossiers entiers, avec des milliers de
+    fichiers.
+  * **récupérer des fichiers** présent sur votre hébergement, les télécharger sur votre ordinateur. Vous pouvez
+    récupérer massivement des dossiers entiers de votre hébergement o2switch.
+
+En résumé, il faut utiliser un client FTP comme Filezilla lorsque vous avez besoin d'envoyer/récupérer massivement des
+fichiers sur votre hébergement. 
+
+## Présentation vidéo
+
+Dans ce tutoriel vidéo, nous voyons **comment configurer Filezilla** sur un hébergement o2switch.
+
+<YoutubeVideo id='A6buIXBLXko' title="Comment configurer Filezilla ?"/>
+
+## Installer Filezilla
+
+Commencez par télécharger le logiciel directement depuis le site officiel en suivant ce lien :
+[télécharger Filezilla](https:`filezilla-project.org/download.php?type=client). 
+
+Le logiciel est compatible avec Windows, Linux et Mac OS. 
+
+Si vous êtes sur un système linux, préférez le gestionnaire de paquet de votre système. Lancez l'interface graphique de
+gestion de paquet ou l'une de ces lignes de commande en fonction du système que vous utilisez `apt-get install
+filezilla` ou `yum install filezilla`.
+
+
+## Configurer Filezilla
+
+Dans un premier temps, retrouvez l'email `Bienvenue chez o2switch`. Ce mail contient une rubrique `Accès FTP` qui
+donne toute la configuration. 
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/mail-bienvenue-o2switch.png"
+    title="Le mail Bienvenue chez O2switch donne la configuration FTP"
+    caption="Le mail Bienvenue chez o2switch contient une rubrique FTP avec tous les éléments de configuration"
+    alt="Capture d'écran du mail Bienvenue chez o2switch"
+/>
+
+Ensuite , lancez le logiciel Filezilla et ouvrez le gestionnaire de sites en allant dans `Fichier` puis `Gestionnaire de
+sites`. 
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/filezilla-gestionnaire-site.png"
+    title="Ouverture du gestionnaire de site Filezilla"
+    caption="Ajout d'une nouvelle connexion FTP dans Filezilla avec le gestionnaire de site"
+    alt="Capture d'écran du logiciel FTP Filezilla montrant l'ouverture du gestionnaire de site"
+/>
+
+Sur la fenêtre suivante, ajoutez un site et configurez-le avec les paramètres suivants que vous pouvez retrouver dans
+l'email `Bienvenue chez o2switch` que vous avez dû recevoir :
+  * **Hôte** : votre nom de domaine *(ou l'adresse `qqch.o2switch.net` précisée dans votre mail de bienvenue si votre
+    domaine n'était pas disponible)*
+  * **Protocole** : FTP
+  * **Chiffrement** : aucun *(si vous en avez besoin, référez-vous au cas particulier plus bas dans cette page)*
+  * **Type d'authentification** : normale
+  * **Identifiant** : votre identifiant cPanel
+  * **Mot de passe** : votre mot de passe cPanel
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/filezilla-gestionnaire-site.png"
+    title="Paramètres de configuration FTP pour Filezilla"
+    caption="Configuration du client FTP avec les paramètres de votre espace d'hébergement"
+    alt="Capture d'écran de la configuration FTP du logiciel Filezilla"
+/>
+
+Cliquez sur le bouton `Valider` pour confirmer le tout.
+
+Ensuite, il suffit de sélectionner le site dans la liste de vos sites configurés visible dans le menu de gauche puis de
+cliquez sur "connexion". 
+
+Si tout se passe bien, vous devriez voir la liste de vos fichiers présents sur votre espace d'hébergement dans la partie
+droite du logiciel. 
+
+:::info[En cas d'erreur]
+En cas de problème, des messages d'erreur en rouge apparaîtront dans la partie "log" du logiciel. 
+
+Dans ce cas, revoyez votre configuration et assurez-vous que les login/mot de passe sont corrects en vous
+[connectant sur cPanel](guides/cpanel/comment-se-connecter) par exemple *(les accès étant identiques)*.
+:::
+
+:::info[Connexion FTP chiffrée]
+Si vous souhaitez établir une connexion FTP chiffrée, alors :
+- ajoutez une exception SSH pour votre adresse IP depuis l'[outil d'autorisation SSH](/cpanel/outils/exception-parefeu)
+  dans cPanel
+- choisissez le protocole `SFTP` à la place de `FTP` dans Filezilla
+- utilisez le port `22` à la place de `21`
+- il faut impérativement utiliser votre identifiant et mot de passe cPanel. La connexion FTP n'est pas possible sur
+un compte FTP secondaire.
+:::
+
+## Transférer des fichiers
+
+Le logiciel est découpé en plusieurs zones que vous pouvez voir sur la capture d'écran suivante :
+  * Une zone de logs qui affiche tout ce que fait le logiciel, cette partie *(illustrée en vert ci-dessous)* est utile
+    en cas de problème *(connexion impossible par exemple)*
+  * Une zone représentant les fichiers présents sur votre ordinateur *(illustrée en bleu sur la capture)*
+  * Une zone pour les fichiers présents côté serveur, donc sur votre espace d'hébergement *(illustrée en violet/rose)*
+  * Une file d'attente qui permet de suivre l'état de votre transfert et voir les transferts qui ont échoués *(partie en
+    Orange sur la capture)*
+
+Pour faire un transfert de données, il suffit de faire des "glisser-déposer" des fichiers :
+  * de la gauche vers la droite pour transférer des fichiers présents sur votre ordinateur sur votre espace
+    d'hébergement *(flèche en rouge sur la capture)*
+  * de la droite vers la gauche pour récupérer des fichiers présents sur votre hébergement sur votre ordinateur *(non
+    illustré)*
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/filezilla-transfert-complet.png"
+    title="Illustration des différentes zones dans Filezilla"
+    caption="Explications sur les différentes zones dans le logiciel FTP Filezilla"
+    alt="Capture d'écran annotée du logiciel FTP Filezilla montrant les différentes zones"
+/>
+
+
+Pour publier votre site "principal", il faut envoyer l'ensemble des fichiers constituant votre site internet dans le
+répertoire "public_html". 
+
+
+## Cas particuliers
+
+La configuration FTP expliquée précédemment convient pour la plupart des usages et permet d'envoyer des fichiers sur
+votre espace d'hébergement pour mettre en ligne votre site internet.
+
+Cependant, d'autres configurations qui répondent à des besoins plus spécifiques existent. 
+
+Vous pouvez configurer Filezilla pour une connexion **SFTP**, pour cela :
+  * vous devez choisir le protocole SFTP sur Filezilla
+  * précisez le port 22
+  * ajoutez une exception SSH avec l'[outil d'autorisation SSH](/cpanel/outils/exception-parefeu)
+  * il faut impérativement utiliser l'identifiant / mot de passe de cPanel. Le SFTP n'est pas possible sur des comptes 
+  FTP secondaire
+
+Vous pouvez configurer Filezilla pour une connexion **FTPS**, pour cela :
+  * nous devons débloquer votre adresse IP via l'[outil d'autorisation SSH](/cpanel/outils/exception-parefeu) du cPanel,
+    sinon vous ne pourrez que lister vos fichiers *(même procédure que pour la demande d'accès SSH)*
+  * vous devez configurer Filezilla pour une connexion FTPS explicite
+
+Vous pouvez configurer Filezilla avec des comptes FTP secondaires que vous avez pu créer sur votre compte cPanel. Dans
+ce cas, les configurations restent identiques, à l'exception du login et du mot de passe. Une particularité concernant
+le login de connexion, ce dernier ressemble à une adresse email, il est de la forme `qqch@votre-domaine-principal.tld`. 
