@@ -156,7 +156,6 @@ const sidebars: SidebarsConfig = {
             id: 'guides/configuration-logiciel/index'
           },
           items: [
-            'guides/configuration-logiciel/configuration-ftp',
             'guides/configuration-logiciel/cyberduck',
             'guides/configuration-logiciel/filezilla',
             'guides/configuration-logiciel/iweb',
