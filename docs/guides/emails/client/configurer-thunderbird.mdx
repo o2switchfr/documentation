@@ -1,1 +1,109 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-emails/configurer-icedove
+---
+title: Configurer une adresse email o2switch sur Thunderbird
+sidebar_label: Thunderbird
+description: Ce tutoriel explique comment configurer une adresse email o2switch sur le logiciel de messagerie Thunderbird
+image: /img/docs/guides/emails/client/o2switch-configurer-thunderbird-1.png
+tags:
+  - guides
+  - email
+---
+
+# Configurer une adresse email sur Thunderbird 
+
+Cette page explique comment configurer une adresse mail, créée sur un [compte d'hébergement
+o2switch](https://www.o2switch.fr), sur le client de messagerie **Thunderbird**. 
+
+Cela vous permettra de consulter et envoyer des emails depuis Thunderbird.
+
+## Tutoriel vidéo
+
+Dans ce tutoriel vidéo, nous voyons comment configurer Thunderbird en IMAP SSL
+
+<YoutubeVideo id='TujEszcGJM8' title="Comment configurer Thunderbird en IMAP SSL ?"/>
+
+## Prérequis avant la configuration
+
+Dans un premier temps, retrouvez l'email `Bienvenue chez o2switch`. Ce mail contient une rubrique `Créer vos emails` qui
+donne toute la configuration email et notamment l'adresse du serveur de la forme `qqch.o2switch.net` qui sera nécessaire
+plus tard.
+
+<Image
+    src="/img/docs/guides/emails/client/mail-bienvenue-configuration.png"
+    title="Le mail Bienvenue chez o2switch contient toute la configuration à utiliser pour les emails"
+    caption="Le mail bienvenue chez o2switch contient la configuration à utiliser"
+    alt="Capture d'écran de l'email envoyé par o2switch lors de l'ouverture d'un compte d'hébergement"
+/>
+
+## Configurer un compte email dans Thunderbird
+
+Lancez Thunderbird. Si c'est la première fois que vous lancez l'outil et que vous n'avez pas configuré d'adresse email,
+alors l'outil vous proposera directement d'ajouter un nouveau compte email.
+
+<Badge type="danger" text="1" /> Si vous avez déjà lancé le logiciel, vous pouvez retrouver le menu d'ajout d'une
+nouvelle adresse email en cliquant sur l'icône du menu <FAIcon icon="fa-solid fa-bars" />, qui se trouve en haut à
+droite. Puis en cliquant sur `Nouveau Compte` puis `Adresse e-mail`.
+
+<Badge type="danger" text="2" /> Dans le premier bloc de configuration, notez :
+- `Votre nom complet` : vous pouvez notez votre nom/prénom, cela s'affichera dans les emails que vous envoyez
+- `Adresse email` : notez votre adresse email complète 
+- `Mot de passe` : le mot de passe de l'adresse email. Vous avez choisi ce mot de passe lors de la création de votre
+compte email depuis l'[outil compte de messagerie](/cpanel/emails/adresse-email) 
+
+<Image
+    src="/img/docs/guides/emails/client/o2switch-configurer-thunderbird-1.png"
+    title="Ajout d'un nouveau compte email dans Thunderbird"
+    caption="Le mail bienvenue chez o2switch contient la configuration à utiliser"
+    alt="Capture d'écran de l'email envoyé par o2switch lors de l'ouverture d'un compte d'hébergement"
+/>
+
+Ensuite Thunderbird va tenter de détecter la configuration email à utiliser tout seul. S'il y parvient , vous pouvez continuer en utilisant la configuration détectée. Si vous avez généré un
+[certificat SSL](/cpanel/securite/lets-encrypt-ssl-gratuit) au préalable, la configuration détectée devrait fonctionner
+correctement <Badge type="danger" text="A" />.
+
+<Image
+    src="/img/docs/guides/emails/client/o2switch-configurer-thunderbird-2.png"
+    title="Détection automatique de la configuration par Thunderbird"
+    caption="Thunderbird essaye de détecter automatiquement la configuration email à utiliser"
+    alt="Capture d'écran de Thunderbird qui détecte automatiquement la configuration"
+/>
+
+En revanche, si la configuration détectée par Thunderbird ne fonctionne pas, ou s'il ne parvient pas à détecter les
+réglages, ou que vous avez une erreur en rapport avec un certificat SSL qui serait invalide, alors vous pouvez cliquer
+sur <Badge type="danger" text="B" /> `Configuration manuelle` pour configurer Thunderbird manuellement. 
+
+<Badge type="danger" text="3" /> En configuration manuelle, dans les réglages du serveur entrant il faut noter : 
+- `Protocole` : IMAP
+- `Nom d'hôte` : reprenez le nom du serveur communiqué dans le mail `Bienvenue chez o2switch`. C'est de la forme 
+`qqch.o2switch.net`
+- `Port` : 993
+- `Sécurité de la connexion` : SSL/TLS
+- `Méthode d'autentification` : Mot de passe normal
+- `Nom d'utilisateur` : votre adresse email complète 
+
+<Badge type="danger" text="4" /> Pour la configuration manuelle du serveur sortant, il faut noter : 
+- `Nom d'hôte` : reprenez le nom du serveur communiqué dans le mail `Bienvenue chez o2switch`. C'est de la forme 
+`qqch.o2switch.net`
+- `Port` : 465
+- `Sécurité de la connexion` : SSL/TLS
+- `Méthode d'autentification` : Mot de passe normal
+- `Nom d'utilisateur` : votre adresse email complète 
+
+<Badge type="danger" text="5" /> Vous pouvez cliquer sur le bouton `Retester` pour vérifier la configuration 
+
+<Badge type="danger" text="6" /> Puis valider la configuration en cliquant sur `Terminé`.
+
+<Image
+    src="/img/docs/guides/emails/client/o2switch-configurer-thunderbird-3.png"
+    title="Configuration des réglages IMAP et SMTP pour Thunderbird"
+    caption="Configuration manuelle des réglages IMAP et SMTP pour Thunderbird"
+    alt="Capture d'écran de la configuration IMAP et SMTP pour Thunderbird avec o2switch"
+/>
+
+La configuration est terminée, vous pouvez dés maintenant consulter et envoyer des emails depuis Thunderbird. 
+
+<Image
+    src="/img/docs/guides/emails/client/o2switch-configurer-thunderbird-4.png"
+    title="La configuration de Thunderbird est terminée"
+    caption="La configuration est terminée, vous pouvez envoyer et recevoir des emails"
+    alt="Capture d'écran de Thunderbird qui liste les emails reçus"
+/>
