@@ -1,0 +1,121 @@
+---
+title: Configurer une adresse email o2switch sur Outlook 2003
+sidebar_label: Outlook 2003
+description: Ce tutoriel explique comment configurer une adresse email o2switch sur Outlook 2003
+image: /img/docs/guides/emails/client/outlook2003_parametres_imap_non_chiffre.png
+tags:
+  - guides
+  - email
+---
+
+# Configurer une adresse email sur Outlook 2003 
+
+Ce guide explique comment configurer une adresse mail créée via cPanel, sur l'**[hébergement
+o2switch](https://www.o2switch.fr/hebergement-illimite/)**, sur  le logiciel de messagerie **Microsoft Outlook
+2003**.
+
+:::danger[Le logiciel n'est plus maintenu et ne garantit pas une connexion sécurisée]
+Nous laissons le guide de configuration pour Outlook 2003 en ligne pour la minorité de client qui utilisent encore ce
+logiciel et qui sont potentiellement encore bloqué dessus.
+
+Cependant, Outlook 2003 est **dépassé** et **ne permet pas une connexion email sécurisée**. Par exemple, Outlook ne
+supportera pas une connexion SSL chiffrée entre votre ordinateur et le serveur, car le serveur utilisera une
+configuration SSL trop récente qu'Outlook 2003 ne comprendra pas.
+
+Nous vous recommandons fortement de mettre à jour le logiciel de messagerie. Ou de changer vers un autre logiciel comme
+[Thunderbird](/guides/emails/client/configurer-thunderbird), voire d'utiliser le [Webmail](/guides/emails/webmail/). 
+
+En résumé, ce n'est vraiment **pas une bonne idée** de continuer à utiliser Outlook 2003.
+:::
+
+:::info[Vous avez une version plus récente d'outlook ?]
+Si vous avez une version plus récente d'Outlook, alors consultez les autres guides : 
+- [Outlook - Tutoriel le plus récent](/guides/emails/client/configurer-outlook)
+- [Outlook 2016](/guides/emails/client/configurer-outlook-2016)
+:::
+
+## Tutoriel vidéo
+
+Dans ce tutoriel vidéo, nous voyons comment configurer outlook en IMAP (non SSL)
+
+<YoutubeVideo id='u0ouJ5vPvHc' title="Comment configurer Outlook 2003 en IMAP non SSL ?"/>
+
+## Prérequis avant la configuration
+
+Dans un premier temps, retrouvez l'email `Bienvenue chez o2switch`. Ce mail contient une rubrique `Créer vos emails` qui
+donne toute la configuration email et notamment l'adresse du serveur de la forme `qqch.o2switch.net` qui sera nécessaire
+plus tard.
+
+<Image
+    src="/img/docs/guides/emails/client/mail-bienvenue-configuration.png"
+    title="Le mail Bienvenue chez o2switch contient toute la configuration à utiliser pour les emails"
+    caption="Le mail bienvenue chez o2switch contient la configuration à utiliser"
+    alt="Capture d'écran de l'email envoyé par o2switch lors de l'ouverture d'un compte d'hébergement"
+/>
+
+
+## Configurer un compte email dans Outlook 2003
+
+Ouvrez le logiciel, puis cliquez sur `Outils` puis `comptes de messagerie`.
+
+<Image
+    src="/img/docs/guides/emails/client/outlook2003_comptes_messagerie.png"
+    title="Première étape pour configurer outlook 2003"
+    caption="Première étape de la configuration d'un compte sur Outlook 2003"
+    alt="Capture d'écran de la première étape de configuration d'outlook 2003"
+/>
+
+Ensuite, sélectionnez `ajouter un nouveau compte de messagerie` puis validez.
+
+<Image
+    src="/img/docs/guides/emails/client/outlook2003_ajouter_compte.png"
+    title="Ajout d'un compte de messagerie dans outlook 2003"
+    caption="Ajout d'un nouveau compte de messagerie"
+    alt="Capture d'écran d'outlook 2003 pour l'ajout d'un compte email"
+/>
+
+Ensuite, choisissez "IMAP" comme type de compte.
+
+<Image
+    src="/img/docs/guides/emails/client/outlook2003_choix_imap.png"
+    title="Configuration d'un compte mail IMAP dans Outlook"
+    caption="Configuration d'un compte en IMAP"
+    alt="Capture d'écran d'outlook 2003 pour l'ajout d'un compte IMAP"
+/>
+
+Ensuite, remplissez les champs suivants avec ces paramètres :
+  * `Votre nom` : ce que vous souhaitez faire apparaître dans le champ FROM des personnes que vous contacterez
+  * `Adresse de messagerie` : votre adresse mail complète
+  * `Serveur de courrier entrant` : votre nom de domaine, sans www, ni HTTP devant. Vous pouvez également noter le nom
+    du serveur communiqué dans le mail `Bienvenue chez o2switch`. Le nom est de la forme suivante : `qqch.o2switch.net`
+  * `Serveur de courrier sortant` : votre nom de domaine. Vous pouvez aussi noter le nom du serveur *(voir commentaire
+    précédent)*
+  * `Nom d'utilisateur` : Votre adresse mail complète *(pas seulement la première partie)*
+  * `Mot de passe` : le mot de passe de votre compte courriel
+  * Vous aurez besoin de spécifier des `paramètres supplémentaires` *(étape suivante)*
+
+Vous devez avoir une configuration qui ressemble à cela : 
+
+<Image
+    src="/img/docs/guides/emails/client/outlook2003_parametres_imap_non_chiffre.png"
+    title="Paramètres outlook 2003 en imap non chiffré"
+    caption="Paramètres pour la création d'un compte IMAP"
+    alt="Capture d'écran d'outlook 2003 sur les paramètres imap non ssl"
+/>
+
+
+Dans les paramètres supplémentaires, vous devez faire attention à deux choses :
+  * Dans l'onglet `serveur sortant`, vous devez cocher `mon serveur sortant (SMTP) requiert une authentification` et
+    "utiliser les mêmes paramètres que mon serveur de courrier entrant"
+  * Dans l'onglet `options avancées`, vous devez avoir le port `143` en IMAP et `25` en SMTP. Les cases `ce serveur
+    nécessite une connexion cryptée` doivent rester décochées. 
+
+<Image
+    src="/img/docs/guides/emails/client/outlook2003_parametres_avances_imap_non_chiffre_complet.png"
+    title="Paramètres supplémentaire pour configurer outlook 2003"
+    caption="Paramètres supplémentaires lors de la configuration d'un compte. Permet d'activer l'authentification SMTP
+    et de définir les ports à utiliser."
+    alt="Capture d'écran des paramètres supplémentaires d'outlook 2003"
+/>
+
+Validez en cliquant sur "OK" puis "Valider", vous avez terminé la configuration de votre client de messagerie.

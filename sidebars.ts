@@ -208,6 +208,8 @@ const sidebars: SidebarsConfig = {
                 'guides/emails/client/configurer-android',
                 'guides/emails/client/configurer-iphone',
                 'guides/emails/client/configurer-outlook',
+                'guides/emails/client/configurer-outlook-2003',
+                'guides/emails/client/configurer-outlook-2016',
                 'guides/emails/client/configurer-thunderbird',
                 'guides/emails/client/configurer-mail-mac'
               ],
