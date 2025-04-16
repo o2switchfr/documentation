@@ -1,2 +1,106 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-emails/configurer-outlook-2003
-https://faq.o2switch.fr/hebergement-mutualise/gestion-emails/configurer-outlook-2016
+---
+title: Configurer une adresse email o2switch sur Outlook
+sidebar_label: Outlook
+description: Ce tutoriel explique comment configurer une adresse email o2switch sur Outlook
+image: /img/docs/guides/emails/client/TODO 
+tags:
+  - guides
+  - email
+  - outlook
+---
+
+# Configurer une adresse email sur Outlook 
+
+Ce guide explique comment configurer une adresse email, créée sur votre [hébergement
+mutualisé](https://www.o2switch.fr/hebergement-illimite/), sur le logiciel de messagerie **Outlook**. Cela vous
+permet de consulter et gérer vos emails o2switch depuis le logiciels Outlook. 
+
+
+## Prérequis avant la configuration
+
+Dans un premier temps, retrouvez l'email `Bienvenue chez o2switch`. Ce mail contient une rubrique `Créer vos emails` qui
+donne toute la configuration email et notamment l'adresse du serveur de la forme `qqch.o2switch.net` qui sera nécessaire
+plus tard.
+
+<Image
+    src="/img/docs/guides/emails/client/mail-bienvenue-configuration.png"
+    title="Le mail Bienvenue chez o2switch contient toute la configuration à utiliser pour les emails"
+    caption="Le mail bienvenue chez o2switch contient la configuration à utiliser"
+    alt="Capture d'écran de l'email envoyé par o2switch lors de l'ouverture d'un compte d'hébergement"
+/>
+
+## Configurer un compte email dans Outlook
+
+Si c'est la première fois que vous ouvrez le Outlook et que vous n'avez pas encore d'adresse email configurée, alors
+Outlook vous proposera d'ajouter un compte à l'ouverture du logiciel.
+
+Si vous utilisez déjà Outlook, alors il faut cliquer sur `Ajouter un compte` pour commencer la configuration d'une 
+nouvelle adresse email. 
+
+<Badge text="1" type="danger" /> Dans le premier écran qui s'affiche, dans les `Comptes suggérés`, notez l'adresse
+email que vous avez créée avec l'[outil Comptes de Messagerie](/cpanel/emails/adresse-email) de votre hébergement.
+
+<Badge text="2" type="danger" /> Dans l'écran suivant, lors de la sélection du fournisseur d'email, choisissez un 
+compte de type `IMAP`. 
+
+<Image
+    src="/img/docs/guides/emails/client/outlook-o2switch-1.png"
+    title="Ajout d'un nouveau compte email de type IMAP dans Outlook"
+    caption="Ajout d'un compte de messagerie de type IMAP dans Outlook"
+    alt="Capture d'écran d'Outlook sur l'ajout d'un compte email de type IMAP"
+/>
+
+<Badge text="3" type="danger" /> Dans le champs `Mot de passe`, notez le mot de passe de l'adresse email. Cela
+correspond à ce que vous avez renseigné dans l'[outil Compte de messageries](/cpanel/emails/adresse-email) lors de la
+création du compte de messagerie.
+
+Ensuite, Outlook devrait détecter la configuration email automatiquement. Si vous avez généré un [certificat
+SSL](/cpanel/securite/lets-encrypt-ssl-gratuit) au préalable, la configuration détectée devraient fonctionner
+correctement. Donc vous pouvez faire une tentative en laissant tous les réglages par défaut d'Outlook. 
+
+Si la configuration détectée par Outlook ne fonctionne pas, ou qu'Outlook ne parvient pas à détecter les réglages, ou
+que vous avez une erreur en rapport avec un certificat SSL qui serait invalide, alors vous pouvez cliquer sur `Afficher
+plus` pour configurer Outlook manuellement. 
+
+<Badge text="4" type="danger" /> Dans le cadre des réglages IMAP d'Outlook, il faut noter : 
+- `Serveur entrant IMAP` : reprenez le nom du serveur communiqué dans le mail `Bienvenue chez o2switch`. C'est de la
+forme `qqch.o2switch.net`
+- `Port` : 993 
+- `Type de connexion sécurisée` : SSL/TLS 
+
+<Badge text="5" type="danger" /> Dans le cadre des réglages SMTP d'Outlook, il faut noter : 
+- `Nom d'utilisateur SMTP` : votre adresse email 
+- `Mot de passe` : le mot de passe de votre adresse email 
+- `Serveur sortant SMTP` : reprenez le nom du serveur communiqué dans le mail `Bienvenue chez o2switch`. C'est de la
+forme `qqch.o2switch.net`
+- `Port` : 465 
+- `Type de connexion sécurisée` : SSL/TLS 
+
+<Image
+    src="/img/docs/guides/emails/client/outlook-o2switch-2.png"
+    title="Configuration IMAP et SMTP dans Outlook"
+    caption="Réglages pour la configuration IMAP et SMTP dans Outlook"
+    alt="Capture d'écran d'Outlook sur les réglages SMTP et IMAP"
+/>
+
+Ensuite, les écrans suivants vous permettent de personnaliser votre expérience Outlook, ils ne sont pas d'une grande
+importance. Vous pouvez les valider et choisir les réglages selon vos préférences. 
+
+<Image
+    src="/img/docs/guides/emails/client/outlook-o2switch-3.png"
+    title="Dernière étape de la configuration d'outlook"
+    caption="Réglages des préférences Outlook pour personnaliser l'expérience d'utilisation"
+    alt="Dernière étape d'une configuration outlook"
+/>
+
+Si tout se passe bien, Outlook s'ouvrira et vous pourrez envoyer et consulter vos emails.
+
+Si vous souhaitez ajouter un autre compte, vous pouvez relancer le processus de configuration en cliquant sur
+`Ajouter un compte`.
+
+<Image
+    src="/img/docs/guides/emails/client/outlook-o2switch-4.png"
+    title="Outlook est configuré"
+    caption="La configuration est terminée, vous pouvez envoyer et recevoir des emails"
+    alt="Capture d'écran du logiciel Outlook"
+/>
