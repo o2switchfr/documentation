@@ -1,0 +1,110 @@
+---
+title: Configurer une adresse email o2switch sur Outlook 2016
+sidebar_label: Outlook 2016
+description: Ce tutoriel explique comment configurer une adresse email o2switch sur Outlook 2016
+image: /img/docs/guides/emails/client/outlook-2016-imap-ssl-1-o2switch.png
+tags:
+  - guides
+  - email
+---
+
+# Configurer une adresse email sur Outlook 2016 
+
+Ce guide explique comment configurer une adresse email, créée sur votre [hébergement illimité
+o2switch](https://www.o2switch.fr/hebergement-illimite/), sur le logiciel de messagerie **Outlook 2016**. Cela vous
+permet de consulter et gérer vos emails o2switch depuis le logiciels Outlook. 
+
+:::warning[Fin de vie d'Outlook 2016]
+D'après Microsoft, le support d'Outlook 2016 (ainsi qu'Office 2019) prendra fin le 14 Octobre 2025. Pour cette raison,
+nous vous recommandons de passer sur une version plus récente du logiciel.
+
+Ou si cela n'est pas possible, d'envisager une alternative gratuite comme
+[Thunderbird](/guides/emails/client/configurer-thunderbird)
+
+[Source - Microsoft](https://support.microsoft.com/en-us/office/end-of-support-for-office-2016-and-office-2019-818c68bc-d5e5-47e5-b52f-ddf636cf8e16)
+:::
+
+## Tutoriel vidéo
+
+Dans ce tutoriel vidéo, nous voyons comment configurer **Outlook 2016** en IMAP SSL.
+
+<YoutubeVideo id='o8jEc7EYbjQ' title="Comment configurer Outlook 2016 en IMAP SSL ?"/>
+
+## Prérequis avant la configuration
+
+Dans un premier temps, retrouvez l'email `Bienvenue chez o2switch`. Ce mail contient une rubrique `Créer vos emails` qui
+donne toute la configuration email et notamment l'adresse du serveur de la forme `qqch.o2switch.net` qui sera nécessaire
+plus tard.
+
+<Image
+    src="/img/docs/guides/emails/client/mail-bienvenue-configuration.png"
+    title="Le mail Bienvenue chez o2switch contient toute la configuration à utiliser pour les emails"
+    caption="Le mail bienvenue chez o2switch contient la configuration à utiliser"
+    alt="Capture d'écran de l'email envoyé par o2switch lors de l'ouverture d'un compte d'hébergement"
+/>
+
+## Configurer un compte email dans Outlook 2016
+
+Lancez votre client de messagerie puis allez dans la partie permettant d'ajouter un compte de messagerie. Cette partie
+est accessible en cliquant sur `Fichier` puis `Ajouter un compte`. 
+
+<Image
+    src="/img/docs/guides/emails/client/outlook-2016-ajouter-compte-1-o2switch.png"
+    title="Ajout d'un nouveau compte email dans Outlook 2016"
+    caption="Ajout d'un compte de messagerie dans Outlook 2016"
+    alt="Capture d'écran d'Outlool 2016 sur l'ajout d'un nouveau compte email"
+/>
+
+Ensuite il faut sélectionner une configuration manuelle en cliquant sur `configuration manuelle ou types de serveurs
+supplémentaires`. Ensuite, sur l'écran suivant, il faut sélectionner un compte de type `POP ou IMAP`. 
+
+<Image
+    src="/img/docs/guides/emails/client/outlook-2016-choix-type-compte-3bis-o2switch.png"
+    title="Configuration manuelle d'une adresse email dans Outlook 2016"
+    caption="Choix d'une configuration manuelle dans Outlook 2016"
+    alt="Capture d'écran d'Outlool 2016 pour la configuration manuelle d'un compte mail"
+/>
+
+Dans Outlook, voici les paramètres à indiquer pour une configuration IMAP SSL : 
+  * `Votre nom` : ce que vous souhaitez faire apparaître dans les messages que vous envoyez
+  * `Adresse de messagerie` : adresse mail complète *(et pas juste la première partie de l'adresse)*
+  * `Type de compte` : IMAP
+  * `Serveur de messagerie entrant` : le nom du serveur sur lequel votre hébergement se trouve. Ce nom de serveur peut
+  être retrouvé dans le mail `Bienvenue chez o2switch`. Le nom du serveur doit être de la forme suivante :
+  `qqch.o2switch.net`
+  * `Serveur de messagerie sortant (SMTP)` : le nom du serveur sur lequel votre hébergement se trouve *(toujours de la
+    forme suivante : `qqch.o2switch.net`)*
+  * `Nom d'utilisateur` : votre adresse mail complète
+  * `Mot de passe` : le mot de passe de l'adresse mail. Vous pouvez le régénérer depuis cPanel et l'[outil compte de
+    messagerie](/cpanel/emails/adresse-email) si besoin. Assurez-vous que votre mot de passe est valide sinon vous allez
+    perdre du temps pour la configuration.
+
+<Image
+    src="/img/docs/guides/emails/client/outlook-2016-imap-ssl-1-o2switch.png"
+    title="Configuration d'outlook 2016 en IMAP SSL"
+    caption="Paramètres pour Outlook 2016 pour une configuration IMAP SSL"
+    alt="Capture d'écran d'Outlook 2016 avec la configuration IMAP SSL pour o2switch"
+/>
+
+Ensuite il faut aller dans les `paramètres supplémentaires` pour faire quelques réglages :
+  * cocher la case `mon serveur sortant (SMTP) requiert une authentification` et `utiliser les mêmes paramètres que mon
+    serveur de messagerie entrant` visible dans l'onglet `serveur sortant`
+  * s'assurer que le port `993` est défini pour le serveur entrant, avec un chiffrement `ssl`. Pour le serveur sortant,
+    c'est le port `465` avec un chiffrement `ssl`.
+
+<Image
+    src="/img/docs/guides/emails/client/outlook-2016-imap-ssl-smtp-2-o2switch.png"
+    title="Paramètres supplémentaires d'outlook 2016"
+    caption="Paramètres supplémentaires pour la configuration d'outlook 2016 en IMAP SSL"
+    alt="Capture d'écran des paramètres supplémentaires d'outlook 2016"
+/>
+
+Vous pouvez tout valider, la configuration est terminée, si tout se passe bien, vous devriez avoir l'écran ci-dessous.
+
+<Image
+    src="/img/docs/guides/emails/client/outlook-2016-config-succes-o2switch.png"
+    title="La configuration est terminée"
+    caption="Fenêtre indiquant que la configuration a bien été acceptée"
+    alt="Capture d'écran de la fin de la configuration d'Outlook 2016"
+/>
+
