@@ -1,1 +1,128 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-emails/probleme-envoi-email
+---
+title: Débloquer un problème d'envoi de mail
+sidebar_label: Problème d'envoi
+description: Ce tutoriel explique comment résoudre les problèmes de mails courant sur un compte cPanel o2switch
+image: /img/docs/guides/emails/TODO
+tags:
+  - guides
+  - email
+---
+# Débloquer un problème d'envoi d'email chez o2switch
+
+Lorsque vous configurez un client de messagerie, vous pouvez être confronté au problème suivant, vous recevez bien
+vos messages, mais n'arrivez pas à en envoyer. 
+
+Cela peut venir de deux choses différentes :
+  * d'un problème lors de la configuration de votre logiciel (les configurations possibles sont détaillées plus loin)
+  * d'un filtrage au niveau de votre réseau ou opérateur qui n'autorise pas l'utilisation de SMTP tiers
+
+## Configuration SMTP
+
+Ce tutoriel explique comment résoudre les problèmes de mails courant sur un compte cPanel o2switch
+
+Lorsque vous avez un problème lors de l'envoi de message, le premier réflexe consiste à vérifier la configuration de
+votre serveur d'envoi. Voici les points qui bloquent souvent :
+
+### Authentification
+
+Est-ce que l'authentification est bien activée ? Il s'agit d'un paramètre souvent présent sous forme d'une case à cocher
+dans votre logiciel de messagerie. Très souvent, cela se nomme `mon serveur requiert une authentification` ou bien
+`authentification : mot de passe`.
+
+Lorsque cette première case est cochée, vous avez d'autres options qui se débloquent. Soit :
+  * `utiliser les mêmes paramètres que le serveur entrant` dans ce cas il faut cocher cela
+  * soit vous avez deux cases qui se débloquent, l'une demandant un login *(précisez votre adresse email complète)* et
+    l'autre un mot de passe *(précisez le mot de passe de votre adresse email)*
+
+### Ports SMTP
+
+Pour le serveur d'envoi, vous pouvez utiliser les ports suivants :
+  * `25` : le choix par défaut et qui devrait fonctionner *(nécessite que SSL/TLS ou "connexion chiffrée" soit
+    désactivé)*
+  * `26` : un port non standard que nous proposons et qui permet de passer au travers de certains filtres. Si votre
+    configuration initiale ne fonctionne pas, essayez de changer le port pour mettre le 26 à la place *(nécessite que
+    SSL/TLS ou "connexion chiffrée" soit désactivée)*
+  * `465` : configuration par défaut si vous utilisez une connexion chiffrée. Si vous avez ce port, vous devez forcément
+    cocher la case "connexion chiffrée" ou TLS/SSL. 
+
+### Nom d'hôte ou adresse de connexion
+
+Un autre paramètre est le nom d'hôte ou l'adresse du serveur de mail. Plusieurs choix sont possibles :
+  * votre nom de domaine, sans www, ni HTTP devant `votre-site.fr`
+  * un sous-domaine existant `mail.votre-site.fr`
+  * l'adresse "brute" du serveur `kewek.o2switch.net`
+  * votre nom de domaine temporaire `quelqueChose.odns.fr`
+  * l'adresse IP du serveur `109.234.161.42`
+
+En réalité, tout ce qui "pointe" vers votre espace d'hébergement est une configuration possible. Attention cependant
+avec les adresses suivantes qui n'existent pas par défaut : 
+  * `smtp.votre-domaine.fr`
+  * `out.votre-domaine.fr`
+
+Pour faire simple, si vous hébergez le site internet sur votre espace d'hébergement, précisez simplement
+`votre-domaine.fr`.
+
+Si vous avez une configuration avec TLS/SSL, vous devez `forcément` précisez l'adresse brute du serveur sur lequel vous
+êtes (`kewek.o2switch.net` par exemple). Si vous ne faites pas cela, vous risquez d'avoir un message "certificat SSL
+invalide".
+
+L'adresse du serveur est retrouvable dans le mail `Bienvenue chez o2switch` ou également depuis votre espace client en
+allant dans le détails de votre [prestation d'hébergement web](https://www.o2switch.fr/).
+
+<Image
+    src="/img/docs/guides/emails/client/mail-bienvenue-configuration.png"
+    title="Le mail Bienvenue chez o2switch contient toute la configuration à utiliser pour les emails"
+    caption="Le mail bienvenue chez o2switch contient la configuration à utiliser"
+    alt="Capture d'écran de l'email envoyé par o2switch lors de l'ouverture d'un compte d'hébergement"
+/>
+
+## Blocage par un parefeu
+
+Si vous avez testé tous les paramètres précédents et que cela ne fonctionne toujours pas, c'est probablement un blocage
+au niveau de votre parefeu. 
+
+Malheureusement nous ne pouvons pas faire grand-chose pour vous aider à ce sujet, le blocage n'étant pas de notre côté,
+mais voici quelques pistes à explorer :
+
+### Wifi gratuit
+
+Si vous utilisez une connexion type "wifi gratuit" ou "wifi d'hôtel", les configurations qui ont le plus de chances de
+fonctionner sont celle qui utilise le port 25 et celle avec le port 465. Si ces deux configurations ne fonctionnent pas,
+ne perdez pas votre temps et passez directement sur le webmail en ligne, car il est très probable que seul le port 80
+*(pour la consultation des pages web)* soit ouvert. 
+
+Si vous utilisez le webmail, utilisez l'adresse spéciale : `webmail.votre-domaine-principal.fr` comme expliqué dans
+[ce guide](/guides/emails/webmail/).
+
+### Connexion d'entreprise
+
+Si vous êtes en entreprise et qu'un administrateur réseau gère le réseau, demandez-lui les ports qui sont débloqués. Si
+vous n'avez pas moyen de contacter cette personne, les connexions sur le port 25 ou sur le port 465 ont le plus de
+chances de fonctionner. 
+
+Si nécessaire, demandez à l'administration de passer l'ensemble de votre domaine en liste blanche. 
+
+### Box internet
+
+Sur certaines Box internet, un paramétrage par défaut bloque l'utilisation de SMTP tiers. Pour pallier à ce problème,
+connectez-vous sur l'interface d'administration de votre box internet. Pour vous connectez sur l'administration de cette
+box :
+  * essayez d'aller sur `http://192.168.1.1`
+  * regardez au dos de votre box s'il y a un autocollant expliquant cela
+  * consultez le manuel de votre box internet
+  * récupérez l'adresse de la "passerelle par défaut" (en ligne de commande, avancé)
+  * contactez le support de votre opérateur pour lui demander plus d'informations (sur l'interface d'administration et
+    les emails)
+
+Lorsque vous êtes connecté(e) sur l'administration de la box internet, recherchez des paramètres de sécurité et regardez
+s'il y a une option de la forme "empêcher l'envoi de mail via des SMTP tiers". 
+
+Si vous n'arrivez toujours pas à enlever ce paramétrage sur votre box, contactez le support de votre opérateur ou
+configurez le serveur SMTP de votre opérateur dans votre client de messagerie. 
+
+### Parefeu / antivirus
+
+Si vous avez installé un parefeu supplémentaire ou un antivirus, désactivez-les temporairement le temps de faire un test
+d'envoi de message. Si les messages partent bien en ayant désactivé l'antivirus/parefeu, regardez dans les préférences
+du logiciel si vous pouvez ouvrir des ports (ceux cités plus haut), ajoutez un domaine en liste blanche (votre domaine)
+ou un programme (votre client de messagerie). 
