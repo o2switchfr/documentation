@@ -20,3 +20,9 @@ Une petite note interne des choses à faire, des pages à améliorer ou idées.
 📄 Voir si c'est nécessaire de parler des renouvellement au tarif dégressif pour les hébergements sur l'espace client. 
 
 📄 Comment commander comme sur l'ancienne FAQ ? Est-ce vraiment utile ? 
+
+📄 Voir pour ajouter des configurations de logiciels de messagerie :
+- Bluemail pour android / iphone 
+- Sparkmail pour toutes les plateformes ?
+
+📄 Webmail : gestion des identités, ajout d'une signature

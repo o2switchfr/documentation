@@ -1,1 +1,115 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-emails/configurer-client-messagerie
+---
+title: Configuration d'un logiciel de messagerie
+sidebar_label: Client de messagerie
+description: Cette page regroupe les tutoriels de configuration des clients de messageries pour une adresse email o2switch
+tags:
+  - guides
+  - email
+---
+
+# Configurer un logiciel de messagerie
+
+Cette page donne les différents paramètres que peut vous demander votre client de messagerie pour la configuration d'une
+adresse email créée sur un [hébergement web o2switch](https://www.o2switch.fr).
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />
+
+
+Ci-dessous un tableau avec un rappel des configurations emails. Nous recommandons l'usage de l'IMAP avec une connexion
+chiffrée. Si vous souhaitez comprendre pourquoi nous recommandons cela, vous pouvez consulter : 
+- [Différence entre une connexion chiffrée et non chiffrée](/guides/emails/difference-chiffree-vs-non-chiffree)
+- [Différence entre POP et IMAP](/guides/emails/differences-pop-vs-imap)
+
+<table className="text--center">
+    <thead>
+        <tr>
+            <th></th>
+            <th><span className="text--danger"><FAIcon icon="fa-solid fa-thumbs-down" /> IMAP<br/>*non chiffré*</span></th>
+            <th><FAIcon icon="fa-solid fa-thumbs-up" /> IMAP<br/>*chiffré*</th>
+            <th><span className="text--danger"><FAIcon icon="fa-solid fa-thumbs-down" /> POP<br/>*non chiffré*</span></th>
+            <th><span className="text--danger"><FAIcon icon="fa-solid fa-thumbs-down" /> POP<br/>*chiffré*</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Serveur entrant</th>
+            <td>Nom de domaine<sup>1</sup><br/>Nom du serveur<sup>2</sup></td>
+            <td>Nom du serveur<sup>2</sup></td>
+            <td>Nom de domaine<sup>1</sup><br/>Nom du serveur<sup>2</sup></td>
+            <td>Nom du serveur<sup>2</sup></td>
+        </tr>
+        <tr>
+            <th>Identifiant / login</th>
+            <td colSpan="4">Votre adresse email complète</td>
+        </tr>
+        <tr>
+            <th>Mot de passe</th>
+            <td colSpan="4">Mot de passe de votre adresse email</td>
+        </tr>
+        <tr>
+            <th>Port entrant</th>
+            <td>143</td>
+            <td>993</td>
+            <td>110</td>
+            <td>995</td>
+        </tr>
+        <tr>
+            <th>Connexion sécurisée SSL/TLS</th>
+            <td>Non</td>
+            <td>Oui</td>
+            <td>Non</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <th>Serveur sortant SMTP</th>
+            <td>Nom de domaine<sup>1</sup><br/>Nom du serveur<sup>2</sup></td>
+            <td>Nom du serveur<sup>2</sup></td>
+            <td>Nom de domaine<sup>1</sup><br/>Nom du serveur<sup>2</sup></td>
+            <td>Nom du serveur<sup>2</sup></td>
+        </tr>
+        <tr>
+            <th>Identifiant / login</th>
+            <td colSpan="4">Votre adresse email complète</td>
+        </tr>
+        <tr>
+            <th>Mot de passe</th>
+            <td colSpan="4">Mot de passe de votre adresse email</td>
+        </tr>
+        <tr>
+            <th>Activer l'authentification</th>
+            <td colSpan="4">Oui, l'authentification est requise</td>
+        </tr>
+        <tr>
+            <th>Port sortant</th>
+            <td>25 ou 26<sup>3</sup></td>
+            <td>465</td>
+            <td>25 ou 26<sup>3</sup></td>
+            <td>465</td>
+        </tr>
+        <tr>
+            <th>Connexion sécurisée SSL/TLS</th>
+            <td>Non</td>
+            <td>Oui</td>
+            <td>Non</td>
+            <td>Oui</td>
+        </tr>
+    </tbody>
+</table>
+
+1 : Sur les connexions non chiffrées, vous pouvez utiliser votre nom de domaine. Le nom de domaine doit être
+noté sans les `www.`, ni le `http://` devant. 
+
+2 : Le nom du serveur est de la forme suivante `nom-serveur.o2switch.net`. Ce nom de serveur peut être 
+retrouvé à deux endroits : 
+- dans le mail `Bienvenue chez o2switch` qui est envoyé à l'ouverture de votre compte d'hébergement 
+- dans votre espace client, dans le détail de votre prestation d'hébergement 
+
+A noter que vous pouvez tout de même utiliser votre nom de domaine dans une connexion chiffrée. Mais il faut au
+préalable [générer et installer un certificat SSL](/cpanel/securite/lets-encrypt-ssl-gratuit), sinon les logiciels de
+messageries retourneront des erreurs en rapport avec les certificats SSL.
+
+3 : Pour le port sortant, en mode de connexion non chiffrée, vous avez le choix entre le port 25 et 26. Si cela
+ne fonctionne pas avec le port 25 par défaut, vous pouvez mettre le 26. Certains parefeu ou fournisseur d'accès internet
+bloquant le port 25 pour éviter l'envoi de spam. 
