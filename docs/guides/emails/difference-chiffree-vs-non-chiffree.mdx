@@ -1,1 +1,85 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-emails/differences-chiffre-vs-non-chiffre
+---
+title: Différences entre une connexion SSL/TLS et non SSL/TLS
+sidebar_label: Chiffrée vs. non chiffrée
+description: Ce tutoriel explique les différences entre une connexion chiffrée SSL/tls et non chiffrée dans le cas d'une configuration email
+image: /img/docs/guides/emails/email_non_ssl.png
+tags:
+  - guides
+  - email
+---
+
+# Différences entre une connexion chiffrée et non chiffrée
+
+Lorsque vous configurez un client de messagerie, sur [votre hébergement sécurisé](https://www.o2switch.fr/nos-serveurs/)
+vous avez le choix entre une connexion sécurisée (chiffrée) et non sécurisée. 
+
+Généralement, c'est une option disponible sous forme d'une case à cocher dans votre logiciel de messagerie (connexion
+chiffrée ou activée "TLS/SSL").
+
+Les deux configurations fonctionnent avec nos offres d'hébergement, mais quelle est la différence entre une connexion
+chiffrée et non chiffrée ? Qu'est ce que cela implique ? 
+
+## Connexion non chiffrée
+
+Lorsque vous utilisez une connexion non chiffrée (sans TLS/SSL donc), votre client de messagerie se connecte au serveur
+distant avec les informations suivantes :
+  * Port IMAP : 143
+  * Port POP : 110
+  * Port SMTP : 25 (ou 26 si vous avez un parefeu)
+  * Connexion non chiffrée
+
+Une connexion non chiffrée, ne veut pas dire que vous ne devez pas vous authentifier (avec un login/mot de passe). Cela
+signifie que les informations transitent en clair entre votre ordinateur et le serveur de messagerie. 
+
+Lorsque les informations transitent en clair, elles sont potentiellement interceptable par un individu malveillant qui
+possède le matériel et les connaissances nécessaires. 
+
+<Image
+    src="/img/docs/guides/emails/email_non_ssl.png"
+    title="Schéma d'explication d'une connexion email non chiffrée"
+    caption="Avec une connexion non chiffrée, un pirate peu potentiellement intercepter et le le trafic email"
+    alt="Schéma d'explication d'une connexion email non chiffrée"
+/>
+
+## Connexion chiffrée
+
+Lorsque vous utilisez une connexion chiffrée (SSL/TLS), votre client de messagerie se connecte au serveur distant avec
+les informations suivantes :
+  * Port IMAP : 993
+  * Port POP : 995
+  * Port SMTP : 465
+  * Connexion chiffrée
+
+La connexion entre votre ordinateur et le serveur distant est chiffrée, ce qui signifie que si une personne arrive à
+intercepter les données, elles seront illisibles, car elles nécessitent une sorte de "mot de passe" connu de votre
+ordinateur et du serveur pour être lues. 
+
+Cela n'empêche pas une personne d'intercepter les données, mais empêche celle-ci de pouvoir les lire et voir le contenu
+de vos messages par exemple.
+
+<Image
+    src="/img/docs/guides/emails/email_ssl.png"
+    title="Schéma d'explication d'une connexion email chiffrée SSL/TLS"
+    caption="Avec une connexion chiffrée, le trafic intercepté n'est pas lisible"
+    alt="Schéma d'explication d'une connexion email chiffrée SSL/TLS"
+/>
+
+## Que choisir ?
+
+Dans la mesure du possible, il faut toujours **privilégier une connexion chiffrée** et d'autant plus si vous travaillez
+souvent sur du Wifi ou si vous vous déplacez souvent.
+
+### Adresse de connexion pour une connexion chiffrée
+
+La difficulté lors de la configuration de votre client de messagerie avec les paramètres pour une connexion chiffrée est
+que vous pouvez avoir une erreur du type "**certificat SSL invalide**". 
+
+Pour éviter d'avoir ce message d'erreur, il faut renseigner l'adresse **de base** du serveur sur lequel vous êtes
+hébergé. Cette adresse est trouvable dans votre espace client dans le détails de votre prestation d'hébergement, ou dans
+l'email `Bienvenue chez o2switch`. L'adresse est de la forme `qqch.o2switch.net`.
+
+Il faut préciser cette adresse `nomServeur.o2switch.net`, car tous les serveurs possèdent un certificat SSL valide. Ce
+certificat est installé sur l'adresse en "o2switch.net".
+
+Si vous voulez utiliser votre propre nom de domaine, cela est possible, mais il faut préalablement générer et installer
+un [certificat SSL gratuit Let's Encrypt](/cpanel/securite/lets-encrypt-ssl-gratuit).

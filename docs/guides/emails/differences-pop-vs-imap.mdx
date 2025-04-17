@@ -1,1 +1,116 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-emails/differences-pop-vs-imap
+---
+title: Différences entre une connexion email POP et IMAP
+sidebar_label: POP vs. IMAP
+description: Ce tutoriel explique les différences entre POP et IMAP dans la configuration d'un logiciel de messagerie
+image: /img/docs/guides/emails/pop_imap_explication1.png
+tags:
+  - guides
+  - email
+---
+
+
+# Différences entre une connexion email POP et IMAP
+
+Ce tutoriel explique les différences entre POP et IMAP, ainsi que les avantages/inconvénients de ces deux protocoles.
+
+##  À quoi servent POP ou IMAP ?
+
+Les deux protocoles, POP et IMAP, permettent à un client de messagerie *(comme Outlook ou le client sur votre téléphone
+portable)* de récupérer les messages stockés sur le serveur de messagerie. 
+
+Tous vos emails sont stockés sur votre espace d'hébergement, sous forme de fichier texte dans des sous-dossiers pour
+chacune de vos adresses emails. POP et IMAP permettent de récupérer ces emails pour que votre client de messagerie
+puisse les afficher correctement. 
+
+POP et IMAP ont été inventés pour proposer une manière universelle de récupérer les messages sur un serveur de
+messagerie. Ainsi, peu importe la technologie utilisée sur le serveur de messagerie ou sur le client de messagerie, si
+les deux implémentent IMAP ou POP, ils parlent "le même langage" et se comprendront. 
+
+C'est pour cela que les configurations d'un client de messagerie sur un téléphone ou un ordinateur via Outlook restent
+identiques : POP et IMAP ajoutent un niveau d'abstraction, imposent une manière de "communiquer" pour que chaque
+appareil ou technologie restent compatibles.
+
+<Image
+    src="/img/docs/guides/emails/pop_imap_explication1.png"
+    title="Schéma d'explication sur l'utilité des protocoles POP et IMAP"
+    caption="Schéma expliquant comment un client de messagerie récupère ces messages à l'aide du protocole POP ou IMAP"
+    alt="Schéma d'explication sur l'utilité des protocoles POP et IMAP"
+/>
+
+## Différences entre les deux protocoles
+
+Les deux protocoles permettent de récupérer vos messages, mais pas forcément de la même manière. 
+
+Avec le protocole POP, votre client de messagerie va télécharger les messages à intervalle régulier *(toutes les 5
+minutes par exemple)* et sauvegarder les messages sur l'appareil utilisé *(ordinateur ou téléphone)*. Par défaut, les
+messages sont téléchargés, sauvegardés sur l'appareil utilisé et supprimé du serveur. 
+
+Si plusieurs clients de messageries sont configurés avec les paramètres par défaut en POP, le premier qui va se
+connecter va récupérer l'intégralité des messages et les supprimer du serveur. Par conséquent, lorsque le deuxième
+client de messagerie *(celui de votre téléphone par exemple)* va se connecter, il ne va rien récupérer, car le serveur
+répondra qu'il n'y a pas de nouveau message. 
+
+Cependant, sur la plupart des clients de messageries, vous avez une option "conserver une copie des messages sur le
+serveur" évitant ce phénomène. 
+
+POP est donc recommandé si vous n'utilisez qu'un ordinateur pour vous connecter sur votre adresse email et si vous
+souhaitez récupérer l'ensemble des messages sur votre ordinateur.
+
+<Image
+    src="/img/docs/guides/emails/schema_pop.png"
+    title="Schéma d'explication sur le protocole de récupération de mail POP"
+    caption="Exemple avec deux appareils synchronisés en POP, un appareil récupère l'ensemble des messages et le second
+    ne récupère pas de message, car supprimé côté serveur"
+    alt="Schéma d'explication sur le protocole de récupération de mail POP"
+/>
+
+**Avantages de POP :**  
+  * Conserve une copie sur l'appareil où est configuré le client de messagerie
+  * Permet donc un accès à vos messages, même lorsque vous n'avez pas internet *(les messages étant stockés sur votre
+    machine)*
+  * Utilise un peu moins de bande passante
+
+**Inconvénients de POP :**  
+  * Par défaut, pas de copie sur le serveur
+  * Ne permet pas de synchroniser plusieurs appareils
+  * Ne permet pas de synchroniser les dossiers du type 'messages envoyés, spams, brouillons"
+  * Vous devez faire des sauvegardes de votre ordinateur ou appareil, ce dernier ayant l'intégralité de vos messages
+
+À l'inverse de POP, IMAP n'a pas tous ces inconvénients. IMAP ne télécharge pas l'intégralité de nos messages de la même
+manière que POP, il synchronise les messages présents sur le serveur sur vos clients de messagerie.
+
+Ainsi, plusieurs appareils peuvent être configurés en IMAP, chaque appareil aura la même vision des messages. Un message
+"lu" sur un appareil apparaîtra en "lu" sur un deuxième, car chaque modification est reportée sur le  serveur de
+messagerie. A l'inverse de POP, IMAP est bidirectionnelle, le serveur envoie les messages aux clients de messageries et
+le client de messagerie informe le serveur des messages lus, déplacés dans des dossiers, etc... 
+
+<Image
+    src="/img/docs/guides/emails/schema_imap.png"
+    title="Schéma d'explication sur le protocole de récupération de mail IMAP"
+    caption="Exemple de deux clients de messageries configurés en IMAP, les deux affichent la même chose, car
+    synchronisés avec le serveur de messagerie"
+    alt="Schéma d'explication sur le protocole de récupération de mail IMAP"
+/>
+
+**Avantages d'IMAP :**  
+  * Permet de synchroniser vos messages sur plusieurs clients de messageries
+  * Permet de gérer les dossiers du type "messages envoyés, brouillons, spam"
+
+**Inconvénients d'IMAP :**  
+  * Utilise un peu plus de bande passante (plus d'échanges "bidirectionnels")
+  * Messages stockés sur le serveur de messagerie (est également un avantage, cela dépend du point de vue)
+
+## Quel protocole choisir ?
+
+IMAP est plus récent que POP et présente l'énorme avantage de pouvoir synchroniser plusieurs clients de messageries ce
+qui devient indispensable si vous avez un ordinateur et un téléphone portable par exemple. Si vous ne savez pas quoi
+choisir **préférez une configuration IMAP**. 
+
+POP est utile pour des besoins assez spécifiques, par exemple si vous souhaitez conserver l'intégralité de vos messages
+sur le client de messagerie. Généralement c'est une question d'habitude *(un ordinateur pour consulter tous vos
+messages)*. 
+
+Si vous prenez cette solution, pensez à faire des sauvegardes régulières de l'ordinateur contenant l'ensemble de
+messages que vous avez, en cas de crash, vous perdrez l'intégralité de vos messages, car le serveur n'aura pas de copie
+de vos emails *(si vous avez précisé de conserver pendant X jours vos messages dans la configuration de votre client de
+messagerie)*.
