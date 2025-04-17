@@ -1,1 +1,130 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-emails/webmail
+---
+title: Accéder à vos emails grâce au Webmail o2switch
+sidebar_label: Webmail
+description: Ce tutoriel explique comment se connecter au webmail de l'hébergement o2switch pour consulter et envoyer des emails directement depuis votre navigateur.
+image: /img/docs/guides/emails/ecran-accueil-webmail-o2switch.png
+tags:
+  - guides
+  - email
+  - webmail
+  - logiciel messagerie
+---
+
+# Consulter ces emails avec le webmail en ligne
+
+Sur votre hébergement [o2switch](https://www.o2switch.fr/notre-histoire/), le webmail permet de consulter vos emails à
+l'aide d'un navigateur internet. 
+
+C'est pratique pour consulter vos emails en déplacement par exemple, pour une utilisation courante, préférez un [client
+de messagerie](/guides/emails/).
+
+## Comment se connecter au webmail ?
+
+Il existe plusieurs adresses pour vous connecter au webmail en ligne, les voici :
+  * `https://votresite.fr:2096`
+  * `https://unDeVosSitesHeberges.com:2096`
+  * `https://nomServeur.o2switch.net:2096` Cette adresse se retrouve dans le mail `Bienvenue chez o2switch` ou depuis
+  votre espace client dans le détails de votre prestation d'hébergement. 
+  * `webmail.adressePrincipal.fr` *(adresse de secours à utiliser si le port 2096 est bloqué)*
+
+En résumé, vous pouvez accéder au webmail en ligne à partir de n'importe lequel de vos sites hébergés en ajoutant
+`:2096` à la fin de l'adresse (en https).
+
+Parfois, le port 2096 peut être bloqué de votre côté, c'est notamment le cas avec la plupart des connexions type "wifi
+public/gratuit" ou sur un réseau d'entreprise. Dans ce cas, vous pouvez utiliser une adresse alternative qui est
+`webmail.votreDomainePrincipal.tld`. 
+
+Si tout est bon, vous pouvez vous connecter avec votre adresse mail et son mot de passe :
+
+<Image
+    src="/img/docs/guides/emails/connexion-webmail-o2switch.png"
+    title="Page de connexion pour le webmail o2switch"
+    caption="Formulaire de connexion pour le webmail o2switch"
+    alt="Capture d'écran de la page de connexion pour accéder au webmail o2switch"
+/>
+
+:::warning[Erreurs HTTPS ou de certificat SSL]
+Si vous avez une erreur de certificat SSL en accédant au webmail, alors cela signifie que vous n'avez pas installé 
+un certificat SSL valide sur votre nom de domaine.
+
+Vous pouvez installer gratuitement un certificat SSL avec l'[outil Lets
+Encrypt](/cpanel/securite/lets-encrypt-ssl-gratuit)
+
+Ou, vous pouvez utiliser l'adresse `https://nomServeur.o2switch.net:2096` qui disposera toujours d'un certificat SSL
+valide.
+:::
+
+## Page d'accueil du webmail
+
+Après s'être authentifié sur le webmail, la page d'accueil s'affiche. Cette page donne accès à différents outils en 
+rapport avec votre adresse email et donne accès au webmail Roundcube.
+
+<Image
+    src="/img/docs/guides/emails/ecran-accueil-webmail-o2switch.png"
+    title="Page d'accueil du webmail o2switch"
+    caption="La page intermédiaire qui s'affiche après l'authentification et qui donne accès à des outils"
+    alt="Capture d'écran de la page d'accueil du webmail o2switch"
+/>
+
+Sur cette page, vous retrouverez des outils en rapport avec vos emails : 
+- [le répondeur automatique](/cpanel/emails/repondeur-automatique) - pour configurer des messages d'absences par exemple 
+- l'[outil de filtre email](/cpanel/emails/filtre-email) - permet de créer des filtres pour exécuter des actions en
+  fonction du contenu d'un email reçu
+- les [redirecteurs de mails](/cpanel/emails/redirecteur-email) - pour transmettre une copie du mail sur une autre
+  adresse 
+- les configurations des contacts et calendriers 
+- un outil pour changer le mot de passe de votre adresse email, sans passer par cPanel et le compte administarteur 
+- un outil pour gérer les préférences de contacts - pour recevoir des notifications 
+- vous pouvez [activer ou désactiver l'antispam](/cpanel/emails/filtre-antispam)
+- [l'outil BoxTrapper](/cpanel/emails/antispam-boxtrapper) - une méthode alternative pour combattre le spam, ou
+  l'émetteur de chaque email doit valider son email pour qu'il soit reçu
+- [un outil pour vérifier la taille de la boite email](/cpanel/emails/espace-disque-email) et supprimer massivement des
+  emails avec des filtres dovecot 
+- un outil pour ré-indexer la boite email - pour accélérer la recherche 
+- ou outil pour [suivre l'envoi des emails](/cpanel/emails/suivi-remise-log-email)
+
+Pour accéder à vos emails, il faut cliquer sur `Open` dans le bloc `Roundcube`.
+
+## Webmail Roundcube
+
+Roundcube est un webmail simple d'utilisation. 
+
+Sur la  page d'accueil de Roundcube, vous pouvez consulter vos messages, en rédiger de nouveau et éditer vos préférences :
+
+<Image
+    src="/img/docs/guides/emails/o2swith-roundcube.png"
+    title="Page d'accueil de Roundcube"
+    caption="Depuis la page d'accueil de Roubdcube, vous pouvez lire vos emails et y répondre"
+    alt="Capture d'écran de la page d'accueil de Roundcube"
+/>
+
+Ci-dessous un aperçu de l'interface pour rédiger ou répondre à un email. 
+
+<Image
+    src="/img/docs/guides/emails/o2switch-roundcube-repondre.png"
+    title="Répondre à un email depuis Roundcube"
+    caption="Interface pour rédiger un message dans Roundcube"
+    alt="Capture d'écran de la page de rédaction d'un email Roundcube"
+/>
+
+Le système de contacts synchronisés avec le serveur est intégré à Roundcube. Vous pouvez y accéder depuis les icônes 
+qui se trouve le plus à gauche. 
+
+Les contacts qui sont dans le groupes `cPanel CardDAV` peuvent être retrouvé depuis vos logiciels de messageries si
+vous les avez configurés en CardDAV. 
+
+<Image
+    src="/img/docs/guides/emails/o2switch-roundcube-contact-carddav.png"
+    title="Les contacts cardDav synchronisés avec l'hébergement sont présent dans Roundcube"
+    caption="Roundcube supporte les contacts CardDAV de l'hébergement"
+    alt="Capture d'écran de la page de gestion des contacts dans Roundcube"
+/>
+
+Les calendriers caldav sont également supportés dans Roundcube. 
+
+<Image
+    src="/img/docs/guides/emails/o2switch-roundcube-calendrier.png"
+    title="Les calendriers CalDAV synchronisés avec l'hébergement sont présent dans Roundcube"
+    caption="Roundcube supporte les calendriers CalDAV de l'hébergement"
+    alt="Capture d'écran de la page de gestion des calendriers dans Roundcube"
+/>
