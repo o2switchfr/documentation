@@ -1,1 +1,137 @@
-https://faq.o2switch.fr/compte-importation-gmail-o2switch
+---
+title: Configurer la récupération des emails sur un compte Gmail
+sidebar_label: Webmail avec Gmail 
+description: Ce tutoriel explique comment configurer le relevage des emails d'un compte email o2switch en POP sur Gmail
+image: /img/docs/guides/emails/o2switch-import-gmail-1.png
+tags:
+  - guides
+  - email
+---
+# Utiliser Gmail pour lire et envoyer des emails depuis une adresse o2switch
+
+Ce tutoriel explique comment configurer Gmail pour relever les emails d'une adresse créée sur votre hébergement
+o2switch.
+
+Au final, cela vous permet d'utiliser Gmail comme un Webmail. Votre adresse Gmail réceptionnera tous les emails de 
+votre adresse email o2switch. Vous pourrez consulter et envoyer des emails depuis Gmail. 
+
+## Prérequis avant la configuration
+
+Dans un premier temps, retrouvez l'email `Bienvenue chez o2switch`. Ce mail contient une rubrique `Créer vos emails` qui
+donne toute la configuration email et notamment l'adresse du serveur de la forme `qqch.o2switch.net` qui sera nécessaire
+plus tard.
+
+<Image
+    src="/img/docs/guides/emails/client/mail-bienvenue-configuration.png"
+    title="Le mail Bienvenue chez o2switch contient toute la configuration à utiliser pour les emails"
+    caption="Le mail bienvenue chez o2switch contient la configuration à utiliser"
+    alt="Capture d'écran de l'email envoyé par o2switch lors de l'ouverture d'un compte d'hébergement"
+/>
+
+## Configuration de la réception POP chez Gmail
+
+<Badge text="1" type="danger" /> Ouvrez Gmail, puis cliquez en haut à droite sur l'icône en forme d'une roue crantée
+<FAIcon icon="fa-solid fa-gear" />.
+
+Ensuite cliquez sur `Voir tous les paramètres`. 
+
+<Badge text="2" type="danger" /> Naviguez dans l'onglet `Compte`.
+
+<Badge text="3" type="danger" /> Puis dans la partie `Consulter d'autres comptes de messagerie`. Cliquez sur `Ajouter 
+un compte de messagerie`
+
+<Image
+    src="/img/docs/guides/emails/o2switch-import-gmail-1.png"
+    title="Première étape de la configuration d'importation d'email sur un compte Gmail"
+    caption="Première étape pour configurer la récupération des emails depuis Gmail"
+    alt="Capture d'écran de l'interface de Gmail pour ajouter un compte de messagerie"
+/>
+
+<Badge text="4" type="danger" /> Une nouvelle fenêtre s'ouvre, notez votre adresse email puis validez. 
+
+<Badge text="5" type="danger" /> L'écran suivant vous demande de remplir votre configuration IMAP : 
+- `Nom d'utilisateur` : notez votre adresse email complète. Attention, car la valeur qui est pré-remplie par défaut dans
+ce champs est incorrecte.
+- `Mot de passe` : notez le mot de passe de votre adresse email. Vous avez choisi ce mot de passe lors de la création de
+votre compte email depuis l'[outil compte de messagerie](/cpanel/emails/adresse-email) 
+- `Serveur POP` : reprenez le nom du serveur communiqué dans le mail `Bienvenue chez o2switch`. C'est de la forme 
+`qqch.o2switch.net`
+- `Port` : sélectionnez le port 995. Attention, la valeur qui est pré-remplie par défaut (110) est incorrect pour une
+connexion chiffrée.
+- Nous vous recommandons fortement de cocher la case pour conserver une copie des messages sur le serveur. Si vous ne 
+cochez pas cette case, alors l'unique copie des emails sera chez Gmail, car à chaque relevage, les emails seront 
+supprimés côté o2switch
+- Cochez la case pour utiliser une connexion sécurisée SSL
+
+Vous pouvez valider et passer au menu suivant. 
+
+<Badge text="6" type="danger" /> Sur l'écran suivant, qui vous demande si vous souhaitez envoyer des emails, cochez non
+puis validez.
+
+<Image
+    src="/img/docs/guides/emails/o2switch-import-gmail-2.png"
+    title="Configuration des réglages POP o2switch sur Gmail"
+    caption="Configuration de Gmail pour le relevage des emails o2switch en POP"
+    alt="Capture d'écran de l'interface de Gmail pour la configuration POP d'une adresse email o2switch"
+/>
+
+Nous allons configurer l'envoi des emails à l'étape suivante.
+
+Maintenant Gmail va relever périodiquement les emails de votre adresse o2switch. Les emails relevés se retrouverons 
+dans votre boite Gmail. 
+
+:::info[Fréquence de récupération des emails sur Gmail]
+Gmail détermine la fréquence de récupération des emails en fonction de la régularité à laquelle il trouve des messages
+dans le compte lorsqu'il vérifie ; si le compte reçoit rarement des emails, Gmail le vérifiera une fois par heure.
+
+Pour cette raison, il y a une certaine latence avant que les emails arrivent sur Gmail.
+
+Les messages arriveront en premier sur la boite o2switch, puis ça peut prendre quelque minute, voire jusqu'à 1h avant
+que Gmail relève les emails.
+
+[Source](https://webapps.stackexchange.com/a/2090)
+:::
+
+## Configuration de l'envoi POP chez Gmail
+
+<Badge text="1" type="danger" /> Retournez dans les paramètres du comptes puis dans l'onglet `Comptes`. 
+
+<Badge text="2" type="danger" /> Dans la section `Envoyer des emails en tant que`, cliquez sur `Ajouter une autre
+adresse email`.
+
+<Image
+    src="/img/docs/guides/emails/o2switch-envoi-gmail-1.png"
+    title="Première étape de la configuration d'envoi d'email sur un compte Gmail"
+    caption="Première étape pour envoyer des email d'une adresse o2switch depuis Gmail"
+    alt="Capture d'écran de l'interface de Gmail pour configurer un SMTP"
+/>
+
+<Badge text="3" type="danger" /> Une nouvelle fenêtre s'ouvre, notez votre adresse email ainsi que le nom.
+Le nom est important, c'est ce qui s'affichera dans les emails que vous allez envoyer depuis Gmail.
+
+<Badge text="4" type="danger" /> L'écran suivant concerne les réglages pour le serveur d'envoi SMTP : 
+- `Serveur SMTP` : reprenez le nom du serveur communiqué dans le mail `Bienvenue chez o2switch`. C'est de la forme 
+`qqch.o2switch.net`
+- `Port` : sélectionnez le port 465. 
+- `Nom d'utilisateur` : notez votre adresse email complète. Attention, car la valeur qui est pré-remplie par défaut dans
+ce champs est incorrecte.
+- `Mot de passe` : notez le mot de passe de votre adresse email. Vous avez choisi ce mot de passe lors de la création de
+votre compte email depuis l'[outil compte de messagerie](/cpanel/emails/adresse-email) 
+- Cochez la case pour utiliser une connexion sécurisée SSL
+
+Vous pouvez valider les réglages.
+
+L'écran suivant vous informe que Gmail a envoyé un email de confirmation. 
+
+<Badge text="5" type="danger" /> Validez le mail de confirmation en cliquant sur le lien contenu dans l'email. 
+
+<Badge text="6" type="danger" /> Validez une nouvelle fois sur la page qui s'affiche après avoir cliqué sur le lien.
+
+<Image
+    src="/img/docs/guides/emails/o2switch-envoi-gmail-2.png"
+    title="Configuration de l'envoi d'email avec une adresse o2switch depuis Gmail"
+    caption="Configuration de l'envoi de mail SMTP d'une adresse o2switch depuis Gmail"
+    alt="Capture d'écran de l'interface de Gmail pour configurer un SMTP"
+/>
+
+A présent, vous pouvez envoyer des emails avec votre adresse o2switch depuis votre compte Gmail. 
