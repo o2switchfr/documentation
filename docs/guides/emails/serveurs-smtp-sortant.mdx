@@ -1,1 +1,139 @@
-https://faq.o2switch.fr/lesplus-site/serveur-sortant-smtp
+---
+title: Les serveurs SMTP d'o2switch
+sidebar_label: SMTP o2switch
+description: Comment o2switch assure une bonne délivrabilité des emails avec une solution de SMTP premium antispam et multi-ip
+image: /img/docs/guides/emails/TODO
+tags:
+  - guides
+  - email
+---
+# Les serveurs SMTP o2switch
+
+Lorsque vous disposez d'un espace d'**[hébergement site web](https://www.o2switch.fr/hebergement-illimite/)** o2switch,
+**nous portons une attention particulière à l'acheminement des messages à destination de vos interlocuteurs.**
+
+A cet effet, nous avons mis en place, depuis plus de deux ans, une infrastructure spécialement dédiée à l'envoi de vos
+emails. Il était en effet crucial pour nous de nous assurer d'un taux de délivrabilité maximal de vos envois d'emails.
+
+La mise en place de cette infrastructure est destinée à :
+  * **Prévenir les éventuels blocages** de nos serveurs auprès de listes noires indépendantes
+    ([RBL](http://fr.wikipedia.org/wiki/DNS_Black_Listing))
+  * Nous assurer qu'**un hébergé ne puisse pas envoyer du courriel indésirable** (SPAM) involontairement *(suite, par
+    exemple, à un piratage de site internet)* auprès d'un prestataire de messagerie distant.
+  * **Assurer une réputation parfaite de nos serveurs** de messagerie sortants, auprès des divers prestataires de
+    messagerie de la toile.
+
+## Quel est le fonctionnement normal d'un serveur mail ?
+
+Sur la toile, les serveurs mails sont surveillés par divers outils et organismes indépendants afin de lutter contre le
+SPAM. Sans infrastructure spécifiquement dédiée à l'envoi des messages sortants, il n'était pas possible d'assurer une
+prestation fiable sur les envois de mails.
+
+En effet, la seule manière de bloquer du SPAM sortant était de limiter le nombre d'envois par heure. Ce qui est
+impossible, par exemple, dans le cas d'une société ayant des échanges réguliers avec ses clients. Ou, dans le cas d'une
+association qui souhaiterait envoyer une newsletter réelle et propre.
+
+Si un mail est détecté comme SPAM par un opérateur le réceptionnant, ce dernier peut décider de dénoncer le serveur
+d'envoi comme source de SPAM. Tous les mails envoyés sont alors rejetés par les serveurs de vos interlocuteurs, même
+s'ils sont souhaitables et normaux.
+
+Une détection en SPAM peut résulter de plusieurs comportements :
+  * Un site web PHP est victime d'un piratage sur le serveur vous hébergeant, et sert de passerelle malveillante pour
+    envoyer des SPAM.
+  * Un hébergé ne respecte pas nos conditions générales de vente, et envoie des emails à des personnes qui n'ont jamais
+    demandé à recevoir des messages commerciaux. Les personnes qui réceptionnent le message déclarent alors ce dernier
+    comme SPAM.
+  * Un hébergé ne respecte pas les standards du web dans l'envoi de ses emails.
+
+## Concrètement, que faisons-nous chez o2switch ?
+
+Lorsqu'un email est envoyé depuis un serveur d'hébergement web mutualisé o2switch il est automatiquement renvoyé vers
+une infrastructure dédiée à l'envoi des emails sortants.
+
+Ainsi toute mise en liste noire (blacklistage) du serveur web qui héberge votre site est sans effet sur l'acheminement
+des messages sortants. L'adresse IP du serveur qui héberge votre site internet est invisible du serveur de messagerie
+qui réceptionne un email sortant de notre infrastructure.
+
+
+:::warning
+Certains tests en ligne vont vérifier la réputation de l'adresse IP du serveur d'hébergement web, et non celle du
+serveur de messagerie qui envoie réellement les messages. Il faut donc faire attention à leur fiabilité.
+:::
+
+De même, tout comportement litigieux sur un serveur d'hébergement mutualisé devient sans conséquence, car ignoré !
+
+Cette infrastructure va vérifier qu'un email est bien légitime pour être acheminé, et bloquer tout message dont la
+classification en courriel indésirable ne pose pas de doute.
+
+Nous utilisons alors de puissants outils qui vont, **en toute confidentialité** *(aucun mail n'est conservé, ni
+humainement consulté, le tout dans le respect de la protection de la vie privée)*, vérifier la nature du message
+sortant. Ces outils vont vérifier les en-têtes des messages, le format, le sujet.. 
+
+Lorsqu'un problème est détecté, un score est automatiquement attribué au message sortant.
+
+Plus le nombre de problèmes est important, plus le score sera grand. Et, si le score est trop grand, le message est
+bloqué pour SPAM.
+
+Si un message sortant est un SPAM, il ne partira pas de nos serveurs. Comme dans l'exemple ci-dessous :
+
+<Image
+    src="/img/docs/guides/emails/spam.png"
+    title="Exemple de spam sortant bloqué par o2switch pour préserver la réputation des IP"
+    caption="Exemple de message de spam bloqué pour ne pas nuire à la réputation des adresses IP d'envoi"
+    alt="Capture d'écran de l'outil de protection antispam"
+/>
+
+On voit alors clairement que des messages à caractère pornographique cherchent à être envoyés depuis nos serveurs. Ils
+sont stoppés, préservant la réputation de nos serveurs de messagerie ainsi que les éventuelles personnes destinataires
+de ces malveillances.
+
+Ce système n'est cependant pas suffisant. Les serveurs mutualisés o2switch traitent plus d'un million de messages
+sortants par jour. Un nombre conséquent de messages ne doit par partir d'une même source (adresse IP), au même moment.
+
+De nombreux fournisseurs d'accès internet (comme Orange par exemple) bloquent des envois trop rapides, trop fréquents,
+trop massifs à destination de leurs services.
+
+Notre infrastructure de messagerie exploite une centaine d'adresses IP en rotation permanente. Ainsi, un email sortant
+n'aura pas la même IP d'origine qu'un autre envoyé au même moment.
+
+Grâce à ces efforts, nos serveurs sont classés en bonne réputation sur la toile. Vous pouvez à tout moment le vérifier
+sur SenderBase, la plus grande plateforme de vérification du trafic des serveurs de messagerie au monde.
+
+[Lien de vérification SenderBase](https://talosintelligence.com/reputation_center/lookup?search=109.234.163.0%2F24)
+
+<Image
+    src="/img/docs/guides/emails/goodmail.png"
+    title="Les serveurs sortant o2switch ont une bonne réputation"
+    caption="Les serveurs ont une bonne réputation"
+    alt="Capture d'écran de l'outil SenderBase"
+/>
+
+
+## Peut-on aller plus loin dans la réputation des emails sortants ?
+
+Il est possible, en supplément de cette infrastructure dédiée unique, d'authentifier les emails que vous envoyez depuis
+nos serveurs.
+
+Certains prestataires demandent en effet que vos messages soient signés pour s'assurer que le serveur qui envoie le mail
+est bien légitime.
+
+De manière générale, vous trouverez des informations complémentaires ici : 
+[Authentification SPF et DKIM](/cpanel/emails/delivrabilite-spf-dkim)
+
+
+## Je veux démarcher par email !
+
+Que vous soyez un particulier, une entreprise, ou tout autre organisme : envoyer des messages commerciaux à un
+destinataire qui n'en a pas fait la demande est contraire à nos conditions générales de vente.
+
+**A contrario**, une société qui entretient une démarche d'information, ou commerciale, envers ses clients qui ont
+**demandé à recevoir une newsletter** ne pose pas de problème. Il en va de même pour tout forum, association, site
+internet qui désire informer ses membres de ses actualités.
+
+Mettez-vous à la place d'une personne qui réceptionne des messages publicitaires non désirés. Comment va t'elle réagir ?
+  * Elle ignorera votre message.
+  * Elle signalera éventuellement en SPAM le message auprès de son prestataire.
+  * A force de recevoir des messages indésirables, la personne fera tout pour faire bloquer votre nom de domaine auprès
+    des listes noires dont nous parlions au début de ce billet.
+
+Concrètement et vous le voyez, envoyer un mail commercial non sollicité n'est pas réellement judicieux.
