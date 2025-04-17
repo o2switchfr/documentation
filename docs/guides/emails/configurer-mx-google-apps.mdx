@@ -1,1 +1,52 @@
-https://faq.o2switch.fr/tuto-rapide/comment-configurer-mx-google-apps
+---
+title: Comment configurer les serveurs MX de Google Apps / Gsuite / Google Workspace ?
+sidebar_label: MX Google Workspace
+description: Ce tutoriel explique comment installer les MX de Google Apps, Gsuite ou Google Workspace sur un domaine hébergé chez o2switch
+image: /img/docs/guides/emails/o2switch-google-workspace.png
+tags:
+  - guides
+  - email
+---
+
+# Comment configurer les MX de Google Apps, GSuite ou Google Workspace
+
+Ce tutoriel explique comment installer les entrées MX de Google Apps, aussi appelé Gsuite ou Google Workspace sur un
+domaine hébergé sur un hébergement o2switch.
+
+Avec votre [hébergement o2switch](https://www.o2switch.fr/notre-histoire/), vous avez la possibilité de gérer votre site
+internet chez o2switch tout en utilisant un autre fournisseur pour la gestion de vos emails, comme Google Workspace
+(anciennement Google Apps / G Suite / Gmail).
+
+Pour faire cela, il faut configurer l'[entrée MX de Google
+Workspace](https://support.google.com/a/answer/16004259?hl=fr&visit_id=638804934582427744-3355588511&rd=1) sur le nom de
+domaine. Cela afin de faire pointer la partie email du domaine vers Google. Ce réglage là se fait dans l'[outil Zone
+Editor](/cpanel/domaines/editeur-zone-dns) de votre hébergement cPanel.
+
+Dans un premier temps, il faut naviguer dans l'[outil Zone Editor](/cpanel/domaines/editeur-zone-dns) de cPanel.
+
+<Badge text="1" type="danger" /> Ensuite, il faut cliquer sur `Gérer` en face du nom de domaine sur lequel vous
+souhaitez activer Google Workspace.
+
+<Badge text="2" type="danger" /> Puis il faut éditer l'entrée de type MX qui existe déjà et qui correspond à o2switch.
+Il faut changer la valeur vers `smtp.google.com`.
+
+Normalement il ne devrait y avoir qu'une seule entrée MX. Si vous en voyez d'autres, supprimez-les. Au final, vous ne
+devez avoir qu'une seule entrée MX, qui pointe vers `smtp.google.com`, en priorité 0.
+
+
+
+<Image
+    src="/img/docs/guides/emails/o2switch-google-workspace.png"
+    title="Configuration de Google Workspace sur un domaine configuré chez o2switch"
+    caption="Configuration DNS pour l'installation de Google Workspace sur un domaine hébergé chez o2switch"
+    alt="Capture d'écran de la procédure à réaliser dans cPanel pour installer Google Workspace"
+/>
+
+:::danger[Tous les emails doivent être créés chez Google Workspace]
+Après avoir réalisé cette manipulation, tout le trafic email du domaine va être géré par Google Workspace.
+
+Concrétement, cela veut dire que vous devez créer tous vos comptes emails chez Google Workspace.
+
+Vous ne pouvez pas avoir un compte email chez Google Workspace et les autres comptes sur votre hébergement o2switch
+par exemple.
+:::
