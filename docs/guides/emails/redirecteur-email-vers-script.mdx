@@ -1,1 +1,91 @@
-https://faq.o2switch.fr/hebergement-mutualise/tutoriels-cpanel/renvois-vers-script
+---
+title: Rediriger des emails vers un script - piped email
+sidebar_label: Email Piping
+description: Ce tutoriel explique comment fonctionne le système de redirection d'email vers un script, appelé piped email
+image: /img/docs/guides/emails/renvois-cpanel-avances-5.png
+tags:
+  - guides
+  - email
+---
+# Redirection des emails vers un script
+
+L'[outil redirecteurs de cPanel](/cpanel/emails/adresse-email) permet de créer des renvois vers d'autres adresses emails
+mais également vers un script de votre [espace d'hébergement web](https://www.o2switch.fr/hebergement-illimite/).
+
+L'[outil filtre de messagerie](/cpanel/emails/filtre-email) permet également de créer un filtre qui a comme action
+l'exécution d'un script.
+
+Rediriger des emails vers un script vous permet de traiter automatiquement et logiciellement des emails. Par exemple, un
+système de ticketing comme OSTicket utilise cette fonctionnalité pour automatiquement créer un ticket à partir d'un
+email envoyé sur une adresse de support. 
+
+Cela est appelé le "piped email" ou encore "email piping". 
+
+Cette fonctionnalité n'est pas très documentée, cette page donne plus de détails sur cet usage avancé. 
+
+## Traiter un email avec un script
+
+Pour ajouter le renvoi vers un script, il faut aller dans l'[outil redirecteurs](/cpanel/emails/adresse-email) puis
+cliquez sur `Ajouter un redirecteur`. Dans les options avancées précisez le chemin du script :
+
+
+<Image
+    src="/img/docs/guides/emails/renvois-cpanel-avances-5.png"
+    title="Création d'un redirecteur de mail qui redirige vers un script"
+    caption="Le redirecteur de mail peut rediriger les emails vers un script"
+    alt="Capture d'écran de l'écran de redirecteur de mail qui montre l'usage du piped email"
+/>
+
+Le script doit directement être exécutable, il lui faut donc des droits d'exécution (chmod 755 par exemple) et un
+[shebang](http://fr.wikipedia.org/wiki/Shebang). 
+
+## Exemple de script
+
+Le script est très particulier et avant de commencer il faut connaitre quelques règles pour éviter de perdre du temps :
+  * le script doit être exécutable, donc avec le droit d'exécution (chmod 755)
+  * le script doit avoir un [shebang](http://fr.wikipedia.org/wiki/Shebang)
+  * le script doit lire son entrée standard
+  * le script ne doit pas afficher d'erreur et doit forcément renvoyer un bon code d'exécution sinon vous recevez un
+    message de type "delivery failed" par email
+
+Voici par exemple un script PHP qui écrit le contenu du mail reçu dans un fichier.
+
+```php
+#!/usr/local/bin/php -c /home/votreLogin/public_html/php.ini -q
+<?php
+// source : https://web.archive.org/web/20120817230018/https://forums.cpanel.net/f5/email-forward-php-script-39083.html
+$i_klimit = -1;
+if ($i_klimit == "") {
+    $i_klimit = 1024;
+}
+
+$fp = fopen("php://stdin", "r");
+$email = "";
+
+if ($i_klimit == -1) {
+    while (!feof($fp)) {
+        $email .= fread($fp, 1024);
+    }                    
+} else {
+    while (!feof($fp) && $i_limit < $i_klimit) {
+        $email .= fread($fp, 1024);
+        $i_limit++;
+    }        
+}
+
+fclose($fp);
+
+file_put_contents('/home/votreLogin/public_html/mail.txt',$email,LOCK_EX);
+
+exit(0);
+?>
+```
+
+Dans l'exemple du script donné ci-dessus, un fichier php.ini est inclus dans le shebang, c'est pour forcer la directive
+"display_error" à off car la moindre erreur ou warning PHP fait tout échouer. 
+
+Un bon moyen de tester votre script est de le lancer directement en ligne de commande, par exemple :
+
+```bash
+cat mail.txt | ./script.php
+```
