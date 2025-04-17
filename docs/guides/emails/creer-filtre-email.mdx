@@ -1,1 +1,163 @@
-https://faq.o2switch.fr/hebergement-mutualise/tutoriels-cpanel/creation-filtre-email-cpanel
+---
+title: Comment créer un filtre de messagerie sur l'hébergement o2switch ?
+sidebar_label: Créer un filtre email
+description: Ce tutoriel explique comment créer des filtres de messageries sur un compte email o2switch
+image: /img/docs/guides/emails/TODO
+tags:
+  - guides
+  - email
+---
+
+# Création de filtres emails chez o2swich
+
+Sur votre [espace d'hébergement web](https://www.o2switch.fr/hebergement-illimite), il est possible de créer des filtres
+pour vos emails, en utilisant l'[outil filtre défini au niveau de l'utilisateur](/cpanel/emails/filtre-email) ou [filtre
+défini au niveau du compte](/cpanel/emails/filtre-email-global). 
+
+Cette page explique plus en détails ce qu'il est possible deréaliser avec les filtres et comment créer des filtres.
+
+## Règles, test et actions
+
+Il est possible de filtrer à partir de différents critères. Voici la liste des critères possibles :
+  * Adresse d'expédition
+  * Adresse de réception
+  * Sujet du message
+  * Corps *(contenu)* du message
+  * Entête du message
+  * Score spam *(est-ce que le message est considéré comme spam ou non)*
+  * ID de liste - les newsletters peuvent utiliser cela pour s'identifier / être filtrable facilement 
+
+Après avoir choisi le critère de son filtre, il faut également le tester à partir d'un élément. Plusieurs critères de
+test existent, les voici :
+  * Test d'égalité 
+  * Expression régulière (regex)
+  * "contient" ou "ne contient pas" un certain terme
+  * "commence" ou "ne commence pas" un certain terme
+  * "se termine" ou "ne se termine pas" par un certain terme
+  * est inférieur ou supérieur si ce sont des tests sur des nombres
+
+Enfin, lorsqu'une condition *(critère + test)* est validée, voici les actions possibles à appliquer au message :
+  * supprimer le message
+  * rediriger vers une adresse mail
+  * envoyer un message d'erreur *(échec)*
+  * arrêter les règles de traitement *(stopper les filtres)*
+  * faire parvenir vers un fichier *(pour trier dans des dossiers de votre adresse mail par exemple, équivalent des
+    filtres SIEVE)*
+  * rediriger le message vers un script
+
+## Exemples de filtre 
+
+### Classer les emails dans un dossier en fonction du sujet
+
+Dans cette exemple, nous allons créer un filtre qui permet de classer automatiquement tous les messages contenant le mot
+"newsletter" ou "infolettre" dans le sujet dans un dossier "newsletter" de l'adresse de messagerie. 
+
+Cela permet de voir comment ajouter plusieurs critères de filtre (newsletter OU infolettre) et comment faire parvenir
+les messages vers un dossier (utile pour trier les messages).
+
+<Image
+    src="/img/docs/guides/emails/filtre-cpanel-exemple-newsletter-1.png"
+    title="Création d'un filtre pour cibler les newsletters"
+    caption="Création d'un filtre de messagerie pour trier les Newsletter dans le dossier spam"
+    alt="Capture d'écran des filtres de messageries sur l'hébergement o2switch"
+/>
+
+
+Pour envoyer le message dans un dossier spécifique de votre adresse de messagerie, il faut d'abord créer le dossier sur
+votre compte mail *(avec un client de messagerie ou le webmail)* puis cliquer sur le bouton "parcourir" ou "browse". La
+liste des dossiers existants apparaîtra.
+
+Pour ajouter plusieurs règles de filtrages différentes, il faut cliquer sur le bouton `+` ce qui débloquera le deuxième
+formulaire ainsi qu'un autre élément pour le test. Vous pouvez choisir si le message doit correspondre à l'une `OU`
+l'autre des règles pour que le filtre fonctionne ou l'une `ET` l'autre des règles.
+
+## Classer ou supprimer les emails de spam dans un dossier spam
+
+Dans cet exemple, nous allons voir comment supprimer ou placer dans un dossier "spam" les messages ayant un score de
+spam supérieur à 5 (donc très probablement des spams). 
+
+Cela correspond à reproduire ce que réalise l'[outil comportement de l'antispam](/cpanel/emails/filtre-antispam). 
+
+<Image
+    src="/img/docs/guides/emails/filtre-cpanel-exemple-spam-2.png"
+    title="Création d'un filtre pour trier les spams"
+    caption="Création d'un filtre de messagerie pour trier emails de spam"
+    alt="Capture d'écran des filtres de messageries sur l'hébergement o2switch"
+/>
+
+La règles  `Barre de spam` permet de trier les messages en fonction du score qu'attribue le filtre spam aux messages
+reçu. Par exemple, pour filtrer les messages :
+  * ayant un score supérieur à 5, il faut créer un filtre `Barre de spam`, `contient`, `+++++`
+  * ayant un score supérieur à 3, il faut créer un filtre `Barre de spam`, `contient`, `+++`
+
+Le nombre de `+` défini le score donné par le filtre de spam. 
+
+Par défaut, un filtre de la sorte peut être créé, à la différence que l'action est "supprimer le message" plutôt que de
+le placer dans un dossier spam.
+
+## Transmettre et classer un email en fonction de l'adresse d'expédition
+
+Dans cet exemple, nous allons voir comment trier les messages par rapport à l'adresse de la personne vous contactant.
+
+<Image
+    src="/img/docs/guides/emails/filtre-cpanel-exemple-tri-expediteur-3.png"
+    title="Création d'un filtre pour trier les emails venant d'o2switch"
+    caption="Création d'un filtre de messagerie pour trier emails venant d'o2switch"
+    alt="Capture d'écran des filtres de messageries sur l'hébergement o2switch"
+/>
+
+## Tester les filtres
+
+Il est recommandé de tester vos filtres, surtout lorsqu'ils deviennent complexes avec plusieurs règles ou actions.
+Heureusement cPanel propose un outil pour tester vos filtres, cet outil est directement accessible à partir de l'outil
+[filtre défini au niveau de l'utilisateur](/cpanel/emails/filtre-email) ou [filtre défini au niveau du
+compte](/cpanel/emails/filtre-email-global). 
+
+Dans l'outil de test, il faut préciser les entêtes ainsi que le contenu du message qui est supposé arriver sur votre
+adresse de messagerie. 
+
+Un message tout simple est proposé par défaut, mais si vous souhaitez tester avec des entêtes plus complexes, le plus
+simple est de prendre exemple sur un message que vous avez reçu en regardant la "source du message". La source d'un
+message reçu peut être récupéré depuis le webmail ou bien votre logiciel de messagerie.
+
+Par exemple, voici ce qu'il est possible de mettre pour tester le filtre antispam avec suppression automatique des
+messages :
+
+<Image
+    src="/img/docs/guides/emails/filtre-cpanel-test-spam-4.png"
+    title="Outil de test des filtres de messagerie"
+    caption="Outil de test des filtres de messageries dans cPanel"
+    alt="Capture d'écran de l'outil de test du filtre de messagerie"
+/>
+
+Le résultat, le filtre est bien activé et le message supprimé. 
+
+<Image
+    src="/img/docs/guides/emails/filtre-cpanel-test-spam-resultat-5.png"
+    title="Résultat du test des filtres de messageries"
+    caption="Le résultat du test des filtres de messageries : un filtre est déclenché"
+    alt="Capture d'écran de l'outil de test du filtre de messagerie"
+/>
+
+Dans le résultat du test, on peut voir qu'un filtre de messagerie est déclenché et que le mail sera trié dans le dossier
+spam. 
+
+Le problème étant qu'il faut connaitre quelques "entêtes" à préciser pour remplir le test. Le plus simple est de
+reprendre les entêtes de vrais messages en regardant la source, mais voici quelques entêtes que vous pouvez utiliser :
+
+```
+Return-path: <adresse-expedition@site.fr>
+Envelope-to: destinataire@votre-site.fr
+Delivery-date: Sat, 17 May 2014 18:20:45 +0200
+X-Spam-Subject: ***SPAM*** viagra sex porn youporn cialis
+X-Spam-Status: Yes, score=7.4
+X-Spam-Score: 74
+X-Spam-Bar: +++++++
+X-Spam-Flag: YES
+From: Nom de la personne cherchant à vous joindre <adresse-expedition@site.fr>
+Message-ID: <CABHJVoJ-=D-AoEd6hJj1cG8bZ-jrQXOPm7fvGserfxcuevK3cg@truc.fr>
+Subject: Sujet du message
+To: Votre nom <destinataire@votre-site.fr>
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+```
