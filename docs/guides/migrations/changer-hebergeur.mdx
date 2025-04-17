@@ -1,1 +1,317 @@
-https://faq.o2switch.fr/offres-hebergement/changer-hebergeur
+---
+title: Tutoriel pour changer d'hébergeur web, transférer son site
+sidebar_label: Changer d'hébergeur
+description: Ce tutoriel explique comment migrer un site internet d'un hébergeur vers un autre hébergement web. Procédure de transfert de domaine comprise.
+image: /img/docs/guides/migrations/
+tags:
+  - guides
+  - migration
+---
+#  Comment changer d'hébergeur web et transférer son site ?
+
+Si vous avez un hébergement chez un hébergeur tiers et que vous souhaitez **migrer votre site internet vers votre
+hébergement o2switch**, afin de changer d'hébergeur web, en évitant une interruption de service, vous pouvez suivre ce
+guide.
+
+Le tutoriel part du principe que vous **avez déjà commandé un compte d'hébergement** et que vous avez déjà reçu tous les
+codes d'accès à votre hébergement dans le mail `bienvenue chez o2switch`. Si ce n'est pas encore le cas, alors la
+première étape est de [commander un hébergement web o2switch](https://clients.o2switch.fr/commander).
+
+:::info[Versions plus précises de ce guide]
+Il existe des versions plus précises et exhaustive de ce guide : 
+* [Transferer un site de OVH vers o2switch](/guides/migrations/transferer-site-ovh-vers-o2switch)
+* [Transfert un site WordPress de OVH vers o2switch](/guides/migrations/transferer-site-wordpress-ovh-vers-o2switch)
+:::
+
+## Les étapes pour transférer un site internet
+
+Pour transférer un site internet d'un hébergement à un autre, en évitant une interruption de service, l'idée principale
+est de **réaliser le transfert des données du site** et de réinstaller le site **avant de faire pointer le domaine vers
+le nouvel espace d'hébergement**. 
+
+L'opération de pointage de domaine vers votre hébergement, ou le transfert complet du domaine **doit être la dernière
+étape du processus du migration**.
+
+En résumé, il faut donc suivre les étapes suivantes.
+
+<Badge text="1" /> Commandez un espace d'hébergement, si vous souhaitez transférer votre nom de domaine, choisissez
+l'offre avec domaine et renseignez votre domaine existant
+
+<Badge text="2" /> Récupérez toutes vos données, à l'aide d'un [logiciel FTP](/guides/configuration-logiciel/filezilla),
+chez votre ancien prestataire
+
+<Badge text="3" /> Récupérez une copie de vos bases de données, en réalisant un export avec
+[PhpMyAdmin](/cpanel/bases-de-donnees/phpmyadmin) par exemple
+
+<Badge text="4" /> Remettez vos données en ligne sur votre espace d'hébergement o2switch, dans le dossier "public_html"
+si c'est votre domaine principal
+
+<Badge text="5" /> Créez une base de données, un utilisateur et donnez les droits à l'utilisateur sur la base de données
+(avec [l'outil bases de données mysql](/cpanel/bases-de-donnees/mysql))
+
+<Badge text="6" /> Importer une copie de votre base de données avec [PhpMyAdmin](/cpanel/bases-de-donnees/phpmyadmin) 
+
+<Badge text="7" /> [Modifiez le fichier de configuration](/cpanel/fichiers/gestionnaire-fichiers-web) de votre site, par
+exemple le `wp-config.php` pour WordPress, pour préciser les nouveaux paramètres de connexion à la base de données
+
+<Badge text="8" /> Testez que le site réinstallé fonctionne correctement en vous aidant de l'adresse technique fourni
+avec l'hébergement (l'adresse de la forme `identifiant.odns.fr`)
+
+<Badge text="9" /> Si vous avez des comptes emails, recréez les comptes courriels que vous aviez via l'outil
+[comptes de messagerie](/cpanel/emails/adresse-email) de cPanel
+
+<Badge text="10" /> [Configurez vos clients de messageries](/guides/configuration-logiciel/) (outlook, thunderbird)
+
+<Badge text="11" /> Faites un [changement de DNS](/nom-de-domaine/changer-dns) chez votre prestataire pour préciser
+nos serveurs `ns1.o2switch.net` et `ns2.o2switch.net`. 24h plus tard le domaine pointe vers votre hébergement
+
+<Badge text="12" /> Assurez vous bien que tout fonctionne et rectifiez (dés le départ) si besoin
+
+<Badge text="13" /> Faites la demande de [transfert de domaine](/nom-de-domaine/code-transfert) si vous le souhaitez
+
+
+## Transférer vos sites internet
+
+La première étape consiste à **pré-installer vos sites internet sur votre hébergement o2switch**, à l'aide de vos accès
+et de l'adresse temporaire que vous avez reçu dans le mail `bienvenue chez o2switch`. L'adresse temporaire ou l'adresse
+technique est l'adresse qui est de la forme `votre-identifiant.odns.fr`.
+
+<Image
+    src="/img/docs/guides/cpanel/mail-bienvenue-o2switch.png"
+    title="Le mail Bienvenue chez O2switch avec les codes pour cPanel"
+    caption="Le mail Bienvenue chez o2switch contient tous les codes d'accès pour cPanel"
+    alt="Capture d'écran du mail Bienvenue chez o2switch"
+/>
+
+Le processus de migration d'un site internet varie en fonction du type de sites que vous avez : 
+  * Est-ce un CMS, un site développé à la main ? 
+  * OU bien un site développé à l'aide d'un logiciel ou CMS comme WordPress ? 
+
+Ci-dessous **la procédure générique** pour transférer un site internet, un peu plus loin dans ce guide vous trouverez
+des procédures plus spécifiques (pour WordPress, Joomla et d'autres systèmes connus).
+
+### Configurer le domaine sur cPanel
+
+La première étape pour l'installation de votre site internet consiste à **configurer votre nom de domaine** sur votre
+espace cPanel. Deux cas sont possibles :
+  * il s'agit de votre nom de domaine principal, précisé lors de votre commande, dans ce cas vous n'avez rien besoin de
+    faire car ce nom de domaine est déjà associé sur votre espace cPanel
+  * il s'agit d'un domaine supplémentaire ou d'une commande "offre unique seule, sans domaine". Dans ce cas, il faut
+    utiliser l'[outil domaines configurés](/cpanel/domaines/configuration-domaine) de votre compte cPanel pour
+    **associer votre nom de domaine à un répertoire de votre espace d'hébergement**.
+
+<Image
+    src="/img/docs/guides/migrations/migration-configurer-domaine.png"
+    title="Configuration du nom de domaine sur cPanel"
+    caption="Il faut configurer le nom de domaine sur cPanel avec l'outil Domaines Configurés"
+    alt="Capture d'écran de l'outil Domaines Configurés sur cPanel"
+/>
+
+Il faut faire attention à la `racine du document` : cela correspond au dossier dans lequel il faudra envoyer les
+fichiers de votre site internet.
+
+### Récupérez et renvoyez vos données
+
+Vous devez ensuite **récupérer toutes les données** qui sont actuellement chez votre prestataire actuel. Pour cela, vous
+devez utiliser un logiciel FTP pour vous connecter sur votre serveur distant. 
+
+Un **logiciel FTP** est un logiciel qui vous permet de vous connecter à un serveur d'hébergement, à l'aide du protocole
+FTP et **vous permet d'envoyer et de récupérer des fichiers en masse**.
+
+Nous vous recommandons [Filezilla](https://filezilla-project.org/download.php?type=client) qui est un client FTP très
+connu, simple d'utilisation et fiable.
+
+Commencez par vous **connecter chez votre prestataire actuel avec Filezilla**, le logiciel vous demandera 3 paramètres,
+normalement fournis par votre prestataire (regardez dans les tous premiers messages reçus ou demandez de nouveaux accès)
+:
+  * L'hôte : généralement l'adresse de votre site, ou ftp.votreSite.fr
+  * Le login : un identifiant de connexion
+  * Mot de passe : un mot de passe pour votre compte FTP
+
+Une fois connecté, il faudra récupérer tous les fichiers de votre site internet sur votre ordinateur. Il faudra faire un
+glisser-déposer des fichiers du site du serveur distant (partie à droite dans Filezilla) vers votre ordinateur (partie à
+gauche dans Filezilla). 
+
+Ensuite il faut réaliser l'opération inverse, c'est-à-dire **envoyer les fichiers de votre ordinateur vers votre
+hébergement o2switch**. Pour cela, ajoutez un nouveau site dans Filezilla avec les paramètres de o2switch cette fois-ci.
+Ces paramètres sont communiqués dans le mail `bienvenue chez o2switch`. Vous pouvez vous référer au guide
+[Configurer et comprendre Filezilla](/guides/configuration-logiciel/filezilla).
+
+Puis il faut faire un glisser-déposer de la gauche vers la droite cette fois-ci.
+
+<Image
+    src="/img/docs/guides/configuration-logiciel/filezilla-transfert-complet.png"
+    title="Illustration des différentes zones dans Filezilla"
+    caption="Explications sur les différentes zones dans le logiciel FTP Filezilla"
+    alt="Capture d'écran annotée du logiciel FTP Filezilla montrant les différentes zones"
+/>
+
+### Réimporter les bases de données MySQL
+
+Si vous avez un site moderne, utilisant un CMS comme Joomla ou Wordpress, vous aurez besoin de **récupérer vos bases de
+données** puis de les **ré-importer sur votre espace d'hébergement o2switch**.
+
+Pour récupérer vos bases de données, cherchez un outil PhpMyAdmin chez votre prestataire actuel. Ce dernier permet de
+gérer vos bases de données et de les exporter pour en récupérer une sauvegarde. 
+
+Dès que vous avez installé cet outil, connectez-vous *(avec les accès que vous aura donné votre prestataire)* puis
+sélectionnez la base dans le menu de gauche, puis cliquez sur `exporter` dans le menu présent vers le haut de l'écran.
+Vous devez avoir quelque chose de similaire :
+
+<Image
+    src="/img/docs/cpanel/bases-de-donnees/sauvegarder-base-de-donnees-phpmyadmin.png"
+    title="Comment exporter une base de données avec phpmyadmin"
+    caption="Première étape du processus de sauvegarde phpmyadmin"
+    alt="Capture d'écran de phpmyadmin expliquant comment faire une sauvegarde"
+/>
+
+Si vous n'avez pas l'outil "phpmyadmin", vous avez certainement un équivalent, recherchez une option pour récupérer une
+sauvegarde, un dump de la base. Si vous avez un fichier .sql ou .sql.tar.gz ou même .dump, cela devrait fonctionner. 
+
+Sur votre espace d'hébergement o2switch, il faut maintenant : 
+  * Créer une nouvelle base de données
+  * Créer un utilisateur MySQL avec un mot de passe
+  * Attribuer les droits à l'utilisateur sur la base de données.
+
+Tout cela se fait avec l'outil [Bases de données MySQL de l'hébergement](/cpanel/bases-de-donnees/mysql). 
+
+Ensuite il faut importer le copie de sauvegarde de votre base de données (celle récupérée à l'étape précédente) dans la
+nouvelle base de données vierge que vous venez de créer sur cPanel.
+
+Cela se fait avec l'outil [PhpMyAdmin](/cpanel/bases-de-donnees/phpmyadmin) sur votre hébergement cPanel. Cette fois-ci,
+il faudra cliquer sur le nom de la base de données puis utiliser l'option `importer`.
+  
+<Image
+    src="/img/docs/cpanel/bases-de-donnees/phpmyadmin-import-base-de-donnees.png"
+    title="Import d'un fichier SQL dans phpmyadmin"
+    caption="Importation de la sauvegarde de la base de données dans phpmyadmin"
+    alt="Capture d'écran de phpmyadmin expliquant comment importer un fichier de sauvegarde"
+/>
+
+### Mise à jour du fichier de configuration du site
+
+Vous devrez certainement modifier les fichiers de configuration de votre site internet telles que les informations de
+connexion à votre base de données. 
+
+Attention, cette configuration dépend du système de contenu que vous utilisez pour votre site internet :
+
+<Badge text="A" /> Si vous avez un site WordPress, il faudra modifier le fichier `wp-config.php` présent à la racine 
+de votre site et modifier les paramètres pour la connexion à la base de données. Par exemple :
+
+```php
+define('DB_NAME', 'loginCpanel_nomDeVotreBase');
+define('DB_USER', 'loginCpanel_nomDeVotreUtilisateur');
+define('DB_PASSWORD', 'mot de passe');
+define('DB_HOST', 'localhost');
+```
+
+<Badge text="B" /> Si vous avez un site Joomla, vous devrez modifier le fichier `configuration.php` présent à la racine
+du site. Par exemple :
+
+```php
+// indispensable de modifier les éléments suivants
+public $dbtype = 'mysql';
+public $host = 'localhost';
+public $user = 'loginCpanel_nomDeVotreUtilisateur';
+public $password = 'mot de passe';
+public $db = 'loginCpanel_nomDeVotreBase';
+public $dbprefix = 'jos_';
+
+// chemin absolu des répertoires logs et tmp de joomla
+// si ce n'est pas bon, vous risquez une erreur 500
+public $log_path = '/home/loginCpanel/public_html/logs';
+public $tmp_path = '/home/loginCpanel/public_html/joomla16/tmp';
+
+// facultatif (vous pouvez laisser par défaut, vide)
+// ne mettez pas votre login/mot de passe cPanel à ce niveau
+// si vous souhaitez remplir cela, créez un accès FTP secondaire 
+// avec l'outil "comptes FTP"
+public $ftp_host = '127.0.0.1';
+public $ftp_port = '21';
+public $ftp_user = 'loginFTP';
+public $ftp_pass = 'motDePasseFTP';
+public $ftp_root = 'répertoireDuSite';
+```
+
+<Badge text="C" /> À défaut, recherchez un fichier `config.php` ou bien `settings.php` ou encore `connexion.php` (ou quelque chose de
+similaire). 
+
+Pour vous aider à trouver ce fichier, vous pouvez ouvrir n'importe quel fichier PHP de votre site internet
+et regarder les premières lignes. Très souvent, vous trouverez un `include(conf.php)` vous indiquant où se trouve le
+fichier de configuration (qui doit être chargé sur la plupart de vos pages, dans les entêtes). 
+
+### Tester le fonctionnement du site
+
+Le dépôt de votre site internet et la configuration de ce dernier sont normalement terminés. Vous pouvez tester qu'il
+fonctionne bien à l'aide de l'adresse temporaire qui est fournie dans votre mail de bienvenue.
+
+:::warning
+Attention, tous les sites ou CMS ne fonctionneront pas avec l'adresse temporaire qui est fournie car ces derniers
+détectent que ce n'est pas la "vraie" adresse du site et font une redirection. 
+
+Par exemple, vous ne pourrez tester que
+la page d'accueil d'un site wordpress, les liens secondaires pointant vers votre véritable domaine (qui ne pointe pas
+encore vers votre espace d'hébergement). 
+
+Si vous souhaitez vraiment tester cela, vous pouvez [modifier votre fichier
+hosts](http://www.commentcamarche.net/faq/5993-modifier-son-fichier-hosts) sur votre ordinateur pour lui "faire croire"
+que votre site est hébergé sur nos serveurs (avant de faire le véritable transfert).
+:::
+
+## Configuration des emails
+
+Dès que votre site est en ligne et avant de faire le pointage DNS final, vous pouvez créer toutes vos adresses emails, à
+l'avance, sur votre compte cPanel pour générer les configurations côté serveur et ne perdre aucun mail lors du processus
+de changement de DNS. 
+
+Pour cela, vous pouvez consulter ces tutoriels :
+  * [Créer des adresses emails sur l'hébergement o2switch](/cpanel/emails/adresse-email)
+  * [Configurer son logiciel de messagerie](/guides/emails/client/)
+
+## Pointage du nom de domaine
+
+Lorsque vous avez pré-installé votre site internet, testé qu'il fonctionne correctement puis créé vos adresses emails à
+l'avance sur votre espace cPanel, il faut faire pointer le nom de domaine vers votre espace d'hébergement. Nous vous
+recommandons de faire cela en deux étapes : 
+  - d'abord un changement de DNS pour faire pointer le domaine vers nos serveurs (cela prend 24h en moyenne)
+  - puis (si vous le désirez), un transfert complet du nom de domaine (peut prendre entre 5 et 7 jours, délai qui dépend
+    de votre prestataire de domaine qui doit confirmer l'opération). 
+
+Durant l'une ou l'autre de ces opérations, votre site reste toujours accessible. Durant l'étape du changement de DNS,
+les visiteurs (et mails) arriveront de manière aléatoire pendant 24h chez votre ancien prestataire ou chez o2switch
+(mais si les emails et sites sont configurés des "deux côtés", il n'y a pas de perte ou très peu). 
+
+Durant le transfert complet du domaine, ce dernier pointe là où il est configuré, l'opération est plus administrative
+que technique. 
+
+### Changement des serveurs DNS
+
+Pour le changement de DNS, vous devez préciser nos serveurs DNS qui sont `ns1.o2switch.net` et `ns2.o2switch.net`. La
+plupart des hébergeurs proposent un outil directement accessible depuis l'espace client pour faire ce changement
+(recherchez un outil "changer les serveurs DNS"). 
+
+Vous pouvez consulter la page de documentation qui explique comment faire ce changement chez la plupart des hébergeurs
+connus (ovh, 1&1, bookmyname, etc.) : [Comment changer les serveurs DNS chez mon registrar
+?](/nom-de-domaine/changer-dns/)
+
+### Transfert complet du nom de domaine
+
+Pour le transfert complet du nom de domaine, il suffit de répondre au mail "transfert de domaine" que vous avez reçu de
+la part d'o2switch lors de votre commande avec votre `code de transfert` et la confirmation que votre domaine est bien
+débloqué. 
+
+Vous pouvez retrouver ces informations dans votre fiche client chez votre prestataire de domaine ou sur demande. 
+
+Vous pouvez consulter notre guide qui explique cette démarche chez la plupart des prestataires connus : [Comment
+débloquer et récupérer le code de transfert](/nom-de-domaine/code-transfert/)
+
+Si vous n'avez pas reçu votre email "transfert de domaine", assurez-vous que le nom de domaine est bien commandé sur
+votre fiche client ou bien associé à votre offre d'hébergement.
+
+## Conclusion
+
+Le transfert de votre site internet, de vos adresses emails et de votre nom de domaine est désormais terminé. Si vous
+avez suivi ce guide et bien testé à l'avance que tout fonctionne, vous ne devriez pas avoir de problème. 
+
+Si vous avez du mal pour faire le transfert de votre site ou si vous pensez qu'il manque des informations sur ce guide,
+n'hésitez pas à [contacter le support](https://www.o2switch.fr/support-hebergeur/).
