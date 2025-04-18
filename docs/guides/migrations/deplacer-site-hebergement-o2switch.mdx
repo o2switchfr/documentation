@@ -397,12 +397,200 @@ d'erreur qui provient de l'ancien hébergement source (il ne reconnait plus le d
 Plus tard, il faudra également régénérer un certificat SSL avec [l'outil Let's Encrypt de votre hébergement
 web](/cpanel/securite/lets-encrypt-ssl-gratuit).
 
-Le transfert est terminé ! 
+Le transfert est terminé ! Vous pouvez supprimer les fichiers du site et la base de données sur l'hébergement source.
 
 ## Déplacer un site WordPress avec Duplicator 
 
+Pour déplacer un site WordPress avec l'[extension Duplicator](https://fr.wordpress.org/plugins/duplicator/) il faut : 
+- installer Duplicator sur le site source et générer une archive 
+- reconfigurer le domaine sur l'hébergment de destination 
+- recréer une base de données ainsi qu'un utilisateur MySQL vierge
+- déposer l'archive Duplicator ainsi que le fichier de réinstallation à la racine du domaine reconfiguré et lancer la
+  réinstallation
+
 ### Créer l'archive du site avec Duplicator 
+
+Connectez-vous à l'administration de votre site WordPress, puis naviguez dans `Extensions` puis `Ajouter une extension`.
+
+Ensuite recherchez l'extension `Duplicator`, installez-là et activez-là.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-installer-duplicator.png"
+    title="Installation de Duplicator"
+    caption="Procédure pour installer Duplicator sur WordPress"
+    alt="Capture d'écran de la procédure pour installer Duplicator sur WordPress"
+/>
+
+Ensuite naviguez dans le menu `Duplicator` dans le menu à gauche puis `Sauvegardes`. Cliquez sur `Créer un paquet` en
+haut à droite. 
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-duplicator-creer-paquet.png"
+    title="Création d'un paquet Duplicator"
+    caption="Procédure pour créer un paquet dans Duplicator"
+    alt="Capture d'écran de la procédure pour créer un paquet dans Duplicator"
+/>
+
+Un formulaire de création de sauvegarde (appelé paquet) s'affiche. Vous pouvez laisser toutes les options par défaut,
+puis cliquer sur `Suivant`.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-duplicator-archive-1.png"
+    title="Première étape de la création d'une archive avec Duplicator"
+    caption="Première étape pour créer une sauvegarde Duplicator"
+    alt="Capture d'écran de duplicator à la première étape de création d'une archive"
+/>
+
+Duplicator va lancer une série de test, appelé un scan, pour vérifier que l'environnement d'exécution est correcte.
+
+Tous les points devraient être au vert, vous pouvez cliquer sur `Créer`.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-duplicator-archive-2.png"
+    title="Deuxième étape de la création d'une archive avec Duplicator"
+    caption="Deuxième étape pour créer une sauvegarde Duplicator"
+    alt="Capture d'écran de duplicator à la deuxième étape de création d'une archive"
+/>
+
+Duplicator va générer l'archive. Cela peut prendre du temps, le délai de création de l'archive va dépendre de la taille
+de votre site internet et du nombre de fichiers contenus sur votre site. 
+
+A la fin de ce processus de création d'archive, Duplicator vous proposera deux fichiers à télécharger :
+- l'archive qui contient les données de votre site. Il s'agit d'une archive ZIP.
+- un fichier qui permet de réinstaller l'archive. Il s'agit d'un fichier `installer.php`.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-duplicator-archive-3.png"
+    title="Dernière étape de la création d'une archive avec Duplicator"
+    caption="Dernière étape, téléchargement de l'archive Duplicator et du fichier de réinstallation"
+    alt="Capture d'écran de duplicator à la dernière étape de création d'une archive"
+/>
+
 ### Reconfigurer le nom de domaine 
+
+A présent, il faut ajuster le pointage du nom de domaine. Pour cela, il faut :
+- déconfigurer le domaine de l'hébergement source, en l'enlevant de [l'outil Domaines
+  Configurés](/cpanel/domaines/configuration-domaine).
+- attendre 10-15 minutes, le temps que la suppression soit bien effective (la suppression des zones DNS peut prendre
+  quelques minutes)
+- reconfigurer le domaine sur l'hébergement de destination, en faisant attention à bien faire pointer le domaine dans le
+  dossier dans lequel se trouve les fichiers du site
+
+Pour supprimer le domaine de l'hébergement source, connectez-vous sur le cPanel de l'hébergement source, puis naviguez
+dans [l'outil Domaines Configurés](/cpanel/domaines/configuration-domaine). 
+
+Dans la tableau récapitulatif des domaines configurés, cliquez sur `Supprimer`. 
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-supprimer-domaine.png"
+    title="Déconfiguration d'un nom de domaine o2switch"
+    caption="Il faut déconfigurer le nom de domaine de l'hébergement source"
+    alt="Capture d'écran de la procédure pour déconfigurer un nom de domaine o2switch"
+/>
+
+Patientez 10-15 minutes. La suppression de la zone DNS peut prendre quelques instants. Si vous ne patientez pas, vous
+risquez d'avoir une erreur lors de la reconfiguration du domaine sur l'hébergement de destination. 
+
+Connectez-vous sur l'hébergement de destination, puis naviguez dans [l'outil Domaines
+Configurés](/cpanel/domaines/configuration-domaine). Reconfigurez le nom de domaine en prenant garde de bien l'associer
+avec le dossier qui contient les fichiers du site internet. 
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-reconfiguration-domaine.png"
+    title="Reconfiguration du nom de domaine sur l'hébergement"
+    caption="Reconfiguration du nom de domaine sur l'hébergement de destination"
+    alt="Capture d'écran de la procédure pour reconfigurer le domaine sur l'hébergement o2switch"
+/>
+
+Il faut encore patienter le temps que les caches DNS expirent. Pendant quelque temps, vous risquez d'avoir une page
+d'erreur qui provient de l'ancien hébergement source (il ne reconnait plus le domaine). C'est temporaire.
+
+Plus tard, il faudra également régénérer un certificat SSL avec [l'outil Let's Encrypt de votre hébergement
+web](/cpanel/securite/lets-encrypt-ssl-gratuit).
+
+### Recréer une base de données sur la destination 
+
+Sur l'hébergement de destination, connectez-vous sur cPanel puis naviguez dans l'[outil Bases de données
+MySQL](/cpanel/bases-de-donnees/mysql).
+
+Dans cet outil, il faut faire trois choses : 
+1. Créer une nouvelle base de données - avec le premier formulaire 
+2. Créer un utilisateur MySQL et lui attribuer un mot de passe - deuixème formulaire
+3. Attribuer tous les droits à l'utilisateur sur la base de données - avec les deux dernières listes déroulantes de
+   l'outil
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-creation-base-donnees.png"
+    title="Créer une base de données et utilisateur mysql"
+    caption="Création d'une base de données et d'un utilisateur MySQL depuis cPanel"
+    alt="Capture d'écran de la procédure pour créer une base de données et un utilisateur dans cPanel"
+/>
+
+
 ### Importer l'archive du site avec Duplicator 
+
+Connectez-vous sur le cPanel de l'hébergement de destination. 
+
+Avec l'aide de [l'outil Gestionnaire de Fichier](/cpanel/fichiers/gestionnaire-fichiers-web), déposez les deux fichiers
+fournis par Duplicator (le fichier `installer.php` et l'archive `.zip`) dans le dossier qui est lié au nom de domaine
+sur l'hébergement. 
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-envoi-duplicator.png"
+    title="Transfert des fichiers de Duplicator sur l'hébergement de destination"
+    caption="Transfert des fichiers de Duplicator avec le gestionnaire de fichier sur l'hébergement de destination"
+    alt="Capture d'écran du gestionnaire de fichier pour l'envoi des fichiers duplicator"
+/>
+
+Ensuite, depuis votre navigateur web, ouvrez le fichier `installer.php` de Duplicator pour le lancer. Vous pouvez
+faire cela en ouvrant une page qui doit ressembler à cela :`https://votre-nom-de-domaine.fr/installer.php`
+
+:::info[Erreur de sécurité ou de certificat SSL]
+Si vous avez une erreur de sécurité ou de certificat SSL, vous pouvez corriger cela en générant un certificat SSL
+gratuitement avec [l'outil Let's Encrypt de votre hébergement](/cpanel/securite/lets-encrypt-ssl-gratuit).
+:::
+
+Vous allez être redirigé vers une autre page `/dup-installer/main.installer.php`. Une page avec un assistant
+d'installation s'affichera.
+
+Sur cette page, remplissez la partie `Setup` en notant :
+- le nom de la base de données
+- le nom de l'utilisateur
+- son mot de passe 
+
+Cela correspond à ce que vous avez effectué à l'étape précédente, lors de la création d'une base de données vierge. 
+
+Cliquez sur `Validate`. La page devrait se réfraichir et indiquer que tout est correct. 
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-duplicator-import-1.png"
+    title="Assistant de réinstallation de Duplicator"
+    caption="L'assistant de réinstallation de Duplicator demande des codes d'accès pour la base de données"
+    alt="Capture d'écran de l'assistant de réinstallation Duplicator"
+/>
+
+
+Cochez la case `I have read and accept all terms & notices*` puis cliquez sur `Next`. Une autre fenêtre demandera de 
+confimer l'opération, cliquez sur `OK`.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-duplicator-import-2.png"
+    title="Validation de la configuration Duplicator"
+    caption="La configuration Duplicator a été validé, la réinstallation peut commencer"
+    alt="Capture d'écran de la validation de l'assitant de réinstallation Duplicator"
+/>
+
+A l'étape suivante, l'extraction des données commence. Duplicator réinstalle le site internet et réimporte la base de 
+données. 
+
+Lorsque le site est réinstallé, il faut cliquer sur `Admin Login` pour finaliser l'installation. Les fichiers de
+Duplicator seront supprimés lors de la première connexion à l'administration.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-duplicator-import-3.png"
+    title="La réinstallation est terminée"
+    caption="Le site a été réinstallé correctement."
+    alt="Capture d'écran de la dernière étape de réinstallation du site internet avec Duplicator"
+/>
 
 ## Gestion des comptes emails 
