@@ -1,1 +1,402 @@
-https://faq.o2switch.fr/deplacement-d-un-site-d-un-hebergement-a-vers-un-hebergement-b
+---
+title: Déplacer un site internet d'un hébergement à un autre
+sidebar_label: Déplacer un site
+description: Ce tutoriel explique comment déplacer un site internet d'un hébergement o2switch vers un autre hébergement
+image: /img/docs/guides/migrations/TODO
+toc_min_heading_level: 2
+toc_max_heading_level: 4
+tags:
+  - guides
+  - migration
+---
+# Comment déplacer un site d'un hébergement o2switch vers un autre ?
+
+Ce tutoriel explique comment **migrer un site internet** d'un hébergement o2switch, vers un autre hébergement o2switch. 
+
+Cette procédure est utile dans plusieurs cas : 
+- vous avez beaucoup de site sur un hébergement et vous souhaitez **transférer** une partie des sites vers un autre
+hébergement pour alléger le premier compte
+- vous souhaitez profiter du [système des sous-comptes lunes](/cpanel/o2switch/univers-web-sous-comptes) pour améliorer
+la sécurité et l'isolement de vos sites. Vous souhaitez donc **déplacer des sites vers des sous-comptes**. 
+- vous êtes un Webmaster, vous hébergez les sites de vos clients sur un hébergement à votre nom. Un de vos clients
+demande à être indépendant et a commandé un compte à son nom. Vous souhaitez **déplacer son site** vers son hébergement.
+
+En résumé, il y a plusieurs raisons valables de vouloir **déplacer un site internet** d'un hébergement vers un autre 
+hébergement. 
+
+Il y a plusieurs méthodes pour **déplacer un site web**. Ces méthodes dépendent aussi du type de site à migrer. Dans ce
+tutoriel, nous allons voir deux méthodes différentes : 
+- la méthode manuelle du **transfert en FTP ou Rsync**. C'est la méthode qui fonctionne pour tout type de site mais
+c'est aussi la plus longue et fastidieuse. 
+- pour les sites WordPress, nous allons voir comment **transférer un site avec Duplicator**. Cette méthode ne fonctionne
+que pour les sites WordPress (de petite ou moyenne taille) mais elle est beaucoup plus rapide et simple. 
+
+## Prérequis avant de commencer 
+
+Avant de commencer, munissez-vous des accès cPanel pour vos deux hébergements. Vous pouvez retrouver cela dans 
+les emails `Bienvenue chez o2switch` qui sont envoyés lors de l'ouverture des comptes d'hébergements. 
+
+<Image
+    src="/img/docs/guides/cpanel/mail-bienvenue-o2switch.png"
+    title="Le mail Bienvenue chez O2switch avec les codes pour cPanel"
+    caption="Le mail Bienvenue chez o2switch contient tous les codes d'accès pour cPanel"
+    alt="Capture d'écran du mail Bienvenue chez o2switch"
+/>
+
+Si vous avez [créé un sous-compte d'hébergement (appelé une lune)](/cpanel/o2switch/univers-web-sous-comptes), alors
+vous devriez déjà avoir le mot de passe puisque vous l'avez choisi. 
+
+## Déplacer un site d'hébergement vers un autre manuellement
+
+Pour déplacer un site internet d'un hébergement vers un autre hébergement, il y a plusieurs étapes : 
+
+<Badge text="1" /> Dans un premier temps, il faut **récupérer les fichiers du site internet**, pour les **copier** du
+premier hébergement vers le second hébergement. Il y a plusieurs méthodes pour faire cela : 
+- le plus simple, mais également le plus long, **en FTP**. En FTP, il faut d'abord récupérer les fichiers sur votre
+ordinateur. Puis les retransférer de votre ordinateur vers le second hébergement. Il y a donc un double transfert de
+données et votre ordinateur sert d'intermédiaire. Vous êtes potentiellement limité par la vitesse de votre connexion
+internet. 
+- de **serveur à serveur en SSH**. Cette méthode est plus **complexe** car demande de se connecter en SSH sur
+l'hébergement et de lancer des lignes de commandes. Mais c'est également **bien plus rapide** car le transfert de
+données se fait de serveur en serveur, sans avoir besoin d'un intermédiaire. De plus, cela est généralement plus fiable. 
+
+<Badge text="2" /> Ensuite il faut faire la même chose avec la base de données qu'utilise le site internet. Il faut
+**exporter la base de données** du premier compte d'hébergement pour la recréer, puis l'**importer** sur le second
+compte. 
+
+<Badge text="3" /> L'étape suivante consiste à **reconfigurer le site internet**. Le fichier de configuration du site
+internet devra être mis à jour, notamment pour configurer l'accès à sa nouvelle base de données. 
+
+<Badge text="4" /> Enfin, il faut **reconfigurer le nom de domaine**. Cela implique de supprimer le domaine du premier
+compte d'hébergement, puis de le reconfigurer sur le second compte. C'est à ce moment là que le site internet pointera
+vers le nouveau compte. 
+
+
+### Copier les fichiers du site 
+
+Avant de commencer à copier les fichiers du site, il faut **identifier ou se trouvent les fichiers du site** sur votre 
+hébergement. Pour faire cela, vous pouvez naviguer dans l'[outil Domaines
+Configurés](/cpanel/domaines/configuration-domaine). 
+
+Dans cet outil, naviguez dans le tableau récapitulatif puis utilisez la barre de recherche pour rechercher votre nom de
+domaine. Si vous avez un résultat, notez la `Racine du document`. 
+
+<Image
+    src="/img/docs/guides/migrations/identifier-dossier-domaine.png"
+    title="Identifier dans quel dossier de l'hébergement est configuré un nom de domaine"
+    caption="Retrouver dans quel dossier de l'hébergement est configuré un nom de domaine"
+    alt="Capture d'écran de l'outil domaines configurés pour retrouver le dossier lié à un domaine"
+/>
+
+Si vous n'avez pas de résultat, alors suivez la même procédure mais avec [l'outil
+sous-domaine](/cpanel/domaines/configuration-sous-domaine). Et si vous n'avez toujours pas de résultat, alors il est
+probable que votre site se trouve dans `public_html`.
+
+Ensuite, pour copier les fichiers du site du premier compte d'hébergement vers le second, vous avez le choix entre deux
+méthodes : 
+
+<Badge text="A" /> **En FTP**. C'est le plus simple, mais c'est également long et fastidieux. Cela nécessite de télécharger
+les données sur votre ordinateur pour les renvoyer vers l'autre hébergement. Donc vous êtes limité par la vitesse de 
+votre connexion internet. 
+
+<Badge text="B" /> **En SSH**, de serveur à serveur. C'est la méthode la plus rapide, mais c'est un peu plus compliqué car
+cela demande de se connecter en SSH sur l'hébergement et de lancer des commandes *(les commandes seront fournies)*.
+
+#### Méthode A : Copier les fichiers du site en FTP 
+
+Avant de commencer, nous vous recommandons de lire le tutoriel sur la [configuration du logiciel FTP
+Filezilla](/guides/configuration-logiciel/filezilla). Ce tutoriel sera plus exhaustif que ce qui sera expliqué ici.
+
+Lancez Filezilla puis cliquez sur `Fichier` puis `Gestionnaire de sites`. Ajoutez un nouveau site qui correspond
+à **l'hébergement source**. Puis recommandez la procédure mais avec **l'hébergement de destination** cette fois.
+
+Aidez-vous des informations contenues dans le mail `Bienvenue chez o2switch`. Pour rappel, il faut utiliser les réglages
+suivant : 
+- `Protocole` : FTP
+- `Hôte` : l'adresse de la forme `qqch.o2switch.net` qui est communiqué dans le mail ou retrouvable depuis votre espace
+client dans le détails de la prestation d'hébergement 
+- `Chiffrement` : connexion FTP simple. Si vous souhaitez utiliser une méthode différente, référez-vous au [tutoriel
+sur Filezilla](/guides/configuration-logiciel/filezilla)
+- `Type d'authentification` : normale 
+- `Utilisateur` : votre identifiant cPanel
+- `Mot de passe` : le mot de passe de cPanel 
+
+<Image
+    src="/img/docs/guides/migrations/migration-configuration-ftp-o2switch.png"
+    title="Configuration FTP Filezilla"
+    caption="Configuration FTP de l'hébergement source et destination dans Filezilla"
+    alt="Capture d'écran de la fenêtre de configuration de Filezilla pour o2switch"
+/>
+
+Connectez-vous sur l'hébergement source, c'est-à-dire l'hébergement qui contient les données du site à récupérer. 
+
+Ensuite, naviguez dans le dossier du site à transférer avec Filezilla puis téléchargez les données avec un 
+glisser-déposer vers un dossier de votre ordinateur. 
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-filezilla-recuperer-fichiers.png"
+    title="Téléchargement des données vers votre ordinateur"
+    caption="Téléchargement des fichiers du site vers votre ordinateur avec Filezilla"
+    alt="Capture d'écran de Filezilla pour la récupération des données d'un site o2switch"
+/>
+
+Lorsque vous avez récupéré toutes les données, il faut faire la même chose mais dans l'autre sens pour envoyer les
+fichiers vers l'hébergement de destination. Connectez-vous sur l'hébergement de destination avec Filezilla puis :
+- sur l'hébergement de destination, créez un dossier qui aura le même nom que le site internet. N'utilisez pas d'espace,
+nommez le dossier en utilisant le nom de domaine du site. 
+- transférer les données du site dans ce dossier avec un glisser-déposer sur Filezilla
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-filezilla-envoyer-fichiers.png"
+    title="Envoi des fichiers vers l'hébergement de destination avec Filezilla"
+    caption="Transfert des fichiers vers l'hébergement de destination avec Filezilla"
+    alt="Capture d'écran de Filezilla pour l'envoi des données vers l'hébergement de destination"
+/>
+
+Les fichiers sont transférés, vous pouvez maintenant passer à l'étape suivante pour récupérer et réimporter la base de 
+données. 
+
+#### Méthode B : Copier les fichiers du site de serveur à serveur avec SSH
+
+Vous pouvez transférer les données de **serveur à serveur en SSH**. Le transfert de fichier avec cette méthode est
+beaucoup plus rapide et fiable. 
+
+[Connectez-vous sur le cPanel](/guides/cpanel/comment-se-connecter) de votre hébergement source, puis naviguez dans
+l'outil Terminal. L'[outil Terminal](/cpanel/outils-avances/terminal-ssh-web) permet d'accéder à votre hébergement en
+SSH depuis votre navigateur web, cela vous évite de devoir télécharger et [configurer un client SSH comme
+PuTTy](/guides/webmastering/connexion-ssh).
+
+En SSH, naviguez jusqu'au dossier qui contient les fichiers de votre site et arrêtez-vous un cran en arrière. Pour
+naviguer dans les dossiers de votre hébergement en ligne de commande, ou lister vos fichiers, vous pouvez
+utiliser les commandes suivantes : 
+
+```bash
+# La commande "ls" permet de lister les fichiers
+ls 
+# La commande "cd" permet de naviguer dans un dossier 
+# La commande "cd monDossier" permet d'entrer dans le dossier "monDossier"
+cd monDossier 
+# La commande "cd .." permet de revenir en arrière 
+cd .. 
+# La commande "pwd" affiche le dossier dans lequel vous vous trouvez actuellement 
+pwd
+```
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-navigation-ssh-simple.png"
+    title="Exemple de navigation dans les dossiers en SSH"
+    caption="Exemple d'utilisation des commandes ls, cd et pwd. Il faut naviguer dans le dossier parent du dossier du site internet"
+    alt="Capture d'écran de l'outil Terminal dans cPanel avec un exemple de manipulation SSH"
+/>
+
+Pour transférer le contenu du site internet de l'hébergement source, vers l'hébergement de destination, il faut 
+utiliser la commande `rsync`. 
+
+Exemple de commande à lancer : 
+
+```bash
+# En lançant la commande "ls", le dossier à transférer (ici public_html) doit s'afficher
+ls
+
+# La commande pour transférer les données 
+rsync -av public_html/ o2tuto@greek.o2switch.net:/home/o2tuto/tutoriel-o2switch.fr
+```
+
+Quelques explications sur la commande précédente :
+  * `rsync` : la commande qui permet de transférer des données d'une source vers une destination
+  * `public_html/` : le dossier dans l'hébergement source à transférer. Le `/` est important. Cela indique qu'il faut
+  transférer le contenu du dossier mais ne pas recréer un dossier `public_html` sur la destination
+  * `-av` : des options qui permettent de conserver les permissions/dates des fichiers et d'activer le mode verbeux
+  * `o2tuto@greek.o2switch.net` : l'identifiant de l'hébergement distant, suivi d'un @, suivi du nom du serveur distant
+  * `/home/o2tuto/tutoriel-o2switch.fr` : le chemin vers lequel transférer les données sur le serveur distant. Notez
+bien `/home` suivi de `/votreIdentifiantCpanel` suivi de `/le-nom-du-site.fr`
+
+<Image
+    src="/img/docs/guides/migrations/explication-rsync-ssh.png"
+    title="Explication de la commande Rsync pour transférer les données d'un hébergement à l'autre"
+    caption="Explication de la commande Rsync pour transférer un dossier d'un hébergement vers l'autre"
+    alt="Schéma annoté de la commande Rsync de transfert de données "
+/>
+
+Après avoir lancé la commande, il faudra répondre à deux questions : 
+  * Si c'est la première fois que vous vous connectez sur le serveur distant, l'outil vous demandera de valider la 
+  signature du serveur, il suffit de répondre `yes` 
+  * Ensuite il faudra noter le mot de passe de votre hébergement de destination pour vous authentifier 
+
+Après avoir entré votre mot de passe, l'outil commencera à transférer les fichiers. La liste des fichiers transférés 
+s'affichera dans le terminal SSH.
+
+Il faut laisser la commande s'exécuter jusqu'à qu'elle se termine. 
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-transfert-rsync.png"
+    title="Lancement de la commande Rsync pour transférer les données "
+    caption="Lancement de la commande Rsync pour transférer le dossier public_html vers l'hébergement de destination"
+    alt="Capture d'écran de l'outil Terminal avec la commande Rsync de transfert de données"
+/>
+
+Si la commande est interrompue, pour une raison X ou Y, alors vous pouvez simplement la relancer, cela reprendra le 
+transfert : c'est l'avantage de Rsync, il est capable de reprendre un transfert échoué. 
+
+Vous pouvez passer à l'étape suivante pour copier les données. 
+
+### Copier la base de données
+
+Il est probable que votre site internet utilise une base de données. Cette base de données doit être copiée, pour faire
+cela, il faut : 
+  - trouver le nom de la base de données qu'utilise le site internet 
+  - exporter une copie de cette base de données, en faire une sauvegarde 
+  - recréer une base de données ainsi qu'un utilisateur MySQL sur l'hébergement de destination 
+  - réimporter la base de données sur la destination 
+
+#### Identifier le nom de base de données
+
+La première étape est d'**identifier le nom de la base de données** qui est utilisé par le site internet, car il faudra
+en faire une copie.
+
+Pour cela, il faut ouvrir le fichier de configuration du site internet, avec un outil comme le [gestionnaire de
+fichier](/cpanel/fichiers/gestionnaire-fichiers-web). Le fichier de configuration du site va contenir les informations
+de connexion pour la base de données.
+
+Le fichier à ouvrir dépend du CMS utilisé, dans les plus courant, vous avez : 
+- `wp-config.php` pour WordPress, il faut rechercher une ligne avec `DB_NAME`
+- `configuration.php` pour Joomla, il faut rechercher une ligne avec `$db = `
+- `config/settings.inc.php` pour Prestashop 1.6 et inférieur, il faut rechercher `DB_NAME`
+- `app/config/parameters.php` pour Prestashop 1.7 et supérieur, il faut rechercher `database_name`
+- `.env` pour des projets Symfony ou Laravel, vous pouvez chercher `DATABASE_URL`
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-trouver-base-donnees.png"
+    title="Comment retrouver la base de données utilisée par un site WordPress"
+    caption="On peut retrouver la base de données utilisée par un site WordPress en ouvrant le fichier de configuration"
+    alt="Capture d'écran du fichier wp-config.php de WordPress pour retrouver le nom de la base de données"
+/>
+
+#### Exporter la base de données
+
+Pour exporter la base de données, il faut naviguer dans l'[outil phpmyadmin dans
+cPanel](/cpanel/bases-de-donnees/phpmyadmin). 
+
+Ensuite, il faut cliquer sur le nom de la base de données dans le menu à gauche, puis cliquer sur `Exporter` dans 
+le menu supérieure, puis valider en laissant la configuration par défaut en cliquant sur le bouton  `Exporter`.
+
+Cela va proposer un ficher `.sql` à télécharger. Il faudra conserver ce fichier, il sera nécessaire plus tard pour
+réimporter la base de données.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-phpmyadmin-exporter.png"
+    title="Exporter une copie de la base de données avec phpmyadmin"
+    caption="Réaliser un export de base de données avec phpmyadmin"
+    alt="Capture d'écran de la procédure dans phpmyadmin pour faire un export de la base de données"
+/>
+
+#### Recréer une base de données sur la destination 
+
+Sur l'hébergement de destination, connectez-vous sur cPanel puis naviguez dans l'[outil Bases de données
+MySQL](/cpanel/bases-de-donnees/mysql).
+
+Dans cet outil, il faut faire trois choses : 
+1. Créer une nouvelle base de données - avec le premier formulaire 
+2. Créer un utilisateur MySQL et lui attribuer un mot de passe - deuixème formulaire
+3. Attribuer tous les droits à l'utilisateur sur la base de données - avec les deux dernières listes déroulantes de
+   l'outil
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-creation-base-donnees.png"
+    title="Créer une base de données et utilisateur mysql"
+    caption="Création d'une base de données et d'un utilisateur MySQL depuis cPanel"
+    alt="Capture d'écran de la procédure pour créer une base de données et un utilisateur dans cPanel"
+/>
+
+#### Import la base de données 
+
+La base de données créée à l'étape présente est vide. Il faut importer la sauvegarde du fichier réalisée plus tôt.
+
+Pour cela, il faut naviguer dans [l'outil PhpMyAdmin de l'hébergement](/cpanel/bases-de-donnees/phpmyadmin), puis
+cliquer sur la base de données dans le menu à gauche, puis aller dans l'onglet "Importer".
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-importer-base-donnees.png"
+    title="Importer la copie de la base de données"
+    caption="Importation de la base de données avec phpmyadmin"
+    alt="Capture d'écran de la procédure pour importer une base de données dans phpmyadmin"
+/>
+
+### Reconfigurer le site internet
+
+Les données du site ont été transférés sur le nouvel hébergement. La base de données a été recréé et réimportée. 
+Maintenant, il faut reconfigurer le site internet en modifiant son fichier de configuration car le nom de la base de 
+données, le nom d'utilisateur et le mot de passe ont changés. 
+
+Le fichier à éditer dépend du CMS utilisé : 
+- `wp-config.php` pour WordPress
+- `configuration.php` pour Joomla
+- `config/settings.inc.php` pour Prestashop 1.6 et inférieur
+- `app/config/parameters.php` pour Prestashop 1.7 et supérieur
+- `.env` pour des projets Symfony ou Laravel
+
+Vous pouvez ouvrir le fichier avec l'[outil gestionnaire de fichier de
+cPanel][/cpanel/fichiers/gestionnaire-fichiers-web]. 
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-mise-a-jour-config.png"
+    title="Mise à jour du fichier de configuration du site internet"
+    caption="Mise à jour du fichier de configuration du site avec les nouveaux codes d'accès pour la base de données"
+    alt="Capture d'écran de la procédure pour mettre à jour le fichier de configuration du site"
+/>
+
+C'est fini pour le site internet. Le site est pré-installé sur l'hébergement de destination et devrait être fonctionnel.
+
+Il ne reste plus qu'à reconfigurer le nom de domaine pour qu'il pointe sur l'hébergement de destination. 
+
+### Reconfigurer le domaine
+
+A présent, il faut ajuster le pointage du nom de domaine. Pour cela, il faut :
+- déconfigurer le domaine de l'hébergement source, en l'enlevant de [l'outil Domaines
+  Configurés](/cpanel/domaines/configuration-domaine).
+- attendre 10-15 minutes, le temps que la suppression soit bien effective (la suppression des zones DNS peut prendre
+  quelques minutes)
+- reconfigurer le domaine sur l'hébergement de destination, en faisant attention à bien faire pointer le domaine dans le
+  dossier dans lequel se trouve les fichiers du site
+
+Pour supprimer le domaine de l'hébergement source, connectez-vous sur le cPanel de l'hébergement source, puis naviguez
+dans [l'outil Domaines Configurés](/cpanel/domaines/configuration-domaine). 
+
+Dans la tableau récapitulatif des domaines configurés, cliquez sur `Supprimer`. 
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-supprimer-domaine.png"
+    title="Déconfiguration d'un nom de domaine o2switch"
+    caption="Il faut déconfigurer le nom de domaine de l'hébergement source"
+    alt="Capture d'écran de la procédure pour déconfigurer un nom de domaine o2switch"
+/>
+
+Patientez 10-15 minutes. La suppression de la zone DNS peut prendre quelques instants. Si vous ne patientez pas, vous
+risquez d'avoir une erreur lors de la reconfiguration du domaine sur l'hébergement de destination. 
+
+Connectez-vous sur l'hébergement de destination, puis naviguez dans [l'outil Domaines
+Configurés](/cpanel/domaines/configuration-domaine). Reconfigurez le nom de domaine en prenant garde de bien l'associer
+avec le dossier qui contient les fichiers du site internet. 
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-reconfiguration-domaine.png"
+    title="Reconfiguration du nom de domaine sur l'hébergement"
+    caption="Reconfiguration du nom de domaine sur l'hébergement de destination"
+    alt="Capture d'écran de la procédure pour reconfigurer le domaine sur l'hébergement o2switch"
+/>
+
+Il faut encore patienter le temps que les caches DNS expirent. Pendant quelque temps, vous risquez d'avoir une page
+d'erreur qui provient de l'ancien hébergement source (il ne reconnait plus le domaine). C'est temporaire.
+
+Plus tard, il faudra également régénérer un certificat SSL avec [l'outil Let's Encrypt de votre hébergement
+web](/cpanel/securite/lets-encrypt-ssl-gratuit).
+
+Le transfert est terminé ! 
+
+## Déplacer un site WordPress avec Duplicator 
+
+### Créer l'archive du site avec Duplicator 
+### Reconfigurer le nom de domaine 
+### Importer l'archive du site avec Duplicator 
+
+## Gestion des comptes emails 
