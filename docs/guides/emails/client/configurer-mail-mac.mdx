@@ -1,1 +1,108 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-emails/configurer-mail-mac
+---
+title: Configurer une adresse email o2switch sur Mail / macOS
+sidebar_label: Mail - macOS
+description: Ce tutoriel explique comment configurer une adresse email o2switch sur l'application Mail de macOS
+image: /img/docs/guides/emails/client/TODO
+tags:
+  - guides
+  - email
+  - logiciel messagerie
+---
+
+# Configurer une adresse email sur Mail de macOS 
+
+
+Ce guide explique comment configurer une adresse email, créée sur votre [compte d'hébergement
+o2switch](https://www.o2switch.fr/hebergement-illimite/), sur le logiciel de messagerie **Mail** sur macOS. 
+
+Cela vous permet deconsulter et gérer vos emails o2switch depuis l'application Mail sur macOS. 
+
+
+## Prérequis avant la configuration
+
+Dans un premier temps, retrouvez l'email `Bienvenue chez o2switch`. Ce mail contient une rubrique `Créer vos emails` qui
+donne toute la configuration email et notamment l'adresse du serveur de la forme `qqch.o2switch.net` qui sera nécessaire
+plus tard.
+
+<Image
+    src="/img/docs/guides/emails/client/mail-bienvenue-configuration.png"
+    title="Le mail Bienvenue chez o2switch contient toute la configuration à utiliser pour les emails"
+    caption="Le mail bienvenue chez o2switch contient la configuration à utiliser"
+    alt="Capture d'écran de l'email envoyé par o2switch lors de l'ouverture d'un compte d'hébergement"
+/>
+
+## Configurer un compte email dans l'application Mail
+
+Si c'est la première fois que vous lancez le logiciel Mail, ou que vous n'avez pas encore configuré d'adresse email
+dessus, alors le logiciel vous proposera d'ajouter un compte email dés l'ouverture.
+
+<Badge text="1" type="danger" /> Sinon, si vous utilisez déjà le logiciel, alors vous pouvez ajouter une nouvelle
+adresse en cliquant sur `Mail`, en haut à gauche de votre écran, à côté du Logo Apple. Ensuite, vous pouvez cliquer sur
+`Comptes...`.
+
+<Image
+    src="/img/docs/guides/emails/client/o2switch-configurer-mail-macos-1.png"
+    title="Ajouter un nouveau compte email dans Mail sur macOS"
+    caption="Configuration d'une nouvelle adresse email dans Mail sur macOS"
+    alt="Capture d'écran de macOS pour l'ajout d'un nouveau compte email dans l'application Mail"
+/>
+
+<Badge text="2" type="danger" /> L'outil des préférences s'ouvre. Il faut cliquer sur `Ajouter un compte` pour ajouter
+une nouvelle adresse email dans l'application Mail et commencer la configuration. 
+
+<Image
+    src="/img/docs/guides/emails/client/o2switch-configurer-mail-macos-2.png"
+    title="Ajout d'un nouveau compte email dans les préférences macOS"
+    caption="Ajout d'une nouvelle adresse email dans les préférences de macOS"
+    alt="Capture d'écran des préférences de macOS pour l'ajout d'une nouvelle adresse email"
+/>
+
+<Badge text="3" type="danger" /> Ensuite, il faut cliquer sur `Ajouter un autre compte...`
+
+<Badge text="4" type="danger" /> Puis choisir d'ajouter un `Compte Mail`.
+
+<Image
+    src="/img/docs/guides/emails/client/o2switch-configurer-mail-macos-3.png"
+    title="Ajout d'un nouveau compte email dans macOS"
+    caption="Ajout d'une adresse email dans les macOS pour l'application Mail"
+    alt="Capture d'écran des préférences de macOS pour l'ajout d'une adresse de messagerie"
+/>
+
+<Badge text="5" type="danger" /> Dans l'écran pour ajouter un compte email, il faut noter : 
+- `Nom` : vous pouvez noter votre nom/prénom. Cela s'affichera dans les emails que vous allez envoyer 
+- `Adresse E-mail` : l'adresse email complète 
+- `Mot de passe` : le mot de passe de l'adresse mail. Vous avez choisi ce mot de passe dans l'[outil compte de
+  messagerie](/cpanel/emails/adresse-email) lorsque vous avez créé le compte email sur votre hébergement web.
+
+Vous pouvez valider en cliquant sur `Se connecter`
+
+<Badge text="6" type="danger" /> Un message d'erreur s'affichera et indiquera que l'application Mail ne parvient pas
+à se connecter automatiquement. Pour corriger cela, il faudra configurer la configuration manuellement : 
+- `Adresse E-mail`` : votre adresse email complète 
+- `Nom d'utilisateur` : vous pouvez re-noter votre adresse email complète 
+- `Mot de passe` : le mot de passe de votre adresse email 
+- `Type de compte` : IMAP 
+- `Serveur de réception` : reprenez le nom du serveur communiqué dans le mail `Bienvenue chez o2switch`. C'est de la
+forme `qqch.o2switch.net`
+- `Serveur d'envoi` : le même nom que le serveur entrant, de la forme `qqch.o2switch.net`
+
+Puis vous pouvez valider en cliquant sur `Se connecter`. 
+
+<Badge text="7" type="danger" /> La configuration est terminée, vous pouvez finaliser l'installation en cochant les
+applications qui auront accès aux paramètres de configurations.
+
+<Image
+    src="/img/docs/guides/emails/client/o2switch-configurer-mail-macos-4.png"
+    title="Configuration des réglages IMAP et SMTP dans Mail d'Apple"
+    caption="Paramètrages des réglages IMAP et SMTP dans l'application Mail sur macOS"
+    alt="Capture d'écran des réglages IMAP et SMTP de l'application Mail"
+/>
+
+Vous pouvez maintenant envoyer et recevoir des emails depuis l'application Mail sur macOS. 
+
+<Image
+    src="/img/docs/guides/emails/client/o2switch-mail-macos-tuto.png"
+    title="La configuration est terminée"
+    caption="L'adresse email est configuré dans l'application Mail d'Apple"
+    alt="Capture d'écran de l'application Mail d'Apple"
+/>
