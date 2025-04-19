@@ -594,3 +594,40 @@ Duplicator seront supprimés lors de la première connexion à l'administration.
 />
 
 ## Gestion des comptes emails 
+
+Si des comptes emails étaient attachés au nom de domaine à transférer, alors il est également possible de les transférer
+et de conserver l'historique des emails.
+
+Cette opération de transfert doit être réalisée avant l'étape de pointage du nom de domaine / reconfiguration du nom
+de domaine sur l'hébergement de destination.
+
+Pour conserver l'historique des emails, il faut transférer de l'hébergement source vers la destination le contenu
+des dossiers `mail/nom-du-domaine.fr` qui se trouve à la racine de l'hébergement. 
+
+Le transfert peut s'effectuer en FTP, en suivant la même méthode que le transfert des données du site.
+
+Ou de serveur à serveur en SSH. La méthode de transfert de serveur à serveur est recommandé pour les emails car le
+transfert des fichiers pour les emails est particulièrement long. Il s'agit en effet du pire cas à transférer : un grand
+nombre de petits fichiers.
+
+Pour transférer le contenu des emails en SSH, vous pouvez utiliser une commande comme celle-ci : 
+
+```bash
+# En étant connecté sur l'hébergement "source"
+
+# Replacez-vous à la racine de votre hébergement avec la commande "cd" sans argument 
+cd 
+
+# Vérifiez que le dossier existe , remplacez nom-domaine.fr par votre nom de domaine 
+ls mail/nom-domaine.fr
+
+# Transfert des données avec Rsync de la source vers la destination 
+rsync -av mail/nom-domaine.fr/ compte2@destination.o2switch.net:/home/compte2/mail/nom-domaine.fr
+```
+
+Cela va transférer l'historique des emails, de serveur à serveur.
+
+Après avoir transférer l'historique des emails et après avoir reconfiguré le nom de domaine sur l'hébergement, vous 
+pouvez recréer les comptes emails avec l'[outil Compte de messagerie](/cpanel/emails/adresse-email).
+
+L'historique des emails devraient réapparaitre automatiquement dans sur les adresses emails. 
