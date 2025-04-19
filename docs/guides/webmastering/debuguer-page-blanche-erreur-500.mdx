@@ -4,7 +4,7 @@ sidebar_label: Procédure de debug
 description: Ce guide explique comment déboguer une page blanche ou une erreur 500 sur un compte d'hébergement o2switch
 toc_min_heading_level: 2
 toc_max_heading_level: 4
-image: /img/docs/guides/webmastering/TODO
+image: /img/docs/guides/webmastering/erreur-php-2.png
 tags:
   - guides
   - ssh
@@ -50,7 +50,7 @@ Les "vraies" erreurs 500 sont généralement liés à des problèmes de configur
     </div>
     <div className="col col--6">
         <Image
-            src="/img/docs/guides/webmastering/gestion-site:erreur-php-2.png"
+            src="/img/docs/guides/webmastering/erreur-php-2.png"
             title="En forçant les erreurs PHP, la vraie erreur s'affiche"
             caption="Après avoir forcé l'affichage des erreurs PHP, la vrai erreur s'affiche"
             alt="Capture d'écran du bon message d'erreur"
@@ -497,7 +497,7 @@ file_put_contents(__DIR__ . '/wrong.txt', 'test');
 ```php
 Warning: file_put_contents(/home/faqo2/public_html/fichiers/demonstration-erreurs-php/wrong.txt): failed to open
 stream: Permission denied in /home/faqo2/public_html/fichiers/demonstration-erreurs-php/permission-1.php on line 3
-```php
+```
 
 Dans ce cas, il faut regarder les droits du fichiers concernés (mentionné dans l'erreur) puis appliquer le bon chmod : 
   * chmod 644 pour un fichier 
