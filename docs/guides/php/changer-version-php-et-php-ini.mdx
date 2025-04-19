@@ -1,1 +1,541 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-web/choisir-version-php-et-php-ini
+---
+title: Choisir la version de PHP et personnaliser son fichier php.ini ?
+sidebar_label: Version de PHP par dossier
+description: Ce tutoriel explique comment changer la version de PHP ainsi que le php.ini dossier par dossier sur l'hébergement o2switch
+tags:
+  - guides
+  - php
+---
+# Comment changer la version de PHP dossier par dossier ?
+
+Sur [l'hébergement web o2switch](https://www.o2switch.fr/), vous pouvez changer la version de PHP et contrôler la 
+configuration PHP (php.ini) de plusieurs façons différentes.
+
+La méthode recommandée est d'utiliser [l'outil Sélectionner une version de
+PHP](/cpanel/logiciels/hebergement-php-multi-version) de l'hébergement. L'outil permet de changer la version de PHP pour
+l'ensemble de l'hébergement. En complément, l'outil vous permet de charger ou décharger des modules PHP et de modifier
+le php.ini. 
+
+Cependant, cet outil n'est pas toujours sufisant. Vous pouvez être amené à vouloir utiliser une version précise de PHP
+pour tout l'hébergement, à l'exception d'un dossier ou d'un site précis qui a besoin d'une version différente. 
+
+Ce type de configuration est possible chez o2switch, en modifiant le fichier `.htaccess` qui se trouve à la racine du 
+site. 
+
+Dans la mesure du possible, nous décourageons l'usage de cette méthode car le PHP qui sera exécuté de cette manière sera
+un peu plus lent que le PHP exécuté nativement. 
+
+Si vous avez la possibilité d'[isoler le site sur un sous-compte, un lune
+(gratuitement)][/cpanel/o2switch/univers-web-sous-comptes] et de choisir la version de PHP avec le [sélecteur de version
+de PHP](/cpanel/logiciels/hebergement-php-multi-version) directement sur le sous-compte, ça sera plus performant. 
+
+## Choisir la version de PHP
+
+Vous pouvez choisir la version de PHP en mettant en place un fichier .htaccess dans le dossier ou vous souhaitez que
+cette version de PHP soit exécuté. Dans ce fichier .htaccess, vous pouvez précisez l'une de ces lignes :
+
+```apacheconf
+#PHP 5.2 : 
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php52
+</FilesMatch>
+AddHandler application/x-httpd-php52 .php
+
+#PHP 5.3 : 
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php53
+</FilesMatch>
+AddHandler application/x-httpd-php53 .php
+
+#PHP 5.4 : 
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php54
+</FilesMatch>
+AddHandler application/x-httpd-php54 .php
+
+#PHP 5.5 : 
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php55
+</FilesMatch>
+AddHandler application/x-httpd-php55 .php
+
+#PHP 5.6 : 
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php56
+</FilesMatch>
+AddHandler application/x-httpd-php56 .php
+
+#PHP 7.0 : 
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php70
+</FilesMatch>
+AddHandler application/x-httpd-php70 .php
+
+
+#PHP 7.1 : 
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php71
+</FilesMatch>
+AddHandler application/x-httpd-php71 .php
+
+
+#PHP 7.2 : 
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php72
+</FilesMatch>
+AddHandler application/x-httpd-php72 .php
+
+
+#PHP 7.3 : 
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php73
+</FilesMatch>
+AddHandler application/x-httpd-php73 .php
+
+
+#PHP 7.4 : 
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php74
+</FilesMatch>
+AddHandler application/x-httpd-php74 .php
+
+
+#PHP 8.0 : 
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php80
+</FilesMatch>
+AddHandler application/x-httpd-php80 .php
+
+
+#PHP 8.1 : 
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php81
+</FilesMatch>
+AddHandler application/x-httpd-php81 .php
+
+
+#PHP 8.2 : 
+Non disponible pour le moment.
+```
+
+
+La version de PHP sera prise en compte pour le dossier contenant le fichier .htaccess ainsi que l'ensemble des
+sous-dossiers. Cela vous permet d'avoir des configurations assez fines, comme par exemple définir une versions de PHP
+différente pour chacun de vos sites : il suffit de préciser un fichier .htaccess avec la bonne directive à la racine de
+vos sites.
+
+:::danger[Un fichier php.ini doit impérativement être créé]
+La mise en place de la version de PHP doit s'accompagner obligatoirement d'un fichier php.ini plus bas pour que la
+version fonctionne correctement
+:::
+
+Par exemple : 
+
+**public_html/.htaccess** avec :
+```apacheconf title="public_html/.htaccess"
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php52
+</FilesMatch>
+AddHandler application/x-httpd-php52 .php
+```
+permet de dire que l'ensemble de public_html et ces sous-dossiers fonctionneront avec php 5.2
+
+**public_html/site-recent.fr/.htaccess** avec :
+```apacheconf title="public_html/site-recent.fr/.htaccess"
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php54
+</FilesMatch>
+AddHandler application/x-httpd-php54 .php
+```
+
+permet d'avoir le dossier "site-recent.fr" ainsi que les sous-dossiers avec php 5.4. Le .htaccess de "dernier niveau"
+est pris en compte, donc le .htaccess précédent de "public_html" est ignoré dans ce cas puisque redéfini dans un dossier
+plus profond.
+
+**sites/.htaccess** avec rien de particulier à l'intérieur : utilise la version par défaut de PHP sur le serveur.
+
+
+## Mettre en place un php.ini personnalisé
+
+Pour mettre en place un fichier php.ini, vous devez forcer la version de PHP que vous souhaitez utiliser (par défaut,
+php 5.4) à l'aide des explications fourni plus haut, puis ajoutez cette directive dans le fichier .htaccess contenu dans
+le dossier ou vous souhaitez que les modifications soit effective :
+
+```apacheconf title="Directive pour obtenir un php.ini personnalisé"
+# Attention : c'est bien le chemin vers le DOSSIER CONTENANT le fichier php.ini
+# Et PAS le chemin vers le fichier php.ini
+suPHP_ConfigPath /chemin/vers/dossier_contenant_php_ini
+```
+
+Par exemple, si vous souhaitez mettre en place un fichier php.ini en utilisant la version par défaut de PHP pour votre
+site principal contenu dans "public_html", vous devrez créer un fichier .htaccess dans le dossier public_html avec ces
+directives :
+
+```apacheconf title="Exemple de changement de version de PHP vers PHP 5.4"
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php54
+</FilesMatch>
+AddHandler application/x-httpd-php54 .php
+suPHP_ConfigPath /home/votre_login/public_html/
+```
+
+Dans ce dernier cas, le fichier php.ini devra être situé ici : `/home/votre_login/public_html/php.ini`
+
+La version de PHP ainsi que les modifications ajoutés via le fichier php.ini seront effectives pour le dossier
+public_html **ET** l'ensemble des sous-dossiers de "public_html" **SAUF** si un fichier .htaccess ré-écrit cela avec de
+nouvelles directives.
+
+Si vous avez un deuxième site contenu dans le dossier "public_html" qui requiert des configurations particulières, vous
+pouvez ré-écrire cela en mettant en place un nouveau fichier .htaccess à la racine du deuxième site cette fois :
+
+```apacheconf title="/home/votre_login/public_html/site2.fr/.htaccess"
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php53
+</FilesMatch>
+AddHandler application/x-httpd-php53 .php
+suPHP_ConfigPath /home/votre_login/public_html/site2.fr/
+</code>
+```
+
+
+## Exemple de fichier php.ini
+
+Le fichier php.ini devra être ici : `/home/votre_login/public_html/site2.fr/php.ini`
+
+### Pour PHP <= 5.6
+
+Sur les versions de PHP inférieureou égale à PHP 5.6, il est nécessaire d'activer les extensions `mysql`.
+
+Ces extensions là sont supprimées à partir de PHP 7 et sont remplacés par des équivalents plus modernes. 
+
+Pensez à modifier les chemins pour les `zend_extension` visible en fin de fichier. Remplacez **56** par la version
+de PHP que vous souhaitez utiliser.
+
+```ini title="php.ini pour PHP <= 5.6"
+[PHP]
+engine = On
+zend.ze1_compatibility_mode = Off
+short_open_tag = On
+asp_tags = Off
+precision    =  14
+y2k_compliance = On
+output_buffering = Off
+zlib.output_compression = Off
+implicit_flush = Off
+unserialize_callback_func=
+serialize_precision = 17
+allow_call_time_pass_reference = Off
+safe_mode = Off
+safe_mode_gid = Off
+safe_mode_include_dir =
+safe_mode_exec_dir =
+safe_mode_allowed_env_vars = PHP_
+safe_mode_protected_env_vars = LD_LIBRARY_PATH
+disable_functions =
+disable_classes =
+expose_php = Off
+memory_limit = 512M
+error_reporting  =  E_ALL
+display_errors = Off
+display_startup_errors = Off
+log_errors = Off
+log_errors_max_len = 1024
+ignore_repeated_errors = Off
+ignore_repeated_source = Off
+report_memleaks = On
+track_errors = Off
+error_log = error_log
+variables_order = "EGPCS"
+request_order = "GP"
+register_globals = Off
+register_long_arrays = Off
+register_argc_argv = Off
+auto_globals_jit = On
+post_max_size = 512M
+magic_quotes_gpc = Off
+magic_quotes_runtime = Off
+magic_quotes_sybase = Off
+auto_prepend_file =
+auto_append_file =
+default_mimetype = "text/html"
+doc_root =
+user_dir =
+enable_dl = On
+file_uploads = On
+upload_max_filesize = 512M
+allow_url_fopen = On
+allow_url_include = Off
+default_socket_timeout = 60
+[Date]
+date.timezone = "Europe/Paris"
+[Syslog]
+define_syslog_variables  = Off
+[mail function]
+SMTP = localhost
+smtp_port = 25
+sendmail_path = /usr/sbin/sendmail -t -i
+[SQL]
+sql.safe_mode = Off
+[MySQL]
+mysql.allow_persistent = On
+mysql.max_persistent = -1
+mysql.max_links = -1
+mysql.default_port =
+mysql.default_socket =
+mysql.default_host =
+mysql.default_user =
+mysql.default_password =
+mysql.connect_timeout = 60
+mysql.trace_mode = Off
+[MySQLi]
+mysqli.max_links = -1
+mysqli.default_port = 3306
+mysqli.default_socket =
+mysqli.default_host =
+mysqli.default_user =
+mysqli.default_pw =
+mysqli.reconnect = Off
+[PostgresSQL]
+pgsql.allow_persistent = On
+pgsql.auto_reset_persistent = Off
+pgsql.max_persistent = -1
+pgsql.max_links = -1
+pgsql.ignore_notice = 0
+pgsql.log_notice = 0
+[bcmath]
+bcmath.scale = 0
+[Session]
+session.save_handler = files
+session.save_path = "/opt/alt/php56/var/lib/php/session"
+session.use_cookies = 1
+session.name = PHPSESSID
+session.auto_start = 0
+session.cookie_lifetime = 0
+session.cookie_path = /
+session.cookie_domain =
+session.cookie_httponly =
+session.serialize_handler = php
+session.gc_probability = 1
+session.gc_divisor     = 1000
+session.gc_maxlifetime = 1440
+session.bug_compat_42 = 0
+session.bug_compat_warn = 1
+session.referer_check =
+session.entropy_length = 0
+session.entropy_file =
+session.cache_limiter = nocache
+session.cache_expire = 180
+session.use_trans_sid = 0
+session.hash_function = 0
+session.hash_bits_per_character = 5
+url_rewriter.tags = "a=href,area=href,frame=src,input=src,form=fakeentry"
+[Tidy]
+tidy.clean_output = Off
+[soap]
+soap.wsdl_cache_enabled=1
+soap.wsdl_cache_dir="/tmp"
+soap.wsdl_cache_ttl=86400
+opcache.memory_consumption = 2048
+opcache.max_accelerated_files = 100000
+extension=bcmath.so
+extension=bz2_filter.so
+extension=dom.so
+extension=enchant.so
+extension=fileinfo.so
+extension=gd.so
+extension=imap.so
+extension=intl.so
+extension=json.so
+extension=ldap.so
+extension=mbstring.so
+extension=mailparse.so
+extension=mbstring.so
+extension=mcrypt.so
+extension=mysqli.so
+extension=mysqlnd.so
+extension=pdo.so
+extension=pdo_mysql.so
+extension=pdo_sqlite.so
+extension=pgsql.so
+extension=phar.so
+extension=posix.so
+extension=propro.so
+extension=pspell.so
+extension=soap.so
+extension=sockets.so
+extension=spl_types.so
+extension=sysvmsg.so
+extension=sysvsem.so
+extension=sysvshm.so
+extension=tidy.so
+extension=wddx.so
+extension=xmlreader.so
+extension=xmlrpc.so
+extension=xmlwriter.so
+extension=xsl.so
+extension=zip.so
+zend_extension=/opt/alt/php56/usr/lib64/php/modules/ZendGuardLoader.so
+zend_extension=/opt/alt/php56/usr/lib64/php/modules/opcache.so
+zend_extension=/opt/alt/php56/usr/lib64/php/modules/ioncube_loader.so
+```
+
+### Pour PHP > 5.6  
+
+Pour les versions de PHP supérieure à PHP 5.6, les modules MySQL n'existent plus et sont remplacés, donc le fichier 
+php.ini est légèrement différents. 
+
+```ini title="php.ini pour PHP > 5.6"
+[PHP]
+output_buffering = Off
+engine = On
+short_open_tag = Off
+precision = 14
+zlib.output_compression = Off
+implicit_flush = Off
+unserialize_callback_func =
+serialize_precision = -1
+disable_functions =
+disable_classes =
+zend.enable_gc = On
+zend.exception_ignore_args = On
+expose_php = On
+max_execution_time = 360
+max_input_time = 360
+max_input_vars = 250000
+memory_limit = 512M
+error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
+display_errors = Off
+display_startup_errors = Off
+log_errors = Off
+log_errors_max_len = 1024
+ignore_repeated_errors = Off
+ignore_repeated_source = Off
+report_memleaks = On
+error_log = 
+variables_order = "GPCS"
+request_order = "GP"
+register_argc_argv = Off
+auto_globals_jit = On
+post_max_size = 512M
+auto_prepend_file =
+auto_append_file =
+default_mimetype = "text/html"
+default_charset = "UTF-8"
+doc_root =
+user_dir =
+enable_dl = Off
+file_uploads = On
+upload_max_filesize = 512M
+max_file_uploads = 20
+allow_url_fopen = On
+default_socket_timeout = 20
+[CLI Server]
+cli_server.color = On
+[Date]
+date.timezone = Europe/Paris
+[Pcre]
+pcre.jit=0
+[Pdo_mysql]
+pdo_mysql.default_socket=
+[mail function]
+sendmail_path = /usr/sbin/sendmail -t -i
+mail.add_x_header = Off
+[MySQLi]
+mysqli.max_persistent = -1
+mysqli.allow_persistent = On
+mysqli.max_links = -1
+mysqli.default_port = 3306
+mysqli.default_socket =
+mysqli.default_host =
+mysqli.default_user =
+mysqli.default_pw =
+mysqli.reconnect = Off
+[mysqlnd]
+mysqlnd.collect_statistics = On
+mysqlnd.collect_memory_statistics = Off
+[PostgreSQL]
+pgsql.allow_persistent = On
+pgsql.auto_reset_persistent = Off
+pgsql.max_persistent = -1
+pgsql.max_links = -1
+pgsql.ignore_notice = 0
+pgsql.log_notice = 0
+[bcmath]
+bcmath.scale = 0
+[Session]
+session.save_handler = files
+session.save_path = "/opt/alt/php81/var/lib/php/session"
+session.use_strict_mode = 0
+session.use_cookies = 1
+session.use_only_cookies = 1
+session.name = PHPSESSID
+session.auto_start = 0
+session.cookie_lifetime = 0
+session.cookie_path = /
+session.cookie_domain =
+session.cookie_httponly =
+session.cookie_samesite =
+session.serialize_handler = php
+session.gc_probability = 1
+session.gc_divisor = 1000
+session.gc_maxlifetime = 1440
+session.referer_check =
+session.cache_limiter = nocache
+session.cache_expire = 180
+session.use_trans_sid = 0
+session.sid_length = 26
+session.trans_sid_tags = "a=href,area=href,frame=src,form="
+session.sid_bits_per_character = 5
+[Assertion]
+zend.assertions = -1
+[Tidy]
+tidy.clean_output = Off
+[soap]
+soap.wsdl_cache_enabled=1
+soap.wsdl_cache_dir="/tmp"
+soap.wsdl_cache_ttl=86400
+soap.wsdl_cache_limit = 5
+[ldap]
+ldap.max_links = -1
+[ffi]
+opcache.jit_buffer_size=0
+opcache.jit=disable
+opcache.memory_consumption = 2048
+opcache.max_accelerated_files = 100000
+opcache.huge_code_pages = 0
+extension=bcmath.so
+extension=dba.so
+extension=dom.so
+extension=enchant.so
+extension=fileinfo.so
+extension=gd.so
+extension=imap.so
+extension=intl.so
+extension=ldap.so
+extension=mbstring.so
+extension=mailparse.so
+extension=mbstring.so
+extension=mcrypt.so
+extension=mysqli.so
+extension=mysqlnd.so
+extension=pdo_mysql.so
+extension=pdo.so
+extension=pdo_sqlite.so
+extension=pgsql.so
+extension=phar.so
+extension=posix.so
+extension=pspell.so
+extension=soap.so
+extension=sockets.so
+extension=sysvmsg.so
+extension=sysvsem.so
+extension=sysvshm.so
+extension=tidy.so
+extension=xmlreader.so
+extension=xmlrpc.so
+extension=xmlwriter.so
+extension=xsl.so
+extension=zip.so
+zend_extension=/opt/alt/php81/usr/lib64/php/modules/opcache.so
+zend_extension=/opt/alt/php81/usr/lib64/php/modules/ioncube_loader.so
+```
