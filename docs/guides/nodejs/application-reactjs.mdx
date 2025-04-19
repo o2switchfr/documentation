@@ -1,1 +1,422 @@
-https://faq.o2switch.fr/tuto-rapide/deployer-application-react-js
+---
+title: Déployer une application react.js sur un hébergement web o2switch
+sidebar_label: Déployement React.js
+description: Ce tutoriel o2switch explique comment installer une application react.js sur un hébergement o2switch 
+image: /img/docs/guides/nodejs/TODO
+tags:
+  - guides
+  - nodejs
+  - reactjs
+---
+# Déployer une application react.js sur un hébergement web o2switch
+
+Ce guide explique **comment déployer une application Frontend react.js** sur un **[hébergement web
+o2switch](https://www.o2switch.fr/hebergement-illimite/)**
+
+Les applications Frontend conçues avec React.js sont bien compatibles avec les hébergements o2switch. Cependant,
+lorsqu'il qu'arrive le moment de déployer l'application, il y a souvent des confusions, par exemple entre une
+application type `frontend`, `backend` et l'[outil nodeJS](/cpanel/logiciels/hebergement-nodejs-multi-version) qui est
+proposé dans l'hébergement. Ce guide vise à clarifier ces points de confusions en montrant comment déployer une
+application react.js purement frontend. 
+
+Nous allons voir comment installer l'une des applications listées dans la [page des
+exemples](https://reactjs.org/community/examples.html) du site de reactJS :
+[Yog9/SnapShot|SnapShot](https://github.com/Yog9/SnapShot|SnapShot) une galerie d'image. Cela semble être l'application
+la plus aboutie visuellement dans les exemples proposés.
+
+Ce guide est à compléter les [recommandations de déploiements de
+React.js](https://create-react-app.dev/docs/deployment/).
+
+## Frontend, backend, l'outil nodeJS
+
+Avant de commencer à déployer l'application react.js sur l'hébergement web o2switch, il est nécessaire de clarifier le
+fonctionnement de l'[outil Setup nodeJS App](/cpanel/logiciels/hebergement-nodejs-multi-version) de l'hébergement.
+
+L'outil nodeJS de l'hébergement permet de **créer un environnement nodeJS** sur l'hébergement o2switch, dans le but de
+déployer une application de type Backend. L'outil permet de :
+  * choisir la version de nodeJS qui sera utilisé par le projet backend,
+  * aider à l'installation des dépendances avec `npm`,
+  * faire le lien entre l'application nodeJS backend et un nom de domaine défini sur l'hébergement 
+
+Il faut faire la distinction entre ce type d'application, `Backend`, ou le code Javascript est exécuté côté serveur avec
+des technologies `Frontend` comme React.js ou le code est exécuté côté client, dans le navigateur web.
+
+La confusion vient du fait que des outils comme React.js utilisent également des commandes comme `node` et `npm`.
+Cependant les commandes ne sont pas utilisées de la même manière que pour une application backend, les usages sont
+différents. 
+
+
+Voici un tableau récapitulatif des usages. La chose à retenir est qu'il ne faut pas utiliser l'outil nodeJS dans cPanel
+si vous cherchez à déployer un projet purement frontend, il faut à la place [utiliser les commandes node et npm
+directement](/guides/nodejs/utiliser-binaire-nodejs-npm-yarn). 
+
+<table>
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Exécution</th>
+            <th>Exemples</th>
+            <th>Outils à utiliser</th>
+            <th>Procédure de déploiement</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Backend</td>
+            <td>Le code JS s'exécute côté serveur	</td>
+            <td>ExpressJS, socket.IO, sails.js	</td>
+            <td>[Outils Setup NodeJS dans cPanel](/cpanel/logiciels/hebergement-nodejs-multi-version)</td>
+            <td>
+                <ol>
+                    <li>Créer un environnement nodeJS avec l'outil nodeJS dans cPanel. Associer un domaine de 
+                    l'hébergement avec l'application, définir le point d'entré de l'application</li>
+                    <li>Installer les dépendances avec NPM</li>
+                    <li>Si besoin, configurer l'application (définition des bases de données etc…)</li>
+                    <li>Relancer l'application server. Le code JS est bien exécuté côté serveur et retourne des 
+                    réponses HTTP au navigateur web. Le frontend peut être fait manuellement (vanilla) ou peut 
+                    également utiliser des technologies comme react.js. Si le frontend utilise une technologie 
+                    comme react.js, il faudra en complément suivre la procédure de déploiement frontend.</li>
+                </ol>
+            </td>
+        </tr>
+        <tr>
+            <td>Frontend</td>
+            <td>Le code JS s'exécute dans le navigateur web	</td>
+            <td>React.js, Angular, Vue.js</td>
+            <td>Les commandes [CLI Node et NPM](/guides/nodejs/utiliser-binaire-nodejs-npm-yarn)</td>
+            <td>
+                Cela peut dépendre du Framework, mais généralement il faut :
+                <ol>
+                    <li>Mettre en ligne les fichiers du projet sur l'hébergement</li>
+                    <li>[Utiliser l'astuce CLI node/npm](/guides/nodejs/utiliser-binaire-nodejs-npm-yarn) pour avoir 
+                    accès aux commandes node et npm sur l'hébergement</li>
+                    <li> Lancer l'étape de `build` pour construire les fichiers du projet. Cela permet d'avoir des 
+                    fichiers html/javascript/css directement exploitables</li>
+                    <li>Mettre en place ces fichiers construits précédemment dans le dossier qui est lié au 
+                    domaine sur l'hébergement</li>
+                    <li>Mettre en place un .htaccess pour avoir le routing de l'application qui redirige vers le 
+                    index.html</li>
+                </ol>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+## Accès SSH à l'hébergement web
+
+La première chose à faire est de débloquer son accès SSH à l'hébergement o2switch. 
+
+Si vous utilisez un logiciel comme PuTTy ou un client SSH installé sur votre ordinateur, il faut commencer par mettre en
+**liste blanche** l'adresse IP qui va se connecter en SSH à l'hébergement.
+
+Vous pouvez faire cela avec l'[outil autorisation SSH](/cpanel/outils/exception-parefeu) de
+l'hébergement.
+
+
+<Image
+    src="/img/docs/guides/nodejs/o2switch-ssh-liste-blanche-firewall.png"
+    title="Ajout de l'adresse IP en liste blanche"
+    caption="Création d'une exception dans le parefeu pour accèder à l'hébergement en SSH"
+    alt="Capture d'écran de l'outil d'autorisation SSH o2switch"
+/>
+
+Sinon, vous pouvez également vous connecter en SSH sur votre hébergement directement en utilisant [l'outil Terminal dans
+cPanel](/cpanel/outils-avances/terminal-ssh-web). Dans ce cas, il n'est pas nécessaire de mettre en place une liste
+blanche, cela s'utilise directement depuis un navigateur web en **étant connecté sur cPanel**. 
+
+<Image
+    src="/img/docs/guides/nodejs/terminal-o2switch.png"
+    title="Outil Terminal pour se connecter en SSH sur l'hébergement depuis un navigateur web"
+    caption="Un accès shell sans client SSH depuis cPanel"
+    alt="Capture d'écran de l'outil Terminal pour accéder en SSH à l'hébergement depuis un navigateur web"
+/>
+
+## Rendre accessibles les commandes node et npm
+
+Par défaut, les commandes `node` et `npm` ne sont pas accessibles sur l'hébergement. Si vous tapez juste la commande
+`node` ou `npm`, vous obtiendrez une erreur du type `command not found`. 
+
+Les exécutables pour `node` et `npm` sont pourtant bien installé sur l'hébergement mais il est nécessaire de faire une
+manipulation supplémentaire afin de les rendre accessible. Il faut modifier le `PATH` de l'hébergement. 
+
+Pour faire simple, le `PATH` correspond à une liste de dossiers dans lequel le système ira chercher les commandes qui
+sont accessibles en exécution directe (c'est-à-dire sans devoir taper le chemin complet vers le fichier exécutable). 
+
+Cela n'est pas fait par défaut chez o2switch car nous proposons plusieurs versions de nodeJS simultanément, donc il y a
+cette petite étape supplémentaire à mettre en place afin de choisir quelle version vous souhaitez utiliser. 
+
+La procédure est expliquée en détails dans la page :
+[Comment utiliser les commandes node, npm et yarn sur l'hébergement o2switch ? ](/guides/nodejs/utiliser-binaire-nodejs-npm-yarn)
+
+En résumé il faut modifier le fichier `.bashrc` qui se trouve à la racine de votre hébergement et ajouter la ligne
+suivante : 
+
+```bash title="Rendre les commandes node et npm accessibles"
+export PATH="$PATH:/opt/alt/alt-nodejs22/root/usr/bin/"
+```
+
+Vous pouvez constater que dans le chemin qui est ajouté au `PATH`, il y a la version de nodeJS qui est défini. A cet
+instant, les versions 6, 8, 9, 10, 11, 12, 14, 16, 18, 20 et 22 de NodeJS sont proposées (mis à jour le 03/10/2024)
+
+Vous pouvez éditer ce fichier `.bashrc` de plusieurs manières différentes : 
+  * directement en SSH avec `vi` si vous êtes à l'aise avec cette méthode,
+  * en téléchargeant, modifiant, téléversant le fichier en FTP, avec un logiciel comme Filezilla 
+  * avec l'[outil gestionnaire de fichier](/cpanel/fichiers/gestionnaire-fichiers-web) de cPanel (il
+    faudra activer l'affichage des fichiers cachés dans les préférences)
+
+Si vous souhaitez un `one-liner` à lancer directement dans votre client SSH ou avec l'outil Terminal, vous pouvez
+utiliser la commande suivante :
+
+```bash title="One liner pour rendre les commandes node et npm accessibles"
+cat << EOF >> ~/.bashrc 
+export PATH="\$PATH:/opt/alt/alt-nodejs20/root/usr/bin/" 
+EOF 
+source ~/.bashrc
+```
+
+Après avoir fait les modifications dans le fichier `.bashrc`, il est nécessaire de lancer la commande suivante afin de
+forcer sa prise en compte : `source ~/.bashrc`. Ou sinon, vous pouvez vous déconnecter et reconnecter en SSH, cela
+fonctionne également. 
+
+### Récupération des sources avec GIT
+
+A présent, il faut récupérer les sources de votre projet et les envoyer sur votre hébergement. Il est possible de faire
+cela de plusieurs manières différentes mais l'approche moderne est de travailler avec `git` directement. 
+
+Il faut donc se connecter en SSH et lancer une commande `git clone` pour récupérer les fichiers du projet, dans un
+dossier de l'hébergement o2switch.
+
+```bash title="Récupérer les fichiers sources avec GIT"
+cd ~ 
+git clone https://github.com/Yog9/SnapShot.git
+```
+
+Le résultat d'exécution devrait ressembler à quelque chose de la sorte : 
+
+```
+[o2demo@raclette ~]$ git clone https://github.com/Yog9/SnapShot.git
+Clonage dans 'SnapShot'...
+remote: Enumerating objects: 297, done.
+remote: Counting objects: 100% (139/139), done.
+remote: Compressing objects: 100% (46/46), done.
+remote: Total 297 (delta 110), reused 93 (delta 93), pack-reused 158
+Réception d'objets: 100% (297/297), 3.42 Mio | 5.28 Mio/s, fait.
+Résolution des deltas: 100% (146/146), fait.
+
+[o2demo@raclette ~]$ ls SnapShot/
+CONTRIBUTING.md  package.json  public  README.md  snapscout.png  src  yarn.lock
+```
+
+Si vous ne souhaitez pas travailler avec `git`, vous pouvez également envoyer les fichiers d'une autre manière : 
+  * en FTP, avec un logiciel comme Filezilla, dans un dossier de votre hébergement 
+  * en envoyant une archive avec le gestionnaire de fichier puis en l'extrayant avec le gestionnaire 
+
+
+### Build de l'application
+
+Avant de lancer le processus de `build` de l'application, il est nécessaire de modifier légèrement le fichier
+`package.json` qui se trouve à la racine du projet pour remplacer l'adresse sur laquelle est installé le projet. Si vous
+ne faites pas cela, vous risquez de vous retrouver avec une page blanche à la fin du déploiement. Ça correspond à la
+recommandation [building for relative paths](https://create-react-app.dev/docs/deployment/#building-for-relative-paths)
+du guide de déploiement de React.js. 
+
+```js title="package.json"
+# Dans package.json, il faut remplacer la ligne suivante 
+"homepage": "https://Yog9.github.io/SnapShot",
+# Par la ligne suivante
+"homepage":".", 
+```
+
+A présent, il faut installer les dépendances de l'application avec `npm install` puis lancer l'étape de construction des
+fichiers de production pour l'application avec `npm run build`.
+
+```bash
+# Il faut se placer dans le dossier qui contient les fichiers de l'application
+cd SnapShot
+
+# Il faut installer les dépendances
+npm install
+
+# Il faut générer les fichiers finaux du projet 
+npm run build
+```
+
+Le retour d'exécution devrait ressembler à quelque chose de la sorte (attention, c'est verbeux). 
+
+``` title="Installation des dépendances avec npm install"
+[o2demo@raclette SnapShot]$ npm install
+npm WARN deprecated axios@0.19.2: Critical security vulnerability fixed in v0.21.1. For more information, see https://github.com/axios/axios/pull/3410
+npm WARN deprecated babel-eslint@10.1.0: babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.
+npm WARN deprecated eslint-loader@3.0.3: This loader has been deprecated. Please use eslint-webpack-plugin
+npm WARN deprecated html-webpack-plugin@4.0.0-beta.11: please switch to a stable version
+npm WARN deprecated fsevents@2.1.2: "Please update to latest v2.3 or v2.2"
+npm WARN deprecated urix@0.1.0: Please see https://github.com/lydell/urix#deprecated
+npm WARN deprecated source-map-resolve@0.5.3: See https://github.com/lydell/source-map-resolve#deprecated
+npm WARN deprecated chokidar@2.1.8: Chokidar 2 does not receive security updates since 2019. Upgrade to chokidar 3 with 15x fewer dependencies
+npm WARN deprecated @types/testing-library__dom@7.5.0: This is a stub types definition. testing-library__dom provides its own type definitions, so you do not need this installed.
+npm WARN deprecated resolve-url@0.2.1: https://github.com/lydell/resolve-url#deprecated
+npm WARN deprecated source-map-url@0.4.1: See https://github.com/lydell/source-map-url#deprecated
+npm WARN deprecated svgo@1.3.2: This SVGO version is no longer supported. Upgrade to v2.x.x.
+npm WARN deprecated request@2.88.2: request has been deprecated, see https://github.com/request/request/issues/3142
+npm WARN deprecated request-promise-native@1.0.9: request-promise-native has been deprecated because it extends the now deprecated request package, see https://github.com/request/request/issues/3142
+npm WARN deprecated fsevents@1.2.13: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+npm WARN deprecated uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+npm WARN deprecated querystring@0.2.0: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
+npm WARN deprecated @hapi/joi@15.1.1: Switch to 'npm install joi'
+npm WARN deprecated sane@4.1.0: some dependency vulnerabilities fixed, support for node < 10 dropped, and newer ECMAScript syntax/features added
+npm WARN deprecated har-validator@5.1.5: this library is no longer supported
+npm WARN deprecated flatten@1.0.3: flatten is deprecated in favor of utility frameworks such as lodash.
+npm WARN deprecated @hapi/bourne@1.3.2: This version has been deprecated and is no longer supported or maintained
+npm WARN deprecated @hapi/topo@3.1.6: This version has been deprecated and is no longer supported or maintained
+npm WARN deprecated @hapi/address@2.1.4: Moved to 'npm install @sideway/address'
+npm WARN deprecated @hapi/hoek@8.5.1: This version has been deprecated and is no longer supported or maintained
+npm WARN deprecated left-pad@1.3.0: use String.prototype.padStart()
+npm WARN deprecated core-js@2.6.12: core-js@<3.4 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
+ 
+> core-js@2.6.12 postinstall /home/o2demo/SnapShot/node_modules/babel-runtime/node_modules/core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+ 
+Thank you for using core-js ( https://github.com/zloirock/core-js ) for polyfilling JavaScript standard library!
+ 
+The project needs your help! Please consider supporting of core-js on Open Collective or Patreon: 
+> https://opencollective.com/core-js 
+> https://www.patreon.com/zloirock 
+ 
+Also, the author of core-js ( https://github.com/zloirock ) is looking for a good job -)
+ 
+ 
+> core-js@3.21.1 postinstall /home/o2demo/SnapShot/node_modules/core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+ 
+Thank you for using core-js ( https://github.com/zloirock/core-js ) for polyfilling JavaScript standard library!
+ 
+The project needs your help! Please consider supporting of core-js:
+> https://opencollective.com/core-js 
+> https://patreon.com/zloirock 
+> https://paypal.me/zloirock 
+> bitcoin: bc1qlea7544qtsmj2rayg0lthvza9fau63ux0fstcz 
+ 
+Also, the author of core-js ( https://github.com/zloirock ) is looking for a good job -)
+ 
+ 
+> core-js-pure@3.21.1 postinstall /home/o2demo/SnapShot/node_modules/core-js-pure
+> node -e "try{require('./postinstall')}catch(e){}"
+ 
+ 
+> es5-ext@0.10.58 postinstall /home/o2demo/SnapShot/node_modules/es5-ext
+> node -e "try{require('./_postinstall')}catch(e){}"
+ 
+npm notice created a lockfile as package-lock.json. You should commit this file.
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@2.1.2 (node_modules/react-scripts/node_modules/fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@2.1.2: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.2.7 (node_modules/jest-haste-map/node_modules/fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.13: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@~2.3.2 (node_modules/chokidar/node_modules/fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@2.3.2: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.2.7 (node_modules/watchpack-chokidar2/node_modules/chokidar/node_modules/fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.13: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.2.7 (node_modules/webpack-dev-server/node_modules/chokidar/node_modules/fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.13: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+npm WARN @babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining@7.16.7 requires a peer of @babel/core@^7.13.0 but none is installed. You must install peer dependencies yourself.
+npm WARN @babel/plugin-proposal-class-static-block@7.17.6 requires a peer of @babel/core@^7.12.0 but none is installed. You must install peer dependencies yourself.
+npm WARN tsutils@3.21.0 requires a peer of typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta but none is installed. You must install peer dependencies yourself.
+ 
+added 1667 packages from 788 contributors and audited 1672 packages in 56.438s
+ 
+99 packages are looking for funding
+  run `npm fund` for details
+ 
+found 48 vulnerabilities (2 low, 32 moderate, 13 high, 1 critical)
+  run `npm audit fix` to fix them, or `npm audit` for details
+```
+
+``` title="Génération des fichiers finaux avec npm run build"
+[o2demo@raclette SnapShot]$ npm run build 
+ 
+> snapshot@0.1.0 build /home/o2demo/SnapShot
+> react-scripts build
+ 
+Creating an optimized production build...
+Compiled successfully.
+ 
+File sizes after gzip:
+ 
+  53.29 KB  build/static/js/2.90ab2d3b.chunk.js
+  1.92 KB   build/static/js/main.79abf28b.chunk.js
+  1.13 KB   build/static/css/main.ec41352a.chunk.css
+  780 B     build/static/js/runtime-main.54f9bf49.js
+ 
+The project was built assuming it is hosted at /SnapShot/.
+You can control this with the homepage field in your package.json.
+ 
+The build folder is ready to be deployed.
+ 
+Find out more about deployment here:
+ 
+  bit.ly/CRA-deploy
+```
+
+A présent, vous devriez avoir les fichiers finaux du frontend dans le dossier `build` qui s'est créé à la racine de
+votre projet. 
+
+## Configuration du domaine et routage
+
+A présent, il faut déplacer les fichiers qui sont contenu dans le répertoire `build` (généré à l'étape précédente) dans
+le dossier qui est lié avec le nom de domaine.
+
+Si vous ne s'avez pas avec quel dossier est lié votre nom de domaine, vous pouvez retrouver cela dans l'[outil Domaines
+Configurés](/cpanel/domaines/configuration-domaine) de l'hébergement, en regardant dans le tableau récapitulatif, c'est
+la `Racine du document`. 
+
+<Image
+    src="/img/docs/guides/nodejs/o2switch-trouver-dossier-site.png"
+    title="Trouver le dossier d'hébergement lié à un site internet"
+    caption="Retrouver le dossier lié à un site internet grâce aux outils domaines supplémentaires et sous-domaine"
+    alt="Trouver le dossier d'hébergement lié à un site internet"
+/>
+
+Les commandes suivantes permettent de :
+  * copier les fichiers au bon endroit, dans le dossier associé avec le domaine
+  * mettre en place un .htaccess pour corriger les problèmes de routing
+
+```bash title="Déploiement"
+# On copie les fichiers finaux du répertoire build vers le répertoire avec lequel est associé le nom de domaine
+# La commande yes permet d'accepter l'écrasement de fichiers en cas de doublons
+# Dans cet exemple, le domaine est liée avec public_html
+cp -vaR ~/SnapShot/build/* ~/public_html/
+ 
+# Ensuite il faut créer un fichier .htaccess afin que les URL du type /quelques-choses soient interprétées par le fichier index.html 
+cat << EOF > ~/public_html/.htaccess
+Options -MultiViews
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.html [QSA,L]
+EOF
+```
+
+A présent, vous pouvez tester, l'application devrait s'afficher correctement. 
+
+<Image
+    src="/img/docs/guides/nodejs/exemple-reactjs-o2switch.png"
+    title="L'application react.js a été installé sur l'hébergement web o2switch"
+    caption="L'application frontend react.js a été déployé sur l'hébergement o2switch"
+    alt="L'application react.js a été installé sur l'hébergement web o2switch"
+/>
+
+## Erreur de mémoire Node/NPM
+
+L'outil terminal dans cPanel à quelques restrictions supplémentaires sur le nombre de processus qu'il est possible de
+lancer ainsi que l'utilisation mémoire, comparé à un client SSH conventionnel comme PuTTy.
+
+Par conséquent, cela peut générer des erreurs `wasm memory`, `fork failed` ou `out of memory` comme sur la capture
+d'écran ci-dessous. 
+
+<Image
+    src="/img/docs/guides/nodejs/o2switch_wasm_memory_error.png"
+    title="Erreur wasm out of memory"
+    caption="Cette erreur est liée aux restrictions supplémentaires de l'outil Terminal"
+    alt="Erreur wasm out of memory"
+/>
+
+Dans ce cas, il faut essayer en passant par un client SSH classique, [comme Putty](/guides/webmastering/connexion-ssh).
+Avec un client SSH classique, il y a moins de restrictions en place.
