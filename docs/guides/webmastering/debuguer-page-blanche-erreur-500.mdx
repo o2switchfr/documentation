@@ -1,1 +1,594 @@
-https://faq.o2switch.fr/gestion-site/debug-page-blanche-erreur-500
+---
+title: Corriger un problème de page blanche ou d'erreur 500 sur un site web
+sidebar_label: Procédure de debug
+description: Ce guide explique comment déboguer une page blanche ou une erreur 500 sur un compte d'hébergement o2switch
+toc_min_heading_level: 2
+toc_max_heading_level: 4
+image: /img/docs/guides/webmastering/TODO
+tags:
+  - guides
+  - ssh
+  - webmastering
+---
+# Déboguer une page blanche ou une erreur 500
+
+Dans cet article, nous allons voir comment **diagnostiquer l'affichage d'une page blanche** ou d'une **erreur 500** sur
+une [offre d'hébergement web o2switch](https://www.o2switch.fr).
+
+Les erreurs 500 et les pages blanches sont les erreurs les plus courantes sur des sites internet, le diagnostique de ce
+type d'erreurs peut être très simple si on suit une procédure particulière : on agit par **itération** et élimination
+des causes probables. 
+  - On regarde s'il s'agit d'une erreur PHP ou d'une erreur 500
+  - On active les erreurs PHP sur l'hébergement, avec l'outil `Sélectionner une version de PHP de cPanel`
+  - Si cela ne fonctionne pas, on active le mode debug sur le site 
+
+## Différence entre une page blanche et une erreur 500
+
+Pourquoi mettre les **erreurs 500** et les pages blanches dans le même panier ? Les deux erreurs sont pourtant très
+différentes. 
+
+La raison est simple, à cause des navigateurs qui donnent parfois de **fausses indications**. 
+
+Certains navigateurs (comme Chrome ou Internet Explorer) **affichent à tort une erreur 500** lorsqu'ils rencontrent une
+page vide (page blanche). 
+
+Le problème étant que les pages vides (blanches) sont très souvent liés à des **erreurs PHP qui ne sont pas affichées**. 
+Cette erreur là n'a rien à voir avec une erreur 500 et les navigateurs vous induisent en erreurs en affichant une fausse
+erreur 500 (en réalité, ils devraient laisser la page blanche, comme le fait Firefox par exemple).
+
+Les "vraies" erreurs 500 sont généralement liés à des problèmes de configuration dans les fichiers **.htaccess** ou des
+**problèmes de droits** sur des fichiers/dossier. 
+
+<div className="row">
+    <div className="col col--6">
+        <Image
+            src="/img/docs/guides/webmastering/fausse-erreur-500-1.png"
+            title="Exemple d'une fausse erreur 500"
+            caption="Il s'agit d'une fausse erreur 500, en réalité c'est une page blanche"
+            alt="Capture d'écran d'une fausse page d'erreur 500"
+        />
+    </div>
+    <div className="col col--6">
+        <Image
+            src="/img/docs/guides/webmastering/gestion-site:erreur-php-2.png"
+            title="En forçant les erreurs PHP, la vraie erreur s'affiche"
+            caption="Après avoir forcé l'affichage des erreurs PHP, la vrai erreur s'affiche"
+            alt="Capture d'écran du bon message d'erreur"
+        />
+    </div>
+</div>
+
+
+La première étape consiste donc à **détecter s'il s'agit d'une vraie erreur 500** ou d'une fausse erreur 500,
+c'est-à-dire une page blanche/vide. 
+
+### Déterminer s'il s'agit d'une vraie erreur 500
+
+Les vraies erreurs 500 sont loguées dans cPanel dans l'outil `Erreur` qui se situe dans la partie `Mesure`. L'outil est
+détaillé sur [cette page](/cpanel/mesures/erreurs-apache).
+
+La première chose à vérifier et donc cet outil, pour voir s'il y a des choses intéressantes ou non. Deux cas de figure : 
+  * Il n'y a **rien dans l'outil**, ou rien d'intéressant en rapport avec la page ayant l'erreur : cela signifie que
+    c'est **très probablement une erreur PHP et une fausse erreur 500**
+  * Ou l'outil affiche des erreurs, sans doute en rapport avec le fichier .htaccess et/ou les droits : dans ce cas,
+    c'est une vraie erreur 500. Le message d'erreur devrait être assez clair et permettre de corriger l'erreur
+    rapidement.
+  
+Lorsqu'il y a une vraie erreur 500, l'outil affiche quelque chose de similaire à cela : 
+
+<Image
+    src="/img/docs/guides/webmastering/log-erreur-500-3.png"
+    title="Log d'erreur en cas d'erreur 500"
+    caption="L'outil de gestion des erreurs de cPanel affiche des erreurs liés au .htaccess, il s'agit d'une vraie
+    erreur 500"
+    alt="Capture d'écran de l'outil de registre des erreurs"
+/>
+
+## Forcer l'affichage des erreurs PHP
+
+Après avoir confirmé qu'il s'agissait d'une fausse erreur 500, la première étape pour comprendre le problème consiste à
+**forcer l'affichage des erreurs PHP**, afin d'avoir un retour plutôt qu'une page blanche/fausse erreur 500.
+
+Les erreurs PHP peuvent être forcées depuis l'outil `Sélectionner une version de PHP` présent dans la catégorie des
+`Logiciels` sur cPanel. 
+
+L'outil est présenté sur cette page : [Configurer l'environnement PHP de
+l'hébergement](/cpanel/logiciels/hebergement-php-multi-version).
+Dans cet outil, il faut faire 3 choses : 
+  - Choisir une version personnalisé de PHP, c'est-à-dire une version différente de la `native`
+  - Recocher les modules PHP nécessaires en cliquant sur `use defaults` 
+  - Forcer le `display_error` sur `on` dans la partie `switch to php options` 
+  
+<Image
+    src="/img/docs/guides/php/forcer-affichage-erreur-php-o2switch-1.png"
+    title="Comment forcer l'affichage des erreurs PHP chez o2switch"
+    caption="Forcer l'affichage des erreurs PHP sur un hébergement o2switch"
+    alt="Capture d'écran de la procédure pour forcer l'affichge des erreurs PHP chez o2switch"
+/>
+
+Ensuite, il faut retourner sur la page d'erreur qui devrait afficher quelque chose d'intéressant. Le message d'erreur
+devrait être assez clair pour corriger le problème. 
+
+Si cela ne change rien, cela signifie que le script (ou CMS) utilisé a **désactivé l'affichage des erreurs PHP**, dans
+son code. 
+
+## Activer le mode debug du site
+
+Si le forçage des erreurs PHP, depuis cPanel, n'a rien changé, cela signifie que le script utilisé désactive les erreurs
+PHP, dans son code, à l'aide des directives [ini_set](http://php.net/manual/fr/function.ini-set.php) par exemple. 
+
+Généralement, les scripts (ou CMS) qui font cela proposent un **mode de debug** afin de désactiver ce comportement et
+forcer l'affichage des erreurs PHP. 
+
+L'activation de ce mode de debug se fait dans le fichier de configuration du script et cela dépend du type de script ou
+CMS utilisé. 
+
+Pour modifier ce fichier de configuration, vous pouvez le récupérer en [FTP](/guides/configuration-logiciel/filezilla)
+puis le renvoyer, ou plus simplement, utiliser le [Gestionnaire de fichier](/cpanel/fichiers/gestionnaire-fichiers-web)
+de cPanel.
+
+<Image
+    src="/img/docs/guides/webmastering/exemple-edition-fichier-gestionnaire-cpanel.png"
+    title="Exemple d'édition du fichier wp-config.php de WordPress"
+    caption="Exemple d'édition d'un fichier de configuration pour WordPress avec le gestionnaire de fichier de cPanel"
+    alt="Capture d'écran du gestionnaire de fichier de cPanel"
+/>
+
+### Activer le mode debug de WordPress
+
+Sur un site basé sur WordPress, l'activation du mode debug s'effectue en éditant le fichier `wp-config.php` qui se situe
+à la racine du site internet.
+
+Dans ce fichier, il faut  : 
+  * modifier la constante `WP_DEBUG` pour la passer à `true`
+  * s'assurer que `WP_DEBUG_DISPLAY` n'est pas défini ou si c'est le cas, le passer à `true` également (certains plugins
+    de sécurités, comme SecuPress peuvent ajouter ce réglage)
+  * `WP_DEBUG_LOG` peut également être défini, cela enregistrera les erreurs dans `wp-content/debug.log` 
+  * toutes ces modifications doivent se faire **avant** le commentaire `C'est tout, ne touchez pas à ce qui suit ! Bon
+    blogging !`
+
+Voici ce que devrait contenir le fichier **wp-config.php**, à des fins de debug : 
+
+```php title="Activer le mode DEBUG de WordPress"
+// Active le mode debug, force l'affichage des erreurs PHP
+define( 'WP_DEBUG', true );
+
+// Optionnel : enregistre les erreurs dans wp-content/debug
+define( 'WP_DEBUG_LOG', true );
+
+// Optionnel : affiche les erreurs sur le site 
+define( 'WP_DEBUG_DISPLAY', true);
+```
+
+
+### Activer le mode debug de Prestashop
+
+Pour Prestashop, l'activation du mode de debug passe par l'édition du fichier suivant : `config/defines.inc.php`. 
+
+Dans ce fichier, il faut : 
+  * modifier la constante `_PS_MODE_DEV_` pour la passer sur `true`
+  * éventuellement, modifier la constante `_PS_DEBUG_PROFILING_` pour activer le mode profiling de prestashop, qui
+    permet d'avoir plus d'informations
+
+Le fichier `defines.inc.php` devrait contenir les choses suivantes pour activer le debug : 
+
+```php title="Activer le mode DEBUG de PrestaShop"
+// Active le mode debug
+define('_PS_MODE_DEV_', true);  
+
+// Optionnel : active le mode de profiling 
+define('_PS_DEBUG_PROFILING_', true);
+```
+
+### Activer le mode debug de Joomla
+
+Pour Joomla, il faut éditer le fichier `configuration.php` pour activer le mode de debug. 
+
+Dans ce fichier, il faut : 
+  * passer la variable `$debug` à 1
+  * changer la variable `$error_reporting` à `maximum` (affiche toutes les erreurs / notices / avertissements)
+
+Le fichier de configuration devrait donc contenir les choses suivantes : 
+
+```php title="Activer le mode DEBUG de Joomla"
+// Active le debug
+public $debug = '1';
+// Force l'affichage de toutes les erreurs  et avertissements
+public $error_reporting = 'maximum';
+```
+  
+### Autres cas
+
+Pour les scripts ou CMS qui ne sont pas listés ici, il y a plusieurs approches. 
+
+Si vous utilisez un CMS, connu, faites une recherche sur les mots clés : `nom du CMS + debug`
+Généralement, cela vous permet d'arriver sur le site du CMS en question, qui explique comment activer le mode de debug. 
+
+Si vous ne trouvez rien, regardez dans le fichier de configuration du CMS, c'est-à-dire le fichier qui contient les
+paramètres de connexions à la base de données (généralement) pour voir s'il y a des choses en rapport avec les erreurs
+PHP (display_error, error_reporting) ou un mode de debug. 
+
+Une autre approche, plus avancé, consiste à faire une recherche sur tous les fichiers PHP du site internet, à la
+recherche de la directive `ini_set` de PHP qui permet de forcer ou non des paramètres PHP (comme les erreurs). 
+
+Si l'affichage des erreurs PHP depuis cPanel n'a pas fonctionné, il est très probable que le site fasse appel à un
+`ini_set` dans le code. Pour cela, le plus simple est de [travailler en SSH](/guides/webmastering/connexion-ssh) puis de
+lancer la commande suivante : 
+
+```bash title="Rechercher les fichier PHP qui utilisent ini_set"
+cd repertoire_du_site 
+find . -name "*.php" -exec fgrep ini_set {} /dev/null \;
+# alternative 
+find . -name "*.php" -exec fgrep ini_set {} /dev/null \; | fgrep -i display_error
+```
+
+Cette commande devrait afficher : 
+  * le chemin vers le fichier 
+  * suivi de la portion de code qui fait appel à `ini_set`
+  
+La deuxième commande (alternative) permet de trier les résultats précédent en ne conservant que les entrées qui ont
+également le mot clé `display_error`. 
+
+Enfin, la dernière approche consiste à ajouter le code suivant, tout en haut du fichier de configuration du site ou le
+fichier `index.php` du site en question : 
+
+```php title="Forcer l'affichage des erreurs PHP"
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+```
+
+## Comprendre les erreurs PHP
+
+Les erreurs PHP ne sont pas très difficile à comprendre, c'est souvent les mêmes erreurs qui reviennent. 
+Voici un petit guide des erreurs les plus courantes. 
+
+
+### Parse error - syntax error
+
+Les erreurs de types **parse error** indiquent que la syntaxe du fichier PHP n'est pas correct : autrement dit, il y a
+une erreur de programmation dans le code. C'est une erreur très courante et très simple à débuguer à condition de
+connaître les règles de développements PHP. 
+
+Ces erreurs là sont constitués de plusieurs parties : 
+  * Parse error : indique qu'il s'agit d'une erreur de syntaxe
+  * Un message, en anglais, fourni plus d'information sur la nature de l'erreur (il y a plusieurs erreurs de syntaxe
+    possibles)
+  * Suivi du chemin vers le fichier qui contient l'erreur ainsi que le numéro de ligne.
+
+Voici un résumé rapide des règles et des erreurs engendrées. 
+
+
+#### Parse error: syntax error, unexpected end of file, expecting
+
+Le code suivant va générer une erreur : 
+
+```php title="Code PHP en erreur de syntaxe"
+<?php
+// Il manque le ; à la fin de l'instruction
+echo "Hello !"
+```
+
+L'erreur générée est la suivante : 
+
+```php
+Parse error: syntax error, unexpected end of file, expecting ',' or ';' in
+/home/faqo2/public_html/fichiers/demonstration-erreurs-php/syntaxe-1.php on line 4
+```
+
+Le message d'erreur indique que PHP s'attend à voir une virgule ou un point-virgule qu'il ne trouve pas. Ce
+point-virgule devrait se trouver à la fin de l'instruction qui commence par `echo`.
+
+Lorsque vous rencontrez ce genre d'erreur, il faut se rendre sur la ligne mentionnée dans l'erreur (dans le cas présent
+4, la fin du fichier) puis remonter les instructions pour voir s'il ne manque pas quelque chose, comme un `;`.
+
+
+#### Parse error: syntax error, unexpected end of file
+
+Le code suivant va générer générer une erreur : 
+
+```php title="Code PHP en erreur de syntaxe"
+<?php
+
+$a = 1;
+// il manque un } à la fin du fichier
+if($a == 1){
+	echo "$a : 1";
+} else {
+	echo "$b != 1";
+```
+
+L'erreur générée est la suivante : 
+
+```php
+Parse error: syntax error, unexpected end of file in
+/home/faqo2/public_html/fichiers/demonstration-erreurs-php/syntaxe-2.php on line 9
+```
+
+L'erreur là est similaire à la l'erreur présente. PHP indique qu'il manque quelque chose, qu'il ne s'attendait pas à
+voir la fin de fichier. 
+
+En effet, il manque une accolade fermante `}` sur la dernière ligne, pour terminer l'instruction `if`.
+
+
+#### Parse error: syntax error, unexpected (T_STRING), expecting ',' or ';'
+
+Le code suivant génère une erreur : 
+
+```php title="Code PHP en erreur de syntaxe"
+<?php
+// Attention aux guillemets !
+echo 'Cette ligne génère un message d'erreur';
+```
+
+L'erreur générée est la suivante : 
+
+```php
+Parse error: syntax error, unexpected 'erreur' (T_STRING), expecting ',' or ';' in
+/home/faqo2/public_html/fichiers/demonstration-erreurs-php/syntaxe-3.php on line 3
+```
+
+C'est une erreur très courante, en PHP, il faut faire extrêmement attention aux guillemets. L'erreur là est lié au
+guillemet contenu dans le message (`d'erreur`). Ce guillemet la ferme la chaîne de caractère de PHP et génère une erreur
+car PHP s'attend à voir un `;` pour terminer l'instruction. 
+
+Lorsque du texte est édité, il faut faire attention aux guillemets. Il faut les échapper, en mettant un caractère
+antislash `\` devant ou jongler entre la syntaxe des guillemets simples et guillemets doubles.
+
+Exemple de syntaxes valides : 
+
+```php title="Exemples d'erreurs"
+echo 'Cette ligne génère un message d\'erreur';
+echo "Cette ligne génère un message d'erreur";
+echo 'Du texte avec des "guillemets doubles"';
+echo "Du texte avec des \"guillemets doubles\"";
+```
+
+
+### Fatal error
+
+Les erreurs de types `fatal` sont des erreurs graves, qui provoquent un arrêt du script PHP. De la même manière que les
+'parse error', l'erreur est constitué de plusieurs parties : 
+  * Fatal error : indique qu'il s'agit d'une erreur fatale, bloquante 
+  * Suivi d'un message d'erreur, en anglais, qui explique ce qui se passe
+  * Suivi d'un chemin vers le fichier PHP concerné avec le numéro de la ligne de code qui pose problème
+
+#### Fatal error : call to undefined function
+
+
+Ce message d'erreur indique qu'une page fait appel à une **fonction PHP qui n'est pas définie**. Voici un exemple de
+code, suivi de l'erreur générée : 
+
+```php title="Erreur PHP : la fonction n'existe pas"
+<?php
+// Ce code génère une erreur, la fonction n'est pas définie
+ma_fonction();
+```
+
+```php
+Fatal error: Uncaught Error: Call to undefined function ma_fonction() in
+/home/faqo2/public_html/fichiers/demonstration-erreurs-php/fatal-1.php:3 
+
+Stack trace: #0 \{main\} thrown in /home/faqo2/public_html/fichiers/demonstration-erreurs-php/fatal-1.php on line 3
+```
+
+Généralement, ce type d'erreur vient de deux choses : 
+  * une faute dans le nom de la fonction appelé 
+  * ou un problème de dépendance : le fichier PHP qui contient le code de la fonction n'est pas chargé. Cela peut venir
+    d'un problème d'inclusion (il manque une directive `include`, `require`, `require_once`) ou le fichire qui contient
+    la fonction manquante n'existe pas. Dans ce cas, vous pouvez renvoyer les fichiers du sites en surveillant les
+    erreurs lors de l'envoi. 
+
+  
+#### Fatal error: cannot redeclare
+
+
+Le message d'erreur indique qu'une fonction est définie une deuxième fois, ce n'est pas possible en PHP. Voici un
+exemple de code suivi de l'erreur générée : 
+
+```php title="Erreur PHP : double déclaration"
+<?php
+
+function ma_fonction(){
+	echo "test";
+}
+
+// Génère une erreur, la fonction est déjà définie
+function ma_fonction(){
+	echo "test2";
+}
+
+ma_fonction();
+```
+
+```php
+Fatal error: Cannot redeclare ma_fonction() (previously declared in
+/home/faqo2/public_html/fichiers/demonstration-erreurs-php/fatal-2.php:4) in
+/home/faqo2/public_html/fichiers/demonstration-erreurs-php/fatal-2.php on line 10
+```
+
+Pour éviter cette erreur, il faut : 
+  * soit changer le nom de la fonction redéfinie, pour l'appeler "ma_fonction2" par exemple. 
+  * soit c'est un problème de `namespace` PHP, dans ce cas, il faut vérifier le namespace courant et indiquer le chemin
+    complet vers la fonction (c'est plus fréquent avec les classes que les fonctions PHP)
+
+
+#### Fatal error: allowed memory size exhausted
+
+
+Le message d'erreur indique que le script PHP consomme trop de mémoire et dépasse la valeur maximale possible, définie
+dans le `memory_limit` de PHP. 
+
+Dans ce cas, vous pouvez augmenter progressivement la mémoire à l'aide de l'outil
+[Sélectionner une version de PHP](/cpanel/logiciels/hebergement-php-multi-version) de cPanel.
+
+Si cela continue, malgré une augmentation progressive de la mémoire, cela peut également signifier que le script PHP
+contient un bug, par exemple une boucle infinie. Dans ce cas, augmenter la mémoire ne sera pas la solution. Une analyse
+avec l'outil [utilisation des ressources](/cpanel/mesures/suivi-usage-ressources) de cPanel peut révélé à partir de quel
+moment le problème est survenu, permettant d'identifier ce qui a changé sur le site. 
+
+
+#### Fatal error: Maximum execution time exceeded
+
+
+Ce message d'erreur indique que le script PHP dépasse le temps d'exécution autorisé et défini par la directive
+`max_execution_time` de PHP. 
+
+Dans ce cas, il faut augmenter la valeur du `max_execution_time` de PHP, à l'aide de l'outil
+[Sélectionner une version de PHP](/cpanel/logiciels/hebergement-php-multi-version).
+
+Dans le cas des tâches cron, un changement de format peut être intéressant, c'est-à-dire lancer la tâche planifiée avec
+une commande `php /chemin/vers/fichier/cron.php` plutôt que `wget http://adresse.com/cron.php`. 
+
+La tâche planifiée lancée de cette manière disposera d'un temps d'exécution infini. 
+
+#### Fatal error: Uncaught Error: Call to undefined function mysql_connect()
+
+Cela signifie que le module `mysql` n'est pas chargé dans l'environnement PHP utilisé. Cela peut venir de deux choses : 
+  * vous utilisez PHP 7 mais votre site n'est pas compatible avec PHP 7 (ce dernier ne propose plus les fonctions
+    `mysql*`)
+  * vous utilisez PHP 5.X mais le module MySQL n'est pas chargé 
+  
+Dans les deux cas, l'erreur se rectifie depuis l'outil [Sélectionner une version de
+PHP](/cpanel/logiciels/hebergement-php-multi-version) de cPanel.
+
+Dans cet outil, il faut : 
+  * choisir une version PHP 5.X de PHP. Pas une version de la branche 7, vous pouvez prendre PHP 5.6 par exemple 
+  * s'assurer que le module `mysql` est bien coché
+  
+Voici un exemple de code, repris depuis la [documentation PHP](http://php.net/manual/fr/mysql.examples-basic.php), suivi de l'erreur : 
+
+```php
+<?php
+// Connexion et sélection de la base
+$link = mysql_connect('mysql_host', 'mysql_user', 'mysql_password')
+    or die('Impossible de se connecter : ' . mysql_error());
+echo 'Connected successfully';
+mysql_select_db('my_database') or die('Impossible de sélectionner la base de données');
+
+// Exécution des requêtes SQL
+$query = 'SELECT * FROM my_table';
+$result = mysql_query($query) or die('Échec de la requête : ' . mysql_error());
+```
+
+```php
+Fatal error: Uncaught Error: Call to undefined function mysql_connect() in
+/home/faqo2/public_html/fichiers/demonstration-erreurs-php/mysql-1.php:3 
+
+Stack trace: #0 \{main\} thrown in /home/faqo2/public_html/fichiers/demonstration-erreurs-php/mysql-1.php on line 3
+```
+
+### Permission denied
+
+Cette erreur là indique que PHP n'a pas les droits pour accéder à un fichier ou un dossier. Voici un exemple de code
+suivi de l'erreur PHP : 
+
+```bash
+# Le fichier que PHP va éditer est en chmod 000 ce qui bloque l'accès en lecture/écriture/exécution pour tout le monde 
+faqo2@mammouth [~/public_html/fichiers/demonstration-erreurs-php]# ls -lh wrong.txt 
+---------- 1 faqo2 faqo2 4  2 janv. 15:46 wrong.txt
+```
+
+```php
+<?php
+// Le fichier wrong.txt est en chmod 000
+file_put_contents(__DIR__ . '/wrong.txt', 'test');
+```
+
+```php
+Warning: file_put_contents(/home/faqo2/public_html/fichiers/demonstration-erreurs-php/wrong.txt): failed to open
+stream: Permission denied in /home/faqo2/public_html/fichiers/demonstration-erreurs-php/permission-1.php on line 3
+```php
+
+Dans ce cas, il faut regarder les droits du fichiers concernés (mentionné dans l'erreur) puis appliquer le bon chmod : 
+  * chmod 644 pour un fichier 
+  * chmod 755 pour un dossier 
+  
+Ce changement peut être fait depuis le [gestionnaire de fichier](/cpanel/fichiers/gestionnaire-fichiers-web) de cPanel
+ou en [FTP](/guides/configuration-logiciel/filezilla) 
+
+#### No such file or directory
+
+Cette erreur là indique que PHP à besoin d'include ou de travailler sur un fichier qui n'existe pas. Voici un exemple de
+code suivi des messages d'erreurs : 
+
+```php
+<?php
+// Génère une erreur, le fichier n'existe pas
+require_once(__DIR__ . '/existe_pas.php');
+```
+
+```php
+Warning: require_once(/home/faqo2/public_html/fichiers/demonstration-erreurs-php/existe_pas.php): failed to open
+stream: No such file or directory in /home/faqo2/public_html/fichiers/demonstration-erreurs-php/permission-2.php on
+line 3
+
+Fatal error: require_once(): Failed opening required
+'/home/faqo2/public_html/fichiers/demonstration-erreurs-php/existe_pas.php'
+(include_path='.:/opt/alt/php70/usr/share/pear') in
+/home/faqo2/public_html/fichiers/demonstration-erreurs-php/permission-2.php on line 3
+```
+
+
+Dans ce cas, il faut vérifier le fichier concerné, mentionné dans le message d'erreur : 
+  * le fichier n'existe peut être pas, dans ce cas, il faut renvoyer les données du site / vérifier que le fichier
+    existe dans le projet d'origine 
+  * vérifier que le fichier est bien accessible, avec les bons droits 
+  * vérifier que ce n'est pas une erreur de chemin (chemin relatif / absolu)
+
+### Warning: session_start(): Cannot send session cookie headers already sent
+
+Ce message d'erreur signifie qu'un flux a déja été généré vers le client et que par conséquent, il n'est plus possible
+d'utiliser la fonction `session_start` qui a besoin de manipuler des données avant l'envoi du flux. 
+
+En résémé, quelque chose s'est affiché avant que cette fonction soit appelé. Voici un exemple de code suivi de l'erreur
+générée : 
+
+```php
+<?php
+echo 'test';
+session_start();
+```
+
+```php
+Warning: session_start(): Cannot send session cookie - headers already sent by (output started at
+/home/faqo2/public_html/fichiers/demonstration-erreurs-php/session-1.php:2) in
+/home/faqo2/public_html/fichiers/demonstration-erreurs-php/session-1.php on line 3
+
+Warning: session_start(): Cannot send session cache limiter - headers already sent (output started at
+/home/faqo2/public_html/fichiers/demonstration-erreurs-php/session-1.php:2) in
+/home/faqo2/public_html/fichiers/demonstration-erreurs-php/session-1.php on line 3
+```
+
+Pour corriger l'erreur, il faut trouver ce qui provoque l'envoi de la page avant l'accès à la fonction `session_start`.
+Généralement, cela est indiqué dans le message d'erreur (output started at). 
+
+Plusieurs choses peuvent provoquer l'envoi de la page avant l'appel à la fonction `session_start` : 
+  * quelque chose qui affiche du texte ou un bout de page (`echo` dans le cas présent)
+  * des caractères BOM-UTF8 dans les entêtes de fichiers. C'est moins évident car ces caractères sont invisibles sur les
+    éditeurs classiques, pour ce type d'erreur, ça se situe toujours sur la première ligne du fichier PHP concerné
+  * l'affichage d'erreur ou de warning PHP
+
+
+#### Erreur !: SQLSTATE[28000] [1045] Access denied for user
+
+Ce message d'erreur indique que la connexion SQL n'est pas possible. Le message d'erreur complet ressemble à cela : 
+
+```php
+Erreur !: SQLSTATE[28000] [1045] Access denied for user 'invalid'@'localhost' (using password: YES)
+Impossible de se connecter : Access denied for user 'mysql_user'@'localhost' (using password: YES)
+Error establishing a database connection
+```
+ 
+
+Tous ces messages d'erreurs indiquent la même chose : l'application concernée ne parvient pas à se connecter à la base
+de données. 
+
+Dans 90% des cas, cela vient du fichier de configuration de l'application en question : l'identifiant, l'adresse de la
+base de données, le nom de la base de données ou le mot de passe est invalide.
+
+Pour corriger le problème, il faut commencer par se connecter dans cPanel puis aller dans l'outil `Base de données MySQL` 
+([documentation ici](/cpanel/bases-de-donnees/mysql)) afin de vérifier : 
+  * qu'une base de données existe bien et que c'est bien le même nom dans le fichier de configuration du site
+  * qu'un utilisateur existe bien (et qu'il est bien écrit dans le fichier de configuration) 
+  * que l'utilisateur à les droits sur la bases de données 
+  * que le mot de passe de l’utilisateur est valide (il faut le forcer dans cPanel)
