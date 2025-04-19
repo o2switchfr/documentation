@@ -281,20 +281,16 @@ const sidebars: SidebarsConfig = {
                 'guides/php/installer-composer',
               ],
             },
-            /* TODO : Python, but we don't have any guides about Python yet */
             {
-              type: 'category',
-              label: 'Ruby',
-              collapsible: true,
-              collapsed: true,
-              link: {
-                type: 'doc',
-                id: 'guides/ruby/index'
-              },
-              items: [
-                'guides/ruby/installer-redmine'
-              ],
+              type: 'doc',
+              id: 'cpanel/logiciels/hebergement-python-multi-version',
+              label: 'Python'
             },
+            {
+              type: 'doc',
+              id: 'cpanel/logiciels/hebergement-ruby-multi-version',
+              label: 'Ruby'
+            }
           ],
         },
         {
