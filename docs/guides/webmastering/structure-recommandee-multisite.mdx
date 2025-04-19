@@ -1,1 +1,59 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-web/arborescence-dossiers-multisite
+---
+title: Structure recommandée pour héberger plusieurs sites
+sidebar_label: Organisation des sites
+description: Comment organiser l'hébergement de plusieurs sites internet sur une seule offre d'hébergement o2switch
+image: /img/docs/guides/webmastering/ajout-domaine-o2switch.png
+tags:
+  - guides
+  - webmastering
+  - https
+---
+# Organisation recommandée pour héberger plusieurs sites internet
+
+Vous pouvez **héberger plusieurs sites internet** sur votre espace d'hébergement web. Il n'y a pas de limite, l'offre
+unique o2switch est un [hébergement multisite, multi-domaine](https://www.o2switch.fr/hebergement-illimite/).
+
+Pour héberger plusieurs sites sur la même offre d'hébergement, il suffit de configurer tous les domaines avec
+[l'outil Domaines Configurés](/cpanel/domaines/configuration-domaine)
+
+Pour éviter des problèmes de [contenu dupliqué](https://support.google.com/webmasters/answer/66359?hl=fr), nous
+recommandons de suivre une certaine structure.
+
+## Configuration recommandée
+
+En premier lieu, lorsque cela est possible, nous recommandons d'isoler les sites sur des comptes à part. Vous pouvez 
+faire cela gratuitement avec [l'outil de création de sous-comptes lunes](/cpanel/o2switch/univers-web-sous-comptes).
+
+Néanmoins, si vous êtes amené à héberger plusieurs sites sur le même hébergement, voici l'arborescence de dossiers que 
+nous recommandons, c'est-à-dire avoir un dossier par site directement à la racine de votre hébergement:
+  * `public_html` : votre site principal, site-principal.fr 
+  * `siteb.com` : votre deuxième site, siteb.com
+  * `sitec.fr` : votre troisième site, sitec.fr
+  * `truc` : votre sous domaine "truc.sitec.com" par exemple
+
+C'est normalement la configuration par défaut que propose cPanel lors de l'ajout d'un domaine supplémentaire. 
+
+<Image
+    src="/img/docs/guides/webmastering/ajout-domaine-o2switch.png"
+    title="Configuration recommandée pour héberger plusieurs domaines"
+    caption="Choix du dossier dans lequel seront contenus les fichiers du site internet dans l'outil domaines configurés
+    de cPanel"
+    alt="Capture d'écran de la configuration recommandée dans l'outil Domaines Configurés"
+/>
+
+En plus d'éviter un problème de contenu dupliqué, cela vous évite également des problèmes avec les règles de 
+redirections des fichiers `.htaccess`. Lorsque vous avez des sites imbriqués les uns dans les autres, les règles
+`.htaccess` des sites parents agissent sur les sites enfants. Cela cause de nombreux problèmes, parfois difficile à 
+trouver. 
+
+## Domaine de référence
+
+Lorsque vous commandez un espace d'hébergement, nous vous attribuons une adresse de référence qui est de la forme
+`identifiant.odns.fr`. Il s'agit d'une adresse technique, permettant d'identifier un compte d'hébergement. 
+
+Ce domaine temporaire peut également être une source de contenu dupliqué si vous ne faites pas attention. En effet, ce
+domaine pointe vers le dossier "public_html", le même dossier que votre site principal. 
+
+Lorsque votre nom de domaine pointe sur votre espace d'hébergement, pensez à mettre en place une redirection du domaine
+temporaire "identifiant.odns.fr" vers "votre-site.fr" sinon votre site sera accessible à partir des deux adresses. Vous
+pouvez faire cela avec l'outil [redirections](/cpanel/domaines/redirection-domaine) de cPanel. 
