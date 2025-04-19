@@ -1,1 +1,902 @@
-https://faq.o2switch.fr/tuto-rapide/transferer-site-wordpress-ovh-vers-o2switch
+---
+title: Transférer un site WordPress de OVH vers o2switch
+sidebar_label: WordPress OVH vers o2switch
+description: Ce tutoriel explique comment transférer un site WordPress et les comptes emails d'un hébergement web OVH vers o2switch
+image: /img/docs/guides/migrations/TODO
+toc_min_heading_level: 2
+toc_max_heading_level: 4
+tags:
+  - guides
+  - migration
+---
+# Migrer un site WordPress de OVH vers o2switch
+
+Ce tutoriel explique **comment migrer un site** internet WordPress **d'un hébergement OVH vers un [espace d'hébergement
+web o2switch](https://www.o2switch.fr/hebergement-illimite/)**. 
+
+Ce tutoriel se veut exhaustif et complet, c'est une version plus précise du [guide pour changer
+d'hébergeur](/guides/migrations/changer-hebergeur), spécifique à OVH et WordPress, nous allons voir :
+  * Comment **transférer un site WordPress** d'un hébergement à l'autre,
+  * Comment réaliser ce transfert de site en **limitant une interruption de service**,
+  * Si vous avez des comptes emails à transférer, nous allons aborder **recréer vos comptes emails** et **transférer
+    l'historique des emails** de OVH vers o2switch,
+  * Comment faire **pointer le nom de domaine** vers o2switch en réalisant un changement de DNS, 
+  * Et éventuellement comment transférer intégralement le domaine de OVH vers o2switch (optionnel)
+  * Comment remettre en place le HTTPS sur le site internet 
+
+En résumé, nous allons aborder tous points nécessaires à un **changement d'hébergeur**, si vous désirez transférer vos
+données d'un hébergement web OVH à o2switch. 
+
+La procédure de transfert est longue mais n'est pas nécessairement compliqué. Cela prend du temps à cause des délais
+pour récupérer les données du site et les renvoyer sur l'hébergement. 
+
+## Avant-propos sur la procédure de migration
+
+La procédure de migration que nous détaillons dans ce tutoriel est une procédure qui permet de limiter fortement une
+interruption de service, voire ne cause pas d'interruption du tout si tout est **bien fait dans le bon ordre**.
+
+Afin d'éviter une coupure de service, l'idée principale est de réaliser le transfert des données et réinstaller le site
+internet chez o2switch **avant** de changer le pointage du nom de domaine.
+
+Les opérations à faire sur le nom de domaine, comme un changement de DNS ou le transfert complet **doivent être
+réalisées en dernier**. 
+
+En résumé, voici les étapes que nous allons suivre.
+
+<Badge text="1" /> Récupérer les données du site chez OVH, c'est-à-dire :
+  * télécharger une copie des fichiers du site internet [en FTP, avec
+    Filezilla](/guides/configuration-logiciel/filezilla)  
+  * récupérer une copie de la base de données du site internet, [en réalisant un export de données avec
+phpmyadmin](/cpanel/bases-de-donnees/phpmyadmin#créer-une-sauvegarde-dune-base-de-données-mysql)
+
+<Badge text="2" /> Renvoyer les données du site sur l'hébergement o2switch, c'est-à-dire :
+  * [configurer le domaine sur l'hébergement](/cpanel/domaines/configuration-domaine) ou s'assurer qu'il est déjà
+    configuré 
+  * renvoyer les fichiers du site, en FTP, sur l'hébergement o2switch
+  * créer une nouvelle base de données, utilisateur, mot de passe MySQL avec l'[outil bases de données
+    MySQL](/cpanel/bases-de-donnees/mysql)
+  * importer une copie de la base de données [avec phpmyadmin](/cpanel/bases-de-donnees/phpmyadmin)
+
+<Badge text="3" /> Reconfigurer le site internet chez o2switch en mettant à jour le fichier de configuration du site
+`wp-config.php` 
+
+<Badge text="4" /> Tester à l'avance le bon fonctionnement du site internet sur l'hébergement o2switch, en utilisant
+l'astuce du fichier `hosts`
+
+<Badge text="5" /> S'il y a des comptes emails chez OVH, nous allons voir comment 
+  * recréer les comptes emails chez o2switch avec l'[outil Comptes de messagerie](/cpanel/emails/adresse-email)   
+  * comment récupérer/ré-injecter tout l'historique des emails avec [imapsync](https://imapsync.lamiral.info/X)
+
+<Badge text="6" /> Faire pointer le domaine de OVH vers o2switch en réalisant un [changement de
+DNS](/nom-de-domaine/changer-dns/ovh)
+
+<Badge text="7" /> Transférer intégralement le domaine de OVH vers o2switch en réalisant un [transfert de
+domaine](/nom-de-domaine/code-transfert/ovh) (optionnel)
+
+## Récupérer les données du site
+
+La première étape est de **récupérer l'ensemble des données du site** internet chez OVH. 
+
+Un site WordPress est constitué d'au moins deux parties : 
+  * les **fichiers du site internet**. Ce sont tous les fichiers `.php` qui constituent WordPress, ainsi que les médias
+    ajoutés sur votre site internet. Les fichiers se récupèrent en utilisant [un logiciel FTP comme
+    Filezilla][/guides/configuration-logiciel/filezilla].
+  * la **base de données**. C'est la base de données qui contient tous les réglages de WordPress mais aussi tout le
+    contenu textuel du site (vos articles, les pages). Cela se récupère avec l'aide de phpmyadmin. 
+
+Pour récupérer les données du site, nous allons donc voir :
+  * Comment configurer le logiciel FTP Filezilla avec les réglages de OVH. On va également voir comment on récupère
+    l'identifiant/mot de passe du compte FTP chez OVH, on partira du postulat que vous n'avez pas les accès sous la
+    main. 
+  * Comment utiliser Filezilla pour télécharger une copie des données du site dans un dossier de votre ordinateur.
+  * Comment faire un export (une sauvegarde) de la base de données avec phpmyadmin. Même chose que pour le FTP, on
+    partira du principe que vous n'avez pas vos codes d'accès pour la base de données, on verra comment les retrouver. 
+
+### Configurer Filezilla avec les réglages OVH
+
+La première chose à faire est de se connecter chez OVH à partir de
+[ce lien](https://www.ovh.com/auth/?onsuccess=https%3A//www.ovh.com/manager&ovhSubsidiary=FR). 
+
+Une fois connecté chez OVH, le tableau de bord s'affiche. À partir de cette page, il faut naviguer dans `Web Cloud`
+<Badge text="1" type="danger" /> situé dans le menu supérieur.
+
+Ensuite, il faut cliquer sur `Hébergements` <Badge text="2" type="danger" /> dans le menu à gauche, afin de dérouler la
+liste de vos hébergements OVH, puis cliquer sur le nom de l'hébergement sur lequel se trouve votre site internet 
+<Badge text="3" type="danger" />. 
+
+Ensuite il faut cliquer sur l'onglet `FTP - SSH` <Badge text="4" type="danger" /> afin d'accéder à l'outil chez OVH qui
+permet de régénérer vos accès FTP. 
+
+En effet, on part du postulat que vous n'avez pas vos codes d'accès FTP donc on les régénère. Si vous avez déjà vos
+codes, vous pouvez ignorer cette étape.
+
+Sur cette page, il faut cliquer sur l'icône de crayon <FAIcon icon="fa-solid fa-pencil" /> 
+<Badge text="5" type="danger" /> afin de changer/forcer le mot de passe FTP.
+
+<Image
+    src="/img/docs/guides/migrations/transferer-site-ovh-vers-o2switch-1.png"
+    title="Changer les codes d'accès FTP chez OVH"
+    caption="La première étape consiste à changer les codes d'accès FTP chez OVH"
+    alt="Capture d'écran du tableau de bord OVH expliquant comment changer les codes FTP"
+/>
+
+Après avoir cliqué sur l'icône de crayon <FAIcon icon="fa-solid fa-pencil" />, un formulaire s'affiche <Badge text="1"
+type="danger" /> et vous pouvez changer/forcer le mot de passe FTP. Respectez bien les critères de sécurités d'OVH sinon
+le bouton pour valider le changement sera grisée <Badge text="2" type="danger" />. 
+
+<Image
+    src="/img/docs/guides/migrations/changer-code-ftp-ovh-2.png"
+    title="Formulaire pour changer les codes FTP chez OVH"
+    caption="On change et force le mot de passe du compte FTP OVH"
+    alt="Capture d'écran du formulaire pour changer les codes FTP chez OVH"
+/>
+
+C'est parfait ! A présent, vous avez toutes les informations pour configurer le logiciel FTP, c'est-à-dire : 
+  * L'adresse de connexion au serveur FTP. Il s'agit de la partie `Serveur FTP` visible dans la capture d'écran, mis en
+    avant avec la flèche verte.
+  * L'identifiant de connexion. C'est dans la tableau sous le `Login`.
+  * Le mot de passe. Celui que vous venez de définir.
+
+Maintenant, vous pouvez télécharger et installer Filezilla. Pour cela vous pouvez aller sur [la page de téléchargement
+du site de l'éditeur](https://filezilla-project.org/download.php?type=client). Nous n'allons pas détailler
+l'installation de Filezilla, c'est normalement trivial, il suffit de lancer l'exécutable et vous laisser guider. Les
+réglages par défaut conviennent. 
+
+Dés que le logiciel est installé, lancez-le puis allez dans `Fichier` puis `Gestionnaire de site` pour lancer l'outil
+permettant d'ajouter une nouvelle connexion FTP. 
+
+Dans cette nouvelle fenêtre, cliquez sur `Nouveau site` <Badge text="1" type="danger" /> puis attribuez un nom à cette
+connexion <Badge text="2" type="danger" /> (cela n'a pas d'importance, indiquez ce que vous voulez). 
+
+Ensuite remplissez la partie droite <Badge text="3" type="danger" /> avec les informations trouvées dans l'interface de
+OVH  : 
+  * Hôte : Cela correspond au `Serveur FTP` dans l'interface d'OVH. C'est de la forme suivante
+    `ftp.clusterXXX.hosting.ovh.net` avec `XXX` qui correspond à un nombre.
+  * Port : 21
+  * Protocole : FTP 
+  * Chiffrement : Connexion FTP simple. 
+  * Type d'authentification : Normale 
+  * Identifiant : celui visible dans l'interface de OVH
+  * Mot de passe : celui que vous venez de modifier 
+
+<Image
+    src="/img/docs/guides/migrations/configurer-filezilla-ovh-3.png"
+    title="Configuration de Filezilla avec les paramètres de OVH"
+    caption="Configuration de Filezilla avec les réglages OVH pour récupérer les données du site"
+    alt="Capture d'écran du logiciel Filezilla pour la configuration FTP OVH"
+/>
+
+Ensuite vous pouvez cliquer sur le bouton `Connexion` <Badge text="4" type="danger" />. 
+
+A cette étape, un ou plusieurs messages d'avertissements peuvent s'afficher. Cela dépend de la version de Filezilla que
+vous avez. Heureusement rien de très grave : 
+  * Un message peut s'afficher et explique que Filezilla n'est pas configurer pour garder votre mot de passe en mémoire.
+    Ce n'est pas très important, il faudra juste renseigner votre mot de passe à chaque ouverture du logiciel.
+  * Un message peut s'afficher et expliquant que ce n'est pas recommandé de faire une connexion FTP simple. Si cela vous
+    embête, dans le `Gestionnaire de site`, vous pouvez choisir de faire une `connexion FTP chiffrée FTPs` à la place de
+    `FTP Simple`.
+  * Un message peut s'afficher et explique qu'un `certificat` est inconnu. Cela est normal, vous pouvez cocher la case
+    pour ajouter l'exception et continuer. Ce message s'affichera à la première connexion FTP (si vous choisissez le
+    FTPs).
+
+A présent, vous devriez être connecté ! Vous pouvez le voir :
+  * Dans la partie supérieure du logiciel, les logs s'affiche. Des messages doivent indiquer que la connexion s'est bien
+    réalisée.
+  * Dans la partie droite du logiciel, vous devriez voir le contenu de votre hébergement chez OVH. Par exemple un
+    dossier `www` ou un dossier qui à le même nom que votre site internet.
+
+L'étape suivante consiste à trouver dans quel dossier de votre hébergement se trouve le site internet et télécharger une
+copie des données. 
+
+### Télécharger les fichiers du site
+
+Si tout s'est bien passée, vous devriez être connecté en FTP sur votre hébergement OVH avec Filezilla. Vous devriez donc
+avoir une fenêtre qui ressemble à la suivante : 
+
+<Image
+    src="/img/docs/guides/migrations/filezilla-ovh.png"
+    title="Filezilla est connecté à l'hébergement OVH"
+    caption="Filezilla est bien connecté au serveur d'hébergement chez OVH"
+    alt="Capture d'écran du logiciel Filezilla qui est connecté en FTP sur l'hébergement OVH"
+/>
+
+Pour vérifier que cela s'est bien passée, dans la partie supérieure du logiciel, vous devriez avoir un message qui
+indique que la connexion a bien été réalisée. Et dans la partie droite, vous devriez voir vos fichiers chez OVH.
+
+L'étape suivante est de déterminer dans quel dossier de votre hébergement se trouve les fichiers de votre site internet.
+Il est très probable que votre site se trouve :
+  * soit à la racine de votre hébergement, dans ce cas, vous voyez directement des fichiers PHP
+  * soit dans le dossier `www` 
+
+Cependant, si jamais vous avez un hébergement avec plusieurs sites internet chez OVH, ce n'est pas forcément aussi
+simple. Nous allons donc voir comment trouver de manière fiable quel est le dossier à récupérer chez OVH.
+
+Dans l'interface d'OVH, rendez-vous dans `Web Cloud` <Badge text="1" type="danger" /> dans la barre de menu supérieur
+puis `Hébergements` <Badge text="2" type="danger" /> dans le menu à gauche, cliquez sur votre hébergement 
+<Badge text="3" type="danger" /> puis naviguez dans l'onglet `Multisite` <Badge text="4" type="danger" />. 
+
+Sur cette page, vous devriez voir tous les domaines configurés sur votre hébergement OVH et voir avec quel dossier de
+votre hébergement OVH ils sont associés. Il faut chercher le domaine que vous souhaitez transférer et noter dans quel
+dossier il se trouve. Dans le cas présent, on confirme que cela sera dans `www`. 
+
+<Image
+    src="/img/docs/guides/migrations/trouver-dossier-site-ovh-5.png"
+    title="Trouver le dossier lié à un site internet OVH"
+    caption="Comment retrouver le dossier qui est lié à un site internet chez OVH"
+    alt="Capture d'écran du tableau de bord OVH pour identifier le dossier lié à un nom de domaine"
+/>
+
+Ensuite, dans la partie droite de Filezilla il faut naviguer dans ce dossier trouvé précédemment. Dans le cas de ce
+tutoriel, il s'agit de `www`. Il faut entrer dans ce dossier là en double cliquant dessus. 
+
+Pour vous assurer d'être au bon endroit, dans la partie droite de Filezilla vous devez retrouver le même nom du dossier
+dans la case `Site distant` <Badge text="1" type="danger" /> que ce que vous avez trouvé dans l'interface OVH.
+
+Ensuite il faut sélectionner tous les fichiers <Badge text="2" type="danger" /> (vous pouvez utiliser le raccourcis
+clavier CTRL+A) puis glisser-déposer cela dans la partie gauche de Filezilla dans un dossier sur votre ordinateur 
+<Badge text="3" type="danger" />. 
+
+<Image
+    src="/img/docs/guides/migrations/transfert-site-ovh-ftp-6.png"
+    title="Récupérer les fichiers d'un site internet hébergé chez OVH"
+    caption="Comment récupérer en FTP les fichiers d'un site chez OVH"
+    alt="Capture d'écran de Filezilla qui explique comment récupérer les données de l'hébergement OVH"
+/>
+
+Suite à cela, Filezilla se met à télécharger l'ensemble des fichiers. Cela peut prendre du temps, cela dépend de la
+taille de votre site internet et la vitesse de votre connexion internet. Cela peut aller de quelques minutes à plusieurs
+heures, voire même jours si vous avez beaucoup de fichiers.
+
+A la fin, vous devriez avoir tous les fichiers téléchargés et peut être quelques fichiers en erreurs. La majorité du
+temps, ces erreurs là sont ignorables s'il y en a peu. Ça correspond à des fichiers vides ou des fichiers spéciaux de
+l'hébergement. Si vous avez beaucoup d'erreurs, ça peut être une source de problème en revanche, donc à surveiller et à
+garder en tête si vous avez des erreurs sur les étapes suivantes.
+
+Félicitations, maintenant vous avez une copie des fichiers de votre site internet sur votre ordinateur ! 
+
+### Exporter une copie de la base de données
+
+A présent il faut récupérer la base de données du site internet. 
+
+Nous partons du principe que vous ne savez pas quelle base de données est utilisée par votre site internet et que vous
+ne disposez pas des identifiants de connexion nécessaires.
+
+La première étape est donc de retrouver ces informations de connexion à la base de données. Vous pouvez faire cela en
+ouvrant le fichier `wp-config.php` de WordPress. Ce fichier devrait se trouver à la racine du dossier dans lequel se
+trouve votre site (ce qui a été récupéré à l'étape précédente). Le fichier peut être ouvert avec l'application de `bloc
+note` (notepad) simple. Attention à bien utiliser l'application `bloc note` et pas une application comme `Word` ou
+`Wordpad` par exemple. 
+
+Vous devriez avoir quelque chose de similaire (les couleurs en moins) à la capture d'écran ci-dessous.
+
+<Image
+    src="/img/docs/guides/migrations/wordpress-ovh-vers-o2switch-7.png"
+    title="Retrouver les informations de connexion pour la base de données"
+    caption="En ouvrant le fichier wp-config.php de WordPress on retrouve les codes d'accès à la base de données MySQL"
+    alt="Capture d'écran du bloc note avec le contenu du fichier wp-config.php de WordPress"
+/>
+
+Dans ce fichier, vous devriez voir des lignes avec : 
+  * `DB_NAME` correspond au nom de la base de données
+  * `DB_USER` correspond à l'utilisateur MySQL qui se connecte à la base de données. Souvent l'utilisateur à le même nom
+    que la base de données, c'est une convention de nommage.
+  * `DB_PASSWORD` correspond au mot de passe de l'utilisateur MySQL
+  * `DB_HOST` correspond à l'adresse de connexion à la base de données 
+
+Il faut noter toutes ces informations (celles qui sont surlignées dans la capture d'écran) car cela sera nécessaire pour
+exporter une copie de la base de données. 
+
+A présent, il faut se rendre sur le `phpmyadmin` de OVH. Vous pouvez y accéder à partir de l'interface d'administration
+de OVH, il y a un lien vers PhpMyAdmin ou vous pouvez également y accéder à partir de l'adresse suivante :
+[https://phpmyadmin-gra2.hosting.ovh.net/](https://phpmyadmin-gra2.hosting.ovh.net/) 
+
+Il faut ensuite se connecter avec les accès trouvés précédemment. 
+
+<Image
+    src="/img/docs/guides/migrations/ovh-connexion-phpmyadmin-8.png"
+    title="Connexion sur le phpmyadmin de OVH"
+    caption="Il faut se connecter à phpmyadmin avec les accès trouvés dans le fichier wp-config.php de WordPress"
+    alt="Capture d'écran qui montre comment se connecter sur le phpmyadmin d'ovh"
+/>
+
+Une fois connecté, vous devriez arriver sur une page avec la liste de la (ou les) base(s) de donnée(s) associé(s) à
+l'utilisateur dans le menu à gauche.
+
+Pour exporter la base de données, il faut cliquer le nom de la base de données <Badge text="1" type="danger" /> dans le
+menu à gauche. Si vous avez plusieurs bases de données et que vous avez un doute sur la base à choisir, prenez bien
+celle qui à le même nom que ce qui est définie dans le fichier `wp-config.php` dans la ligne `DB_NAME`. 
+
+Ensuite il faut cliquer sur `Exporter` <Badge text="2" type="danger" /> dans le menu supérieur puis `Éxécuter` 
+<Badge text="3" type="danger" /> en laissant les valeurs par défaut. Cela devrait vous proposer le téléchargement d'un
+fichier `.sql`. 
+
+<Image
+    src="/img/docs/guides/migrations/export-phpmyadmin-ovh.png"
+    title="Exporter une copie de la base de données avec phpmyadmin"
+    caption="Export de la base de données depuis le phpmyadmin d'OVH"
+    alt="Capture d'écran qui montre comment exporter une base de données OVH"
+/>
+
+Ce fichier là est une copie de votre base de données, conservez-le. 
+
+### Renvoyer les données du site
+
+À présent il reste à renvoyer les données du site sur votre hébergement o2switch, c'est-à-dire : 
+  * vérifier que le domaine est déjà configuré sur l'hébergement et le configurer si ce n'est pas le cas avec l'outil
+[Domaines Configurés](/cpanel/domaines/configuration-domaine)   
+  * renvoyer les fichiers en FTP avec [Filezilla](/guides/configuration-logiciel/)   
+  * créer une base de données, utilisateur et mot de passe MySQL sur votre hébergement avec [l'outil bases de données
+    MySQL](/cpanel/bases-de-donnees/mysql)   
+  * importer une copie de la base de données exportée d'OVH avec [PhpMyAdmin](/cpanel/bases-de-donnees/phpmyadmin)
+
+#### Configurer le domaine sur l'hébergement
+
+Avant de transférer les données, il faut vérifier si le nom de domaine est déjà configuré sur l'hébergement, puis si ce
+n'est pas le cas, le configurer. 
+
+Il faut que le domaine soit associé avec un dossier de votre hébergement o2switch. A l'étape suivante, il faudra envoyer
+les fichiers du site dans ce dossier.
+
+Dans un premier temps, il faut se [connecter sur cPanel](/guides/cpanel/comment-se-connecter). Les accès sont contenu
+dans le mail `Bienvenue chez o2switch`, dans la première partie du mail.
+
+<Image
+    src="/img/docs/guides/migrations/extrait-bienvenue-chez-o2switch.png"
+    title="Connexion à l'hébergement cPanel o2switch"
+    caption="Il faut se connecter à cPanel avec les accès envoyés dans le mail Bienvenue chez o2switch"
+    alt="Capture d'écran de la page de connexion cPanel"
+/>
+
+Ensuite il faut se rendre dans l'[outil Domaines configurés](/cpanel/domaines/configuration-domaine). C'est l'outil qui
+permet de faire le lien entre un nom de domaine et un dossier, de votre choix, de votre hébergement.
+
+Dans cet outil, il faut regarder le tableau récapitulatif : 
+  * pour votre premier domaine, celui demandé avec l'hébergement, il devrait apparaitre car nous le pré-configurons pour
+    vous. Si ce n'est pas le cas, ce n'est pas grave, il suffit de le configurer.
+  * si c'est pour un domaine complémentaire que vous configurez sur l'hébergement, il faudra ajouter le domaine avec le
+    formulaire
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-verifier-domaine-configure.png"
+    title="On vérifie si le domaine est déjà configuré"
+    caption="On regarde si le domaine est déjà configuré avec l'outil domaines configurés"
+    alt="Capture d'écran de l'outil domaines configurés de l'hébergement"
+/>
+
+Si le domaine est déjà configuré, il s'affichera dans le tableau <Badge text="1" type="danger" /> ci-dessus. Notez le
+dossier avec lequel est associé le nom de domaine, c'est dans la colonne `Racine du document` 
+<Badge text="2" type="danger" />. 
+
+Si le domaine n'est pas visible, alors il faut le configurer sur l'hébergement avec l'aide du formulaire présent dans
+l'outil.
+
+<Image
+    src="/img/docs/guides/migrations/configurer-domaine-o2switch.png"
+    title="Configurer le nom de domaine sur l'hébergement o2switch"
+    caption="Configuration du nom de domaine sur l'hébergement"
+    alt="Capture d'écran de l'outil pour configurer un nom de domaine"
+/>
+
+Dans le formulaire permettant de configurer le nom de domaine sur l'hébergement, il faut : 
+
+<Badge text="1" type="danger" /> Remplir la première case `Nom du nouveau domaine` avec votre nom de domaine. Il faut
+juste le nom de domaine, pas de `http` devant, ni les `www`. Assurez vous de ne pas avoir d'espace non plus.
+
+<Badge text="2" type="danger" /> La case `sous-domaine` va se remplir automatiquement, laissez la valeur par défaut.
+
+<Badge text="3" type="danger" /> Même chose avec la case `racine du document` qui va se remplir automatiquement, laissez
+la valeur pré-remplie. Notez cette valeur car c'est le dossier avec lequel va être associé le domaine, c'est dans ce
+répertoire là qu'il faudra envoyer les données du site.
+
+<Badge text="4" type="danger" /> Puis valider. Cela devrait prendre quelques secondes puis un message indiquant que le
+domaine a été configuré s'affichera.
+
+A présent, vous êtes sûr que le domaine est bien configuré sur votre hébergement et vous savez dans quel dossier de
+votre hébergement se trouve le domaine maintenant. ==== Envoyer les fichiers du site en FTP ====
+
+Vous devriez être à présent un peu plus familier avec le logiciel Filezilla. Il faut configurer une nouvelle connexion
+FTP en allant dans `Fichier` puis `Gestionnaire de site`.
+
+Il faut ensuite configurer le logiciel avec les accès que vous avez du recevoir dans le mail `Bienvenue chez o2switch`. 
+
+<Image
+    src="/img/docs/guides/migrations/configurer-filezilla-o2switch-transfert.png"
+    title="Configurer Filezilla avec o2switch"
+    caption="Configuration de Filezilla avec les réglages d'o2switch"
+    alt="Capture d'écran de Filezilla avec la configuration o2switch"
+/>
+
+Il faut ensuite transférer les données du site dans le dossier avec lequel est associé le nom de domaine. Pour cela, il
+faut : 
+
+<Badge text="1" type="danger" /> Naviguer dans le dossier qui est associé avec le nom de domaine, sur votre hébergement.
+Cela se fait avec la partie droite de Filezilla.
+
+<Badge text="2" type="danger" /> Naviguer dans le dossier qui contient les fichiers de votre site internet, sur votre
+ordinateur. Cela se fait avec la partie gauche de Filezilla.
+
+<Badge text="3" type="danger" /> Sélectionner tous les fichiers du site internet, récupéré à l'étape précédente. Cela se
+fait dans la partie gauche de Filezilla, vous pouvez utiliser le raccourcis `CTRL` + `A`
+
+<Badge text="4" type="danger" /> Initier le transfert des données en réalisant un glisser-déposer de la gauche vers la
+droite 
+
+<Image
+    src="/img/docs/guides/migrations/configurer-filezilla-o2switch-transfert.png"
+    title="Envoi des données vers l'hébergement o2switch avec Filezilla"
+    caption="Il faut renvoyer les données du site internet sur l'hébergement o2switch en FTP avec Filezilla"
+    alt="Capture d'écran de Filezilla pour l'envoi des données vers o2switch"
+/>
+
+
+A présent, les fichiers du site internet sont envoyés sur votre hébergement o2switch. L'étape suivante consiste à
+remettre en place la base de données du site. 
+
+#### Créer une base de données MySQL vierge
+
+Le site internet WordPress fonctionne avec une base de données. C'est dans la base de données qu'il y a tous les
+réglages, tous les articles, toutes les pages, en résumé tout le contenu dynamique du site internet. 
+
+Pour remettre en place cette base de données, il faut commencer par faire trois choses : 
+  * Créer une nouvelle base de données vierge sur votre hébergement 
+  * Créer un nouvel utilisateur MySQL et lui attribuer un mot de passe. Cet utilisateur sera utilisé par le site
+    internet pour se connecter sur la base de données.
+  * Attribuer les droits à l'utilisateur sur la base de données.
+
+Tout cela se fait dans [l'outil Bases de données MySQL](/cpanel/bases-de-donnees/mysql) présent dans cPanel dans la
+catégorie des `Bases de données`. Il faut donc se rendre dans cet outil, puis utiliser les trois formulaire présent dans
+l'outil du haut vers le bas.
+
+Dans le premier formulaire, il faut créer une nouvelle bases de données en lui attribuant un nom 
+<Badge text="1" type="danger" /> puis en validant <Badge text="2" type="danger" />. 
+
+Le nom n'a pas réellement d'importance, il faut juste quelque chose de relativement court et qui décrit rapidement le
+site internet. 
+
+Dans mon cas `o2demo_wp01` laissera penser que cette base de données est liée à un site WordPress. Avoir
+un nom de base de données qui décrit le site est important lorsque vous avez plusieurs sites internet, en un coup d'œil,
+vous savez quelle base correspond à quel site.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-creer-base-mysql.png"
+    title="Créer une base de données MySQL"
+    caption="La première étape est de créer une bases de données MySQL sur l'hébergement"
+    alt="Capture d'écran de l'outil pour créer une base de données chez o2switch"
+/>
+
+Ensuite il faut créer un utilisateur MyQSL, je vous recommande de lui attribuer le même nom 
+<Badge text="1" type="danger" /> que la base de données. Il s'agit d'une convention, l'utilisateur liée à la base de
+données porte le même nom que la base. Après il faut générer un mot de passe fort <Badge text="2" type="danger" /> et le
+confirmer <Badge text="3" type="danger" /> puis valider la création <Badge text="4" type="danger" />.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-creer-utilisateur-mysql.png"
+    title="Création d'un utilisateur MySQL sur cPanel"
+    caption="Ensuite il faut créer un nouvel utilisateur MySQL"
+    alt="Capture d'écran de l'outil pour créer un utilisateur MySQL"
+/>
+
+La dernière étape est d'utiliser les deux menus déroulant afin de donner toutes les permissions à l'utilisateur sur la
+base de données.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-attribuer-drois-mysql.png"
+    title="Attribuer les droits à l'utilisateur MySQL sur la base de données"
+    caption="Il faut attribuer les droits à l'utilisateur sur la base de données"
+    alt="Capture d'écran du formulaire d'attribution des droits mysql"
+/>
+
+Une page s'affichera avec la liste des permissions MySQL. Il faudra cocher `Tous les privilèges` 
+<Badge text="1" type="danger" /> puis valider <Badge text="2" type="danger" />.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-attribuer-permissions-mysql-2.png"
+    title="Donner toutes les permissions à l'utilisateur sur la base de données MySQL"
+    caption="Il faut attribuer les droits à l'utilisateur sur la base de données"
+    alt="Capture d'écran du formulaire d'attribution des pleins droits SQL sur l'utilisateur"
+/>
+
+C'est fini pour la création de la base de données et utilisateur MySQL. A présent vous devriez avoir : 
+  * une base de données vierge
+  * un utilisateur avec son mot de passe avec les droits sur cette base 
+
+Au final, dans le tableau récapitulatif, vous devriez retrouver la base de données avec le nom d'utilisateur liée à
+cette base en face.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-mysql-bdd-3.png"
+    title="L'utilisateur à les droits sur la base de données"
+    caption="Le tableau récapitulatif confirme que l'utilisateur à les droits sur la base de données"
+    alt="Capture d'écran du tableau récapitulatif des bases de données et utilisateurs"
+/>
+
+#### Importer une copie de la base de données
+
+La prochaine étape est d'importer une copie de la base de données. Pour cela, il faut vous rendre dans cPanel puis aller
+dans [l'outil phpmyadmin](/cpanel/bases-de-donnees/phpmyadmin). 
+
+Dans cet outil, il faut cliquer <Badge text="1" type="danger" /> sur le nom de la base de données crée à l'étape
+précédente, dans notre cas, il s'agit de `o2demo_wp01`. Cela se situe dans le menu tout à gauche.
+
+Ensuite il faut cliquer sur `Importer` <Badge text="2" type="danger" /> puis sélectionner le fichier SQL que vous avez
+récupéré d'OVH pour l'importer <Badge text="3" type="danger" />. Il faut confirmer en cliquant sur `Exécuter` 
+<Badge text="4" type="danger" />.
+
+L'importation peut prendre du temps, plusieurs minutes voire dizaine de minutes : cela dépend de la taille de votre
+fichier SQL ainsi que la vitesse de votre connexion. 
+
+<Image
+    src="/img/docs/guides/migrations/importer-base-de-donnees-o2switch.png"
+    title="Importer la base de données avec phpmyadmin"
+    caption="Il faut importer une copie de la base de données avec l'aide de phpmyadmin"
+    alt="Capture d'écran de l'import d'une base de données"
+/>
+
+A la fin, un message de succès devrait s'afficher et des `tables` devrait s'afficher dans la base de données.
+
+#### Reconfigurer le site
+
+Le plus dur est fait ! A présent, il reste à reconfigurer le site internet, c'est-à-dire mettre à jour le fichier
+`wp-config.php` de WordPress pour lui préciser les paramètres d'accès à la base de données pour o2switch. En effet, par
+rapport à OVH les informations de connexions pour la base de données changent, ce n'est plus le même identifiant, mot de
+passe, ni même la même adresse de connexion. 
+
+Pour éditer ce fichier `wp-config.php`, nous allons utiliser le [Gestionnaire de
+fichier](/cpanel/fichiers/gestionnaire-fichiers-web) de cPanel. Une fois dans cet outil, il faut naviguer dans le
+dossier qui contient les fichiers du site <Badge text="1" type="danger" />, puis cliquer une première fois sur le
+fichier `wp-config.php` <Badge text="2" type="danger" />. Le fichier devrait se mettre en surbrillance.  Ensuite il faut
+cliquer sur `Modifier` dans le menu supérieur <Badge text="3" type="danger" />.
+
+<Image
+    src="/img/docs/guides/migrations/editer-fichier-wp-config-01.png"
+    title="Editer le fichier wp-config.php avec l'aide du gestionnaire de fichier"
+    caption="L'outil gestionnaire de fichiers permet d'éditer des fichiers comme le wp-config.php"
+    alt="Capture d'écran du gestionnaire de fichier de cPanel"
+/>
+
+Ensuite une fenêtre avec un message d'avertissement s'affichera, il faudra laisser les valeurs par défaut et cliquer sur
+`edit`. 
+
+Un éditeur s'affiche, dans cet éditeur il faut modifier les lignes suivantes : 
+
+<Badge text="1" type="danger" /> `DB_NAME` il faut indiquer le nom de la base de données créée précédemment. Dans notre
+exemple, il s'agit de `o2demo_wp01`. 
+ 
+<Badge text="2" type="danger" /> `DB_USER` il faut indiquer le nom de l'utilisateur qui est liée à la base de données.
+Si vous avez suivi nos recommandations, c'est le même nom que la base de données donc toujours dans notre exemple
+`o2demo_wp01`. 
+
+<Badge text="3" type="danger" /> `DB_PASSWORD` correspond au mot de passe de l'utilisateur pour la base de données.
+Indiquez ce que vous avez mis lors de la création de l'utilisateur MySQL aux étapes précédentes.
+
+<Badge text="4" type="danger" /> `DB_HOST` correspond à l'adresse du serveur de base de données. Pour nos hébergements,
+il faut toujours mettre `localhost`. 
+
+<Badge text="5" type="danger" /> Enfin il faudra confirmer les changements en cliquant sur le bouton d'enregistrement. 
+
+<Image
+    src="/img/docs/guides/migrations/editer-fichier-wp-config-02.png"
+    title="Changer le wp-config.php du site internet"
+    caption="Comment mettre à jour le `wp-config.php` de Wordpress avec les bonnes informations de connexions"
+    alt="Capture d'écran du gestionnaire de fichier de cPanel pour l'édition du fichier wp-config.php"
+/>
+
+C'est terminé, à présent le site utilise la bonne base de données.
+
+### Tester le fonctionnement du site
+
+L'installation du site est terminée, normalement le site devrait fonctionner correctement, cependant nous allons nous
+assurer de cela en testant son fonctionnement avant de faire pointer le domaine vers o2switch. 
+
+A cette étape du processus du migration, le nom de domaine ne pointe pas encore vers o2switch. Nous allons donc utiliser
+l'astuce du `fichier hosts` pour faire croire, à votre ordinateur uniquement, que le domaine pointe vers o2switch. Cela
+nous permettra de tester le fonctionnement du site dans de bonnes conditions, c'est-à-dire avec exactement le même nom
+de domaine.  
+
+:::info[C'est quoi le fichier hosts ?]
+Pour faire simple, le `fichier host` est un fichier sur votre ordinateur qui permet de forcer une correspondance entre
+une adresse IP et un nom de domaine.
+
+Ce fichier contient quelques lignes, avec pour chaque ligne une adresse IP suivi de un ou plusieurs domaines séparés par
+des espaces.
+
+Dans notre cas d'usage, nous allons l'utiliser pour faire croire à votre ordinateur que le nom de domaine pointe vers
+l'hébergement o2switch. Cela est utile pour tester le bon fonctionnement de votre site, à l'avance, avant même de faire
+des réglages DNS.
+:::
+
+Cette astuce du fichier host permet de simuler l'étape du pointage du domaine vers nos services. 
+
+Pour utiliser cette astuce du fichier host, il y a deux étapes : 
+  * Nous allons voir comment récupérer l'adresse IP de l'hébergement o2switch 
+  * Puis nous allons voir comment éditer le fichier `hosts` de votre ordinateur. Cette procédure dépend du système
+    d'exploitation que vous utilisez, nous allons voir comment faire cela sur Windows.
+
+#### Trouver l'adresse IP de l'hébergement
+
+Pour utiliser l'astuce du fichier host, il est nécessaire de connaitre l'adresse IP liée à votre hébergement. Pour cela,
+il suffit de vous rendre sur cPanel puis sur la page d'accueil de regarder dans le menu à droite. L'adresse IP sera
+indiquée en dessous de `Shared IP Address`. 
+
+Attention à ne pas confondre cela avec l'adresse  IP qui s'affiche sous la partie `Last Login IP Address` qui correspond
+à la dernière adresse IP qui s'est connecté sur cPanel. 
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-trouver-adresse-ip.png"
+    title="Comment trouver l'adresse IP de son hébergement o2switch"
+    caption="Comment retrouver l'adresse IP de son hébergement à partir de cPanel"
+    alt="Capture d'écran de cPanel avec l'endroit ou se trouve l'adresse IP de l'hébergement"
+/>
+
+
+#### Modifier le fichier Host sur Windows
+
+Pour modifier le fichier host, il faut commencer par ouvrir l'éditeur de texte simple, aussi appelé le bloc-note ou
+notepad, en mode administrateur sur Windows. 
+
+Pour cela, la méthode la plus simple est de chercher le terme `notepad` dans la barre de recherche de Windows 
+<Badge text="1" type="danger" />, puis de faire un `clic-droit` <Badge text="2" type="danger" /> puis `Exécuter en tant
+qu'administrateur` <Badge text="3" type="danger" /> sur le résultat de recherche trouvé, dans le `Meilleur résultat`.
+
+Une autre fenêtre s'affichera et vous demandera confirmation de lancer ce programme en mode administrateur, il faudra
+confirmer. Votre mot de passe sera peut être demandé également. 
+
+<Image
+    src="/img/docs/guides/migrations/ouvrir-notepad-administrateur.png"
+    title="Ouvrir le bloc note en mode administrateur sur Windows"
+    caption="Comment ouvrir le bloc note en mode administrateur"
+    alt="Capture d'écran qui explique comment ouvrir le bloc note en administrateur sur Windows"
+/>
+
+Ensuite il faut aller dans `Fichier`, puis `Ouvrir` puis aller chercher le fichier suivant
+`C:\Windows\System32\drivers\etc\hosts`. 
+
+Pour y arriver facilement, vous pouvez cliquer sur le disque principal `C:` <Badge text="1" type="danger" /> puis
+copier/coller `C:\Windows\System32\drivers\etc` dans la barre supérieure ou s'affiche le chemin 
+<Badge text="2" type="danger" />. 
+
+Par défaut, le fichier host ne sera pas visible, il faudra cliquer sur le menu déroulant puis sélectionner `Tous les
+fichiers` pour le faire apparaitre <Badge text="3" type="danger" />. 
+
+Enfin, il faudra sélectionner le fichier `hosts` <Badge text="4" type="danger" /> puis cliquer sur `Ouvrir` 
+<Badge text="5" type="danger" />.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-modifier-host-windows-1.png"
+    title="Ouvrir le fichier host en mode administrateur"
+    caption="Ouvrir le fichier Host avec le bloc note Windows en mode administrateur"
+    alt="Capture d'écran qui explique comment ouvrir le fichier host en administrateur sur Windows"
+/>
+
+Dans le fichier host, il faut ajouter une ligne qui contiendra les éléments suivants séparés par des espaces : 
+  * l'adresse IP de votre hébergement, récupérée à l'étape précédente
+  * votre nom de domaine 
+  * votre nom de domaine avec les `www.` devant 
+
+Donc toujours avec notre exemple, cela donnera : 
+
+```
+109.234.165.87 mon-site-internet.fr www.mon-site-internet.fr
+```
+
+<Image
+    src="/img/docs/guides/migrations/modifier-fichier-host-3.png"
+    title="Modification du fichier host"
+    caption="On modifie le fichier host pour faire croire que le domaine pointe vers l'hébergement o2switch"
+    alt="Capture d'écran qui montre comment modifier le fichier hosts"
+/>
+
+
+Ensuite il faut quitter en enregistrant les modifications. A présent, lorsque vous accédez à votre nom de domaine depuis
+votre ordinateur, vous devriez voir la version du site hébergé chez o2switch. Cela simulera un pointage de domaine vers
+o2switch. 
+
+#### Tester le site internet
+
+Ensuite il faut tester le fonctionnement du site internet. Pour cela, dans votre navigateur web, ouvrez une nouvelle
+fenêtre de navigation privée puis accédez à votre nom de domaine. Après avoir modifié le fichier Host, vous devriez
+arriver sur la version du site côté o2switch. 
+
+Si votre site était en HTTPS, alors vous allez avoir une erreur de sécurité, ou une erreur `la connexion n'est pas
+privée` : c'est normal. 
+
+Pour le moment, votre site ne dispose pas d'un certificat SSL valide donc votre navigateur web affiche un message
+d'avertissement. Il faut accepter l'exception de sécurité, cela ne vous empêche pas de tester le fonctionnement de votre
+site. 
+
+<Image
+    src="/img/docs/guides/migrations/erreur-https-transfert-site.png"
+    title="Erreur de certificat SSL"
+    caption="Il faut ignorer l'erreur de HTTPS pour tester le site"
+    alt="Capture d'écran de l'erreurs HTTPS et comment passer outre l'erreur"
+/>
+
+
+Après avoir accepté l'exception de sécurité, vous pouvez accéder à votre site internet et tester son fonctionnement.
+Testez quelques pages de votre site internet et essayez de vous connecter sur l'espace d'administration également.
+
+La génération et l'installation d'un certificat SSL se fait à la dernière étape, lorsque le domaine pointera vers votre
+hébergement. Vous ne pouvez malheureusement pas générer cela à l'avance. 
+
+### Recréer les boites emails
+
+Cette étape est optionnelle. Si jamais vous avez des comptes emails associés à votre nom de domaine chez OVH et que vous
+souhaitez les rapatrier vers votre hébergement o2switch, en même temps que votre site internet, cela est possible. 
+
+Il faudra :
+  * Recréer les comptes emails, à l'avance, sur votre hébergement o2switch avec [l'outil comptes de
+    messagerie](/cpanel/emails/adresse-email)
+  * Réinjecter l'historique des emails avec [ImapSync](https://imapsync.lamiral.info/X/)
+
+#### Créer les comptes emails
+
+Pour recréer les comptes emails, il faut [se rendre sur cPanel](/guides/cpanel/comment-se-connecter) puis aller dans
+[l'outil comptes de messagerie](/cpanel/emails/adresse-email). 
+
+Dans cet outil, il faut cliquer sur le bouton `Créer` <Badge text="1" type="danger" /> afin de lancer l'assistant qui
+permet de créer un compte email. 
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-creer-compte-email.png"
+    title="Outil de création de compte email"
+    caption="Première étape de création d'un compte de messagerie"
+    alt="Capture d'écran de l'outil Comptes de messagerie"
+/>
+
+Un formulaire s'affiche sur la page suivante, il faut : 
+
+<Badge text="1" type="danger" /> Sélectionner le nom de domaine sur lequel sera créé le compte email dans le premier menu déroulant.
+
+<Badge text="2" type="danger" /> Définir quel compte email vous souhaitez créer dans le formulaire.
+
+<Badge text="3" type="danger" /> Définir un mot de passe suffisamment fort
+
+<Badge text="4" type="danger" /> Valider en cliquant sur le bouton de création
+
+<Image
+    src="/img/docs/guides/migrations/creer-adresse-email-o2switch-2.png"
+    title="Créer un compte email chez o2switch"
+    caption="Comment créer un compte email chez o2switch"
+    alt="Capture d'écran de l'outil Comptes de messagerie"
+/>
+
+Le compte email est créé ! Il devrait s'afficher dans le tableau récapitulatif dans l'outil `comptes de messagerie` sur
+cPanel. 
+
+#### Récupérer l'historique email
+
+Le compte email est recréé sur votre hébergement o2switch mais ce compte est vierge. Il n'y a pas tout l'historique des
+emails, qui est encore chez OVH.
+
+Heureusement il existe des solutions pour transférer l'historique des emails d'un hébergement à un autre. L'un de ces
+solutions est [ImapSync](https://imapsync.lamiral.info/X/). ImapSync permet de synchroniser, de serveur à serveur,
+l'historique de votre boite email. Il conserve les dates des emails ainsi que votre organisation email (dossiers,
+sous-dossiers etc...). 
+
+Le logiciel peut s'utiliser en ligne de commande ou bien directement depuis une interface web. Nous allons utiliser
+l'interface web qui est plus simple à prendre en mail.
+
+Dans un premier temps, rendez-vous sur [la version web d'imapSync](https://imapsync.lamiral.info/X/) puis remplissez
+les champs :
+
+**Imap source mailbox** (correspond à la source, l'adresse email chez OVH)
+
+<Badge text="1" type="danger" /> `Login` : L'adresse email complète chez OVH
+
+<Badge text="2" type="danger" /> `Password` : Le mot de passe de l'adresse email chez OVH
+
+<Badge text="3" type="danger" /> `IMAP Server Hostname` : L'adresse du serveur IMAP de OVH. Cela doit être indiqué dans
+la documentation OVH. La majorité du temps, il faut indiquer `ssl0.ovh.net` 
+
+**IMAP Destination Mailbox** (correspond à la destination, l'adresse email chez o2switch)
+
+<Badge text="4" type="danger" /> `Login` : L'adresse email complète créée sur cPanel
+
+<Badge text="5" type="danger" /> `Password` : Le mot de passe de l'adresse email 
+
+<Badge text="6" type="danger" /> `Imap Server Hostname` : Le nom du serveur sur lequel se trouve votre hébergement. De
+la forme `quelque-chose.o2switch.net`, l'adresse exacte est communiquée dans le mail `bienvenue chez o2switch`.  
+
+<Badge text="7" type="danger" /> Enfin il faut valider en cliquant sur `sync or resync`.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-imapsync.png"
+    title="Transférer le contenu des emails de serveur à serveur avec imapsync"
+    caption="Transfert de l'historique des emails, de serveur à serveur avec ImapSync"
+    alt="Capture d'écran de la version en ligne de imapsync"
+/>
+
+Dés que le transfert est terminé, vous pouvez retourner dans [l'outil comptes de messagerie sur
+cPanel](/cpanel/emails/adresse-email) puis cliquer sur le lien de connexion rapide afin d'accéder au webmail. Vous
+pouvez vérifier et vous assurer que tout l'historique des emails a bien été retransféré. 
+
+### Pointage du domaine
+
+A cette étape du processus de migration, normalement le site devrait être pré-installé, testé, les comptes emails
+pré-créés et l'historique des emails transféré. Il reste à faire pointer le nom de domaine vers l'hébergement o2switch. 
+
+Pour cela, la méthode la plus simple est de changer les serveurs DNS du domaine chez OVH, pour mettre en place les
+serveurs DNS de o2switch. Le changement de DNS permet de tout faire pointer vers o2switch : la partie site internet et
+les emails du domaine. 
+
+La première étape pour changer les serveurs DNS liés au nom de domaine est de se connecter chez OVH. Il faut ensuite
+aller dans `Web cloud` <Badge text="1" type="danger" /> dans le menu supérieur, puis cliquez sur `Noms de domaines`  
+<Badge text="2" type="danger" /> dans le menu gauche, puis cliquez sur le nom de domaine que vous souhaitez faire
+pointer vers o2switch <Badge text="3" type="danger" />. 
+
+Il faut ensuite cliquer sur l'onglet `Serveurs DNS`  <Badge text="4" type="danger" /> puis `Modifier les serveurs DNS`
+<Badge text="5" type="danger" />. 
+
+<Image
+    src="/img/docs/guides/migrations/ovh-changer-dns-1.png"
+    title="Changer les serveurs DNS d'un domaine chez OVH"
+    caption="Première étape pour changer les DNS d'un domaine OVH"
+    alt="Capture d'écran du tableau de bord OVH expliquant comment changer les DNS"
+/>
+
+Sur la page suivante un formulaire s'affiche. Il faut remplacer les serveurs de OVH <Badge text="1" type="danger" /> par
+les suivants puis valider en cliquant sur `Appliquer la configuration` <Badge text="2" type="danger" /> : 
+  * ns1.o2switch.net, 109.234.160.5
+  * ns2.o2switch.net, 109.234.161.5
+
+<Image
+    src="/img/docs/guides/migrations/ovh-changer-dns-o2switch-2.png"
+    title="Remplacer les serveurs DNS de OVH par ceux de o2switch"
+    caption="Remplacer les serveurs DNS de OVH par ceux de o2switch"
+    alt="Remplacer les serveurs DNS de OVH par ceux de o2switch"
+/>
+
+Enfin, vous devriez obtenir un résultat similaire à la capture ci-dessous.
+
+<Image
+    src="/img/docs/guides/migrations/ovh-changer-dns-vers-o2switch-3.png"
+    title="DNS en cours de changement"
+    caption="Les serveurs DNS sont en cours de changement"
+    alt="DNS en cours de changement"
+/>
+
+Le changement de DNS peut prendre quelques heures à être effectif.
+
+
+### Transfert complet du domaine
+
+Après avoir effectué le changement de DNS, vous pouvez décider de transférer totalement la gestion du domaine vers
+o2switch : il s'agit d'un transfert de nom de domaine.
+
+Cette étape est optionnelle, vous pouvez très bien conserver votre domaine chez OVH avec les DNS de o2switch, cela
+fonctionnera correctement. Le transfert complet de domaine peut être intéressant pour : 
+  * tout regrouper au même endroit, chez o2switch
+  * éviter de devoir payer un domaine chez OVH, vous pouvez profiter du domaine offert avec l'hébergement pour
+    transférer votre domaine chez o2switch 
+
+Pour transférer le domaine chez o2switch, vous pouvez suivre ce guide : 
+  * [Comment débloquer un domaine chez OVH et récupérer le code de transfert (authcode) ?
+  * ](/nom-de-domaine/code-transfert/ovh)
+
+### SSL et HTTPS
+
+Dés que le domaine pointe vers o2switch, vous pouvez générer un certificat SSL avoir d'avoir le HTTPS sur votre site
+internet, sans avoir d'erreurs de certificat invalide.
+
+Pour générer un certificat SSL, il faut [se connecter sur cPanel](/guides/cpanel/comment-se-connecter) puis aller dans
+[l'outil Let's Encrypt SSL](/cpanel/securite/lets-encrypt-ssl-gratuit). 
+
+Dans cet outil, il faut cliquer sur le bouton `Générer` <Badge text="1" type="danger" /> qui se situe en face du nom de domaine dans la
+rubrique `Générer un nouveau certificat`.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-generer-certificat-ssl-2.png"
+    title="première étape pour générer un certificat SSL"
+    caption="Première étape pour générer un certificat SSL valide"
+    alt="Première étape pour générer un certificat SSL valide"
+/>
+
+Sur la page suivante, vous pouvez laisser tous les réglages par défaut puis cliquer sur le bouton `Générer`
+<badge>1</badge>. En cas d'erreurs, vous pouvez essayer en choisissant la méthode de validation `DNS` également. 
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-certificat-ssl-2.png"
+    title="Générer un certificat SSL gratuit"
+    caption="Générer et installer un certificat SSL Let's Encrypt chez o2switch"
+    alt="Générer un certificat SSL gratuit"
+/>
