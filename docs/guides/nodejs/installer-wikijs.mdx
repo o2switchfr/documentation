@@ -1,1 +1,165 @@
-https://faq.o2switch.fr/nodejs/comment-installer-wikijs-hebergement-o2switch
+---
+title: Déployer l'application nodeJS WikiJS sur un hébergement o2switch
+sidebar_label: Déployer WikiJS
+description: Ce tutoriel o2switch explique comment installer l'application Wiki.js avec l'aide de l'outil Setup NodeJS App.
+image: /img/docs/guides/nodejs/o2switch-nodejs-wikijs-1.png
+tags:
+  - guides
+  - nodejs
+---
+# Comment installer l'application nodeJS Wiki.js ?
+
+
+L'application [Wiki.js](https://wiki.js.org/) est un CMS permettant de **concevoir un site de type Wiki**, c'est-à-dire
+avec un fonctionnement similaire à Wikipédia sur la manière de rédiger le contenu. C'est très utilisé pour faire des
+documentations.
+
+Wiki.js est développé en NodeJS et il est possible de l'installer un **[hébergement de site web
+o2switch](https://www.o2switch.fr/)** avec l'[outil Setup NodeJS
+App](/cpanel/logiciels/hebergement-nodejs-multi-version). Cet outil permet de créer un **environnement virtuel nodeJS**
+sur l'hébergement et c'est utilisé pour **déployer des applications conçus en nodeJS**.
+
+Pour faire cette installation, nous allons nous inspirer de la [procédure d'installation décrite sur le site
+officiel](https://docs.requarks.io/install/linux).
+
+## Télécharger les sources
+
+La première étape est de **télécharger les fichiers sources de l'application** puis de mettre cela dans un dossier
+`appWikiJs` à la racine de l'hébergement. 
+
+Nous allons faire cela en [SSH](/guides/webmastering/connexion-ssh) (ou via l'outil
+[Terminal](/cpanel/outils-avances/terminal-ssh-web)), car globalement c'est plus simple/rapide de travailler en SSH avec
+des applications de ce type. 
+
+Si vous n'êtes pas à l'aide avec SSH, vous pouvez télécharger l'archive sur votre
+ordinateur et l'[envoyer en FTP](/guides/configuration-logiciel/) ou avec le
+[gestionnaire de fichier](/cpanel/fichiers/gestionnaire-fichiers-web). 
+
+Le lien de téléchargement est donné dans la [première partie du guide d'installation
+officiel](https://docs.requarks.io/install/linux).
+
+La petite subtilitée est que l'archive de **WikiJS est livré avec les dépendances pré-installés** dans un dossier
+`node_modules`. Il faudra bien penser à **supprimer ce dossier `node_modules`** car l'outil **Setup NodeJS App** à
+besoin de gérer les dépendances dans un dossier bien spécifique. Autrement dit, ça ne lui va pas que les dépendances
+sont déjà pré-installés. On va réinstaller nous même les dépendances, avec l'outil **Setup NodeJS App** et `npm`. 
+
+```bash title="Téléchargement des sources"
+# Téléchargement des sources. Prendre la dernière version trouvable sur la page suivante (fichier wiki-js.tar.gz)
+# https://github.com/Requarks/wiki/releases/
+# Exemple au 06/07/22
+wget https://github.com/requarks/wiki/releases/download/v2.5.285/wiki-js.tar.gz
+
+# On créé le dossier dans lequel iront les sources 
+mkdir appWikijs
+
+# On extrait l'archive dans le dossier appWikijs
+tar -xvf wiki-js.tar.gz -C appWikijs
+
+# On se place dans le dossier de l'application
+cd appWikijs
+
+# On supprime le dossier de dépendance pré-installés car il faut qu'on gère cela avec Setup NodeJS App directement 
+rm -vfr node_modules
+```
+
+## Création de l'environnement nodeJS
+
+La prochaine étape consiste à **créer l'environnement virtuel nodeJS** avec l'outil **Setup Python App**. Cela va nous
+permettre de pouvoir travailler en SSH dans l'environnement virtuel et notamment d'installer les dépendances de
+l'application avec `npm`. 
+
+<Image
+    src="/img/docs/guides/nodejs/o2switch-nodejs-wikijs-1.png"
+    title="Création d'un environnement nodeJS chez o2switch"
+    caption="Formulaire de création de l'environnement virtuel nodeJS pour installer WikiJS"
+    alt="Capture d'écran de l'outil Setup NodeJS pour créer un environnement nodeJS chez o2switch"
+/>
+
+
+Dans le formulaire de **création de l’environnement Virtuel nodeJS** il faut renseigner quelques configurations : 
+  - `Node Version`, on choisi la version 10 car c'est la version recommandé à l'heure de la rédaction de cet article
+  - `Application mode`, l'application sera déployé en mode `production`. Il s'agit d'une application destiné à être
+    utilisé et pas une application pour faire des tests ou du développement.
+  - `Application root`, cela correspond au dossier dans lequel se trouve les sources de l'application, nous avons choisi
+    `appWikijs` précédemment
+  - `Application URL`, va correspondre au domaine/URL sur lequel l'application répondra 
+  - `Application startup file` correspond au fichier qui sert à lancer l'application et qui doit se trouver dans le
+    `Application root`. Dans le cas de WikiJS c'est `server/index.js`
+  - Enfin, il ne reste plus qu'à valider la création de l'application avec `Create`
+
+Dés que l'application est créé, on a accès à la commande `source` nous permettant de travailler en SSH dans l'environnement nodeJS. 
+
+<Image
+    src="/img/docs/guides/nodejs/o2switch-nodejs-wikijs-ssh-2.png"
+    title="Commande à lancer pour entrer dans l'environnement virtuel NodeJS"
+    caption="La commande source permet d'entrer dans l'environnement nodeJS en SSH"
+    alt="Capture d'écran de l'outil Setup NodeJS qui donne la commande à exécuter pour entrer dans l'environnement"
+/>
+
+
+## Installation des dépendances
+
+L'étape suivante consiste à **installer les dépendances de l'application nodeJS** avec l'aide de la commande `npm`. Nous
+allons faire cela en SSH, en commençant par lancer la commande `source` donné par l'outil et qui permet d'entrer dans
+l'environnement nodeJS créé par l'outil **Setup nodeJS App**.
+
+```bash title="Installation des dépendances"
+# On entre dans l'environnement nodeJS
+source /home/o3dev/nodevenv/appWikijs/10/bin/activate && cd /home/o3dev/appWikijs
+
+# On installe les dépendances
+
+npm install
+# Et... c'est tout. 
+```
+
+## Configuration de l'application
+
+A présent, il reste à **configurer l'application WikiJS** notamment pour lui donner **les paramètres de connexions à la
+base de données** mysql que l'application va utiliser.  
+
+On suppose que la base de données ainsi que l'utilisateur mysql sont déjà créé. Si ce n'est pas fait, vous pouvez le
+faire depuis cPanel avec l'[outil bases de données mysql](/cpanel/bases-de-donnees/mysql). 
+
+```bash title="Configuration de l'application"
+# On génère le fichier de configuration à partir de l'exemple
+mv config.sample.yml config.yml
+
+# On édite le fichier avec les paramètres de connexions à la base de données
+vi config.yml
+
+# Voir dans le bloc de code suivant pour les modifications à apporter dans ce fichier.
+```
+
+```yaml title="Partie à modifier dans le config.yml"
+# Partie à modifier dans le config.yml. Attention, les espaces sont importants dans les fichiers yml !
+db:
+  type: mariadb
+  host: localhost
+  port: 3306
+  user: o3dev_wikijs
+  pass: motDePasseUtilisateurMysql
+  db: o3dev_wikijs
+  ssl: false
+```
+
+## Lancement de l'application
+
+A présent, il ne reste plus qu'à lancer l'application depuis l'outil **Setup nodeJS App** en cliquant sur `Restart`.
+Après, il ne restera plus qu'à vous laisser guider par la page de finalisation de l'installation de WikiJS. 
+
+<Image
+    src="/img/docs/guides/nodejs/o2switch-wikijs-nodejs-restart-3.png"
+    title="Lancement de l'application WikiJS sur l'hébergement o2switch"
+    caption="Lancement de l'application WikiJS depuis l'outil nodeJS sur l'hébergement o2switch"
+    alt="Capture d'écran de l'outil Setup NodeJS pour lancer l'application"
+/>
+
+L'application est maintenant en ligne, il ne reste plus qu'à se connecter pour finaliser l'installation. 
+
+<Image
+    src="/img/docs/guides/nodejs/wikijs-finish-install-4.png"
+    title="L'application est en ligne"
+    caption="Finalisation de l'installation WikiJS sur un hébergement o2switch"
+    alt="Capture d'écran de WikiJS"
+/>
