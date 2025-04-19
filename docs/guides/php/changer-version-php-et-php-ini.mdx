@@ -202,7 +202,7 @@ suPHP_ConfigPath /home/votre_login/public_html/site2.fr/
 
 Le fichier php.ini devra être ici : `/home/votre_login/public_html/site2.fr/php.ini`
 
-### Pour PHP <= 5.6
+### Pour PHP inférieur ou égal 5.6
 
 Sur les versions de PHP inférieureou égale à PHP 5.6, il est nécessaire d'activer les extensions `mysql`.
 
@@ -211,7 +211,7 @@ Ces extensions là sont supprimées à partir de PHP 7 et sont remplacés par de
 Pensez à modifier les chemins pour les `zend_extension` visible en fin de fichier. Remplacez **56** par la version
 de PHP que vous souhaitez utiliser.
 
-```ini title="php.ini pour PHP <= 5.6"
+```ini title="php.ini pour PHP inférieur ou égal à  5.6"
 [PHP]
 engine = On
 zend.ze1_compatibility_mode = Off
@@ -379,12 +379,12 @@ zend_extension=/opt/alt/php56/usr/lib64/php/modules/opcache.so
 zend_extension=/opt/alt/php56/usr/lib64/php/modules/ioncube_loader.so
 ```
 
-### Pour PHP > 5.6  
+### Pour PHP supérieur à 5.6  
 
 Pour les versions de PHP supérieure à PHP 5.6, les modules MySQL n'existent plus et sont remplacés, donc le fichier 
 php.ini est légèrement différents. 
 
-```ini title="php.ini pour PHP > 5.6"
+```ini title="php.ini pour PHP supérieur à 5.6"
 [PHP]
 output_buffering = Off
 engine = On
