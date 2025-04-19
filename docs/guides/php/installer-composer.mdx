@@ -1,1 +1,196 @@
-https://faq.o2switch.fr/hebergement-mutualise/installation-composer-o2switch
+---
+title:  Installation de Composer sur un hébergement web o2switch
+sidebar_label: Installer Composer
+description: Ce tutoriel explique comment installer Composer sur un hébergement de site internet o2switch
+image: /img/docs/guides/php/TODO
+tags:
+  - guides
+  - php
+---
+
+# Comment installer la dernière version de Composer sur l'hébergement o2switch ?
+
+Composer est un outil libre, écrit en PHP qui permet de gérer et d'installer de manière automatique les dépendances d'un
+projet web.
+
+C'est un outil qui est très utilisé sur les projets qui utilisent des Frameworks PHP comme Symfony, Laravel, etc... 
+
+Sur les projets qui utilisent Composer, un fichier `composer.json` contient la liste des dépendances nécessaires au bon
+fonctionnement du projet. Composer va lire ce fichier et récupérer les dépendances de manière automatique, tout en
+faisant des contrôles supplémentaires pour vérifier que l'environnement PHP est correct (modules nécessaires).
+
+**Composer est installé et est accessible par défaut** sur un hébergement o2switch. Cependant il peut être parfois
+nécessaire d'installer une version différente de celle installée par défaut. 
+
+Ce guide explique **comment installer Composer sur un [service d'hébergement web
+o2switch](https://www.o2switch.fr/hebergement-illimite/)** et comment personnaliser l'installation pour l'utiliser d'une
+manière plus simple au quotidien. 
+
+## Pré-requis - SSH
+
+Pour installer et utiliser composer, un **accès SSH est fortement conseillé**. Ce guide explique comment installer
+Composer en SSH. 
+
+L'installation et l'utilisation de composer sans SSH est théoriquement possible mais, ce n'est pas vraiment recommandé
+et c'est même plus complexe à utiliser de cette manière.
+
+Pour avoir un accès SSH sur un hébergement o2switch, d'ajouter votre adresse IP en liste blanche sur le parefeu du 
+serveur avec l'aide de l'outil [Autorisation SSH](/cpanel/outils/exception-parefeu). 
+Nous détaillons cela dans le guide : [Accès SSH sur un hébergement o2switch](/guides/webmastering/connexion-ssh)
+
+## Installer Composer
+
+Dans un premier temps, il faut se **connecter en SSH sur l'hébergement**. 
+
+Pour cela, il faut utiliser le même identifiant/mot de passe que cPanel, sur l'adresse de votre hébergement (communiqué
+dans le mail "Bienvenue chez o2switch"), sur le port standard SSH (22). 
+
+Si vous utilisez Windows, vous pouvez utiliser un logiciel comme
+[PuTTy](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html). 
+
+Sur Mac et Linux, vous pouvez lancer un nouveau terminal, un client SSH est installé nativement. 
+
+Vous pouvez également utiliser [l'outil Terminal](/cpanel/outils-avances/terminal-ssh-web) pour faire cela directement
+depuis votre navigateur web dans cPanel.
+
+
+Ensuite, il faut créer un dossier `bin` qui servira à stocker le **fichier binaire de composer**, puis se rendre dans ce
+dossier et afficher le chemin complet vers ce dossier.
+
+```bash title="Préparation de l'installation"
+# Connexion en SSH sur l'hébergement
+ssh identifiantcPanel@monserveur.tld
+
+# Création du répertoire bin, s'il existe déjà, ça ne pose pas de problème
+mkdir bin
+
+cd bin
+pwd
+```
+
+Après, il faut se rendre sur le site de composer et sur la [page de téléchargement](https://getcomposer.org/download/)
+puis copier/coller le code fourni par composer.
+
+```bash title="Téléchargement de composer"
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+```
+
+Cela génère un fichier `composer.phar`. En l'état, c'est utilisable de cette manière mais ce n'est pas pratique car il
+faut taper des commandes de la sorte : 
+
+```bash title="Exemple d'utilisation"
+php ~/bin/composer.phar [commande composer]
+# ou
+~/bin/composer.phar [commande composer]
+```
+
+Pour rendre la commande plus simple d'utilisation, il faut renommer le fichier généré puis ajouter le répertoire "bin"
+au `PATH`.
+
+Cela permet d'utiliser `composer` en ligne de commande, sans indiquer le chemin complet et sans mettre "php" devant la
+commande. 
+
+```bash title="Amélioration de l'installation"
+# On renomme le fichier de telle sorte à utiliser "composer" plutôt que "composer.phar"
+mv composer.phar composer
+
+# On affiche le chemin complet avec PWD, on garde cela de côté
+pwd 
+
+# On édite le fichier ~/.bashrc avec vi (si on sait faire)
+# pour ajouter : export PATH="$PATH:/home/user/bin/"
+# le /home/user étant le résultat de la commande pwd
+vi ~/.bashrc
+
+# Sinon, sans VI, vous pouvez lancer la commande suivante : 
+echo "export PATH=\"\$PATH:$(pwd)/bin\"" >> ~/.bashrc
+# On source le fichier pour forcer la prise en compte des modifications
+
+source ~/.bashrc 
+# On peut utiliser composer directement
+
+composer -v
+```
+
+## Exemple d'utilisation
+
+Pour cet exemple d'utilisation, nous allons installer le squelette de développement du
+[Framework Silex](https://silex.symfony.com/). 
+
+Cela permettra de voir un exemple d'utilisation de GIT et de Composer pour l'installation des dépendances. 
+
+On commence par récupérer les sources du projet avec GIT dans un dossier "squelette-silex" : 
+
+```bash title="Récupération des sources"
+git clone https://github.com/silexphp/Silex-Skeleton.git squelette-silex
+```
+
+Ensuite on installe les dépendances du projet avec composer : 
+
+```bash title="Installation des dépendances"
+cd squelette-silex
+composer install 
+```
+
+La sortie de la commande est assez verbeuse et intéressante. On voit que le squelette de Silex à de nombreuses
+dépendances.
+
+Composer s'occupe de tout, cela permet d'éviter de le faire manuellement (fastidieux) et cela allège le projet
+également, les dépendances n'étant pas incluses.
+
+<Image
+    src="/img/docs/guides/php/sortie-composer-o2switch.png"
+    title="Installation des dépendances avec Composer"
+    caption="Sortie de la commande composer"
+    alt="Capture d'écran de la sortie d'exécution de Composer"
+/>
+
+Toutes les dépendances sont stockées dans le fichier `composer.json` qui ressemble à ça : 
+
+```json title="composer.json"
+{
+    "name": "fabpot/silex-skeleton",
+    "description": "A pre-configured skeleton for the Silex microframework",
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": ">=5.5.9",
+        "silex/silex": "~2.0",
+        "silex/web-profiler": "~2.0",
+        "symfony/asset": "~2.8|^3.0",
+        "symfony/browser-kit": "~2.8|^3.0",
+        "symfony/class-loader": "~2.8|^3.0",
+        "symfony/config": "~2.8|^3.0",
+        "symfony/console": "~2.8|^3.0",
+        "symfony/css-selector": "~2.8|^3.0",
+        "symfony/debug": "~2.8|^3.0",
+        "symfony/finder": "~2.8|^3.0",
+        "symfony/form": "~2.8|^3.0",
+        "symfony/monolog-bridge": "~2.8|^3.0",
+        "symfony/process": "~2.8|^3.0",
+        "symfony/security": "~2.8|^3.0",
+        "symfony/translation": "~2.8|^3.0",
+        "symfony/twig-bridge": "~2.8|^3.0",
+        "symfony/validator": "~2.8|^3.0"
+    },
+    "autoload": {
+        "psr-0": { "": "src/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    },
+    "scripts": {
+        "run": [
+            "echo 'Started web server on http://localhost:8888'",
+            "php -S localhost:8888 -t web"
+        ]
+    }
+}
+```
+
+Du point de vue du développement, c'est également très intéressant car des mécanismes d'autoload sont intégrés à
+composer.

@@ -1,1 +1,34 @@
-https://faq.o2switch.fr/tuto-rapide/augmenter-temps-execution-max-execution-time
+---
+title: Comment augmenter le temps d'exécution de PHP chez o2switch ?
+sidebar_label: Temps d'exécution PHP
+description: Ce tutoriel explique comment augmenter le temps d'exécution maximum autorisé pour des scripts PHP sur un hébergement PHP o2switch
+image: /img/docs/guides/php/augmenter-temps-execution-php-o2switch.png
+tags:
+  - guides
+  - php
+---
+
+Sur [les hébergements web o2switch](https://www.o2switch.fr/hebergement-illimite/) le temps maximum durant lequel un
+script PHP peut s'exécuter est défini par la valeur du `max_execution_time` dans la configuration de PHP, cette valeur
+de 60 secondes par défaut et peut être augmentée en suivant les étapes suivantes : 
+
+
+<Badge text="1" type="danger" /> [Se connecter sur l'hébergement](/guides/cpanel/comment-se-connecter)
+
+<Badge text="2" type="danger" /> Naviguer dans l'outil [Sélectionner une version de
+PHP](/cpanel/logiciels/hebergement-php-multi-version) présent dans la partie des `logiciels` 
+
+<Badge text="3" type="danger" /> Choisir une version personnalisée de PHP (différente de la version dîtes `native`)
+
+<Badge text="4" type="danger" /> Cliquer sur le bouton `use defaults` pour recocher les modules PHP nécessaires 
+
+<Badge text="5" type="danger" /> Aller dans `switch to php options`
+
+<Badge text="6" type="danger" /> Augmenter la valeur du `max_execution_time` puis valider 
+
+<Image
+    src="/img/docs/guides/php/augmenter-temps-execution-php-o2switch.png"
+    title="Augmenter le temps d'exécution maximal de PHP chez o2switch"
+    caption="Augmenter la valeur du max_execution_time de PHP sur un hébergement o2switch"
+    alt="Capture d'écran qui montre comment le temps d'exécution maximal de PHP"
+/>

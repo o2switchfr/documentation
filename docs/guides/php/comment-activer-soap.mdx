@@ -1,0 +1,27 @@
+---
+title: Comment activer le module PHP SOAP sur l'hébergement o2switch ?
+sidebar_label: Activer le module SOAP
+description: Ce tutoriel explique comment configurer l'extension PHP SOAP sur un hébergement de site internet o2switch
+image: /img/docs/guides/php/activer-module-soap-php-o2switch-1.png
+tags:
+  - guides
+  - php
+---
+# Comment activer le module PHP SOAP sur l'hébergement ?
+
+
+Par défaut, [sur votre espace d'hébergement web](https://www.o2switch.fr/hebergement-illimite/), le module SOAP n'est
+pas chargé dans PHP, il est possible de l'activer depuis cPanel en suivant la procédure suivante : 
+  - [Se connecter sur cPanel](/guides/cpanel/comment-se-connecter)
+  - Se rendre dans l'outil [Sélectionner une version de PHP](/cpanel/logiciels/hebergement-php-multi-version) qui est
+    visible dans la partie `logiciels` 
+  - Choisir une version personnalisée de PHP, c'est-à-dire une des versions sans le `native` écrit à coté 
+  - Cliquer sur `use defaults` pour recocher les modules PHP courants
+  - S'assurer que le module `soap` est bien coché puis valider 
+
+<Image
+    src="/img/docs/guides/php/activer-module-soap-php-o2switch-1.png"
+    title="Activer le module PHP SOAP sur l'hébergement web o2switch"
+    caption="Comment activer le module PHP SOAP sur l'hébergement o2switch"
+    alt="Capture d'écran de l'outil de sélection de version de PHP pour activer SOAP"
+/>

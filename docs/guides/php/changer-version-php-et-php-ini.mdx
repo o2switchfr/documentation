@@ -19,14 +19,16 @@ le php.ini.
 Cependant, cet outil n'est pas toujours sufisant. Vous pouvez être amené à vouloir utiliser une version précise de PHP
 pour tout l'hébergement, à l'exception d'un dossier ou d'un site précis qui a besoin d'une version différente. 
 
+Autrement dit, vous souhaitez pouvoir **changer la version de PHP, dossier par dossier**, sur votre hébergement.
+
 Ce type de configuration est possible chez o2switch, en modifiant le fichier `.htaccess` qui se trouve à la racine du 
 site. 
 
-Dans la mesure du possible, nous décourageons l'usage de cette méthode car le PHP qui sera exécuté de cette manière sera
-un peu plus lent que le PHP exécuté nativement. 
+Dans la mesure du possible, **nous décourageons l'usage de cette méthode** car le PHP qui sera exécuté de cette manière
+sera un peu plus lent que le PHP exécuté nativement. 
 
 Si vous avez la possibilité d'[isoler le site sur un sous-compte, un lune
-(gratuitement)][/cpanel/o2switch/univers-web-sous-comptes] et de choisir la version de PHP avec le [sélecteur de version
+(gratuitement)](/cpanel/o2switch/univers-web-sous-comptes) et de choisir la version de PHP avec le [sélecteur de version
 de PHP](/cpanel/logiciels/hebergement-php-multi-version) directement sur le sous-compte, ça sera plus performant. 
 
 ## Choisir la version de PHP
@@ -118,18 +120,16 @@ AddHandler application/x-httpd-php81 .php
 Non disponible pour le moment.
 ```
 
+:::danger[Un fichier php.ini doit impérativement être créé]
+La mise en place de la version de PHP doit s'accompagner obligatoirement d'un fichier php.ini plus bas pour que la
+version fonctionne correctement
+:::
 
 La version de PHP sera prise en compte pour le dossier contenant le fichier .htaccess ainsi que l'ensemble des
 sous-dossiers. Cela vous permet d'avoir des configurations assez fines, comme par exemple définir une versions de PHP
 différente pour chacun de vos sites : il suffit de préciser un fichier .htaccess avec la bonne directive à la racine de
 vos sites.
 
-:::danger[Un fichier php.ini doit impérativement être créé]
-La mise en place de la version de PHP doit s'accompagner obligatoirement d'un fichier php.ini plus bas pour que la
-version fonctionne correctement
-:::
-
-Par exemple : 
 
 **public_html/.htaccess** avec :
 ```apacheconf title="public_html/.htaccess"

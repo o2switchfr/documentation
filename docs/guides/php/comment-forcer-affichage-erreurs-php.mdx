@@ -1,1 +1,37 @@
-https://faq.o2switch.fr/tuto-rapide/comment-afficher-erreurs-php
+---
+title: Comment forcer l'affichage des erreurs PHP sur un hébergement o2switch ?
+sidebar_label: Affichage des erreurs
+description: Ce tutoriel explique comment forcer l'affichage des erreurs PHP sur l'offre unique o2switch
+image: /img/docs/guides/php/forcer-affichage-erreur-php-o2switch-1.png
+tags:
+  - guides
+  - php
+---
+
+# Comment forcer l'affichage des erreurs PHP ?
+
+Par défaut, les erreurs PHP ne sont pas affichées, ni loguées sur les [solutions d'hébergements
+o2switch](https://www.o2switch.fr/).
+
+Pour forcer l'affichage des erreurs PHP, il faut : 
+
+<Badge text="1" type="danger" /> [Se connecter sur l'hébergement cPanel](/guides/cpanel/comment-se-connecter)
+
+<Badge text="2" type="danger" />  Naviguer dans l'outil [Sélectionner une version de
+PHP](/cpanel/logiciels/hebergement-php-multi-version) présent dans la catégorie des `logiciels`
+
+<Badge text="3" type="danger" />  Choisir une version personnalisée de PHP (c'est-à-dire une version différente de la
+version native !)
+
+<Badge text="4" type="danger" />  Cliquer sur le bouton `use default` pour recocher les modules PHP utilisés par défaut 
+
+<Badge text="5" type="danger" />  Cliquer sur `switch to php options` (en haut à droite)
+
+<Badge text="6" type="danger" />  Changer le `display_error` sur `on` puis valider
+
+<Image
+    src="/img/docs/guides/php/forcer-affichage-erreur-php-o2switch-1.png"
+    title="Comment forcer l'affichage des erreurs PHP chez o2switch"
+    caption="Forcer l'affichage des erreurs PHP sur un hébergement o2switch"
+    alt="Capture d'écran de la procédure pour forcer l'affichge des erreurs PHP chez o2switch"
+/>

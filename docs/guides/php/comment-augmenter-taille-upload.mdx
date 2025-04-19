@@ -1,1 +1,35 @@
-https://faq.o2switch.fr/tuto-rapide/comment-augmenter-taille-upload-php
+---
+title: Comment augmenter la taille maximale d'upload des fichiers envoyés en PHP chez o2switch ?
+sidebar_label: Taille d'upload PHP
+description: Ce guide explique comment augmenter la taille maximale des fichiers envoyé en PHP sur un compte o2switch
+image: /img/docs/guides/php/augmenter-taille-upload-php-o2switch.png
+tags:
+  - guides
+  - php
+---
+# Comment augmenter la taille maximale des fichiers envoyés en PHP ?
+
+Par défaut, sur **[l'hébergement o2switch](https://www.o2switch.fr/hebergement-illimite/)**, la taille maximale des
+fichiers envoyés en PHP est de 256 Mo, cette valeur là peut être augmentée en suivant la procédure suivante : 
+  - [Se connecter sur cPanel](/guides/cpanel/comment-se-connecter)
+  - Aller dans l'outil [Sélectionner une version de PHP](/cpanel/logiciels/hebergement-php-multi-version) présent dans
+    cPanel dans la catégorie des `logiciels` 
+  - Définir une version personnalisée de PHP, c'est-à-dire une version différente de la version `native` 
+  - Cliquer sur `use defaults` pour recocher tous les modules PHP nécessaires 
+  - Cliquer sur le lien `switch to php options` 
+  - Augmenter les valeurs suivantes : `upload_max_filesize`, `post_max_size`, `memory_limit`. La plus petite des trois
+    valeurs définit la taille d'upload maximale (upload max filesize)
+  - Valider les changements
+
+
+<Image
+    src="/img/docs/guides/php/augmenter-taille-upload-php-o2switch.png"
+    title="Augmenter la taille maximale des fichiers qu'il est possible d'envoyer en PHP"
+    caption="Comment augmenter la taille d'upload maximale des fichiers PHP chez o2switch"
+    alt="Capture d'écran qui montre comment modifier la taille d'upload maximale pour PHP chez o2switch"
+/>
+
+A cet instant, il n'est pas possible d'aller au delà de 512Mo.
+
+512Mo est la taille d'upload maximale des fichiers traités en PHP chez o2switch. Au delà, ça bloquera au niveau de PHP
+car ce n'est pas possible d'aller au delà de cette valeur, mais également au niveau du serveur web. 

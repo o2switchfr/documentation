@@ -1,1 +1,33 @@
-https://faq.o2switch.fr/tuto-rapide/desactiver-cache-php
+---
+title: Comment désactiver le cache PHP, l'opcache, sur un hébergement o2switch ?
+sidebar_label: Désactiver opcache
+description: Ce tutoriel explique comment désactiver le cache opcache de PHP sur un hébergement mutualisé o2switch
+image: /img/docs/guides/php/desactiver-cache-php-o2switch.png
+tags:
+  - guides
+  - php
+---
+
+# Comment désactiver le cache PHP : l'opcache ? 
+
+Ce tutoriel explique comment désactiver le cache opcache de PHP sur un hébergement mutualisé o2switch}}
+
+Avec votre [service d'hébergement o2switch](https://www.o2switch.fr/), le cache PHP est activé par défaut pour améliorer
+les performances mais qui peut causer des problèmes lors du développement.
+
+Par exemple, les modifications que vous effectuez sur des fichiers PHP peuvent être prise en compte avec un délai de 
+quelques minutes.
+
+Pour désactiver le cache PHP (l'opcache), il faut : 
+  - [Se connecter sur l'hébergement](/guides/cpanel/comment-se-connecter)
+  - Se rendre dans l'outil  [Sélectionner une version de PHP](/cpanel/logiciels/hebergement-php-multi-version)  présent dans la catégorie des `logiciel` 
+  - Choisir une version personnalisée de PHP (une version différente de la `native`)
+  - Cliquer sur `use defaults` pour recocher les modules PHP indispensables
+  - S'assurer que le module `opcache` est désactivé puis valider 
+
+<Image
+    src="/img/docs/guides/php/desactiver-cache-php-o2switch.png"
+    title="Comment désactiver l'opcache de PHP chez o2switch"
+    caption="Désactiver le cache PHP de l'hébergement o2switch"
+    alt="Capture d'écran qui montre comment désactiver le cache PHP"
+/>

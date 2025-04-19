@@ -275,7 +275,7 @@ const sidebars: SidebarsConfig = {
                 'guides/php/changer-version-php-et-php-ini',
                 'guides/php/comment-activer-soap',
                 'guides/php/comment-augmenter-taille-upload',
-                'guides/php/comment-changer-version-php-hebergement',
+                'guides/php/comment-augmenter-temps-execution',
                 'guides/php/comment-desactiver-cache-php',
                 'guides/php/comment-forcer-affichage-erreurs-php',
                 'guides/php/installer-composer',
