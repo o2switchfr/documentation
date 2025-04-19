@@ -1,1 +1,57 @@
-https://faq.o2switch.fr/tuto-rapide/comment-forcer-https
+---
+title: Forcer l'utilisation du HTTPS sur un site générique
+sidebar_label: Forcer HTTPS
+description: Ce tutoriel explique comment forcer le HTTPS sur un site générique installé sur un hébergement web o2switch.
+image: /img/docs/guides/webmastering/terminal-web-ssh-o2switch.png
+tags:
+  - guides
+  - ssh
+  - webmastering
+---
+# Comment forcer le HTTPS sur un site générique ?
+
+<Badge text="1" type="danger" /> [Connectez-vous](/guides/cpanel/comment-se-connecter) sur cPanel. Pour rappel, les
+accès sont envoyés dans le mail `Bienvenue chez o2switch`.
+
+<Badge text="2" type="danger" /> Si ce n'est pas déjà fait, [activez un certificat SSL
+gratuitement](/cpanel/securite/lets-encrypt-ssl-gratuit) avec Let's Encrypt SSL qui se trouve dans cPanel dans la
+catégorie `sécurité`
+
+<Badge text="3" type="danger" /> Naviguez dans l'outil [Domaines Configurés](/cpanel/domaines/configuration-domaine),
+cliquez sur votre `Racine du document`.
+
+<Badge text="4" type="danger" /> Activer l'affichage des fichiers masqué en cliquant sur les `Paramètres` en haut
+à droite puis `Afficher les fichiers masqués`.
+
+<Badge text="5" type="danger" /> Ouvrez `.htaccess` pour le modifier ou créez-le s'il n'existe pas en cliquant sur `+
+Fichier`.
+
+<Badge text="6" type="danger" /> Ajoutez le code suivant tout en haut du fichier pour qu'il soit prioritaire sur vos
+autres règles si vous en avez :
+
+```apacheconf
+RewriteEngine On 
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTPS} !on
+RewriteRule ^(.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+```
+
+:::info[Problème de contenu mixte]
+Cette procédure permet de forcer l'utilisation du HTTPS sur un site internet.
+
+En revanche, cela ne suffira pas à corriger les problèmes de contenus mixtes. 
+
+Un problème de contenus mixtes arrive lorsque : 
+- vous avez votre site internet en HTTPS 
+- mais un des éléments inclus dans la page de votre site est chargé en HTTP. Par exemple, une image est chargé en HTTP
+et pas en HTTPS 
+- c'est un problème car l'intégralité de la page ne peut pas réellement être certifié de confiance
+- donc les navigateurs web affichent un message d'avertissement dans ce cas 
+:::
+
+<Image
+    src="/img/docs/guides/webmastering/forcer-https.png"
+    title="Forcer la redirection vers HTTPS"
+    caption="Forcer la redirection vers HTTPS avec des règles .htaccess"
+    alt="Capture d'écran de la procédure pour modifier le fichier .htacess et forcer le HTTPS"
+/>
