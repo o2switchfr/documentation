@@ -1,1 +1,183 @@
-https://faq.o2switch.fr/nodejs/comment-installer-etherpad-hebergement-o2switch
+---
+title: Comment installer l'application nodeJS Etherpad sur un hébergement o2switch ?
+sidebar_label: Déployement React.js
+description: Ce tutoriel o2switch explique comment installer l'application Etherpad sur un hébergement o2switch avec l'outil setup nodejs app.
+image: /img/docs/guides/nodejs/o2switch-nodejs-etherpad-1.png
+tags:
+  - guides
+  - nodejs
+---
+# Comment installer l'application nodeJS Ehterpad ?
+
+
+[Etherpad](https://etherpad.org/) est un éditeur de texte en ligne, qui permet à **plusieurs personnes de travailler sur
+un même texte simultanément**. C'est une solution de travail collaborative.  
+
+L'application est développé en NodeJS. Il est possible d'**installer Etherpad sur un
+[hébergement de site internet o2switch](https://www.o2switch.fr/hebergement-illimite/)** avec
+l'[outil Setup NodeJS App](/cpanel/logiciels/hebergement-nodejs-multi-version). C'est l'outil permet de créer un
+**environnement nodeJS virtuel** et l'outil qui sert à déployer des applications conçus avec nodeJS. 
+
+L'installation de Etherpad est malheureusement assez compliqué car il y a beaucoup de problématique liés aux chemins. Il
+faut donc utiliser quelques astuces et notamment des liens symboliques pour s'en sortir. Ce guide explique tout de A à Z
+donc vous devriez vous y retrouver facilement. 
+
+## Téléchargement d'Etherpad
+
+La première étape est de **télécharger les fichiers sources de l'application Etherpad** puis de mettre cela dans un
+dossier à la racine de l'hébergement. 
+
+Une archive avec les fichiers sources est trouvable sur la page d’accueil du projet [Etherpad](https://etherpad.org/).
+Il faut prendre la version `Linux/Mac`. 
+
+Nous allons faire cela en [SSH](/guides/webmastering/connexion-ssh) (ou avec l'aide de l'[outil Terminal de
+cPanel](/cpanel/outils-avances/terminal-ssh-web) si vous préférez). 
+
+Si vous n'êtes pas à l'aise avec SSH, vous pouvez aussi télécharger l'archive sur votre ordinateur et l'[envoyer en
+FTP](/guides/configuration-logiciel/) ou avec le [gestionnaire de fichier de
+cPanel](/cpanel/fichiers/gestionnaire-fichiers-web). 
+
+On va placer les fichiers sources de l'application dans un dossier à la racine de l'hébergement qui se nomme
+`appEtherpad`.
+
+```bash title="Téléchargement d'Etherpad en SSH"
+# On se remplace dans son dossier principal 
+cd
+
+# On télécharge Etherpad. Prendre le lien sur le site officiel (peut changer régulièrement)
+wget https://github.com/ether/etherpad-lite/archive/1.8.0-beta.1.zip
+
+# On extrait les données dans un dossier
+unzip 1.8.0-beta.1.zip
+
+# On renomme le dossier en appEtherpad
+mv etherpad-lite-1.8.0-beta.1/ appEtherpad
+```
+
+## Création de l'environnement nodeJS
+
+L'étape suivante consiste à **créer notre environnement Virtuel nodeJS** en créant l'application dans
+l'[outil Setup NodeJS App](/cpanel/logiciels/hebergement-nodejs-multi-version).
+
+Cela va nous **permettre de travailler en SSH** dans l'environnement nodeJS mais également d'avoir accès aux commandes
+qui permettent d'installer les dépendances du projet, comme `npm` par exemple.
+
+<Image
+    src="/img/docs/guides/nodejs/o2switch-nodejs-etherpad-1.png"
+    title="Création d'un environnement nodeJS chez o2switch"
+    caption="Formulaire de création de l'environnement virtuel nodeJS pour installer Etherpad"
+    alt="Capture d'écran de l'outil Setup NodeJS pour créer un environnement nodeJS chez o2switch"
+/>
+
+Dans le formulaire de création de notre environnement nodeJS, il faut définir les choses suivantes : 
+  - `Node Version` : on choisi la version 10 de NodeJS, c'est la version recommandée par Etherpad (au moment de la
+    rédaction de cet article)
+  - `Application mode` : production car on souhaite installer l'application pour l'utiliser et non pour faire des tests
+    ou du développement
+  - `Application root` : c'est le répertoire qui contient les fichiers sources de l'application, précédemment nous avons
+    placé cela dans `appEtherpad`
+  - `Application URL` : on choisi le domaine/URL sur laquelle l'application va répondre 
+  - `Application startup file` : dans le cas d'Etherpad, c'est le fichier `src/node/server.js` qui sert à lancer
+    Etherpad
+  - Enfin, il ne reste plus qu'à valider en cliquant sur `Create`
+
+Une fois **l'application créée, cela nous donne accès à la commande `source`** qui permet d'entrer dans l'environnement
+SSH !
+
+<Image
+    src="/img/docs/guides/nodejs/o2switch-nodejs-etherpad-ssh-2.png"
+    title="Commande à lancer pour entrer dans l'environnement virtuel NodeJS"
+    caption="La commande source permet d'entrer dans l'environnement nodeJS en SSH"
+    alt="Capture d'écran de l'outil Setup NodeJS qui donne la commande à exécuter pour entrer dans l'environnement"
+/>
+
+## Installation des dépendances
+
+L'environnement virtuel est créé, on peut se connecter en SSH, lancer la commande `source` qui est donné par l'outil
+puis **installer les dépendances** avec `npm`. C'est lors de cette étapes qu'il faudra faire plusieurs manipulations
+avec des liens symboliques pour corriger des problèmes de chemins. 
+
+Ces problèmes de chemins sont liées à trois choses essentiellement : 
+  * les fichiers sources et le `package.json` se trouve dans un sous-dossier `src` dans l'application
+  * l'application etherpad à besoin d'un lien symbolique sur `ep_etherpad-lite` qui pointe vers `src`
+  * il y a d'autres fichiers de dépendances dans `src/static` qui sont requis par l'application et sans faire de lien
+    symbolique, l'application ne les trouve pas car ira chercher dans cela dans `node_modules`
+
+```bash title="Installation des dépendances"
+# On entre dans l'environnement nodeJS virtuel 
+source /home/o3dev/nodevenv/appEtherpad/10/bin/activate && cd /home/o3dev/appEtherpad
+
+# Afin qu'on puisse lancer la commande npm directement dans appEtherpad, on fait un lien symbolique vers le fichier de dépendance dans src 
+# C'est nécessaire de lancer npm dans appEtherpad directement, pour que le dossier node_modules soit géré correctement (lien symbolique, spécificité de setup nodejs app)
+ln -s src/package.json package.json
+
+# Ensuite on fait le lien nécessaire à etherpad
+ln -s src ep_etherpad-lite
+
+# A présent on peut installer les dépendances 
+npm install
+
+# Dés que cela est terminé, un lien symbolique node_modules est créé à la racine du projet
+# Récupérer le chemin vers le dossier vers lequel pointe ce lien avec 
+# Attention, dans de / après node_modules !!
+# Vous devriez avoir un chemin qui ressemble à /home/o3dev/nodevenv/appEtherpad/10/lib/node_modules
+ls -lh node_modules 
+
+# Le prochain lien à créer dans le dossier src, vers le dossier trouvé à l'étape précédente
+cd src
+ln -s /home/o3dev/nodevenv/appEtherpad/10/lib/node_modules node_modules
+cd ..
+
+# Il reste un lien à faire dans node_modules vers le dossier src 
+# Cela afin que Etherpad retrouve ces fichiers de dépendances qui sont en dehors de node_modules
+cd node_modules
+ln -s /home/o3dev/appEtherpad/src ep_etherpad-lite
+
+# Note : si vous ne connaissez pas le chemin complet, comme /home/o3dev/appEtherpad/src dans l'exemple
+# Avant de faire cd node_modules, lancez la commande pwd
+# Cela vous indiquera le chemin complet vers votre application, il ne reste plus qu'à ajouter /src à la fin de ce chemin
+```
+
+Pour résumé un peu tous les liens symboliques que vous devriez avoir à la fin, votre projet devrait ressembler à cela : 
+
+```
+# Dans le dossier principal de l'application
+[appEtherpad (10)] [o3dev@californie appEtherpad]$ pwd
+/home/o3dev/appEtherpad
+[appEtherpad (10)] [o3dev@californie appEtherpad]$ ls -lh ep_etherpad-lite node_modules package.json
+lrwxrwxrwx 1 o3dev o3dev  3 Mar 26 11:59 ep_etherpad-lite -> src
+lrwxrwxrwx 1 o3dev o3dev 52 Mar 26 11:59 node_modules -> /home/o3dev/nodevenv/appEtherpad/10/lib/node_modules
+lrwxrwxrwx 1 o3dev o3dev 16 Mar 26 11:55 package.json -> src/package.json
+
+# Dans le dossier src
+[appEtherpad (10)] [o3dev@californie src]$ pwd
+/home/o3dev/appEtherpad/src
+[appEtherpad (10)] [o3dev@californie src]$ ls -lh node_modules
+lrwxrwxrwx 1 o3dev o3dev 52 Mar 26 12:06 node_modules -> /home/o3dev/nodevenv/appEtherpad/10/lib/node_modules
+
+# Dans le dossier node_modules
+[appEtherpad (10)] [o3dev@californie node_modules]$ pwd
+/home/o3dev/appEtherpad/src/node_modules
+[appEtherpad (10)] [o3dev@californie node_modules]$ ls -lh ep_etherpad-lite
+lrwxrwxrwx 1 o3dev o3dev 27 Mar 26 12:02 ep_etherpad-lite -> /home/o3dev/appEtherpad/src
+```
+
+## Lancement de l'application
+
+Il ne reste plus qu'à lancer l'application en cliquant sur le bouton `restart` de l'outil **Setup NodeJS App**. 
+
+<Image
+    src="/img/docs/guides/nodejs/o2switch-etherpad-nodejs-3.png"
+    title="Lancement de l'application nodeJS Etherpad"
+    caption="L'outil Setup NodeJS permet de lancer l'application"
+    alt="Capture d'écran de l'outil Setup NodeJS pour lancer l'application"
+/>
+
+L'application est lancée et est fonctionnelle. 
+
+<Image
+    src="/img/docs/guides/nodejs/o2switch-etherpad-4.png"
+    title="L'application Etherpad est bien fonctionnelle"
+    caption="L'application etherpad est fonctionnelle"
+    alt="Capture d'écran d'etherpad"
+/>
