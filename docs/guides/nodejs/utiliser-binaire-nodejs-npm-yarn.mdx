@@ -1,1 +1,122 @@
-https://faq.o2switch.fr/tuto-rapide/comment-utiliser-binaire-node-npm
+---
+title: Comment utiliser les commandes node, npm et yarn sur l'hébergement ?
+sidebar_label: Utiliser NodeJS, NPM & Yarn
+description: Sur un hébergement o2switch, vous avez accès aux commandes node et npm. Vous pouvez installer yarn.
+image: /img/docs/guides/nodejs/o2switch-binaire-node-npm.png
+tags:
+  - guides
+  - nodejs
+  - npm
+  - yarn
+  - cli
+---
+# Comment utiliser les commandes node, npm et yarn sur l'hébergement o2switch ?
+
+
+Sur un **[hébergement web](https://www.o2switch.fr)** o2switch, il est possible de **déployer une application web
+nodeJS** avec l'[outil setup nodejs app](/cpanel/logiciels/hebergement-nodejs-multi-version). 
+
+Cependant, il n'est pas rare d'avoir besoin de **l'exécutable `node` ou `npm`** pour installer les dépendances d'un
+projet par exemple, **sans forcément déployer un projet web nodeJS** complet. Dans ce cas, on souhaite juste avoir accès
+aux commandes et binaire de `node` et `npm`. 
+
+Les commandes `node` et `npm` sont accessible avec les exécutables suivants : 
+  * `/opt/alt/alt-nodejs22/root/usr/bin/node`
+  * `/opt/alt/alt-nodejs22/root/usr/bin/npm`
+
+Pour faciliter l'utilisation de ces outils et éviter de taper le chemin complet à chaque fois, il est possible d'éditer
+son fichier `.bashrc`, en ajoutant la ligne suivante en fin de fichier : 
+
+```bash title="Modification temporaire de l'environnement pour accéder à nodejs / npm"
+export PATH="$PATH:/opt/alt/alt-nodejs22/root/usr/bin/"
+```
+
+<Image
+    src="/img/docs/guides/nodejs/o2switch-binaire-node-npm.png"
+    title="Comment utiliser nodeJS et npm en mode CLI"
+    caption="Utilisation des binaires node et NPM sur un hébergement o2switch"
+    alt="Capture d'écran d'un terminal montrant l'utilisation des commandes node et npm chez o2switch"
+/>
+
+Ou simplement en lançant la commande suivante : 
+
+```bash title="Modification du .bashrc pour inclure nodeJS dans le PATH"
+cat << EOF >> ~/.bashrc
+export PATH="\$PATH:/opt/alt/alt-nodejs22/root/usr/bin/"
+EOF
+source ~/.bashrc
+```
+
+## Besoin d'utiliser une version différence de nodeJS ?
+
+Plusieurs versions de nodeJS sont installés simultanément sur l'hébergement. Vous pouvez choisir d'utiliser une version
+spécifique de nodeJS. Pour cela, suffit de modifier le numéro de version dans le chemin qui contient les exécutables
+pour node. 
+
+Par exemple remplacer le `12` par `14` : `/opt/alt/alt-nodejs**12**/root/usr/bin/`
+
+Voici des exemples de chemins que vous pouvez utiliser : 
+
+```bash title="Utiliser une version de nodeJS différente"
+# Versions de nodeJS installées. Chemin à ajuster dans les commandes indiquées précédemment
+/opt/alt/alt-nodejs10/root/usr/bin/
+/opt/alt/alt-nodejs12/root/usr/bin/
+/opt/alt/alt-nodejs14/root/usr/bin/
+/opt/alt/alt-nodejs16/root/usr/bin/
+/opt/alt/alt-nodejs18/root/usr/bin/
+/opt/alt/alt-nodejs20/root/usr/bin/
+/opt/alt/alt-nodejs22/root/usr/bin/
+```
+
+A noter que la version de `npm` varie en fonction de la version de `node` que vous utilisez. Donc si vous avez besoin
+d'une version de `npm` plus récente, il faut utiliser une version de `node` plus récente. Les deux sont liés. 
+
+```bash title="La version de NPM dépend de la version de nodeJS"
+# Avec nodeJS 10 c'est npm en version 6.14.12
+/opt/alt/alt-nodejs10/root/usr/bin/npm  -v
+6.14.12
+
+# Avec nodeJS 16 npm est en version 8.1.2
+/opt/alt/alt-nodejs16/root/usr/bin/npm  -v
+8.1.2
+```
+
+## Comment installer Yarn ?
+
+Si vous avez besoin d'utiliser la commande `yarn`, vous pouvez l'installer très rapidement sur votre hébergement. Après
+avoir suivi la manipulation précédente pour avoir accès commandes `node` et `npm`, vous pouvez installer `yarn` avec
+`npm` directement. 
+
+Ensuite, il suffit de rendre `yarn` accessible en modifiant le `PATH`. 
+
+<Image
+    src="/img/docs/guides/nodejs/o2switch-installation-yarn-nodejs-npm.png"
+    title="Installation de Yarn chez o2switch"
+    caption="Installation de Yarn sur un hébergement o2switch"
+    alt="Capture d'écran des commandes à lancer pour installer Yarn chez o2switch"
+/>
+
+```bash title="Installation de Yarn"
+#Installation de Yarn
+npm install --prefix ~/bin yarn
+
+# On enlève la ligne d'export du PATH si c'est déjà présent pour éviter un doublons
+sed -i '/export PATH=/d' ~/.bashrc
+
+# On mets à jour le ~/.bashrc pour ajouter le dossier bin dans le PATH
+cat << EOF >> ~/.bashrc
+export PATH="\$PATH:/opt/alt/alt-nodejs16/root/usr/bin/:~/bin/node_modules/yarn/bin"
+EOF
+
+# On recharge le ~/.bashrc
+source ~/.bashrc
+
+# Yarn est accessible directement
+yarn -v
+```
+
+## Sujets annexes
+
+  * [Comment déployer une application nodeJS backend sur un hébergement o2switch ?](/cpanel/logiciels/hebergement-nodejs-multi-version)
+  * [Comment déployer une application react.js sur un hébergement web o2switch ?](/guides/nodejs/application-reactjsP)
+  * [Chemins vers les différentes versions de NodeJS installés chez o2switch](/questions/langages-supportes-php-node-ruby-python)
