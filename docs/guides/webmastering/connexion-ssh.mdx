@@ -1,1 +1,242 @@
-https://faq.o2switch.fr/hebergement-mutualise/acces-ssh-shell-cli-cmdline
+---
+title: Se connecter en SSH à un hébergement web o2switch
+sidebar_label: Connexion SSH
+description: Ce tutoriel explique comment se placer en liste blanche et se connecter en SSH sur un hébergement mutualisé o2switch
+toc_min_heading_level: 2
+toc_max_heading_level: 4
+image: /img/docs/guides/webmastering/terminal-web-ssh-o2switch.png
+tags:
+  - guides
+  - ssh
+  - webmastering
+---
+# Accès SSH sur un hébergement web o2switch
+
+Il est possible d'avoir un accès SSH et de se connecter en SSH sur la [plateforme d'hébergement
+o2switch](https://www.o2switch.fr/).
+
+Avant de pouvoir se connecter en SSH, il faut ajouter votre adresse IP en liste blanche avec l'aide de l'outil 
+[Autorisation SSH](/cpanel/outils/exception-parefeu)
+
+Ensuite il est possible de se connecter en SSH avec le même identifiant et mot de passe que le compte cPanel. D'autres
+méthodes d'authentification, comme le système de clé SSH, sont également possible.
+
+## Autorisation SSH avec une liste blanche
+
+Pour vous débloquer l'accès SSH, il faut préalablement mettre en liste blanche votre adresse IP. 
+
+Vous pouvez faire cette demande de mise en liste blanche depuis l'outil **[Autorisation
+SSH](/cpanel/outils/exception-parefeu)** qui se trouve dans cPanel dans la rubrique des outils.
+
+<Image
+    src="/img/docs/guides/webmastering/o2switch-ssh-liste-blanche-firewall.png"
+    title="Création d'une exception parefeu pour SSH"
+    caption="Ajout d'une adresse IP en liste blanche pour débloquer l'accès SSH"
+    alt="Capture d'écran de la mise en liste blanche d'une adresse IP dans l'outil Autorisation SSH"
+/>
+
+Vous pouvez retrouver votre adresse IP sur un site comme [mon-ip.io](https://mon-ip.io/) ou
+[mon-ip.co](https://www.mon-ip.co/) par exemple.
+
+Il est possible de placer plusieurs adresses IP en liste blanche, actuellement **5 exceptions** par compte cPanel sont
+autorisées.
+
+<Image
+    src="/img/docs/guides/webmastering/o2switch-ssh-whitelist-parefeu.png"
+    title="Outil d'autorisation SSH o2switch"
+    caption="Affichage des adresses qui sont déjà en liste blanche dans l'outil autorisation SSH"
+    alt="Capture d'écran de l'outil Autorisation SSH sur un hébergement web o2switch"
+/>
+
+Si vous ne disposez pas d'adresse **IP fixe**, vous pouvez nous indiquer une adresse de type `dyndns` pour le passage
+en liste blanche. Si vous n'avez pas d'adresse dyndns vous pouvez vous inscrire sur un service gratuit comme
+[noip.com](https://noip.com/).
+
+Un service comme [noip.com](https://noip.com/) va vous fournir un domaine (par exemple : `qqch.ddns.net`) qui a la
+particularité de se mettre très rapidement à jour au niveau DNS en cas de changement. Ainsi, nous pouvons placer ce
+domaine en liste blanche, en cas de changement d'adresse IP, la mise à jour de la liste blanche est effective en
+quelques minutes (3-5 minutes en moyenne).
+
+L'avantage d'un service comme NoIP est qu'il est possible de configurer cela directement sur votre box internet. Ainsi,
+à chaque changement d'adresse IP, c'est votre box internet qui va automatiquement mettre à jour le domaine dyndns. Vous
+n'aurez rien à faire. Vous avez aussi la possibilité de mettre à jour ce domaine manuellement (si vous êtes en
+déplacement par exemple) ou via un logiciel à installer sur votre ordinateur.
+
+## Authentification SSH
+
+Il existe trois méthodes pour s'authentifier pour accéder en SSH à l'hébergement :
+  * directement depuis cPanel avec l'outil terminal
+  * la méthode classique, avec un identifiant/mot de passe. C'est le plus courant.
+  * avec un système de clé SSH
+
+### Connexion SSH Web par cPanel
+
+Il est possible d'avoir un shell SSH avec [l'outil Terminal dans cPanel](/cpanel/outils-avances/terminal-ssh-web). 
+
+La connexion est automatique, il suffit d'être connecté sur cPanel. 
+
+Cette méthode là peut s'avérer pratique si vous n'avez pas de client SSH et que vous souhaitez vous connecter en SSH sur
+votre hébergement web à partir d'un navigateur web. 
+
+<Image
+    src="/img/docs/guides/webmastering/terminal-web-ssh-o2switch.png"
+    title="Outil Terminal pour accéder à son hébergement en SSH avec un navigateur web"
+    caption="L'outil Terminal permet d'accéder à un shell SSH depuis un navigateur web"
+    alt="Capture d'écran de l'outil Terminal qui permet d'accéder en SSH à l'hébergement sans logiciel"
+/>
+
+
+### Authentification par mot de passe
+
+Pour la connexion en SSH, il faut utiliser le **même identifiant et mot de passe que cPanel**, sur le port 22. L'hôte de
+connexion peut être l'un des domaines que vous hébergez.
+
+Si vous avez une erreur `timeout` cela signifie que votre adresse IP n'est pas en liste blanche côté serveur ou bien que
+votre `dyndns` n'est pas à jour.
+
+Si vous êtes sous **Linux** ou **MacOS**, vous pouvez vous connecter directement depuis le terminal de votre ordinateur,
+voici un exemple de syntaxe : 
+
+```bash title="Connexion SSH vers un hébergement o2switch"
+ssh identifiantcpanel@nomduserveur.o2switch.net
+```
+
+### Authentification par Clé SSH
+
+Pour l'authentification avec un système de clé SSH, il faut générer un jeu de clés privée et publique. 
+
+La clé privée doit être générée sur votre ordinateur et doit rester secrète. La clé publique est également générée sur
+votre ordinateur, mais elle doit aller sur votre espace d'hébergement.
+
+#### Générer une clé SSH sur Linux ou macOS
+
+Si vous utilisez un système d'exploitation basé sur Mac ou Linux, vous pouvez générer les clés directement avec
+`ssh-keygen` qui est (normalement) installé par défaut.
+
+```bash title="Génération d'une clé SSH"
+ssh-keygen -t rsa -b 4096
+```
+
+Lors de la génération des clés, plusieurs choses sont demandées :
+  * Chemin de stockage de la clé, vous pouvez valider en appuyant sur entrer directement
+  * Passphrase : même chose, validez en appuyant sur entrer (deux fois)
+
+Les deux clés se situent dans le répertoire .ssh à la racine de votre compte utilisateur (votre ordinateur, pas votre
+hébergement !) : 
+  * `/home/username/.ssh/id_rsa` pour la clé privée
+  * `/home/username/.ssh/id_rsa.pub` pour la clé publique
+
+#### Générer une clé SSH sur Windows
+
+Pour Windows, il faut installer un logiciel supplémentaire : **PuTTYgen**. Vous pouvez en profiter pour installer le
+client SSH **Putty** également, si cela n'est pas déjà fait.
+
+Ces deux logiciels sont téléchargeables sur le [site officiel du
+projet](https://www.chiark.greenend.org.uk/~sgtatham/putty/download.html). 
+
+Vous pouvez prendre le fichier d'installation `.msi` qui est listé sur la page. Prenez bien garde à télécharger cela sur
+le site officiel, des copies frauduleuses existent et contiennent des infections permettant aux pirates de récupérer les
+clés ou login/mot de passe utilisés !
+
+Ensuite, il faut lancer **PuttyGen** pour générer les clés. Veillez à bien générer des clés SSH-2-RSA et cliquez sur le
+bouton de génération. Le logiciel va vous demander de bouger la souris dans tous les sens pour utiliser ces mouvements
+aléatoires lors de la génération des clés.
+
+<Image
+    src="/img/docs/guides/webmastering/o2switch-ssh-cle-puttygen-1.png"
+    title="Génération d'une clé SSH avec PuttyGen"
+    caption="Génération des clés SSH avec PuttyGen"
+    alt="Capture d'écran du logiciel PuTTYGen pour générer une clé SSH"
+/>
+
+Une fois les clés générées, le logiciel vous proposer de les sauvegarder à l'aide de deux options : `save public key`
+et `save private key`. 
+Faites le en prenant garde à la clé privée qui doit rester secrète. Vous pouvez appeler la clé
+publique `id_rsa.pub` et la clé privée `id_rsa`. 
+
+#### Installation des clés SSH
+
+Une fois les clés générées, il faut les installer. Pour cela, il faut envoyer la clé publique `id_rsa.pub` sur le
+serveur dans le dossier `.ssh` qui se situe à la racine de votre hébergement.
+
+Pour cela, il faut copier/coller le contenu du fichier `id_rsa.pub` dans le fichier suivant (à créer s'il n'existe pas)
+: `~/.ssh/authorized_keys` (le dossier .ssh étant à la racine de votre hébergement).
+
+**Attention**, si vous avez utilisé `PuTTyGen` pour générer les clés, il faut copier/coller le contenu de la fenêtre
+visible dans le logiciel dans le fichier `~/.ssh/authorized_keys`. Le fichier généré par le logiciel `PuTTyGen` est dans
+un format différent pour le fichier `id_rsa.pub`.
+
+<Image
+    src="/img/docs/guides/webmastering/o2switch-ssh-puttygen-cle-prive.png"
+    title="Récupération de la clé SSH dans PuttyGen"
+    caption="La clé privée, au bon format, à récupérer dans PuTTyGen"
+    alt="Capture d'écran du logiciel PuTTYGen qui explique comment récupérer la clé SSH"
+/>
+
+Vous pouvez utiliser le [gestionnaire de fichier](/cpanel/fichiers/gestionnaire-fichiers-web) de cPanel pour faire cela,
+ou bien [envoyer le fichier par FTP](/guides/configuration-logiciel/filezilla) ou encore, faire cela en ligne de
+commande directement (linux et mac) : 
+
+```bash title="Exemple d'envoi de la clé par SSH"
+cat ~/.ssh/id_rsa.pub | ssh identifiantcPanel@mondomaine.tld "cat >> ~/.ssh/authorized_keys"
+```
+
+Les droits du répertoire .ssh et des fichiers contenus dans ce répertoire sont très importants. Des mauvais droits dans
+ce dossier empêcheront la connexion (par sécurité). Voici les bons droits, à vérifier en cas de problème : 
+  * `Dossier .ssh` : chmod 700
+  * `Fichier .pub` (clé publique) : chmod 644
+  * `Fichier .key ou id_rsa` (clé privée, sur votre ordinateur) : chmod 400
+  * `Authorized_keys` (sur le serveur) : chmod 644
+
+Si vous êtes sur Mac ou Linux, la connexion SSH devrait à présent être possible automatiquement, sans indiquer de mot de
+passe. La clé privée est déjà bien installée dans votre client SSH.
+
+Si vous êtes sur Windows, vous utilisez sans doute PuTTy et il faut installer cette clé privée dans PuTTy. Pour cela,
+lancez le logiciel et ajoutez une nouvelle connexion en remplissant la case `Hostname` et en mettant un nom dans la case
+`saved sessions`. 
+
+Ensuite, il faut aller dans l'onglet `data` pour définir l'option `auto-login username` qui permet de garder en mémoire
+l'identifiant de connexion. 
+
+Après, il faut aller dans l'onglet `Auth` de la catégorie `SSH` pour définir la clé privée dans `private key file for
+authentification`. Enfin, il faut retourner une dernière fois dans l'onglet `sessions` pour enregistrer tout cela. 
+
+<Image
+    src="/img/docs/guides/webmastering/o2switch-ssh-configuration-putty-2.png"
+    title="Configuration de Putty pour l'authentification par clé SSH"
+    caption="Les différentes étapes de la configuration d'une clé privée et de l'authentification automatique dans PuTTy"
+    alt="Capture d'écran du logiciel PuTTY pour la configuration de l'authentification par clé SSH"
+/>
+
+La connexion en SSH est désormais possible, sans mot de passe, via le système de clés !
+
+## Limites de l'accès SSH
+
+L'accès SSH permet de gérer votre hébergement. Les usages courants (non exhaustif) de l'accès SSH sur nos hébergements
+sont :
+  * utilisation de la console pour manipuler les fichiers / dossiers
+  * génération d'archive zip et tar.gz de certains dossiers (attention, cela va utiliser le maximum de ressources à
+    disposition sur votre hébergement)
+  * sauvegarde de base de données avec mysqldump
+  * création de script bash ou autre (python)
+  * utilisation de la console de certains framework : la console Symfony par exemple, ou laravel, ou les autres
+    Frameworks utilisant des concepts similaires
+  * utilisation de la console sur des Framework Python, avec les virtualenv (cela est possible à l'aide de l'[outil
+setup python app](/cpanel/logiciels/hebergement-python-multi-version) de cPanel). Utilisation de `pip` possible pour
+installer des dépendances/outils   
+  * utilisation de ruby/ruby on rails via un environnement virtuel créé avec l'outil [setup ruby
+app](/cpanel/logiciels/hebergement-ruby-multi-version). Installation de dépendances avec `gem` et `bundler` possible.
+  * utilisation de la console de certains CMS, wp-cli pour Wordpress, drush pour drupal (+ bien d'autres CMS)
+  * utilisation des commandes [node et npm](/guides/nodejs/utiliser-binaire-nodejs-npm-yarn). Installation de
+dépendances possibles avec ces outils.   
+  * c'est possible de travailler dans un environnement virtuel node JS créé avec l'[outil setup nodejs
+app](/cpanel/logiciels/hebergement-nodejs-multi-version)
+  * versionnage et déploiement avec `git` ainsi que du CI/CD
+
+Ce qui n'est **pas possible** en revanche :
+  * installer de nouveaux paquets sur le système, à l'aide de `yum install` ou `apt-get`
+  * lancer des containers Docker ou des machines virtuelles
+  * installer des applicatifs type "serveurs"
+  * modifier les réglages du serveur : parefeu, configuration du serveur web
+  * de manière générale, tout ce qui demande les droits d'administration (root) ou des droits supérieurs à ceux d'un
+    compte utilisateur sur Linux
