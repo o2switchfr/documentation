@@ -80,7 +80,6 @@ const sidebars: SidebarsConfig = {
           ],
         },
         'nom-de-domaine/dns/configurer-txt-google-search-console',
-        'nom-de-domaine/acheter-un-domaine',
         'nom-de-domaine/pointage-domaine',
         'nom-de-domaine/renouveler-un-domaine',
         'nom-de-domaine/transferer-un-domaine',

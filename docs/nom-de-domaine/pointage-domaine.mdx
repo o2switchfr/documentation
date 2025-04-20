@@ -1,1 +1,132 @@
-https://faq.o2switch.fr/nom-de-domaine/pointage-domaine
+---
+title: Comment faire pointer un nom de domaine vers un hébergement o2switch ?
+sidebar_label: Pointage domaine
+description: Procédure pour faire pointer un nom de domaine vers un hébergement web o2switch
+image: /img/docs/nom-de-domaine/pointage-ip-manuel.png
+tags:
+  - nom de domaine
+  - zone dns
+  - dns
+  - authcode
+---
+# Comment faire pointer un domaine vers un compte o2switch ?
+
+Si vous avez des domaines chez un autre prestataire de domaine, vous pouvez les utiliser sur votre compte
+d'**[hébergement web](https://www.o2switch.fr/hebergement-illimite/)** o2switch. On parle de faire **pointer un domaine
+vers o2switch**.
+
+Vous avez trois possibilités si vous souhaitez utiliser un des domaines que vous gérez chez un autre registre :
+
+<Badge text="A" /> Vous pouvez transférer le domaine intégralement, afin qu'o2switch récupère la gestion complète du
+domaine. La gestion complète veut dire la gestion administrative et technique. Le domaine change de registre.
+
+<Badge text="B" /> Vous pouvez conserver le domaine chez le prestataire chez qui il se trouve actuellement et faire un
+**changement de DNS** pour faire pointer le domaine vers votre hébergement web o2switch. On parle d'un changement
+technique dans ce cas. La partie administrative ne change pas.
+
+<Badge text="C" /> Vous pouvez conserver les DNS de votre registre de domaine et faire pointer le nom de domaine
+manuellement vers l'adresse IP de votre hébergement o2switch. Cette méthode n'est pas recommandée mais reste possible.
+
+Après avoir fait pointer le domaine vers o2switch, avec l'une ou l'autre de ces méthodes, l'étape suivante consiste à
+configurer le domaine sur votre hébergement à l'aide de l'outil [domaines
+configurés](/cpanel/domaines/configuration-domaine).
+
+## Transfert complet du domaine
+
+Pour le transfert complet du domaine, il faut commencer par [commander le nom de
+domaine](https://clients.o2switch.fr/acheter-nom-de-domaine) sur votre espace client. 
+
+L'opération de transfert complète est payante, car cela renouvelle également le domaine pour 1 an. Vous pouvez faire
+cela avant l'expiration de votre domaine : dans ce cas, prévoyez 20-30 jours avant l'expiration du domaine car le
+transfert n'est pas immédiat. Une fois le domaine expiré, le transfert n'est plus possible. 
+
+Suite à cette commande, vous allez recevoir un email `transfert de domaine`. Ce mail explique la démarche de transfert
+de domaine et vous demande deux choses :
+  * le code de transfert de votre domaine, aussi appelé authcode ou eppcode. C'est une sorte de mot de passe associé à
+    votre domaine qui nous permet de le récupérer en gestion.
+  * le déblocage du nom de domaine.
+
+Si besoin, nous vous expliquons comment retrouver ces informations chez les prestataires suivants :
+
+  * [Récupérer le code de transfert chez Bookmyname](/nom-de-domaine/code-transfert/bookmyname)
+  * [Récupérer le code de transfert chez Gandi](/nom-de-domaine/code-transfert/gandi)
+  * [Récupérer le code de transfert chez OVH](/nom-de-domaine/code-transfert/ovh)
+  * [Récupérer le code de transfert chez Ionos/1&1](/nom-de-domaine/code-transfert/ionos-1and1)
+  * [Récupérer le code de transfert chez Online](/nom-de-domaine/code-transfert/online)
+
+Dés que vous avez le code de transfert, vous pouvez le renseigner dans votre espace client o2switch pour initier le
+transfert.
+
+Vous pouvez renseigner le code de transfert en naviguant dans `Gérer mes services` puis `Etat des domaines`, puis en 
+cliquant sur les `...` en face du domaine pour afficher le menu avec les actions possibles. L'une des actions sera
+d'initier le transfert de domaine.
+
+Généralement le transfert complet d'un domaine prend entre 5 et 7 jours. Parfois il y a une validation email.
+
+Passé le délai de 5 à 7 jours, si tout se passe bien, nous aurons récupéré la gestion du domaine et les DNS pointeront
+vers nos hébergements.
+
+Durant le transfert complet du domaine (5 à 7 jours), le domaine continue de pointer chez votre prestataire historique.
+C'est uniquement à la fin du transfert que le domaine pointera vers votre hébergement o2switch. Il n'y a pas de coupure
+"franche" du domaine durant ce temps de transfert.
+
+De votre côté, il ne faut pas oublier de configurer le domaine à l'aide de l'outil [domaines
+configurés](/cpanel/domaines/configuration-domaine) de cPanel. C'est l'outil qui permet de faire le lien entre votre nom
+de domaine et un répertoire, de votre choix, de votre hébergement. Vous pouvez faire cette opération avant, pendant ou
+après le transfert du domaine. 
+
+## Changement de DNS
+
+L'autre méthode consiste à garder le domaine chez le prestataire chez qui il est réservé mais changer les DNS associés
+au domaine. Cela aura pour effet de faire pointer l'intégralité du domaine vers nos offres d'hébergements (partie
+webmail et email).
+
+Les DNS à définir sur le domaine sont les suivantes :
+  * `ns1.o2switch.net`
+  * `ns2.o2switch.net`
+
+Ce changement de DNS est possible dans l'interface client de votre prestataire de domaine. Nous expliquons en détail
+cette opération pour les prestataires suivants :
+
+  * [Changer les serveurs DNS lorsque le domaine est chez Bookmyname](/nom-de-domaine/changer-dns/bookmyname)
+  * [Changer les serveurs DNS lorsque le domaine est chez OVH](/nom-de-domaine/code-transfert/ovh)
+  * [Changer les serveurs DNS lorsque le domaine est chez Ionos/1&1](/nom-de-domaine/code-transfert/ionos-1and1)
+  * [Changer les serveurs DNS lorsque le domaine est chez Gandi](/nom-de-domaine/code-transfert/gandi)
+  * [Changer les serveurs DNS lorsque le domaine est chze Online](/nom-de-domaine/code-transfert/online)
+
+Environ 24h plus tard le domaine pointera vers nos offres d'hébergements. 
+
+De votre côté, il ne faut pas oublier de configurer le domaine à l'aide de l'outil [domaines
+supplémentaires](/cpanel/domaines/configuration-domaine) de cPanel. C'est
+l'outil qui permet de faire le lien entre votre nom de domaine et un répertoire, de votre choix, de votre hébergement.
+Vous pouvez faire cette opération avant, pendant ou après le transfert du domaine. 
+
+## Pointage manuel avec l'adresse IP 
+
+Si vous ne souhaitez pas transférer totalement votre nom de domaine, ni changer les serveurs DNS (car vous avez 
+d'autres services que vous ne souhaitez pas modifier), une autre méthode consiste à faire pointer manuellement le 
+domaine vers l'adresse IP du serveur d'hébergement o2switch.
+
+Cela vous laisse la possibilité de faire pointer finement, uniquement ce que vous souhaitez, vers l'hébergement o2switch.
+
+Pour faire cela, vous aurez besoin de l'adresse IP de votre hébergement o2switch. Cette adresse IP peut se retrouver
+dans cPanel, dans le menu qui s'affiche à droite de la page d'accueil, dans la section `Shared IP Address`.
+
+<Image
+    src="/img/docs/nom-de-domaine/pointage-ip-manuel.png"
+    title="Comment retrouver l'adresse IP de votre hébergement o2switch"
+    caption="Vous pouvez retrouver l'adresse IP de votre hébergement o2switch depuis cPanel"
+    alt="Capture d'écran de cPanel expliquant comment récupérer l'adresse IP"
+/>
+
+## Changement de DNS puis transfert de domaine
+
+Ces méthodes ne sont pas incompatibles entres elles. 
+
+D'ailleurs, c'est recommandé de faire cela en deux étapes :
+  1. dans un premier temps, faire l'opération de changement de DNS. Cela aura pour effet de faire pointer le domaine
+     vers nos hébergements en 24h.
+  2. ensuite faire le transfert complet du nom de domaine. Le transfert complet prend 5 à 7 jours mais le changement de
+     DNS ayant été fait avant, le domaine pointe déjà vers nos hébergements et le délais est surtout administratif. Il
+     n'y aura pas de coupure du domaine ou de la prestation d'hébergement pendant ce temps. 
+
