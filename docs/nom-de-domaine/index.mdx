@@ -1,3 +1,133 @@
-https://faq.o2switch.fr/nom-de-domaine/start
-+
-https://faq.o2switch.fr/nom-de-domaine/gestion
+---
+title: Nom de domaine
+sidebar_label: Nom de domaine
+description: Cette page explique quelques notions essentielles concernant le fonctionnement des noms de domaines chez l'hébergeur o2switch
+tags:
+  - nom de domaine
+---
+# Nom de domaine
+
+Cette page regroupe différentes informations concernant les noms de domaines, à commencer par la définition d'un nom de
+domaine suivi des aspects techniques (serveurs DNS et zone).
+
+Sur cPanel, les outils principaux en relation avec les domaines sont : 
+- [Domaines configurés](/cpanel/domaines/configuration-domaine) - pour lister et configurer des domaines sur
+  l'hébergement
+- [Sous-domaine](/cpanel/domaines/configuration-sous-domaine) - pour lister/créer des sous-domaines 
+- [Zone Editor](/cpanel/domaines/editeur-zone-dns) - pour visualiser et modifier la zone DNS d'un nom de domaine
+
+En complément vous pouvez consulter les pages et catégories suivantes.
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />
+
+## Qu'est-ce qu'un nom de domaine ? Comment ça marche ?
+
+Un nom de domaine est l'adresse que va saisir un internaute pour accéder à un site internet et d'une manière plus
+générale pour accéder à une machine connecté sur internet. Par exemple, “o2switch.fr” est un nom de domaine.
+
+Un nom de domaine est un nom facile à retenir permettant de faire le lien avec une adresse IP, une succession de
+chiffres moins facile à retenir.
+
+Chaque machine connectée à internet possède une adresse IP, qui est une sorte de numéro d'identification attribué à
+chaque machine connectée sur internet. Par exemple, “109.234.160.6” est une adresse IP, en l’occurrence celle
+d'o2switch.fr.
+
+### Les différentes parties d'un nom de domaine
+
+Un nom de domaine est constitué de plusieurs parties :
+  * d'un nom, qui représente la "première" partie d'un nom de domaine, par exemple **o2switch**,
+  * et d'un suffixe, aussi appelé extension ou TLD, par exemple **.FR**
+  * les deux forment un nom de domaine : o2switch.fr
+
+Il y a plusieurs extensions de domaines. Lorsque vous achetez un nom de domaine, le prix du domaine ainsi que son
+renouvellement dépendent de l'extension de domaine. Vous pouvez retrouver [la liste des prix sur votre espace
+client](https://clients.o2switch.fr/domaine/prix-domaines).
+
+Après avoir réservé un nom de domaine, vous pouvez le configurer sur votre hébergement avec 
+[l'outil Domaines Configurés](/cpanel/domaines/configuration-domaine).
+
+Il existe également des sous-domaines, c'est-à-dire des parties qui vont s'ajouter avant le nom, par exemple :
+  * **test**.o2switch.fr est un sous-domaine
+  * **www**.o2switch.fr est également un sous-domaine. Celui-ci est un peu particulier car c'est plus ou moins une
+    "norme" sur internet de préfixer un nom de domaine de **www** mais ce n'est pas une obligation et reste un
+    sous-domaine.
+
+Lorsque vous achetez un domaine, par exemple `toto.com`, vous avez la liberté de créer tout ce qui précède le domaine.
+Par exemple `quelque-chose.toto.com`. 
+
+Il s'agit d'un sous-domaine et vous pouvez en créer depuis votre hébergement avec [l'outil
+Sous-domaine](/cpanel/domaines/configuration-sous-domaine).
+
+### C'est quoi un serveur DNS ? Quel est son rôle ?
+
+Un serveur DNS est un annuaire. C'est le service qui répond avec l'adresse IP qui se cache derrière un nom de domaine.
+
+Une `requête DNS` correspond à une question : quelle est l'adresse IP liée à un nom de domaine ?
+
+<Image
+    src="/img/docs/nom-de-domaine/explications_serveur_dns.png"
+    title="Schéma d'explication sur un serveur DNS"
+    caption="Exemple de fonctionnement d'un serveur DNS lors d'une requête sur un site web comme o2switch.fr"
+    alt="Schéma de fonctionnement d'un serveur DNS avec l'exemple d'une requête DNS"
+/>
+
+Lorsqu'un visiteur va sur un site internet, comme sur l'image précédente, il y a plusieurs étapes invisibles pour le
+visiteur mais qu'il est utile de comprendre lorsque vous avez des noms de domaines :
+
+1. En premier, il faut récupérer l'adresse IP du serveur hébergeant o2switch.fr. Pour cela, une requête DNS est envoyée
+   sur l'un des serveurs DNS associés au nom de domaine
+
+2. Le serveur DNS répond au client en donnant l'adresse IP d'o2switch.fr. Il stocke les associations "nom de domaine =
+   adresse IP" dans des fichiers de zones DNS. Sur cPanel, il faut utiliser l'outil "[Zone
+   Editor](/cpanel/domaines/editeur-zone-dns)" pour modifier ces zones et les pointages.
+3. Le visiteur interroge ensuite le serveur web hébergeant o2switch.fr en utilisant l'adresse IP. Sur le schéma
+   précédent, le visiteur demande la page index.
+
+4. Le serveur répond au client en lui fournissant la page (index.html) que le navigateur du visiteur va interpréter et
+   afficher. 
+
+En réalité, il y a des étapes supplémentaires, par exemple comment le visiteur connaît l'adresse IP du serveur DNS
+hébergeant o2switch.fr (ns1.o2switch.net) ? Mais cela dépasse le cadre de ce guide.
+
+## Serveurs DNS
+
+Lorsque vous avez un nom de domaine, au moins deux serveurs DNS doivent être associés à votre nom de domaine. La
+définition des serveurs DNS pour un nom de domaine se fait directement chez le registre chez qui vous avez commandé le
+nom de domaine.
+
+### Serveurs DNS d'o2switch
+
+Lorsque vous commandez un nom de domaine chez o2switch, par défaut nous configurons le nom de domaine avec nos serveurs
+DNS donc vous n'avez pas à vous en soucier.
+
+Si vous commandez le nom de domaine chez un autre prestataire, il est probable que ce prestataire configure le nom de
+domaine avec ces serveurs. Dans ce cas, il faut changer cela pour préciser nos serveurs qui sont les suivants :
+  * DNS primaire : **ns1.o2switch.net** (109.234.160.5)
+  * DNS secondaire : **ns2.o2switch.net** (109.234.161.5)
+
+### Comment modifier les serveurs DNS pour mettre ceux d'o2switch chez mon registre ?
+
+Voici des liens vers des guides expliquant comment changer les serveurs chez différents prestataires, cela afin de faire
+pointer les domaines vers votre hébergement :
+  * [Changer les serveurs DNS lorsque le domaine est chez bookmyname](/nom-de-domaine/changer-dns/bookmyname)
+  * [Changer les serveurs DNS lorsque le domaine est chez OVH](/nom-de-domaine/changer-dns/ovh)
+  * [Changer les serveurs DNS lorsque le domaine est chez 1&1](/nom-de-domaine/changer-dns/ionos-1and1)
+  * [Changer les serveurs DNS lorsque le domaine est chez Online.net](/nom-de-domaine/changer-dns/online)
+  * [Changer les serveurs DNS lorsque le domaine est chez Gandi.net](/nom-de-domaine/changer-dns/gandi)
+
+## Qu'est-ce qu'une zone DNS ?
+
+Les fichiers de zones DNS, sont les fichiers de configuration présents sur le serveur DNS (ns1.o2switch.net par exemple)
+contenant toutes les associations “nom de domaine ⇔ adresse IP”.
+
+Sur votre hébergement, vous pouvez consulter et modifier les zones DNS avec [l'outil Zone
+Editor](/cpanel/domaines/editeur-zone-dns).
+
+<Image
+    src="/img/docs/cpanel/domaines/edition-zone-dns.png"
+    title="L'outil d'édition de zone DNS avec les différentes zones"
+    caption="Présentation de l'outil zone editor de cPanel qui permet de gérer la zone DNS des domaines configurés sur l'hébergement"
+    alt="Capture d'écran montrant les différentes zones de l'outil d'édition de zone DNS"
+/>
