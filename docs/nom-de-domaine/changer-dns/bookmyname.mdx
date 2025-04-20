@@ -1,1 +1,85 @@
-https://faq.o2switch.fr/nom-de-domaine/changer-dns-bookmyname
+---
+title: Changer les serveurs DNS d'un nom de domaine chez Bookmyname
+sidebar_label: BookMyName
+description: Ce tutoriel explique comment changer les serveurs DNS d'un nom de domaine géré chez BookMyName
+image: /img/docs/guides/nom-de-domaine-changer-dns/
+tags:
+  - nom de domaine
+  - dns
+---
+# Modifier les serveurs DNS chez Bookmyname
+
+Ce tutoriel explique comment changer les serveurs DNS d'un nom de domaine qui est géré chez BookMyName.
+
+Nous allons voir comment configurer les serveurs DNS d'o2switch sur un nom de domaine réservé chez BookMyBame.
+Cela permet de faire pointer un nom de domaine vers votre [hébergement
+mutualisé](https://www.o2switch.fr/hebergement-illimite/) o2switch
+
+Commencez par vous connecter sur votre espace chez bookmyname, directement depuis la [page
+d'accueil](https://www.bookmyname.com) dans le menu du haut.
+
+<Badge text="1" type="danger" /> Ensuite, naviguez dans la rubrique `Compte` dans le menu supérieur. si vous êtes
+connecté, vous pouvez suivre [ce lien](https://www.bookmyname.com/manager.cgi) :
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/gerer_bookmyname.png"
+    title="Gérer le domaine chez Bookmyname"
+    caption="Accès à la gestion des domaines BookMyName"
+    alt="Capture d'écran de l'interface de BookMyName pour gérer les domaines"
+/>
+
+<Badge text="2" type="danger" /> Ensuite cliquez sur la "liste de mes noms de domaines", ou suivez [ce
+lien](https://www.bookmyname.com/manager.cgi?cmd=dld) si vous êtes connecté :
+
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/bookmyname_liste_domaine.png"
+    title="Accès à la liste des domaines chez Bookmyname"
+    caption="Accès à la liste des noms de domaines gérés chez BookMyName"
+    alt="Capture d'écran de l'interface de BookMyName pour accéder aux domaines gérés"
+/>
+
+La page suivante devrait afficher la liste des noms de domaines que vous gérez. 
+
+<Badge text="3" type="danger" /> Cliquez sur le nom de domaine pour lequel vous souhaitez modifier les serveurs DNS.
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/bookmyname-gestion-domaine.png"
+    title="Liste des domaines gérés chez Bookmyname"
+    caption="Liste des noms de domaines en gestion chez Bookmyname"
+    alt="Capture d'écran de la liste des domaines gérés chez Bookmyname"
+/>
+
+
+<Badge text="4" type="danger" /> Ensuite, cliquez sur "modifier" au même endroit où sont précisés les serveurs DNS
+actuels comme sur la capture ci-dessous :
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/bookmyname-modifier-dns-1.png"
+    title="Modifier les serveurs DNS d'un domaine chez Bookmyname"
+    caption="Modifier les serveurs DNS d'un nom de domaine chez Bookmyname"
+    alt="Capture d'écran de la page d'information d'un domaine Bookmyname"
+/>
+
+Le formulaire pour changer les serveurs DNS du nom de domaine s'affiche.
+
+<Badge text="5" type="danger" /> Renseignez les serveurs DNS d'o2switch : 
+- `ns1.o2switch.net`
+- `ns2.o2switch.net`
+
+<Badge text="6" type="danger" /> Validez le changement de DNS
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/changer-dns-domaine-bookmyname.png"
+    title="Mise en place des serveurs DNS d'o2switch"
+    caption="Installation des serveurs DNS d'o2switch sur un domaine géré par Bookmyname"
+    alt="Capture d'écran du formulaire de modification des serveurs DNS Bookmyname"
+/>
+
+Il faut patienter environ 24h avant que ce changement de DNS soit effectif et visible. 
+
+Durant ce temps, les visiteurs de votre site internet arriveront soit chez votre ancien prestataire, soit sur votre
+espace o2switch de manière aléatoire.
+
+Si votre site est installé des "2 côtés", aucune coupure ne sera visible.Vous pouvez suivre la propagation des DNS avec
+un outil comme [What's my DNS](https://www.whatsmydns.net/)
