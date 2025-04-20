@@ -1,1 +1,51 @@
-https://faq.o2switch.fr/nom-de-domaine/changer-dns-domaine-reserve-o2switch
+---
+title: Changer les serveurs DNS d'un nom de domaine chez o2switch
+sidebar_label: o2switch
+description: Ce tutoriel explique comment changer les serveurs DNS d'un nom de domaine géré chez o2switch
+image: /img/docs/nom-de-domaine/changer-dns/
+tags:
+  - nom de domaine
+  - dns
+---
+# Modifier les serveurs DNS réservé chez o2switch
+
+Ce tutoriel explique comment changer les serveurs DNS d'un nom de domaine qui est réservé chez
+[o2switch](https://www.o2switch.fr/infrastructures/).
+
+ Le changement de DNS d'un domaine réservé chez o2switch est possible via [l'espace client
+ o2switch](https://clients.o2switch.fr/).
+
+Dans un premier temps, [connectez-vous à l'espace client o2switch](https://clients.o2switch.fr/auth/connexion).
+
+Ensuite, naviguez dans la rubrique `Gérer mes services` via le lien présent dans le menu à gauche, puis dans
+l'onglet `État de mes domaines`. Vous pouvez également
+[cliquez-ici](https://clients.o2switch.fr/mes-produits/etat-domaines) en étant préalablement connecté pour accéder à
+cette page d'état des domaines.
+
+Ensuite il faut cliquer sur l'icone en forme de points `...` en face du domaine concerné puis cliquer sur `Changer les
+serveurs DNS`.
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/o2switch-changer-dns-1.png"
+    title="Changer les DNS d'un domaine réservé chez o2switch"
+    caption="Accès à l'outil de changement des serveurs DNS depuis l'espace client o2switch"
+    alt="Capture d'écran de l'espace client o2switch"
+/>
+
+La page suivante affiche le formulaire de changement de DNS.
+Vous pouvez changer les serveurs DNS associés à votre nom de domaine. Après la validation, vous allez recevoir un email
+quelques minutes plus tard vous informant de la prise en compte du changement. 
+
+Après ce mail, il faut patienter quelques heures avant que cela soit réellement effectif, le temps que les différents
+caches DNS expirent.
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/o2switch-changer-serveurs-noms-2.png"
+    title="Changement des serveurs DNS d'un domaine en gestion chez o2switch"
+    caption="Formulaire de changement des serveurs DNS d'un domaine réservé chez o2switch"
+    alt="Capture d'écran de l'espace client o2switch"
+/>
+
+Il faut patienter environ 24h avant que ce changement de DNS soit effectif et visible. 
+
+Vous pouvez suivre la propagation des DNS avec un outil comme [What's my DNS](https://www.whatsmydns.net/)

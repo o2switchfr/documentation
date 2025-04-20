@@ -1,1 +1,58 @@
-https://faq.o2switch.fr/nom-de-domaine/changer-dns-online
+---
+title: Changer les serveurs DNS d'un nom de domaine chez Online
+sidebar_label: Online
+description: Ce tutoriel explique comment changer les serveurs DNS d'un nom de domaine géré chez Online.net
+image: /img/docs/nom-de-domaine/changer-dns/modifier-serveur-dns-gandi-3.png
+tags:
+  - nom de domaine
+  - dns
+  - online
+---
+# Modifier les serveurs DNS chez Online.net
+
+Ce guide explique comment changer les **serveurs DNS** d'un nom de domaine réservé chez Online.net. Cette procédure
+permet de faire pointer un nom de domaine vers un [site web hébergé chez
+o2switch](https://www.o2switch.fr/hebergement-illimite/)
+
+Dans un premier temps, il faut se connecter sur l'interface client d'online (console) en suivant [ce
+lien](https://console.online.net/fr/login). 
+
+Ensuite, il faut aller dans la gestion des domaines en cliquant sur le lien `Domaine` du menu supérieur  :
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/changer-dns-online.net-1.png"
+    title="Console de gestion Online.net"
+    caption="Console de gestion Online.net. Il faut naviguer dans l'onglet des domaines"
+    alt="Capture d'écran de la console de gestion online.net"
+/>
+
+Ensuite, il faut cliquer sur le lien `configurer le nom de domaine` pour accéder à la page du gestion du domaine. 
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/changer-nameservers-online.net-2.png"
+    title="Configuration du nom de domaine chez Online"
+    caption="Configuration du domaine chez Online.net pour changer les DNS"
+    alt="Capture d'écran de la console de gestion online.net"
+/>
+
+
+Sur la page suivante, il faut cliquer sur l'onglet `Gestion des serveurs DNS` puis indiquer les serveurs DNS suivants :
+  * `ns1.o2switch.net`
+  * `ns2.o2switch.net`
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/changement-serveur-de-noms-online.net-3.png"
+    title="Changement de DNS d'un domaine réservé chez Online"
+    caption="Formulaire de changement de DNS pour un nom de domaine en gestion chez Online.net"
+    alt="Capture d'écran de la console de gestion online.net"
+/>
+
+
+Un message s'affichera indiquant que la modification a bien été prise en compte. 
+
+Il faut patienter environ 24h avant que ce changement de DNS soit effectif et visible. 
+
+Durant ce temps, les visiteurs de votre site internet arriveront soit chez votre ancien prestataire, soit sur votre
+espace o2switch de manière aléatoire. Si votre site est installé des "2 côtés", aucune coupure ne sera visible.
+
+Vous pouvez suivre la propagation des DNS avec un outil comme [What's my DNS](https://www.whatsmydns.net/)

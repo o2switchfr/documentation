@@ -1,1 +1,58 @@
-https://faq.o2switch.fr/nom-de-domaine/changer-dns-gandi
+---
+title: Changer les serveurs DNS d'un nom de domaine chez Gandi
+sidebar_label: Gandi
+description: Ce tutoriel explique comment changer les serveurs DNS d'un nom de domaine géré chez Gandi
+image: /img/docs/nom-de-domaine/changer-dns/modifier-serveur-dns-gandi-3.png
+tags:
+  - nom de domaine
+  - dns
+  - gandi
+---
+# Modifier les serveurs DNS chez Gandi.net
+
+Ce guide explique comment **modifier les serveurs DNS** d'un nom de domaine réservé chez Gandi.net. Cette procédure
+permet de faire pointer un nom de domaine vers un [espace d'hébergement web
+o2switch](https://www.o2switch.fr/hebergement-illimite/)
+
+
+Dans un premier temps, il faut se connecter sur l'interface client de Gandi à l'aide de [ce
+lien](https://id.gandi.net/fr/login).
+
+<Badge text="1" /> Une fois connecté sur le tableau de bord, il faut cliquer sur le lien `domaine` dans le menu situé tout à gauche. 
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/gestion-domaine-gandi-1.png"
+    title="Gestion des domaines gandi"
+    caption="Dashboard gandi, gestion des domaines"
+    alt="Capture d'écran de l'interface de Gandi pour gérer les domaines"
+/>
+
+<Badge text="2" /> Ensuite, il faut cliquer sur le nom de domaine pour lequel il faut changer les serveurs DNS. 
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/preference-domaine-gandi-2.png"
+    title="Accès aux informations d'un domaine Gandi"
+    caption="Accès à la page d'information du domaine en gestion chez Gandi"
+    alt="Capture d'écran de l'interface de Gandi pour gérer les domaines"
+/>
+
+<Badge text="3" /> Dans le deuxième menu, il faut aller dans la rubrique des `serveurs de noms` puis cliquer sur
+`modifier`, pour mettre les serveurs DNS d'o2switch qui sont :
+  * `ns1.o2switch.net`
+  * `ns2.o2switch.net`
+
+S'il y a d'autres serveurs DNS, il faut les supprimer, de telle sorte à n'avoir que deux entrées : celles d'o2switch. 
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/modifier-serveur-dns-gandi-3.png"
+    title="Modifier les serveurs DNS d'un domaine chez Gandi"
+    caption="Modifier les serveurs DNS d'un domaine chez Gandi pour le faire pointer vers o2switch"
+    alt="Capture d'écran de l'interface de Gandi pour changer les DNS d'un domaine"
+/>
+
+Il faut patienter environ 24h avant que ce changement de DNS soit effectif et visible. 
+
+Durant ce temps, les visiteurs de votre site internet arriveront soit chez votre ancien prestataire, soit sur votre
+espace o2switch de manière aléatoire. Si votre site est installé des "2 côtés", aucune coupure ne sera visible.
+
+Vous pouvez suivre la propagation des DNS avec un outil comme [What's my DNS](https://www.whatsmydns.net/)

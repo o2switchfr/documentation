@@ -1,1 +1,80 @@
-https://faq.o2switch.fr/nom-de-domaine/changer-dns-1and1
+---
+title: Changer les serveurs DNS d'un nom de domaine chez Ionos (ex 1&1)
+sidebar_label: Ionos - 1&1
+description: Ce tutoriel explique comment changer les serveurs DNS d'un nom de domaine géré chez Ionos (1&1)
+image: /img/docs/nom-de-domaine/changer-dns/changer-dns-1and1-o2switch-4.png
+tags:
+  - nom de domaine
+  - dns
+  - ionos
+---
+# Modifier les serveurs DNS chez Ionos / 1&1
+
+Ce guide explique comment configurer les serveurs DNS d'o2switch sur un nom de domaine qui est réservé chez Ionos (ex
+1&1). Cela permet de faire pointer un domaine vers l'**[hébergement
+internet](https://www.o2switch.fr/hebergement-illimite/)** o2switch.
+
+Dans un premier temps, connectez-vous sur votre interface client 1&1. Vous pouvez faire cela sur [cette
+page](https://login.ionos.fr/). 
+
+<Badge text="1" /> Une fois connecté, vous devez arriver sur la page visible ci-dessous. Sur cette page, cliquez sur
+l'un des liens de `gestion de votre nom de domaine`. Vous trouvez ces liens dans la barre à gauche ou via une des
+options présentées dans les cadres de la page d'accueil.
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/changer-dns-1and1-1.png"
+    title="Gestion des domaines"
+    caption="Sélection du nom de domaine dans l'interface client"
+    alt="Capture d'écran de l'interface de IONOS"
+/>
+
+<Badge text="2" />  Ensuite, il faut cliquer sur le lien de `gestion des noms de domaines` (si vous avez cliqué sur
+l'un des cadres dans l'étape précédente, ce n'est pas nécessaire).
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/changer-serveur-dns-1and1-2.png"
+    title="Gestion des domaines"
+    caption="Gestion des domaines chez IONOS"
+    alt="Capture d'écran de l'interface de IONOS"
+/>
+
+<Badge text="3" /> Ensuite, il faut cliquer sur le lien `modifier les paramètres DNS`, visible dans l'onglet des `noms
+de domaine`.
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/modifier-serveur-dns-1and1-3.png"
+    title="Modifier les serveurs DNS"
+    caption="Modifications des paramètres DNS chez IONOS"
+    alt="Capture d'écran de l'interface de IONOS"
+/>
+
+<Badge text="4" /> Sur l'écran suivant, il faut :
+  * Cocher la case `autres serveurs de noms`
+  * Indiquer `ns1.o2switch.net` en 1er serveur de nom
+  * Choisir `mes serveurs de noms secondaires` dans le menu déroulant
+  * Indiquer `ns2.o2switch.net` en 2ème serveur de nom
+  * Puis valider en cliquant sur le bouton `enregistrer`. Pensez à bien `revalider` en cliquant sur `oui` dans le pop-up qui va s'ouvrir. Une erreur courante est de quitter la page après cela mais il faut bien valider `deux fois`.
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/changer-dns-1and1-o2switch-4.png"
+    title="Modifier les serveurs DNS"
+    caption="Modifications des serveurs DNS chez IONOS pour installer ceux d'o2switch"
+    alt="Capture d'écran de l'interface de IONOS"
+/>
+
+<Badge text="5" /> Si tout se passe bien, un message en vert apparaît puis les DNS sont bien visibles dans le résumé du
+nom de domaine.
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/changer-dns-1and1-fin-5.png"
+    title="Les serveurs DNS sont changés"
+    caption="Les serveurs DNS o2switch ont été installés sur le domaine IONOS"
+    alt="Capture d'écran de l'interface de IONOS"
+/>
+
+Il faut patienter environ 24h avant que ce changement de DNS soit effectif et visible. 
+
+Durant ce temps, les visiteurs de votre site internet arriveront soit chez votre ancien prestataire, soit sur votre
+espace o2switch de manière aléatoire. Si votre site est installé des "2 côtés", aucune coupure ne sera visible.
+
+Vous pouvez suivre la propagation des DNS avec un outil comme [What's my DNS](https://www.whatsmydns.net/)

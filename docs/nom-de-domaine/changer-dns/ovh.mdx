@@ -1,1 +1,80 @@
-https://faq.o2switch.fr/nom-de-domaine/changer-dns-ovh
+---
+title: Changer les serveurs DNS d'un nom de domaine chez OVH
+sidebar_label: OVH
+description: Ce tutoriel explique comment changer les serveurs DNS d'un nom de domaine géré chez OVH
+image: /img/docs/nom-de-domaine/changer-dns/changer-dns-domaine-ovh-2.png
+tags:
+  - nom de domaine
+  - dns
+  - OVH
+---
+# Changer les serveurs DNS d'un chez OVH
+
+Ce guide explique comment **configurer les serveurs DNS d'o2switch** d'un nom de domaine qui a été réservé chez OVH.
+
+Cette procédure permet de faire pointer un nom de domaine vers un [compte d'hébergement
+web](https://www.o2switch.fr/hebergement-illimite/) o2switch
+
+Changer les serveurs DNS par les serveurs DNS de o2switch permet de faire pointer un nom de domaine (partie email + web)
+vers o2switch.
+
+## Procédure pour changer les serveurs DNS chez OVH
+
+Dans un premier temps, connectez-vous sur l'interface OVH via [ce
+lien](https://www.ovh.com/auth/?onsuccess=https%3A//www.ovh.com/manager&amp;ovhSubsidiary=FR).
+
+Une fois connecté, vous devez arriver sur la page d'accueil de OVH. 
+
+<Badge text="1" /> À partir de cette page d'accueil, il faut cliquer sur `Web Cloud` qui se situe dans
+le menu supérieur. 
+
+<Badge text="2" /> Ensuite il faut cliquer sur `Noms de domaines` afin de dérouler la liste de vos noms de
+domaines chez OVH. 
+
+<Badge text="3" /> Puis cliquer sur le domaine sur lequel vous souhaitez changer les serveurs DNS. 
+
+<Badge text="4" /> Une page avec les caractéristiques du domaine s'affiche, il faut cliquer sur l'onglet
+des `Serveurs DNS`.
+
+<Badge text="5" /> Puis cliquer sur `Modifier les serveurs DNS`.  
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/changer-serveurs-dns-ovh-1.png"
+    title="Procédure pour accéder au formulaire de changement de DNS chez OVH"
+    caption="Première étape pour changer les serveurs DNS d'un domaine réservé chez OVH"
+    alt="Capture d'écran de l'espace client OVH pour changer les serveurs DNS d'un domaine"
+/>
+
+<Badge text="6" /> Après avoir cliqué sur  `Modifier les serveurs DNS`, l'affichage de la page devrait changer et laisser apparaître un
+formulaire permettant de changer les DNS. Dans ce formulaire, il faut remplacer les serveurs existants pour indiquer
+les serveurs suivants :
+  * `ns1.o2switch.net` (109.234.160.5)
+  * `ns2.o2switch.net` (109.234.161.5)
+
+<Badge text="7" /> Il faudra valider le changement en cliquant sur `Appliquer la configuration`.
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/changer-dns-domaine-ovh-2.png"
+    title="Formulaire de changement de DNS chez o2switch"
+    caption="Changement des DNS d'un nom de domaine en gestion chez OVH. Configuration des DNS O2switch"
+    alt="Capture d'écran de l'espace client OVH pour changer les serveurs DNS d'un domaine"
+/>
+
+<Badge text="8" /> Ensuite l'affichage devrait changer une nouvelle fois. Les serveurs DNS de OVH doivent passer `En
+suppression` et les serveurs o2switch `En cours`. Cette étape peut prendre quelques heures à être effective. 
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/changement-dns-domaine-ovh-3.png"
+    title="Le changement de DNS est en cours"
+    caption="Les DNS sont en cours de changement chez OVH"
+    alt="Capture d'écran de l'espace client OVH pour changer les serveurs DNS d'un domaine"
+/>
+
+C'est terminé. 
+
+Il faut patienter environ 24h avant que ce changement de DNS soit effectif et visible. 
+
+Durant ce temps, les visiteurs de votre site internet arriveront soit chez votre ancien prestataire, soit sur votre
+espace o2switch de manière aléatoire. Si votre site est installé des "2 côtés", aucune coupure ne sera visible.
+
+Vous pouvez suivre la propagation des DNS avec un outil comme [What's my DNS](https://www.whatsmydns.net/)
