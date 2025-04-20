@@ -1,0 +1,349 @@
+---
+title: Comment héberger et déployer une application Symfony chez o2switch ?
+sidebar_label: Application Symfony
+description: Ce tutoriel explique comment héberger une application Symfony sur un hébergement web o2switch
+image: /img/docs/guides/php/TODO
+tags:
+  - guides
+  - php
+  - symfony
+---
+# Hébergement d'une application Symfony chez o2switch
+
+Sur cette page nous allons voir **comment héberger une application Symfony** sur un **[hébergement
+web](https://www.o2switch.fr/hebergement-illimite/)** o2switch et répondre aux questions courantes. 
+
+Il est bien évidemment possible de déployer une application conçu avec le Framework Symfony sur l'offre unique o2switch.
+L'hébergement est bien **compatible avec Symfony**.
+
+Ce guide est à compléter avec les [recommandations de déploiement de
+Symfony](https://symfony.com/doc/current/deployment.html).
+
+## Configuration du nom de domaine
+
+L'une des premières choses à configurer lorsque vous déployez une application Symfony est le nom de domaine. Une erreur
+fréquente consiste à configurer le nom de domaine au **mauvais endroit**, dans le mauvais dossier de votre hébergement. 
+
+En effet, si l'on suit la structure recommandé d'une application Symfony, le point d'entrée de l'application se situe
+généralement dans le dossier `/public` de votre application. Le domaine doit donc **pointer dans ce dossier `/public`**
+et non à la racine de votre projet.
+
+Cette configuration là se fait avec [l'outil domaine configurés](/cpanel/domaines/configuration-domaine) dans cPanel, il
+faut bien faire attention à modifier la `racine du document`, ce qui sera pré-rempli par défaut sera incorrect. 
+
+<Image
+    src="/img/docs/guides/php/symfony-racine-domaine.png"
+    title="Le domaine doit être associé au répertoire public de l'application symfony"
+    caption="Le domaine doit être lié avec le dossier public de l'application symfony"
+    alt="Capture d'écran de la configuration recommandée avec l'outil Domaines Configurés"
+/>
+
+## PHP, version et configuration
+
+Dans la plupart des cas, la version et la configuration par défaut de l'hébergement devrait convenir pour l'hébergement
+d'une application Symfony récente. 
+
+Néanmoins, vous pouvez utiliser [l'outil sélectionner une version de
+PHP](/cpanel/logiciels/hebergement-php-multi-version) pour :
+  * **choisir la version de PHP** que vous souhaitez utiliser,
+  * **choisir les modules PHP** qui sont chargés,
+  * **modifier le php.ini** 
+
+Si vous avez besoin d'une configuration spécifique, sûr mesure, c'est donc possible de faire cela avec l'outil de
+sélection de version de PHP de l'hébergement.
+
+Dans le premier onglet de l'outil de sélection de PHP, il est possible de choisir la version de PHP que vous souhaitez
+utiliser et cocher les modules qui doivent être chargés dans PHP.
+
+<Image
+    src="/img/docs/guides/php/symfony-version-php.png"
+    title="Sélection de la version de PHP et des modules PHP chargés"
+    caption="Il est possible de choisir la version de PHP utilisées et les modules PHP chargés"
+    alt="Capture d'écran de l'outil de sélection de version de PHP"
+/>
+
+Dans le deuxième onglet du sélecteur de version de PHP, vous pouvez modifier la configuration PHP. La majorité des
+réglages sont changeables, si quelque chose n'est pas présent, vous pouvez demander au support de l'ajouter pour vous
+(dans la limite du possible). 
+
+<Image
+    src="/img/docs/guides/php/symfony-configuration-php.png"
+    title="Modification de la configuration PHP de l'hébergement"
+    caption="Il est également possible de modifier la configuration du php.ini de l'hébergement"
+    alt="Capture d'écran de l'outil de sélection de version de PHP"
+/>
+
+## Bases de données
+
+Sur votre espace d'hébergement, il est possible de créer des **bases de données MySQL** et des **bases de données
+Postgresql**. 
+
+Dans la mesure du possible, on recommande plutôt l'usage de bases de données MySQL qui est mieux supporté
+par cPanel. La version de PostgreSQL proposé est malheureusement assez ancienne et sera peut être supprimée dans le
+futur.
+
+Dans les deux cas, il faut :
+
+  * Créer une nouvelle bases de données, à l'aide des outils [bases de données MySQL](/cpanel/bases-de-donnees/mysql) de
+    l'hébergement 
+  * Créer un utilisateur pour la base de données, toujours avec les mêmes outils 
+  * Donner les droits à l'utilisateurs sur la base de données 
+
+Ce processus là est expliqué en détails dans [ce guide](/cpanel/bases-de-donnees/mysql).
+
+Ensuite il faut mettre à jour le fichier de configuration de votre application, généralement le `.env` à la racine de
+votre projet :
+
+  * Le nom de la base de données sera ce que vous avez choisi précédemment
+  * Même chose pour l'identifiant/mot de passe 
+  * Pour l'adresse de la base de données, c'est `localhost` pour MySQL et `127.0.0.1` pour PostgreSQL (et pas localhost car cela risque de résoudre sur l'ipv6 et causer des problèmes de droits)
+
+Concernant la version de la base de données, pour MySQL nous utilisons actuellement **MariaDB 10.6** et pour PostgreSQL
+la **version 9.2**. *(Peut varier légèrement d'un serveur à l'autre)*
+
+```yaml
+# Exemple de configuration pour MySQL
+DATABASE_URL="mysql://NOM_UTILISATEUR:MOT_DE_PASSE@127.0.0.1:3306/db_name?serverVersion=mariadb-10.3.28"
+
+# Exemple pour Postgresql. Attention à bien utiliser 127.0.0.1 et pas localhost
+DATABASE_URL="postgresql://NOM_UTILISATEUR:MOT_DE_PASSE@127.0.0.1:5432/db_name?serverVersion=9&charset=utf8"
+```
+
+Attention aux carractères spéciaux dans les mots de passes que vous pouvez définir dans vos fichiers de configuration.
+Pour éviter des erreurs chronophages, générez des mots de passes alphanumériques pour vos utilisateurs de bases de
+données, quitte à les faire un peu plus long. 
+
+## CLI, SSH et Terminal
+
+Il est possible d'accéder en SSH sur un hébergement web o2switch. C'est même possible de plusieurs manières différentes :
+
+  * Avec un client SSH comme Putty ou le client SSH natif sur Linux
+  * Ou depuis l'outil Terminal dans cPanel, qui est un client SSH qui s'utilise dans le navigateur web
+
+### Via un client SSH
+
+Si vous souhaitez vous connecter en SSH depuis un client SSH comme Putty, la première étape est d'autoriser la connexion
+SSH depuis votre adresse IP.
+
+Cette autorisation peut être faites directement depuis cPanel et [l'outil Whitelist
+SSH](/cpanel/outils/exception-parefeu)
+
+<Image
+    src="/img/docs/guides/php/o2switch-ssh-liste-blanche-firewall.png"
+    title="Ajout d'une adresse IP en liste blanche"
+    caption="L'outil d'autorisation SSH permet d'ajouter une adresse IP en liste blanche"
+    alt="Capture d'écran de l'outil d'autorisation SSH d'o2switch"
+/>
+
+Dés que la liste demande de passage en liste blanche est effectuée, vous pouvez vous connecter en SSH en utilisant le
+**même identifiant/mot de passe que cPanel**. 
+
+Il faut utiliser le port par défaut (22) et utiliser le nom du serveur sur lequel se trouve votre compte (communiqué
+dans le mail `bienvenue chez o2switch`). Vous pouvez aussi utiliser un de vos nom de domaine à condition qu'il pointe
+directement sur l'hébergement.
+
+```bash
+ssh identifiant-cPanel@nom-serveur.o2switch.net
+```
+
+Dans un second temps, il est également possible de configurer une [authentification SSH par
+clés](/guides/webmastering/connexion-ssh), comme cela est expliqué dans [ce guide](/guides/webmastering/connexion-ssh).
+
+### Via l'outil Terminal
+
+Vous connecter en SSH directement depuis [l'outil Terminal](/cpanel/outils-avances/terminal-ssh-web) de cPanel. Cela
+peut dépanner, notamment si vous n'avez pas de client SSH comme Putty installé, tout se fait à partir d'un navigateur
+web.
+
+<Image
+    src="/img/docs/guides/php/terminal.png"
+    title="Outil terminal pour accéder en SSH à l'hébergement depuis le navigateur web"
+    caption="Un accès shell sans client SSH depuis cPanel"
+    alt="Capture d'écran de l'outil Terminal pour accéder en SSH depuis le navigateur web"
+/>
+
+### Logiciels installés
+
+La plupart des logiciels qui peuvent être utilisés dans l'écosystèmes Symfony sont installés nativement. Certains sont
+directement inclus dans le `PATH`, pour d'autres il est parfois nécessaires de faire [quelques
+modifications](/guides/nodejs/utiliser-binaire-nodejs-npm-yarn) (c'est le cas de npm, node, yarn).
+
+  * `composer` est installé nativement, en version 2. Si vous avez besoin d'une version différentes, c'est possible de
+    [l'installer localement sur votre compte](/guides/php/installer-composer).
+  * `php` utilisé directement sans le chemin complet utilisera la version de PHP sélectionner via le [sélecteur de
+    version](/cpanel/logiciels/hebergement-php-multi-version)
+  * `npm` et `node` sont installés mais nécessite [une manipulation
+    supplémentaire](/guides/nodejs/utiliser-binaire-nodejs-npm-yarn) pour être utilisé (sans devoir taper le chemin
+    complet vers l'exécutable)
+  * `yarn` n'est pas installé nativement mais cela peut [être fait très rapidement en suivant cette
+    procédure](/guides/nodejs/utiliser-binaire-nodejs-npm-yarn)
+  * `git` est installé nativement. Si cela passe par SSH, bien penser à autoriser l'accès via [l&#039;outil de liste
+    blanche](/cpanel/outils/exception-parefeu) (connexion entrante & sortante).
+
+Il y a quelques cas particuliers :
+
+  * `symfony` (cli) la commande Symfony n'est pas installé par défaut. Cela peut être installé mais généralement c'est
+    plutôt orienté pour le développement et/ou l'utilisation de Symfony Cloud donc ce n'est pas forcément recommandé
+    d'installer cela sur la production.
+
+Il y a quelques exceptions de logiciels qui ne sont pas installés, ni installable :
+
+  * `supervisord` n'est pas installé/installable à cet instant. Cependant il est généralement possible de le [remplacer
+    avec un système à base de tâche cron](/cpanel/outils-avances/tache-planifiee-cron#éviter-quune-commande-se-lance-plusieurs-fois).
+
+## Déploiement avec GIT et configuration
+
+La méthode de déploiement recommandé par Symfony est la méthode de déploiement par Git. Il existe plusieurs manières de
+déployer une application
+
+  * manuellement, en lançant les commandes en SSH, en clonant les données d'un dépôts GIT externe
+  * ou de manière automatisé, dans un processus de CI/CD (hors sujet de cet article)
+
+Dans un premier temps, nous allons voir comment déployer cela manuellement. Le sujet du CI/CD sera abordé plus tard ou
+dans un autre article, la documentation sera mis à jour à ce moment là.
+
+Cette partie peut être complétée avec les [recommandation de Symfony](https://symfony.com/doc/current/deployment.html).
+
+En résumé, pour déployer une application Symfony il faut :
+
+  * Se connecter en SSH à l'hébergement avec l'une des méthodes expliquées précédemment 
+  * Se placer dans le dossier qui va contenir l'application (ou directement créer le dossier avec `git clone`)
+  * Récupérer les fichiers de notre projet avec un `git clone` 
+  * Installer les dépendances du projet avec Composer. Si vous avez des erreurs, alors essayez en configurant d'abord
+    l'application puis en installant les dépendances.
+  * Configurer l'application en créant/modifiant le fichier `.env` et éventuellement les fichiers du dossier `config`.
+    Bien s'assurer de ne pas laisser l'application en mode développement.
+  * Si l'application à une base de données, il peut être nécessaire de créer les tables de la bases et chargées des
+    données 
+
+### Récupération des données
+
+Dans cette première étape, nous allons **récupérer les données** avec `git clone`. On peut utiliser le protocole HTTP ou
+SSH. Le protocole HTTP est recommandé dans ce cas précis car moins contraignant (pas besoin de liste blanche).
+
+```bash title="Récupération des données avec GIT"
+# Dans mon exemple, l'application se trouve dans /home/o2demo/mon-application
+cd /home/o2demo/mon-application
+git clone https://github.com/symfony/demo.git .
+
+# On peut aussi directement créer le dossier lors du git clone
+cd /home/o2demo/
+git clone https://github.com/symfony/demo.git mon-application
+
+# Rien n'empêche d'utiliser le protocole SSH de Git à la place de HTTP
+# Dans ce cas, bien penser aux listes blanches SSH pour l'hébergement
+cd /home/o2demo/
+git clone utilisateur@serveur-distant.fr:xxxxxxx/yyyyyyyyy.git
+```
+
+### Installation des dépendances PHP
+
+L'étape suivante consiste à installer les **dépendances PHP** du projet, avec l'aide de `composer`.
+
+```bash title="Installation des dépendances"
+cd /home/o2demo/mon-application
+composer install
+```
+
+### Configuration de l'application
+
+Ensuite il est nécessaire de configurer l'application, en mettant à jour le fichier `.env` qui se situe à la racine du
+projet. 
+
+Normalement ce fichier devrait être le seul à modifier, cependant si toutes les données pratiques n'ont pas été
+respectées, il peut être nécessaire de modifier des fichiers de configurations qui se trouve dans le dossier `config` de
+l'application. 
+
+```bash title="Configuration de l'application"
+cd /home/o2demo/mon-application
+# On peut modifier directement cela en ligne de commande avec VI
+vi .env
+```
+
+Si vous n'êtes pas à l'aise avec `vi`, vous pouvez utiliser le [gestionnaire de
+fichier](/cpanel/fichiers/gestionnaire-fichiers-web) de cPanel également. 
+
+Attention aux caractères spéciaux dans le fichiers `.env`, notamment dans les mots de passes qui peuvent y être défini.
+
+Pour les fichiers du répertoires `config`, s'il s'agit de fichier `.yaml`, prenez garde aux espaces. Le nombre d'espace
+/ indentation est important.
+
+Quelques exemples de choses à changer dans ce fichier `.env` (cela dépend évidemment de votre application) : 
+
+```bash title="Exemple de configuration"
+# Penser à passer en prod, en mode dev des informations confidentielles peuvent être affichées!
+APP_ENV=prod
+
+# Si vous utilisez une base de données, c'est à configurer. Dans le cas de MySQL & PostgreSQL, vous avez du les créer précédemment
+
+# Exemple avec sqlite
+DATABASE_URL=sqlite:///%kernel.project_dir%/data/database.sqlite
+# Exemple de configuration pour MySQL
+DATABASE_URL="mysql://NOM_UTILISATEUR:MOT_DE_PASSE@127.0.0.1:3306/db_name?serverVersion=mariadb-10.3.28"
+# Exemple pour Postgresql. Attention à bien utiliser 127.0.0.1 et pas localhost
+DATABASE_URL="postgresql://NOM_UTILISATEUR:MOT_DE_PASSE@127.0.0.1:5432/db_name?serverVersion=9&charset=utf8"
+
+# Si vous utilisez des emails, il faut configurer la connexion SMTP
+# Attention, des carractères spéciaux comme le "@" ou le "+" doivent être encodés
+
+# Par exemple avec https://www.urlencoder.org/ ou https://www.php.net/manual/en/function.urlencode.php
+MAILER_DSN=smtp://user:pass@smtp.example.com:port
+
+# Exemple concret 
+MAILER_DSN=smtp://noreply%40domain.com:mot%20de%20passe@xxxxxxxx.o2switch.net:465?verify_peer=0
+```
+
+### Bases de données, schemas, migration
+
+Si vous utilisez une base de données, vous aurez certainement besoin de créer les tables (schema) et vous aurez peut
+être besoin de charger des données.
+
+```bash title="Gestion de la base de données et des schémas"
+cd /home/o2tuto/mon-application 
+
+# Pas besoin de créer la base de données car c'est déjà fait aux étapes précédentes. Sauf dans le cas de sqlite
+php bin/console doctrine:database:create
+
+# Création des tables
+php bin/console doctrine:schema:create
+
+# Si vous utilisez le système de migration 
+php bin/console doctrine:migrations:migrate
+```
+
+### Vider et précharger le cache
+
+Enfin, il faut vider et éventuellement précharger le cache.
+
+```bash title="Vider le cache"
+cd /home/o2tuto/mon-application 
+
+php bin/console cache:clear
+
+php bin/console cache:warmup
+```
+
+## Composants spécifiques
+
+### Messenger Component
+
+Le composant [Messenger](https://symfony.com/doc/current/messenger.html) peut être mis en place à l'aide d'une [tâche
+cron](/cpanel/outils-avances/tache-planifiee-cron#éviter-quune-commande-se-lance-plusieurs-fois) sur l'hébergement. La
+tâche cron remplacera aisément Supervisor dans ce cas de figure.
+
+L'idée est de placer la commande `php bin/console messenger:consume` en tâche planifiée sur cPanel, par exemple toutes
+les 5 minutes, couplée avec l'option `time-limit` de messenger afin d'éviter que la commande se lance plusieurs fois en
+même temps. Si la commande est lancée toutes les 5 minutes (300 secondes), l'option `time-limit` peut être placée à 295
+secondes par exemple.
+
+Ainsi, il y a toujours un processus messenger qui s'occupe des traitements asynchrones et si celui-ci meurt pour une
+raison X ou Y, il sera relancé sous 5 minutes par l'outil de tâche planifiée de cPanel. 
+
+Voici un exemple de commande à placer en cron :
+
+```bash title="Exemple de tâche cron avec Messenger"
+php /home/o2demo/mon-application-sf/bin/console messenger:consume --time-limit=295 --memory-limit=128M async > /home/o2demo/log.txt  2>&1
+```
+
+Évidemment, les chemins seront à ajuster en fonction de votre hébergement (identifiant) ainsi que le dossier dans lequel
+se trouve le projet. Le nom de la `queue` messenger devra probablement être changé également (`async` dans l'exemple).

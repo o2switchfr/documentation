@@ -1,1 +1,39 @@
-https://faq.o2switch.fr/hebergement-mutualise/tutoriels-cpanel/difference-publichtml-www
+---
+title: Quelle est la différence entre le répertoire public_html et WWW sur un hébergement o2switch ?
+sidebar_label: public_html vs www
+description: Cette page explique la différence entre le dossier public_html et www sur un hébergement web o2switch
+hide_table_of_contents: true
+tags:
+  - www
+  - public_html
+---
+
+# Quelle est la différence entre le dossier public_html et www ?
+
+Sur l'**[hébergement web o2switch](https://www.o2switch.fr/hebergement-illimite/)**, deux dossiers possèdent exactement
+le même contenu : **public_html** et **www**. Quelle est la différence entre ces deux dossiers ? 
+
+En réalité, ces dossiers ne sont pas très différents, le dossier `www` peut être oublié même. 
+
+Sur cPanel, le dossier principal (celui qui contient votre nom de domaine principal) est le dossier `public_html`.
+
+Le répertoire `www` n'est pas vraiment un répertoire mais un lien symbolique vers le dossier public_html. En résumé,
+`www` est un raccourci vers le dossier `public_html`. 
+
+C'est pour cela que les dossiers affichent le même contenu et que toute action dans le dossier public_html est répliquée
+dans www (et inversement). 
+
+<Image
+    src="/img/docs/questions/cpanel-www-public_html-difference.png"
+    title="www est un raccourci, un lien symbolique vers public_html"
+    caption="Propriété du dossier www qui est un raccourci en réalité"
+    alt="Illustration de la différence entre public_html et www"
+/>
+
+Ce raccourci existe pour des raisons historiques et de compatibilité : certains (vieux) logiciels publient
+systématiquement dans le répertoire `www` à la racine du FTP. 
+
+Comme le logiciel n'accepte pas d'autres dossiers, le fait d'ajouter un lien symbolique (raccourci) permet au logiciel
+de fonctionner correctement. 
+
+**Pour simplifier** : Oubliez `www` et publiez vos données dans `public_html`

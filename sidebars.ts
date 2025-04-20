@@ -2,9 +2,7 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 
 
 const sidebars: SidebarsConfig = {
-
-
-  /**
+   /**
    * Sidebar for /nom-de-domaine/*
    */
   domainSidebar: [
@@ -272,6 +270,7 @@ const sidebars: SidebarsConfig = {
               },
               items: [
                 'guides/php/changer-version-php-et-php-ini',
+                'guides/php/heberger-application-symfony',
                 'guides/php/comment-activer-soap',
                 'guides/php/comment-augmenter-taille-upload',
                 'guides/php/comment-augmenter-temps-execution',

@@ -1,1 +1,31 @@
-https://faq.o2switch.fr/faq/puis-creer-plusieurs-base-de-donnees
+---
+title: Puis-je créer plusieurs bases de données MySQL sur mon hébergement o2switch ?
+sidebar_label: Nombre de base de données
+description: Sur un hébergement web o2switch, il est possible de créer plusieurs bases de données. Il n'y a pas de limite.
+hide_table_of_contents: true
+tags:
+  - mysql
+---
+# Puis-je créer plusieurs bases de données sur mon hébergement o2switch ?
+
+Sur un espace d'hébergement o2switch, vous pouvez **créer plusieurs bases de données mysql**. Vous pouvez même en créer
+autant que vous le souhaitez car il n'y a **pas de limite sur le nombre de bases de données** que vous pouvez créer. 
+
+C'est même recommandé de créer plusieurs bases de données et avoir **une base de données distincte par site** ou
+scripts/CMS que vous utilisez sur l'hébergement.
+
+> Une règle simple à retenir est : 1 script (ou CMS) = 1 base de données distincte = 1 utilisateur MySQL associé à cette
+> base = 1 mot de passe différent. 
+
+C'est l'outil [bases de données MySQL](/cpanel/bases-de-donnees/mysql) qui vous permet de : 
+  * créer une base de données (pas de limite)
+  * créer des utilisateurs MySQL
+  * attribuer les droits aux utilisateurs MySQL sur les bases données
+
+<Image
+    src="/img/docs/questions/creation-base-utilisateur-mysql.png"
+    title="Comment créer une base de données, un utilisateur et gérer les droits sur un hébergement o2switch"
+    caption="Comment créer une base de données, un utilisateur et gérer les droits sur un hébergement o2switch"
+    alt="Capture d'écran de l'outil de bases de données mysql sur un hébergement o2switch"
+/>
+

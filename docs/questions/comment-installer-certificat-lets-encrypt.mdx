@@ -1,1 +1,36 @@
-https://faq.o2switch.fr/tuto-rapide/comment-installer-certificat-ssl-lets-encrypt
+---
+title: Comment installer un certificat SSL gratuitement sur mon hébergement o2switch ?
+sidebar_label: Certificat SSL gratuit
+description: Tutoriel pour générer et installer gratuitement un certificat SSL sur l'hébergement 
+hide_table_of_contents: true
+tags:
+  - ssl
+---
+# Comment installer un certificat SSL Let's Encrypt ?
+
+Sur le compte d'[hébergement o2switch](https://www.o2switch.fr/hebergement-illimite/), il est possible d'**installer**
+en quelques clics un certificats SSL Let's Encrypt sur les domaines configurés sur l'hébergement. le fait d'installer un
+certificat SSL permet d'avoir le HTTPS sur un site internet. 
+
+Pour générer un certificat SSL Let's Encrypt, il faut suivre les étapes suivante : 
+
+<Badge text="A" /> [Se connecter sur l'hébergement cPanel](/guides/cpanel/comment-se-connecter)
+
+<Badge text="B" /> Se rendre dans [l'outil Let's Encrypt SSL](/cpanel/securite/lets-encrypt-ssl-gratuit/) qui se trouve
+dans la partie `Sécurité` de cPanel
+
+<Badge text="C" /> Cliquer sur `Générer` en face du domaine concerné 
+
+<Badge text="D" /> Sur la page suivante, il faut décocher les domaines se terminant par *.odns.fr* ou *.o2switch.net* ou
+les sous-domaines qui ne pointent pas vers l'hébergements puis valider
+
+<Badge text="E" /> L'installation du certificat SSL est terminée. Si vous avez un site WordPress, des étapes
+supplémentaires seront nécessaires pour [forcer l'utilisation du HTTPS sur
+WordPress](/guides/wordpress/forcer-https).
+
+<Image
+    src="/img/docs/questions/installation-certificat-ssl-lets-encrypt-1.png"
+    title="Génération d'un certificat SSL gratuit"
+    caption="Comment générer et installer gratuitement un certificat SSL sur l'hébergement o2switch"
+    alt="Capture d'écran de l'outils Let's Encrypt o2switch"
+/>
