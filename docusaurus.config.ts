@@ -75,7 +75,7 @@ const config: Config = {
     footer: {
       style: 'dark',
       links: [],
-      copyright: `© ${new Date().getFullYear()} <a class="footer__link-item" href="https://www.o2switch.fr" target="_blank">o2switch.fr</a>, Tous droits réservés.`,
+      copyright: `<a class="footer__link-item" href="https://www.o2switch.fr" target="_blank">© ${new Date().getFullYear()} o2switch.fr - Tous droits réservés</a>`,
     },
     prism: {
       theme: prismThemes.github, // nightOwlLight oneLight vsLight

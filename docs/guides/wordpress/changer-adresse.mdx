@@ -1,1 +1,151 @@
-https://faq.o2switch.fr/tuto-rapide/comment-changer-adresse-site-wordpress
+---
+title: Changer l'adresse d'un site WordPress chez o2switch avec WPTiger
+sidebar_label: Changer l'adresse du site
+description: Ce tutoriel explique changer l'adresse d'un site WordPress hebergé chez O2switch avec l'aide de WPTiger
+image: /img/docs/guides/wordpress/changer-adresse-site-wordpress-wptiger.png
+tags:
+  - guides
+  - wordpress
+  - wptiger
+---
+# Comment changer l'adresse d'un site WordPress existant ?
+
+Vous souhaitez peut-être changer l'adresse de votre site WordPress, par exemple pour adopter un nouveau nom de domaine.
+Cependant, votre site contient déjà du contenu, peut-être des années d'articles et d'images, et vous ne voulez pas tout
+recommencer.
+
+Ce guide vous explique comment changer correctement l'adresse de votre site WordPress [hébergé sur votre compte
+o2switch](https://www.o2switch.fr/), simplement et sans trop d'effort. 
+
+La première chose à savoir est que WordPress **enregistre beaucoup de choses dans la base de données** du site et
+**notamment l'adresse complète du site**, en dûr, à plusieurs endroits. 
+
+Cela implique que si vous souhaitez changer correctement l'adresse de votre site, il faut faire un
+**rechercher/remplacer** dans l'intégralité de la base de données du site. Il faudra **rechercher l'ancienne adresse du
+site** et la **remplacer par la nouvelle adresse**. 
+
+Cette opération là n'est pas simple mais heureusement tout est simplifié avec l'aide l'[outil WPTiger, la boite à outils
+pour WordPress](/cpanel/o2switch/wptiger/). 
+
+## Réserver le nouveau domaine
+
+La première étape consiste à **réserver votre nouveau nom de domaine**. Vous pouvez [commander un nouveau nom de
+domaine](https://clients.o2switch.fr/acheter-nom-de-domaine) depuis votre espace client.
+
+Si vous l'avez déjà fait, vous pouvez l'ignorer cette étape. 
+
+Si vous avez votre domaine chez un autre prestataire, assurez-vous de le faire pointer vers votre espace o2switch en
+[changeant les serveurs DNS](/nom-de-domaine) pour  `ns1.o2switch.net` et `ns2.o2switch.net`. 
+
+## Configurer le domaine sur l'hébergement web
+
+Ensuite, il faut **configurer le nouveau nom de domaine** sur l'hébergement web et le **faire pointer dans le dossier
+qui contient les fichiers du site** internet. 
+
+Si vous ne savez pas dans **quel dossier de votre hébergement** se trouve votre site actuel, vous pouvez trouver cela en
+suivant cette procédure dans l'ordre : 
+  - [Connectez-vous sur votre hébergement o2switch](/guides/cpanel/comment-se-connecter)
+  - Naviguez dans [l'outil Domaines Configurés](/cpanel/domaines/configuration-domaine) de votre espace web. Si votre
+    domaine est présent dans le tableau récapitulatif, vous pouvez retrouver le dossier avec lequel il est associé en
+    regardant la colonne `racine du document`
+  - Si votre domaine n'est pas présent dans [l'outil Domaines Configurés](/cpanel/domaines/configuration-domaine),
+   alors faites la même vérification avec [l'outil sous-domaine](/cpanel/domaines/configuration-sous-domaine)
+  - Sinon, cela signifie qu'il s'agit de votre domaine principal et dans ce cas, c'est forcément le dossier
+    `public_html`
+
+La configuration du nouveau domaine sur l'hébergement s'effectue avec l'[l'outil Domaines
+Configurés](/cpanel/domaines/configuration-domaine) sur cPanel. 
+
+<Image
+    src="/img/docs/guides/wordpress/changer-adresse-site-wordpress.png"
+    title="Configuration du nouveau domaine dans le même dossier que l'ancien domaine"
+    caption="Configuration du nouveau domaine dans le dossier du site existant"
+    alt="Capture d'écran de l'outil Domaines Configurés expliquant comment configurer le nouveau domaine au même endroit
+    que l'ancien"
+/>
+
+:::info
+Dans la capture d'écran, cela peut paraître un peu curieux de faire pointer le `nouveau-domaine.com` dans le dossier de
+l'ancien domaine qui se nomme toujours `ancien-domaine.fr`. 
+
+En réalité, ça ne change rien et ça n'est pas important du tout. Si cela vous perturbe, vous pouvez renommer le dossier
+pour le faire correspondre au nouveau domaine. La seule chose qui est importante est que le nouveau nom de domaine doit
+pointer dans le dossier qui contient les fichiers du site WordPress.
+:::
+
+## Changer l'adresse du site WordPress
+
+L'étape suivante consiste à changer l'adresse du site WordPress. C'est-à-dire qu'il faut rechercher toutes les
+occurrences de l'ancienne adresse du site dans la base de données et les remplacer par la nouvelle adresse. 
+
+Pour faire cela, il suffit de se rendre dans l'[outil WPTiger](/cpanel/o2switch/wptiger/) qui se trouve dans la partie
+`Outils Exclusifs` de cPanel. 
+
+Ensuite il faut cliquer sur `Gérer le site` en face du bloc correspond à votre site internet sur WPTiger. 
+
+Lorsque vous êtes sur la page de gestion du site dans WPTiger, il faut aller dans la section `Avancé` puis utiliser le
+formulaire `Changer l'adresse du site` puis valider. 
+
+Vous devez mettre l'adresse complète du site (avec le HTTP ou HTTPS devant donc) et faire attention à ne pas **ajouter d'espace à la fin** ou de **`/` supplémentaire** à la fin de l'adresse. C'est très important.
+
+<Image
+    src="/img/docs/guides/wordpress/changer-adresse-site-wordpress-wptiger.png"
+    title="Changer l'adresse d'un site WordPress avec WPTiger"
+    caption="WPTiger permet de changer l'adresse d'un site WordPress très facilement"
+    alt="Capture d'écran de l'outil WPTiger d'o2switch qui montre comment changer l'adresse d'un site WordPress"
+/>
+
+## Ajouter une redirection
+
+Enfin, mais ce n'est pas obligatoire, vous pouvez ajouter une redirection avec l'[outil redirections de
+cPanel](/cpanel/domaines/redirection-domaine) : de l'ancien domaine vers le nouveau. 
+
+Cela permettra à vos visiteurs de ne pas être dérouté mais c'est également bénéfique pour le SEO et éviter le contenu
+dupliqué.
+
+<Image
+    src="/img/docs/guides/wordpress/changer-adresse-site-wp-redirection.png"
+    title="Redirection de l'ancien domaine vers le nouveau"
+    caption="Ajout d'un redirection de l'ancien domaine vers le nouveau pour éviter le contenu dupliqué SEO"
+    alt="Capture d'écran de l'outil Redirection de cPanel expliquant comment ajouter une redirection de l'ancien domaine
+    vers le nouveau"
+/>
+
+## Changement non pris en compte
+
+### Vérifiez le wp-config.php
+
+Si vous utilisez une extension de sécurité sur votre site, comme SecuPress, le changement peut ne pas se faire
+correctement.
+
+Dans ce cas là, il faut vérifier le fichier `wp-config.php` de votre site car certaines extensions forcent l'URL et
+empêchent le changement.
+
+Il faut vérifier si ce type de code est présent : 
+
+```php title="Extrait du wp-config.php"
+define( 'WP_HOME', 'https://exemple.com' );
+define( 'WP_SITEURL', 'https://exemple.com' );
+```
+
+Si vous voyez ce type de code, vous pouvez le modifier en indiquant la nouvelle adresse de votre site WordPress.
+
+### Système de cache 
+
+Sur WordPress, il y a plusieurs systèmes de caches qui peuvent être activés et qui agissent à des couches différentes :
+- les caches HTTP qui conservent des pages HTML en mémoire 
+- les caches objets qui conservent le résultats d'opérations lourdes ou de requêtes SQL en mémoire
+
+Malheureusement, dans le cas d'un changement d'adresse de site, ces systèmes de caches peuvent être problématique.
+
+Si vous avez un système de cache HTTP (Litespeed, WPRocket, W3 Total cache), pensez à bien vider le cache depuis 
+l'administation de votre site. Ou, vous pouvez regarder pour supprimer manuellement le dossier `wp-content/cache` si
+le dossier existe.
+
+Si vous avez un système de cache objet, qui utilise Redis, Memcached ou APCu, alors il faut le vider également. 
+Vous devriez pouvoir faire cela depuis l'administration du site.
+
+Pour Redis et Memcache, vous pouvez également vider le cache depuis votre cPanel directement, dans la gestion des 
+outils, il y a une option de `Purge` : 
+- [Purge de Memcached chez o2switch](/cpanel/o2switch/memcached#gestion-de-linstance-memcached)
+- [Purge de Redis chez o2switch](/cpanel/o2switch/redis#gestion-de-linstance-redis)
