@@ -1,1 +1,97 @@
-https://faq.o2switch.fr/tuto-rapide/definir-o2switch-contact-technique-ovh
+---
+title: Comment définir o2switch en contact technique d'une prestation OVH ?
+sidebar_label: O2switch contact technique OVH
+description: Dans la cadre de l'offre commerciale de migration de site, vous pouvez définir o2switch en contact technique chez OVH
+hide_table_of_contents: true
+tags:
+  - questions
+---
+# Définir o2switch en contact technique d'une prestation OVH
+
+Dans le cadre de l'offre commerciale de [migration de site internet](https://www.o2switch.fr/changer-hebergeur-web/) qui
+est proposée par o2switch, nous pouvons être amené à vous demander de placer o2switch en tant que **contact technique**
+d'un nom de domaine ou d'une prestation d'hébergement commandée chez OVH. 
+
+Cette procédure **donne des accès techniques à o2switch à une prestation que vous avez chez OVH**. Cela évite de fournir
+vos codes OVH au support o2switch et de désactiver la double authentification OVH par exemple. Au final, cela est donc
+une procédure plus sécurisante et évitant le partage de mot de passe.
+
+Du côté d'o2switch cela nous permet de mieux vous assister dans les cas suivants :
+
+  * [changer les DNS d'un nom de domaine réservé chez OVH](/nom-de-domaine/changer-dns/ovh), pour par exemple le faire
+    pointer vers o2switch,
+  * faire des changements dans la zone DNS d'un nom de domaine réservé chez OVH et avec les DNS OVH,
+  * dans le cas d'une migration de site internet, cela nous permet de récupérer les accès FTP et base de données
+
+## Définir le contact technique d'o2switch
+
+Dans un premier temps, connectez-vous sur votre compte OVH. 
+
+Une fois connecté, cliquez sur votre identifiant client qui est présent tout en haut à droite. Ensuite cliquez sur la
+partie `Gestion des contact`.
+
+<Image
+    src="/img/docs/questions/ovh-contact-tech-1.png"
+    title="Connexion à l'interface d'OVH pour gérer les contacts techniques"
+    caption="Connexion à l'interface d'OVH pour gérer les contacts techniques"
+    alt="Capture d'écran du dashbord OVH pour l'ajout d'o2switch en contact technique"
+/>
+
+La page suivante va afficher toutes les prestations que vous avez chez OVH. Avant de définir o2switch en tant que
+contact technique sur une de vos prestations, il faut bien faire attention à la colonne `Service`. 
+
+En effet, OVH sépare les différents types de services donc il vous assurer de choisir la bonne ligne avec le bon service
+:
+  * `Mutualisé` si vous souhaitez donner à o2switch les droits d'accès à votre hébergement OVH. Cela nous permettra de
+    changer le mot de passe FTP pour récupérer vos données.
+  * `Domaine` si vous souhaitez donner à o2switch la possibilité de changer les DNS de votre nom de domaine. 
+  * Et si vous souhaitez donner les deux types de droits (gestion de l'hébergement + gestion du domaine) alors il faudra
+    faire l'opération deux fois, sur le service `Mutualisé` et `Domaine` 
+
+Pour donner les droits techniques à o2switch sur l'une de vos prestations, il faut donc chercher la bonne ligne
+correspondante, en faisant attention au `Nom du service` et au `Service`. Ensuite il faut cliquer sur l'icone 3 puis
+sur `Modifier les contacts`.
+
+<Image
+    src="/img/docs/questions/ovh-contact-tech-2.png"
+    title="Page avec la liste des prestations OVH pour changer le contact technique d'une prestation"
+    caption="Page avec la liste des prestations OVH pour changer le contact technique d'une prestation"
+    alt="Capture d'écran du dashbord OVH pour l'ajout d'o2switch en contact technique"
+/>
+
+Sur l'écran suivant qui s'affiche, il faut mettre le contact `ya60018-ovh` en tant que contact technique. `ya60018-ovh`
+correspond à un compte géré par o2switch et utilisé pendant les transferts de sites internet ou si vous avez besoin
+d'assistance sur une opération de changement de DNS. 
+
+<Image
+    src="/img/docs/questions/ovh-contact-tech-3.png"
+    title="Mise en place du contact ya60018-ovh o2switch chez OVH"
+    caption="Mise en place du contact ya60018-ovh o2switch chez OVH"
+    alt="Capture d'écran du dashbord OVH pour l'ajout d'o2switch en contact technique"
+/>
+
+
+Suite à cela, OVH va vous envoyer un email avec un lien pour valider le changement de contact technique. Ce mail sera
+également envoyé à o2switch pour confirmation. Il faut cliquer sur le lien présent dans l'email.
+
+<Image
+    src="/img/docs/questions/ovh-contact-tech-email-4.png"
+    title="Mail de confirmation du changement de contact technique OVH"
+    caption="Mail de confirmation du changement de contact technique OVH"
+    alt="Capture d'écran du dashbord OVH pour l'ajout d'o2switch en contact technique"
+/>
+
+Après avoir cliqué sur le lien présent dans l'email envoyé par OVH, il faut cliquer sur l'icône d'action puis sur
+`Accepter la demande`.
+
+<Image
+    src="/img/docs/questions/ovh-contact-tech-email-5.png"
+    title="Confirmation du changement de contact technique"
+    caption="Confirmation du changement de contact technique"
+    alt="Capture d'écran du dashbord OVH pour l'ajout d'o2switch en contact technique"
+/>
+
+Suite à cela, c'est au tour de o2switch de valider de son côté. A cet effet, dés que la démarche est effectuée de votre
+côté, n'hésitez pas à l'indiquer en contactant le support ou en répondant à l'échange qui est en cours avec le support
+concernant la migration de votre site internet ou changement de DNS.
+

@@ -242,6 +242,10 @@ const sidebars: SidebarsConfig = {
           label: 'Langages',
           collapsible: true,
           collapsed: false,
+          link: {
+            type: 'doc',
+            id: 'guides/langages-supportes-php-node-ruby-python'
+          },
           items: [
             {
               type: 'category',

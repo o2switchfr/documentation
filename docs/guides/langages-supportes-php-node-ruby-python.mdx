@@ -1,0 +1,202 @@
+---
+title: Quels sont les langages supportés sur l'hébergement web o2switch ? 
+sidebar_label: Langages
+description: Les hébergements web o2switch supportent plusieurs versions de PHP, NodeJS, Python et Ruby
+tags:
+  - guides
+---
+# Quels sont les langages de programmations supportés ?
+
+Sur un **[hébergement de site internet](https://www.o2switch.fr/hebergement-illimite/)** o2switch, plusieurs langages /
+runtime sont supportés :
+  * **Hébergement PHP**. Vous avez le **contrôle de tout l'environnement PHP**, le php.ini et la version de PHP depuis
+    l'outil [sélectionner une version de PHP](/cpanel/logiciels/hebergement-php-multi-version)
+
+    <ToolCard tool="lvephpsel" />
+
+  * **Hébergement Ruby**. Vous pouvez **déployer une application web ruby** avec l'[outil setup ruby
+    app](/cpanel/logiciels/hebergement-ruby-multi-version). L'outil permet de créer un environnement virtuel dans lequel
+    vous pouvez **choisir votre version de ruby** et installer vos dépendances avec **gem** et **bundler**
+
+    <ToolCard tool="lverubysel" />
+
+  * **Hébergement NodeJS**. Vous pouvez installer une application web nodeJS avec l'[outil setup nodejs
+    app](/cpanel/logiciels/hebergement-nodejs-multi-version). Vous pouvez créer votre environnement virtuel nodeJS et
+    **choisir la version de nodeJS** à utiliser, ainsi qu'**installer des dépendances avec npm**
+
+    <ToolCard tool="lvenodejssel" />
+
+  * **Hébergement Python**. Vous pouvez mettre en ligne une application web python avec l'[outil setup python
+    app](/cpanel/logiciels/hebergement-python-multi-version). Un environnement virtuel python sera créé, vous aurez la
+    main sur la **version de python à utiliser** et vous pouvez utiliser **pip** pour gérer les dépendances
+
+    <ToolCard tool="lvepythonsel" />
+
+## Tableau récapitulatif
+
+| Langage | Gestion dépendances | Versions proposées | Description |
+|---|---|---|---|
+| NodeJS<br/>[Setup Nodejs App](/cpanel/logiciels/hebergement-nodejs-multi-version) | [npm, yarn, bun](/guides/nodejs/utiliser-binaire-nodejs-npm-yarn) | 6, 8, 9, 10, 11, 12, 14, 16, 18, 20, 22  | Permet de mettre en ligne une application web nodeJS. Créé un environnement virtuel. Utilisable en SSH |
+| Python<br/>[Setup Python App](/cpanel/logiciels/hebergement-python-multi-version) | pip | 2.7, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10, 3.11, 3.12 | Permet d'installer une application web conçu en Python. Créé un environnement virtuel python. Utilisable en SSH. PIP installé. |
+| Ruby<br/>[Setup Ruby App](/cpanel/logiciels/hebergement-ruby-multi-version) | gem, bundler | 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 3.0, 3.1, 3.2, 3.3 | Permet d'installer une application web conçu en Ruby. Créé un environnement ruby. Gem installé. |
+| PHP<br/>[Sélectionner une version de PHP](/cpanel/logiciels/hebergement-php-multi-version) | [composer](/guides/php/installer-composer) | toutes versions de 4.4 ⇒ 8.3 inclus| Permet de choisir la version de PHP à utiliser, les modules chargés et la configuration du php.ini |
+
+## Chemin vers les différentes versions des exécutables
+
+Si vous avez besoin d'utiliser les commandes nodeJS, Python ou Ruby sur une version bien précise, vous retrouverez
+ci-dessous l'emplacement des différents exécutables. 
+
+Toutes les versions présentées ici devraient être installées, par défaut, sur tous les hébergements. Si vous avez une
+erreur, s'il manque une version, n'hésitez pas à contacter le support (mis à jour le 12/08/2023)
+
+### Versions de NodeJS
+
+Sur l'offre d'hébergement o2switch, toutes les versions stables de NodeJS sont proposées, de **nodeJS 6 jusqu'à nodeJS
+22 inclus** (MAJ: 20/04/25).
+
+```bash title="Chemin vers les différentes versions des exécutables NodeJS"
+# Dans le dossier de node, vous retrouverez également d'autres exécutables comme 
+# gyp, npm, npx
+/opt/alt/alt-nodejs6/root/usr/bin/node
+/opt/alt/alt-nodejs8/root/usr/bin/node
+/opt/alt/alt-nodejs10/root/usr/bin/node
+/opt/alt/alt-nodejs12/root/usr/bin/node
+/opt/alt/alt-nodejs14/root/usr/bin/node
+/opt/alt/alt-nodejs16/root/usr/bin/node
+/opt/alt/alt-nodejs18/root/usr/bin/node
+/opt/alt/alt-nodejs20/root/usr/bin/node
+/opt/alt/alt-nodejs22/root/usr/bin/node
+```
+
+### Versions de Python
+
+Sur l'Offre unique o2switch, toutes les versions de Pythons, de **Python 2.7 jusqu'à Python 3.13 sont installées**.
+(MAJ: 20/04/25)
+
+```bash title="Chemin vers les différentes versions des exécutables Python"
+# Dans le dossier de python, vous retrouverez également d'autres exécutables comme 
+# pip, pydoc, pyjwt
+/opt/alt/python27/bin/python2
+/opt/alt/python33/bin/python3
+/opt/alt/python34/bin/python3
+/opt/alt/python35/bin/python3
+/opt/alt/python36/bin/python3
+/opt/alt/python37/bin/python3
+/opt/alt/python38/bin/python3
+/opt/alt/python39/bin/python3
+/opt/alt/python310/bin/python3
+/opt/alt/python311/bin/python3
+/opt/alt/python312/bin/python3
+/opt/alt/python313/bin/python3
+```
+
+### Versions de Ruby
+
+Sur l'offre d'hébergement web o2switch, toutes les versions de Ruby, de **Ruby 1.8 jusqu'à Ruby 3.3** sont proposées.
+(MAJ: 20/04/25)
+
+```bash title="Chemin vers les différentes versions des exécutables Ruby"
+# Dans le dossier de Ruby vous retrouverez également d'autres exécutables comme 
+# bundle, bundler, erc, gem, rake, rdoc
+/opt/alt/ruby18/bin/ruby
+/opt/alt/ruby19/bin/ruby
+/opt/alt/ruby20/bin/ruby
+/opt/alt/ruby21/bin/ruby
+/opt/alt/ruby22/bin/ruby
+/opt/alt/ruby23/bin/ruby
+/opt/alt/ruby24/bin/ruby
+/opt/alt/ruby25/bin/ruby
+/opt/alt/ruby26/bin/ruby
+/opt/alt/ruby27/bin/ruby
+/opt/alt/ruby30/bin/ruby
+/opt/alt/ruby31/bin/ruby
+/opt/alt/ruby32/bin/ruby
+/opt/alt/ruby33/bin/ruby
+```
+
+### Versions de PHP
+
+Sur l'Offre unique d'hébergement o2switch, toutes les versions de PHP, de **PHP 4.4 jusqu'à PHP 8.3** sont installées. 
+(MAJ: 20/04/25)
+
+```bash title="Chemin vers les différentes versions des exécutables PHP"
+/opt/alt/php44/usr/bin/php
+/opt/alt/php51/usr/bin/php
+/opt/alt/php52/usr/bin/php
+/opt/alt/php53/usr/bin/php
+/opt/alt/php54/usr/bin/php
+/opt/alt/php55/usr/bin/php
+/opt/alt/php56/usr/bin/php
+/opt/alt/php70/usr/bin/php
+/opt/alt/php71/usr/bin/php
+/opt/alt/php72/usr/bin/php
+/opt/alt/php73/usr/bin/php
+/opt/alt/php74/usr/bin/php
+/opt/alt/php80/usr/bin/php
+/opt/alt/php81/usr/bin/php
+/opt/alt/php82/usr/bin/php
+/opt/alt/php83/usr/bin/php
+```
+
+## Comment ajouter un exécutable a son $PATH ?
+
+Concrètement, comment on utilise tous ces chemins fournis précédemment ? En résumé, vous pouvez :
+
+  * soit utiliser le chemin complet vers l'un de ces exécutables. Donc ré-écrire à chaque fois
+    `/opt/alt/php82/usr/bin/php` par exemple.
+  * soit l'ajouter dans votre `$PATH`. C'est ce qui permet d'utiliser `php` à la place de `/opt/alt/php82/usr/bin/php`
+    par exemple
+
+Vous pouvez consulter [comment utiliser l'exécutable nodeJS](/guides/nodejs/utiliser-binaire-nodejs-npm-yarn) pour avoir
+un exemple d'intégration dans le `$PATH`.
+
+Le `$PATH` c'est une variable d'environnement qui contient une liste de dossier, séparés par des `:` dans lequel se
+trouvent les fichiers exécutables. En modifiant le `$PATH` vous pouvez ajouter des dossiers supplémentaires, pour rendre
+accessible plus de commandes sans devoir taper leurs chemins complets.
+
+Il y a plusieurs manières d'ajouter un chemin en priorité dans le `$PATH`. 
+
+Vous pouvez le faire de manière temporaire, ça restera actif dans votre session SSH / Terminal courante, comme cela : 
+
+```bash title="Modification du $PATH"
+# Attention : c'est le chemin vers le **dossier** contenant l'exécutable qu'il faut renseigner !
+# Donc /opt/alt/php82/usr/bin/
+# Et pas /opt/alt/php82/usr/bin/php
+export PATH="/opt/alt/php82/usr/bin/:$PATH"
+php -v 
+
+# Même chose pour les autres commandes, ça ne marche pas qu'avec PHP 
+export PATH="/opt/alt/ruby31/bin/:$PATH"
+ruby -v 
+
+export PATH="/opt/alt/python311/bin/:$PATH"
+python --version
+
+export PATH="/opt/alt/alt-nodejs20/root/usr/bin/:$PATH"
+node -v 
+
+# C'est possible d'ajouter plusieurs chemin en une seule fois dans le PATH
+# Pour par exemple choisir une version spécifique de Node ET Python
+# Les chemins doivent être séparés par un :
+export PATH="/opt/alt/alt-nodejs20/root/usr/bin/:/opt/alt/python311/bin/:$PATH"
+node -v 
+python -v
+```
+
+Vous pouvez également ajouter cette ligne dans le fichier `.bashrc` qui se trouve à la racine de votre hébergement. Cela
+sera exécuté à chaque lancement de votre shell et donc rendra permanent l'ajout.
+
+```bash title="Modification persistante du $PATH via le .bashrc"
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific aliases and functions
+
+# Ci-dessous, la ligne à ajouter 
+export PATH="/opt/alt/alt-nodejs20/root/usr/bin/:$PATH"
+```
+

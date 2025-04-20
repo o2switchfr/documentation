@@ -1,1 +1,26 @@
-https://faq.o2switch.fr/tuto-rapide/utiliser-smtp-externe
+---
+title: Puis-je utiliser un serveur SMTP externe ?
+sidebar_label: SMTP externes
+description: Sur un espace d'hébergement web o2switch, il est possible d'envoyer des emails en utilisant un serveurs SMTP externe
+hide_table_of_contents: true
+tags:
+  - dns
+  - questions
+---
+# Est-il est possible d'utiliser un serveur SMTP externe ? 
+
+Il est tout à fait possible d'utiliser un serveur SMTP externe sur un [compte d'hébergement
+o2switch](https://www.o2switch.fr/hebergement-illimite/).
+
+Peu importe le serveur SMTP utilisé (SendGrid, Mandrill, ElasticMail, Gmail, Mailjet, etc....).
+
+Généralement l'utilisation d'un SMTP externe se fait dans un script PHP, pour l'envoi de mails transactionnels ou des
+newsletters. 
+
+Il suffit de configurer le script PHP en question pour définir l'adresse du SMTP externe ainsi que l'identifiant/mot de
+passe à utiliser. 
+
+Les ports utilisés par les SMTP externes ne sont pas bloqués, en sortie, sur les hébergements. 
+
+Si vous utilisez un SMTP externe, pensez à mettre à jour vos enregistrements DKIM et SPF depuis l'outil
+[authentification](/cpanel/emails/delivrabilite-spf-dkim) dans cPanel, sinon vos messages risquent de passer en spam. 
