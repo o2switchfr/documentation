@@ -1,1 +1,214 @@
-https://faq.o2switch.fr/tutoriel-pour-commencer
+---
+title: Guide de démarrage chez o2switch
+sidebar_label: Pour commencer
+description: Découvrez comment débuter avec o2switch : guide complet pour configurer votre hébergement web et lancer votre site en toute simplicité.
+tags:
+  - guides
+---
+# Pour commencer chez o2switch 
+
+Vous venez de souscrire à un hébergement o2switch et vous vous sentez un peu perdu ? Avec tous ces outils et ce long
+email d'instructions, il est normal de se demander par où commencer. Vous êtes au bon endroit pour obtenir de l'aide.
+
+Ce guide répond à la plupart des questions que vous pouvez avoir tant que nouveau client. 
+
+Ce guide part du principe que vous avez **déjà commandé un espace d'hébergement**. Donc vous devriez déjà avoir reçu le
+mail intitulé `Bienvenue chez o2switch` qui donne tous les codes d'accès à l'hébergement.
+
+Si ce n'est pas le cas, alors il faut [passer commande d'un espace d'hébergement](https://clients.o2switch.fr/commander).
+
+## Distinction entre cPanel et l'espace client
+
+La première chose à savoir, et qui est souvent source de confusion, est que o2switch distingue **l'espace technique** de
+gestion de l'hébergement de **l'espace administratif**.
+
+Cela signifie que vous avez **deux interfaces de gestions**. **Ces deux interfaces sont distinctes** l'une de l'autre.
+Cela signifie que vous avez **deux identifiants et deux mots de passes différents** !
+
+<Badge text="A" /> **L'espace client** correspond à [clients.o2switch.fr](https://clients.o2switch.fr). Il s'agit de 
+l'espace administratif. 
+
+<Image
+    src="/img/docs/espace-client/dashboard-client.png"
+    title="Accueil de l'espace client o2switch"
+    alt="Page de connexion pour l'espace client o2switch"
+    caption="La page d'accueil de l'espace client o2switch"
+/>
+
+Sur l'espace client vous pouvez gérer tout ce qui est administratif et facturation. Par exemple, c'est la dessus que
+vous pouvez :
+* commander des nouveaux produits (noms de domaines, hébergements)
+* renouveler des produits existants
+* contacter le support à l'aide de l'interface de ticket
+* récupérer vos factures
+
+Vous choisissez vous même votre identifiant et mot de passe lorsque vous créez votre compte.
+
+<Badge text="B" /> **L'espace technique**, ou l'espace d'hébergement, correspond à ce que vous avez reçu dans le mail
+`Bienvenue chez o2switch`. On appelle cela également l'espace cPanel ou encore compte cPanel.
+
+<Image
+    src="/img/docs/cpanel/interface-o2switch-cpanel.png"
+    alt="Capture d'écran de cPanel"
+    caption="Capture d'écran de la page d'acceuil de cPanel avec les différentes catégories et outils"
+    title="Page d'accueil de l'interface technique" />
+
+Sur l'espace technique, cPanel, vous pouvez gérer tout ce qui est technique. Par exemple, c'est sur cPanel que vous
+pouvez :
+* créer des comptes emails
+* créer un compte FTP, ou des bases de données
+* configurer un domaine (l'achat se fait sur l'espace client)
+* mettre en ligne votre site internet
+* installer WordPress, etc…
+
+Les codes sont générés automatiquement envoyés dans le mail `Bienvenue chez o2switch`. L'adresse de connexion pour
+cPanel est de la forme suivante : https://xxxx.o2switch.net:2083. Le xxxx est à remplacer par le nom du serveur sur
+lequel se trouve votre hébergement.
+
+<Image
+    src="/img/docs/guides/cpanel/mail-bienvenue-o2switch.png"
+    title="Le mail Bienvenue chez O2switch avec les codes pour cPanel"
+    caption="Le mail Bienvenue chez o2switch contient tous les codes d'accès pour cPanel"
+    alt="Capture d'écran du mail Bienvenue chez o2switch"
+/>
+
+## Découverte de cPanel
+
+Grâce à vos accès reçus par email, vous pouvez vous [connecter sur cPanel](/guides/cpanel/comment-se-connecter). 
+
+Nous vous recommandons de faire un tour complet de cPanel, d'aller explorer les différentes fonctionnalités pour voir
+tout ce que vous pouvez faire avec votre espace d'hébergement. 
+
+La page d'accueil de cPanel est organisé en **plusieurs catégories** et dans chaque catégories il y a une liste
+d'outils.
+
+Si vous avez une question sur un outil présent dans cPanel, vous pouvez [consulter la documentation des
+outils](/cpanel). Chaque outil dispose d'une page qui explique à quoi sert l'outil et comment l'utiliser.
+
+Si besoin, vous pouvez également consulter [la chaine Youtube d'o2switch](https://www.youtube.com/@o2switch), qui
+contient une série de vidéos qui explique comment utiliser les outils.
+
+## Mettre en ligne votre site internet
+
+La première étape est d'installer votre site internet sur votre hébergement o2switch. Il y a plusieurs cas possible :
+  * Votre site est actuellement en ligne chez un autre hébergeur, il faut donc transférer le site de votre hébergement
+    vers l'hébergement o2switch
+  * Votre site est déjà conçu, vous avez les fichiers sur votre ordinateur
+  * Vous n'avez pas encore de site, vous souhaitez créer un nouveau site directement sur votre hébergement
+
+### Changer d'hébergeur, transférer son site internet
+
+Si vous venez de **changer d'hébergeur** pour venir chez o2switch, alors il faut **transférer votre site internet chez
+o2switch**. 
+
+Nous vous recommandons de consulter [les guides de migrations](/guides/migrations/) qui expliquent comment faire cela
+en détails.
+
+Si besoin, vous pouvez demander l'assistance du support technique. En effet, l'un des gestes commerciaux proposés et
+qu'on s'occupe de la [migration d'un site internet](https://www.o2switch.fr/changer-hebergeur-web/) pour chaque
+hébergement commandé. 
+
+Pour en profiter, il suffit de contacter le support technique. 
+
+### Mettre en ligne un site existant
+
+Si vous avez déjà créé un site internet et que vous avez les fichiers sur votre ordinateur, il reste à le mettre en
+ligne. 
+
+La procédure est similaire à celle pour changer d'hébergeur mais avec des étapes en moins car vous avez déjà les
+fichiers de votre site. 
+
+Pour mettre en ligne votre site sur votre hébergement o2switch, il faudra : 
+
+<Badge text="1" /> Renvoyer les fichiers de votre site internet sur votre hébergement o2switch.
+
+Pour faire cela, vous aurez besoin de :
+- [vous connecter sur l'interface technique](/guides/cpanel/comment-se-connecter) de votre hébergement 
+- [télécharger et configurer un logiciel de transfert de données](/guides/configuration-logiciel/filezilla)
+
+<Badge text="2" /> Créer une base de données, ainsi qu'un utilisateur MySQL
+
+Pour cela, vous aurez besoin d'utiliser [l'outil Bases de données MySQL](/cpanel/bases-de-donnees/) de l'hébergement.
+
+<Badge text="3" /> Exporter puis réimporter une copie de la base de données utilisée par votre site.
+
+Pour cela, vous aurez besoin [d'utiliser PhpMyAdmin pour réaliser une sauvegarde suivi d'une importation de
+données](/cpanel/bases-de-donnees/phpmyadmin).
+
+<Badge text="4" /> Mettre à jour le fichier de configuration de votre site internet 
+
+Vous pouvez faire cela avec l'aide de [l'outil Gestionnaire de fichier](/cpanel/fichiers/gestionnaire-fichiers-web) sur
+votre hébergement. L'outil permet d'éditer des fichiers sur votre hébergement, sans avoir besoin de faire un transfert
+FTP.
+
+Pour savoir ce qu'il faut modifier, vous pouvez [consulter la partie `Mise à jour du fichier de configuration du site`
+de ce guide de migration](/guides/migrations/changer-hebergeur#mise-à-jour-du-fichier-de-configuration-du-site).
+
+<Badge text="5" /> Configurer le nom de domaine sur votre hébergement.
+
+L'ajout et la configuration d'un nom de domaine se fait avec [l'outil Domaines
+Configurés](/cpanel/domaines/configuration-domaine).
+
+Si vous avez acheté le nom de domaine chez un autre registre, il faudra faire [pointer le domaine vers o2switch en
+changeant les serveurs DNS](/nom-de-domaine).
+
+### Créer un nouveau site internet
+
+Si vous n'avez pas encore créé votre site internet et que vous cherchez des solutions pour créer votre site internet,
+vous pouvez **installer un CMS** (script pré-conçu) à [l'aide de l'outil Softaculous](/cpanel/outils/installateur-softaculous) 
+
+<Image
+    src="/img/docs/tools/softaculous.png"
+    title="Softculous permet d'installer plus de 300 scripts"
+    caption="Softaculous permet d'installer rapidement plus de 300 scripts différents"
+    alt="Capture d'écran de Softaculous"
+/>
+
+Softaculous est un outil qui permet de **faciliter l'installation de scripts préconçus** sur votre hébergement. 
+
+L'outil propose plus de 300 scripts et CMS en installation automatique, il s'occupe de toute la partie technique
+(déploiement des fichiers, création de la bases de données etc…). 
+
+Par exemple, vous pouvez installer WordPress en 2-3 clics et quelques secondes avec Softaculous. Ensuite, vous pouvez
+créer votre site avec WordPress. Il s'agit du CMS le plus utilisé dans le monde pour créer des sites.
+
+Ces scripts pré-conçus répondent à des besoins divers et variés, vous pouvez explorer les différentes catégories de
+Softaculous. De votre côté, vous n'avez qu'à choisir vos réglages et préférences, comme l'identifiant et mot de passe.
+Softaculous installe ensuite le script de votre choix et vous pouvez ensuite utiliser le script en question. 
+
+Pour **créer un nouveau site internet**, nous **recommandons l'usage de WordPress** qui est relativement simple à
+prendre en main. C'est surtout le CMS le plus utilisé donc cela signifie que c'est facile de trouver de l'aide ou des
+ressources pour WordPress.
+
+Si vous avez besoin d'aide pour créer et apprendre à administrer un site WordPress, nous recommandons :
+  * [Le site de WPMarmite](Découvrir WordPress avec le site de WPMarmite), un site de référence dans le domaine
+  * [La formation de WPChef](https://wpchef.fr/)
+
+## Gestion des emails
+
+Vous avez sans doute besoin d'avoir des adresses emails sur votre espace d'hébergement. Sur votre compte d'hébergement,
+vous pouvez créer autant d'adresses emails que vous le souhaitez, nous n'avons pas de limite sur le nombre ou la taille
+des comptes emails.
+
+### Créer des comptes emails
+
+Vous pouvez créer des comptes emails avec l'outil [Comptes de Messageries](/cpanel/emails/adresse-email). 
+
+Le formulaire de création de compte email est simple, vous devez renseigner l'adresse à créer ainsi que le mot de passe
+souhaité.
+
+Vous n'avez pas de limite sur le nombre de comptes emails que vous pouvez créer. Concernant la taille des boites emails,
+vous pouvez choisir d'appliquer un quota ou de laisser cela en illimité. 
+
+### Utilisation des adresses emails
+
+Vous pouvez utiliser vos adresses emails de plusieurs manières différentes. 
+
+Le plus simple est de vous connecter sur le **[Webmail](/guides/emails/webmail/) de votre hébergement**. L'adresse du
+webmail est communiquée dans le mail `bienvenue chez o2switch`. Le webmail vous permet de consulter et envoyer des
+emails depuis votre navigateur web. 
+
+L'autre solution consiste à **configurer un logiciel de messagerie** ou l'application de mail sur votre téléphone.
+Dans ce cas, vous pouvez consulter la page qui référence [tous les tutoriels de configuration de logiciel de
+messagerie](/guides/emails/client/). Vous retrouverez des guides de configurations pour : Smartphone Android & Apple, 
+Outlook, Thunderbird, Mail (macOS)
