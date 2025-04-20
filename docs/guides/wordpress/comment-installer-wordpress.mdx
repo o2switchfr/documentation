@@ -1,0 +1,80 @@
+---
+title: Installer WordPress sur un hébergement web o2switch
+sidebar_label: Installer WordPress
+description: Ce tutoriel explique comment installer WordPress sur un hébergement o2switch avec l'aide de Softaculous
+image: /img/docs/guides/wordpress/installer-wordpress-o2switch-softaculous.png
+tags:
+  - guides
+  - wordpress
+  - softaculous
+---
+# Comment installer WordPress sur un hébergement web o2switch ?
+
+WordPress peut être installé très rapidement et simplement sur [les offres d'hébergements web
+o2switch](https://www.o2switch.fr/hebergement-illimite/).
+
+Pour **installer WordPress** sur un compte d'hébergement o2switch, il faut : 
+
+<Badge text="1" /> [Se connecter sur l'interface d'administration](/guides/cpanel/comment-se-connecter) de l'hébergement
+
+<Badge text="2" /> Cliquer sur "WordPress" qui est présent dans le bandeau
+[Softaculous](/cpanel/outils/installateur-softaculous)
+
+<Image
+    src="/img/docs/guides/wordpress/installer-wordpress-o2switch-softaculous.png"
+    title="Première étape d'installation de WordPress chez o2switch"
+    caption="Installer WordPress avec Softaculous"
+    alt="Capture d'écran de l'outil Softaculous pour installer WordPress"
+/>
+
+
+<Badge text="3" /> Cliquer sur le bouton `Installer` qui est visible dans le menu supérieur
+
+<Image
+    src="/img/docs/guides/wordpress/installation-wordpress-hebergement-o2switch.png"
+    title="Lancement de l'assistant d'installation"
+    caption="Lancement de l'assistant d'installation de WordPress"
+    alt="Capture d'écran de l'outil Softaculous pour installer WordPress"
+/>
+
+<Badge text="4" /> Ensuite, il faut remplir le formulaire en indiquant vos préférences d'installation.
+* `Version de WordPress` : il est recommandé de laisser la dernière version par défaut
+* `Protocole` : choisissez ce que vous préférez. Si vous prenez HTTPS, pensez à bien 
+  [installer gratuitement un certificat Let's Encrypt](/cpanel/securite/lets-encrypt-ssl-gratuit) avant !
+* `Domaine` : choisissez le nom de domaine sur lequel va être installé WordPress
+* `Dans le répertoire` : laissez vide si vous souhaitez installer WordPress à la racine de votre domaine
+* `Nom du site` : ce que vous souhaitez, c'est ce qui s'affichera dans le titre du site dans un navigateur web ou Google
+* `Description` : ce que vous voulez, cela va s'afficher dans Google plus tard, mais ça peut se changer dans WordPress
+* `Nom d'utilisateur` : l'identifiant qui va servir à vous connecter à l'administration de WordPress plus tard. Indiquez
+  ce que vous souhaitez et retenez-le
+* `Mot de passe` : choisissez un mot de passe suffisamment complexe
+* `Langue` : Laissez "Français" par défaut
+
+:::warning[Aucun certificat SSL de confiance trouvé]
+Si vous avez le message d'avertissement "Aucun certificat SSL de confiance trouvé", alors cela signifie que vous n'avez
+pas installé de certificat SSL sur votre nom de domaine.
+
+Vous pouvez installer un certificat SSL gratuitement avec l'aide de [l'outil Let's
+Encrypt](/cpanel/securite/lets-encrypt-ssl-gratuit) sur votre hébergement. 
+
+La génération du certificat SSL et son installation prennent quelques minutes, la procédure est simplifiée. La seule
+contrainte est que le nom de domaine doit pointer vers l'hébergement o2switch.
+:::
+
+<Badge text="5" /> Après avoir rempli les préférences, il faut cliquer sur `Installer` en bas de page
+
+<Image
+    src="/img/docs/guides/wordpress/installer-wordpress-o2switch.png"
+    title="Formulaire d'installation de WordPress"
+    caption="Le formulaire d'installation de WordPress vous demande toute vos préférences"
+    alt="Capture d'écran de l'outil Softaculous pour installer WordPress"
+/>
+
+<Badge text="6" /> Un petit résumé s'affiche, notez bien l'adresse du site et l'adresse de la page d'administration
+
+<Image
+    src="/img/docs/guides/wordpress/installation-wordpress-fin.png"
+    title="WordPress est installé"
+    caption="WordPress est installé, vous pouvez commencer à l'utiliser !"
+    alt="Capture d'écran de l'outil Softaculous pour installer WordPress"
+/>
