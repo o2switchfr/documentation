@@ -1,1 +1,265 @@
-https://faq.o2switch.fr/hebergement-mutualise/gestion-web/intro-wp-cli-wordpress-cmdline
+---
+title: Introduction à l'utilisation de WPCli pour gérer WordPress en ligne de commande chez o2switch
+sidebar_label: Utiliser WPCli
+description: Ce tutoriel explique comment installer et utiliser WPCli pour gérer WordPress en ligne de commande chez o2switch
+tags:
+  - guides
+  - wordpress
+  - softaculous
+---
+
+# Utiliser WPCli pour gérer WordPress en ligne de commande chez o2switch
+
+WordPress est un système de gestion de contenu très populaire et utilisé par des millions de personnes. Il peut être
+utilisé pour créer très facilement un site internet, créer du contenu, l'organiser et communiquer avec vos visiteurs. 
+
+La plupart des utilisateurs utilisent l'interface graphique de WordPress qui permet de gérer assez simplement son site
+internet.
+
+Cependant, WordPress dispose également d'un outil permettant de le gérer en ligne de commande : `wp-cli`. 
+
+A première vue cela peut paraître plus compliqué et il faut effectivement un temps d'adaptation. Cependant, une fois
+l'outil maîtrisé cela va vous permettre de gagner beaucoup de temps sur certaines tâches d'administration de votre site
+WordPress. 
+
+Le but de cet article est de présenter rapidement l'outil `wp-cli` au travers de quelques exemples pratiques et d'un
+guide pour l'installation de wp-cli sur un compte [d'hébergement web
+o2switch](https://www.o2switch.fr/hebergement-illimite/)
+
+## Installation de wp-cli
+
+Depuis Juin 2019, `wp-cli` est installé nativement sur les hébergements o2switch et est directement accessible en SSH
+via la commande `wp`. 
+
+La procédure d'installation reste utile si jamais vous souhaitez utiliser la dernière version de `wp-cli`
+
+WPCli s'utilise avec SSH. Vous pouvez vous connecter en SSH sur votre hébergement via deux méthodes : 
+- avec un [client SSH installé sur votre ordinateur](/guides/webmastering/connexion-ssh), par exemple PuTTy. Pour
+accéder en SSH à votre hébergement, il sera nécessaire de [configurer une exception sur votre adresse
+IP](/cpanel/outils/exception-parefeu) avec [l'outil autorisation SSH](/cpanel/outils/exception-parefeu) de votre
+hébergement. 
+- ou vous pouvez utiliser [l'outil Terminal](/cpanel/outils-avances/terminal-ssh-web), qui permet d'accéder à un shell
+  SSH depuis votre navigateur web
+
+
+Ensuite, il faut vous connecter en SSH et suivre le guide d'installation de
+[https://make.wordpress.org/cli/](https://make.wordpress.org/cli/).
+
+Voici ce qu'il faut faire : 
+
+```bash title="Installation de la dernière version de WPCli"
+# Une version de WPCli est déjà installé sur l'hébergement
+# Réinstallez WPCli uniquement si vous avez besoin de la dernière version
+
+# Téléchargement de wp-cli
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+
+# Déplacement de l'exécutable dans le dossier bin de votre hébergement
+mkdir ~/bin
+mv wp-cli.phar ~/bin/wp 
+chmod +x ~/bin/wp 
+
+# Pour rendre l'exécutable "wp" accessible depuis votre shell, il faut éditer le .bashrc
+vi ~/.bashrc
+# Il faut ajouter la ligne suivante : export PATH="~/bin:$PATH"
+# Si vous ne savez pas utiliser vi, lancez la commande suivante :
+cat << EOF >> ~/.bashrc
+export PATH="~/bin:\$PATH"
+EOF
+
+# Ensuite, vous pouvez testez wp-cli
+source ~/.bashrc
+wp --info
+```
+
+### Ajout de l'auto-complétion
+
+Wp-cli dispose de l'auto-complétion. L'auto-complétion est très pratique et permet de gagner du temps, c'est le système
+qui permet de compléter automatiquement une commande incomplète en utilisant la touche de tabulation du clavier. 
+
+Par exemple : 
+
+```bash title="Démonstration de l'auto-complétion de WPCli"
+wp com <tab><tab>
+# la commande sera automatiquement complétée par
+wp comment 
+# si on souhaite lister toutes les commandes wp-cli commançant par "c"
+wp c <tab><tab>
+# affichera 
+wp c
+cache     cap       cli       comment   core      cron
+```
+
+Ce système d'auto-complétion est très pratique pour deux choses :
+
+  * cela permet d'éviter de taper les commandes en intégralité au clavier, ce qui fait gagner beaucoup de temps.
+  * en cas de trou de mémoire, cela permet de retrouver rapidement les bonnes options sans devoir faire appel au manuel
+    ou à l'option `–help`. Exemple : "je sais que telle option commence par c …"
+
+Pour le mettre en place, il faut télécharger le fichier d'auto-complétion et le faire prendre en compte dans votre
+.bashrc au lancement de votre shell.
+
+```bash title="Installation de l'autocomplétion de WPCli"
+wget https://github.com/wp-cli/wp-cli/raw/master/utils/wp-completion.bash
+mv wp-completion.bash ~/bin
+vi .bashrc 
+# il faut ajouter, avant la modification précédente de préférence : source ~/bin/wp-completion.bash
+# ou sinon, vous pouvez lancer
+cat << EOF >> ~/.bashrc
+source ~/bin/wp-completion.bash
+EOF
+
+# Pour tester
+source ~/.bashrc
+wp c <tab><tab>
+```
+
+## Installer WordPress avec WPCli
+
+Pour commencer, vous pouvez consulter [la documentation](https://developer.wordpress.org/cli/commands/) de `wp-cli`,
+tous les exemples cités ici sont basés sur cette documentation.
+
+Pour commencer, nous allons installer un site WordPress avec WPCli.
+
+La première étape consiste à préparer le terrain en créant une base de données, un utilisateur et un mot de passe dans
+l'outil [base de données mysql](/cpanel/bases-de-donnees/mysql) de cPanel.
+
+Dans cet exemple, nous allons installer un site WordPress dans le répertoire `public_html` de l'hébergement. L'adresse
+du site pointant dans ce répertoire est http://o2alex.odns.fr.
+
+```bash title="Installer WordPress avec WPCli"
+# On télécharge WordPress
+wp core download
+# On génère le fichier de configuration
+# Attention aux caractères spéciaux dans le mot de passe qui peuvent être mal interprétés par le shell ! Préférez utiliser les caractères alphanumériques. 
+cd ~/public_html
+wp core config --dbname="o2alex_wp" --dbuser="o2alex_wp" --dbprefix="monwp_" --dbpass="mot de passe bdd"
+# On lance l'installation
+wp core install --url="http://o2alex.odns.fr" --title="Mon site WordPress" --admin_user="alexis" --admin_password="mon mot de passe" --admin_email="support@o2switch.fr"
+# On change la langue de WordPress, par défaut en anglais
+wp core language list
+wp core language install --activate fr_FR
+# Changement de la structure des liens pour ne conserver que le nom de l'article
+wp rewrite structure '/%postname%'
+```
+
+### Installer un thème personnalisé
+
+On va installer un nouveau thème disponible dans le listing des thèmes WordPress. La commande d'installation de thèmes
+accepte également un lien vers l'archive zip d'un thème ou directement le chemin vers un fichier zip de thème. 
+
+```bash title="Installer un thème WordPress avec WPCli"
+# Liste les thèmes trouvables dans l'installation
+wp theme list
+# Installe un nouveau thème 
+# https://fr.wordpress.org/themes/wck2014/
+wp theme install wck2014
+# On active le thème
+wp theme activate wck2014
+# Une erreur nous indique qu'il faut le thème parent
+wp theme install twentythirteen
+wp theme install wck2014
+```
+
+Pour aller plus loin, les sous-options de la partie thème de wp-cli sont [consultable
+ici](https://developer.wordpress.org/cli/commands/theme/).
+
+### Installer une extension WordPress
+
+On peut installer des extensions en ligne de commande. Par défaut, avec le nom d'un plugin cela va chercher dans les
+dépôts WordPress.
+
+La commande accepte également le chemin vers un fichier ZIP ou bien une adresse HTTP vers un zip de plugin.
+
+```bash title="Installer une extension WordPress avec WPCli"
+# On commence par lister les plugins détectés
+wp plugin list
+# On installe le plugin jetpack
+wp plugin install jetpack
+# On l'active, à noter qu'on peut aussi l'activer en même temps que l'installation avec --activate
+wp plugin activate jetpack
+```
+
+Il y a également d'autres options sur la rubrique plugin de wp-cli, c'est [expliqué
+ici](https://developer.wordpress.org/cli/commands/plugin/).
+
+### Gérer les mises à jours 
+
+Il est possible de gérer les mises à jours de WordPress, des plugins et des thèmes depuis l'outil wp-cli.
+
+Les mises à jours sont gérées modules par modules, c'est-à-dire qu'il faudra utiliser l'option `update` des modules
+`core`, `plugin` et `theme`. 
+
+Le fonctionnement est légèrement différent de la partie graphique où il est possible de tout mettre à jour d'un coup.
+
+```bash title="Gérer les mises à jour avec WPCli"
+# Est-ce que des MAJ sont disponibles ?
+wp core check-update
+# Mise à jour du coeur de WordPress
+wp core update
+# Mise à jour de la base de données (parfois nécessaire avec certaines grosses MAJ)
+wp core update-db
+# Est-ce qu'il y a des mises à jours plugin ?
+wp plugin update --all --dry-run
+# Mettre à jour tous les plugins
+wp plugin update --all
+# Même principe pour les thèmes
+wp theme update --all --dry-run
+wp theme update --all
+```
+
+### Gérer les commentaires 
+
+Wp-cli permet de gérer les commentaires en ligne de commande à l'aide du module `comment`. 
+
+```bash title="Gérer les commentaires avec WPCli"
+# Affiche le nombre puis la liste des commentaires
+wp comment count
+wp comment list
+# Approuve le commentaire id=2
+# Les id des commentaires sont visible avec 'list'
+wp comment approve 2
+# Passe un commentaire en spam
+wp comment spam 3
+```
+
+Il y a d'autres options pour la gestion des commentaires, c'est expliqué
+[ici](https://developer.wordpress.org/cli/commands/comment/).
+
+### Gérer le contenu du site
+
+Enfin, pour la dernière partie de ce guide, nous allons voir qu'il est possible de gérer le contenu avec wp-cli !
+
+Il est possible de créer, éditer des articles et pages en ligne de commande. Si vous connaissez un peu de code HTML ou
+n'utilisez pas des fonctions avancées nécessitant une interface graphique, cela peut représenter un gain de temps
+considérable.
+
+```bash title="Gérer le contenu du site avec WPCli"
+# Récupère la liste des articles
+wp post list
+# Création d'un nouvel article
+cat << EOF >> mon_article.txt
+Ceci est le contenu de mon article !
+EOF
+wp post create ./monPost --post_category=1 --post_title="Mon premier article wpcli"
+# On peut aussi éditer l'article depuis l'éditeur du système (vi, nano)
+wp post create --edit --post_category=1 --post_title="Mon premier article wp-cli avec l'editeur"
+# On peut éditer des billets existants 
+wp post edit 1
+# Mettre à jour des informations sur un article
+wp post update 2 --post_status=published
+```
+
+Plein d'autres actions sont possibles, la documentation sur les articles/pages est [disponible
+ici](https://developer.wordpress.org/cli/commands/post/).
+
+## Ressources
+
+Pour trouver de l'aide sur wp-cli, plusieurs possibilités :
+
+  * N'hésitez pas à utiliser l'autocomplétion pour découvrir les commandes disponibles et les différents arguments pour
+    ces commandes.
+  * [La page](https://developer.wordpress.org/cli/commands/) des commandes de base, du cœur de wp-cli est également très
+    simple à prendre en main.
+  * Vous avez également la commande `wp help`
+
