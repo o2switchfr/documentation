@@ -1,1 +1,119 @@
-https://faq.o2switch.fr/tuto-rapide/comment-forcer-ssl-https-wordpress/
+---
+title: Forcer l'utilisation du HTTPS sur un site WordPress chez o2switch avec WPTiger
+sidebar_label: Forcer le HTTPS
+description: Ce tutoriel explique comment forcer l'utilisation du HTTPS sur un site WordPress hébergé chez o2switch
+image: /img/docs/guides/wordpress/forcer-site-wordpress-https.png
+tags:
+  - guides
+  - wordpress
+  - softaculous
+---
+# Comment forcer le HTTPS sur un site WordPress existant ?
+
+Sur votre **[hébergement web](https://www.o2switch.fr/hebergement-illimite/) o2switch** , il est possible de **forcer
+l'utilisation du HTTPS** sur un site WordPress en quelques clics. 
+
+Cette procédure est habituellement complexe car nécessite de passer en revue l'ensemble de la base de données du site
+pour rechercher les occurences de l'adresse du site en HTTP pour les remplacer par la version HTTPS. Cela afin
+d'éviter [le problème de contenu mixte](https://developer.mozilla.org/fr/docs/Web/Security/Mixed_content).
+
+Heureusement tout cela est simplifiée avec [l'outil WPTiger](/cpanel/o2switch/wptiger/) qui se charge de tout cela pour
+vous.
+
+Pour forcer l'utilisation du HTTPS sur un site WordPress, il faut : 
+
+<Badge text="1" /> [Se connecter sur l'interface d'administration](/guides/cpanel/comment-se-connecter) de l'hébergement
+
+<Badge text="2" /> Si ce n'est pas déjà fait, [générez gratuitement un certificat
+SSL](/cpanel/securite/lets-encrypt-ssl-gratuit) avec Let's Encrypt SSL qui se trouve dans cPanel dans la catégorie
+`sécurité`
+
+<Badge text="3" /> Naviguer dans [l'outil WPTiger](/cpanel/o2switch/wptiger/) puis cliquez sur `Gérer mon site`. Le
+premier chargement peut être long, c'est normal, l'outil doit détecter tous les sites hébergés et récupérer les 
+informations de chaque site.
+
+<Badge text="4" /> Ensuite, il faut cliquer sur le bouton `Forcer le site en HTTPS` dans la section des `Informations
+techniques`
+
+<Badge text="5" /> Dans 95% des cas, le site devrait fonctionner à ce moment. Si ce n'est pas le cas, vous pouvez
+consulter la liste des choses à vérifier en fin de page. 
+
+:::info[Contenu mixte]
+Cette procédure permet de corriger la majorité [des problèmes de contenus
+mixtes](https://developer.mozilla.org/fr/docs/Web/Security/Mixed_content). 
+
+Le contenu mixte correspond à un site page d'un site internet sur laquelle toutes les ressources ne sont pas chargées en
+HTTPS. Le navigateur web considère ces ressources comme dangereuse et peut les bloquer. Cela peut provoquer des bugs
+d'affichages ou afficher un cadenas HTTPS orange dans le navigateur web. 
+:::
+
+<Image
+    src="/img/docs/guides/wordpress/forcer-site-wordpress-https.png"
+    title="Forcer l'utilisation du HTTPS sur un site WordPress hébergé chez o2switch"
+    caption="Comment forcer le HTTPS sur un site WordPress hébergé chez o2switch avec WPTiger"
+    alt="Capture d'écran de l'outil WPTiger qui montre comment forcer le HTTPS"
+/>
+
+
+## Changement non pris en compte
+
+### Elementor
+
+Si vous utilisez Elementor, il faut également réaliser le changement d'adresse depuis Elementor.
+
+En effet, Elementor ne stocke pas les données des pages de la même manière que WordPress. Du point de vue de WPTiger, 
+les données gérés par Elementor sont donc illisibles, il n'est pas en mesure de changer l'adresse correctement.
+
+Pour palier à cela, il faut utiliser l'outil de changement d'adresse fourni par Elementor pour corriger les quelques
+occurences restantes à l'ancienne adresse du site. 
+
+La procédure est expliquée [sur le site
+d'Elementor](https://elementor.com/help/i-changed-the-url-of-my-website-and-elementor-does-not-work-anymore/). Il faut
+faire ce qui est indiqué dans la rubique `Use Elementor tools to replace Elementor content`. 
+
+Donc il faut aller dans `Elementor` puis `Tools / Outils` et `Replace URL / Remplacer URL`
+
+<Image
+    src="/img/docs/guides/wordpress/replace-elementor.png"
+    title="Changer l'adresse d'un site Elementor"
+    caption="Outils pour changer l'adresse d'un site dans Elementor"
+    alt="Capture d'écran de l'outil de changement d'adresse de site d'Elementor"
+/>
+
+### Vérifiez le wp-config.php
+
+Si vous utilisez une extension de sécurité sur votre site, comme SecuPress, le changement peut ne pas se faire
+correctement.
+
+Dans ce cas là, il faut vérifier le fichier `wp-config.php` de votre site et regarder si l'adresse du site est forcé
+en HTTP à la place de HTTPS.
+
+Il faut vérifier si ce type de code est présent : 
+
+```php title="Extrait du wp-config.php"
+define( 'WP_HOME', 'http://exemple.com' );
+define( 'WP_SITEURL', 'http://exemple.com' );
+```
+
+Si vous voyez ce type de code, avec une référence à une adresse en HTTP, vous pouvez la modifier en HTTPS.
+
+### Système de cache 
+
+Sur WordPress, il y a plusieurs systèmes de caches qui peuvent être activés et qui agissent à des couches différentes :
+- les caches HTTP qui conservent des pages HTML en mémoire 
+- les caches objets qui conservent le résultats d'opérations lourdes ou de requêtes SQL en mémoire
+
+Malheureusement, en forçant le HTTPS, cela revient à changer l'adresse du site (http vers https) et les caches peuvent 
+être problématique dans ce cas.
+
+Si vous avez un système de cache HTTP (Litespeed, WPRocket, W3 Total cache), pensez à bien vider le cache depuis 
+l'administation de votre site. Ou, vous pouvez regarder pour supprimer manuellement le dossier `wp-content/cache` si
+le dossier existe.
+
+Si vous avez un système de cache objet, qui utilise Redis, Memcached ou APCu, alors il faut le vider également. 
+Vous devriez pouvoir faire cela depuis l'administration du site.
+
+Pour Redis et Memcache, vous pouvez également vider le cache depuis votre cPanel directement, dans la gestion des 
+outils, il y a une option de `Purge` : 
+- [Purge de Memcached chez o2switch](/cpanel/o2switch/memcached#gestion-de-linstance-memcached)
+- [Purge de Redis chez o2switch](/cpanel/o2switch/redis#gestion-de-linstance-redis)
