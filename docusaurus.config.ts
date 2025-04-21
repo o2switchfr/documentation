@@ -46,16 +46,30 @@ const config: Config = {
         },
       } satisfies Preset.Options,
     ],
-
   ],
-
+  themes: ['docusaurus-theme-search-typesense'],
   themeConfig: {
+    typesense: {
+      typesenseCollectionName: 'faqDev',
+      typesenseServerConfig: {
+        nodes: [
+          {
+            host: 'search.o2swit.ch',
+            port: 443,
+            protocol: 'https',
+          },
+        ],
+        apiKey: 'lcfiABERCeikf51SZNDHrRQl0n9RgbSm',
+      },
+      // Optional: Typesense search parameters: https://typesense.org/docs/0.24.0/api/search.html#search-parameters
+      typesenseSearchParameters: {},
+      contextualSearch: true,
+    },
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,
       respectPrefersColorScheme: true,
     },
-
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
       title: 'Documentation',
