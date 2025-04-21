@@ -10,7 +10,7 @@ const config: Config = {
   title: 'Documentation o2switch',
   tagline: "Documentation de l'hébergeur web o2switch",
   favicon: '/img/misc/favicon-alt.ico',
-  url: 'http://v2doc.odns.fr',
+  url: 'https://faq.o2switch.fr',
   baseUrl: '/',
   organizationName: 'o2switchfr', 
   projectName: 'documentation', 
