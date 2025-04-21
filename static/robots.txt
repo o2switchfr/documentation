@@ -1,4 +1,3 @@
 User-Agent: *
 Allow: /
-Disallow: /fichiers/demonstration-fausse-erreur-500/*
 Disallow: /tags/*

@@ -1,195 +1,211 @@
+# First, all the redirection from the old documentation to keep the SEO juice and avoid breaking all existing links
+RewriteEngine on
+RewriteRule ^wiki/welcome/?$ "/" [R=301,L]
+RewriteRule ^sidebar/?$ "/" [R=301,L]
+RewriteRule ^start/?$ "/" [R=301,L]
+RewriteRule ^playground/playground/?$ "/" [R=301,L]
+RewriteRule ^wiki/syntax/?$ "/" [R=301,L]
+RewriteRule ^wiki/dokuwiki/?$ "/" [R=301,L]
+RewriteRule ^politique-mise-a-jour/?$ "/" [R=301,L]
+RewriteRule ^include/outils-cpanel/?$ "/" [R=301,L]
+RewriteRule ^sidebar2/?$ "/" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/?$ "/cpanel" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/assitant/?$ "/cpanel" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/base-donnees-mysql/?$ "/cpanel/bases-de-donnees/mysql" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/mysql-distant/?$ "/cpanel/bases-de-donnees/mysql-distant" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/phpmyadmin/?$ "/cpanel/bases-de-donnees/phpmyadmin" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/domaines-compagnons/?$ "/cpanel/domaines/configuration-domaine" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/domaines-gares/?$ "/cpanel/domaines/configuration-domaine" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/sous-domaines/?$ "/cpanel/domaines/configuration-sous-domaine" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/entrees-mx/?$ "/cpanel/domaines/editeur-zone-dns" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/editeur-avance-zone-dns/?$ "/cpanel/domaines/editeur-zone-dns" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/editeur-zone-dns-zone-editor/?$ "/cpanel/domaines/editeur-zone-dns" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/redirections/?$ "/cpanel/domaines/redirection-domaine" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/comptes-courriels/?$ "/cpanel/emails/adresse-email" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/box-trapper/?$ "/cpanel/emails/antispam-boxtrapper" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/authentification-email-spf-dkim/?$ "/cpanel/emails/delivrabilite-spf-dkim" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-emails/antispam-cpanel/?$ "/cpanel/emails/filtre-antispam" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/spam-assassin/?$ "/cpanel/emails/filtre-antispam" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/comportement-antispam/?$ "/cpanel/emails/filtre-antispam" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/filtre-utilisateur/?$ "/cpanel/emails/filtre-email" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/filtrage-comptes/?$ "/cpanel/emails/filtre-email-global" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/importation-reacheminements/?$ "/cpanel/emails/import-massif-compte-email" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/renvois-automatiques/?$ "/cpanel/emails/redirecteur-email" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/adresse-defaut/?$ "/cpanel/emails/redirecteur-email" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/renvois-vers-script/?$ "/guides/emails/redirecteur-email-vers-script" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/repondeur-automatique/?$ "/cpanel/emails/repondeur-automatique" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/delivrabilite-suivre-remise/?$ "/cpanel/emails/suivi-remise-log-email" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/comptes-ftp/?$ "/cpanel/fichiers/comptes-ftp" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/sessions-ftp/?$ "/cpanel/fichiers/comptes-ftp" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/gestionnaire-fichier/?$ "/cpanel/fichiers/gestionnaire-fichiers-web" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/confidentialite-repertoire/?$ "/cpanel/fichiers/protection-repertoire-web" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/sauvegarde-jetbackup/?$ "/cpanel/fichiers/sauvegarde-jetbackup" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/niveau-utilisation-disque/?$ "/cpanel/fichiers/utilisation-disque" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-web/installer-nodejs-avec-cgi-node/?$ "/cpanel/logiciels/hebergement-nodejs-multi-version" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/app-nodejs/?$ "/cpanel/logiciels/hebergement-nodejs-multi-version" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/selecteur-version-php/?$ "/cpanel/logiciels/hebergement-php-multi-version" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/app-python/?$ "/cpanel/logiciels/hebergement-python-multi-version" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/app-ruby-ror-rake/?$ "/cpanel/logiciels/hebergement-ruby-multi-version" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/webalizer/?$ "/cpanel/mesures/analytics-awstats" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/ftp-webalizer/?$ "/cpanel/mesures/analytics-awstats" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/awstats/?$ "/cpanel/mesures/analytics-awstats" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/registre-acces-brut/?$ "/cpanel/mesures/erreurs-apache" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/registre-erreurs/?$ "/cpanel/mesures/erreurs-apache" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/utilisation-uc-ressources/?$ "/cpanel/mesures/suivi-usage-ressources" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/bande-passante/?$ "/cpanel/mesures/usage-bande-passante" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/derniers-visiteurs/?$ "/cpanel/mesures/visiteurs" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/ipxtender-selection-ip/?$ "/cpanel/o2switch/ipxtender-hebergement-multi-ips" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/litespeed-lscache/?$ "/cpanel/o2switch/litespeed-cache-webadc" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/memcached-manager/?$ "/cpanel/o2switch/memcached" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/pagespeed/?$ "/cpanel/o2switch/optimisation-pagespeed" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/redis-manager/?$ "/cpanel/o2switch/redis" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/tiger-protect/?$ "/cpanel/o2switch/tiger-protect-waf" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/gestion-univers-web-sous-comptes/?$ "/cpanel/o2switch/univers-web-sous-comptes" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/wptiger/?$ "/cpanel/o2switch/wptiger/" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/cache-varnish/?$ "/cpanel/o2switch/xtremcache-varnish" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/wordpress/?$ "/cpanel/o2switch/xtremcache-varnish" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/fichiers-statiques/?$ "/cpanel/o2switch/xtremcache-varnish" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/joomla/?$ "/cpanel/o2switch/xtremcache-varnish" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/prestashop/?$ "/cpanel/o2switch/xtremcache-varnish" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/php-generique/?$ "/cpanel/o2switch/xtremcache-varnish" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/symfony/?$ "/cpanel/o2switch/xtremcache-varnish" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/taches-cron/?$ "/cpanel/outils-avances/tache-planifiee-cron" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/terminal/?$ "/cpanel/outils-avances/terminal-ssh-web" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/whitelist-firewall/?$ "/cpanel/outils/exception-parefeu" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/softaculous/?$ "/cpanel/outils/installateur-softaculous" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/style/?$ "/cpanel/preferences" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/maj-info/?$ "/cpanel/preferences/coordonnees" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/langue/?$ "/cpanel/preferences/coordonnees" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/changer-mot-de-passe/?$ "/cpanel/preferences/mot-de-passe" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/imunify/?$ "/cpanel/securite/antivirus-imunify" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/imunify-360-scaleup/?$ "/cpanel/securite/antivirus-imunify" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/lets-encrypt-certificat-ssl/?$ "/cpanel/securite/lets-encrypt-ssl-gratuit" [R=301,L]
+RewriteRule ^faq/puis-je-avoir-https-sur-mon-site/?$ "/cpanel/securite/lets-encrypt-ssl-gratuit" [R=301,L]
+RewriteRule ^lets-encrypt-certificat-ssl/chaines-alternatives/?$ "/cpanel/securite/lets-encrypt-ssl-gratuit" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/cpanel-api-token/?$ "/cpanel/securite/token-api-cpanel" [R=301,L]
+RewriteRule ^tuto-rapide/comment-configurer-mx-google-apps/?$ "/guides/emails/configurer-mx-google-apps" [R=301,L]
+RewriteRule ^espace-client/start/?$ "/espace-client" [R=301,L]
+RewriteRule ^espace-client/mot-de-passe/?$ "/espace-client/auth/changer-mot-de-passe" [R=301,L]
+RewriteRule ^espace-client/inscription/?$ "/espace-client/auth/ouvrir-un-compte" [R=301,L]
+RewriteRule ^espace-client/facturation/?$ "/espace-client/commande/facturation" [R=301,L]
+RewriteRule ^espace-client/renouvellement-automatique/?$ "/espace-client/commande/renouvellement-automatique" [R=301,L]
+RewriteRule ^espace-client/contact-technique-administration/?$ "/espace-client/gestion-contact/" [R=301,L]
+RewriteRule ^offres-hebergement/start/?$ "/espace-client/offre" [R=301,L]
+RewriteRule ^migrer-offre-unique-vers-scaleup/?$ "/espace-client/offre" [R=301,L]
+RewriteRule ^offres-hebergement/delai-ouverture/?$ "/espace-client/offre/delai-ouverture" [R=301,L]
+RewriteRule ^offres-hebergement/engagement/?$ "/espace-client/offre/periode-engagement" [R=301,L]
+RewriteRule ^espace-client/transfert-propriete-trade/?$ "/espace-client/trade" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-web/?$ "/guides/" [R=301,L]
+RewriteRule ^tuto-rapide/start/?$ "/guides/" [R=301,L]
+RewriteRule ^tuto-rapide/comment-importer-grosse-base-donnees-commande/?$ "/guides/base-de-donnees/importer-grosse-base" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-web/phpmyadmin-independant/?$ "/guides/base-de-donnees/phpmyadmin-independant" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-web/base-donnees-utilisateurs-droits/?$ "/cpanel/bases-de-donnees/mysql" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-web/parametres-ftp/?$ "/guides/configuration-logiciel/" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-web/cyberduck-config-ftp/?$ "/guides/configuration-logiciel/cyberduck" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-web/filezilla-config-ftp/?$ "/guides/configuration-logiciel/filezilla" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-web/configuration-iweb/?$ "/guides/configuration-logiciel/iweb" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-web/configuration-open-element/?$ "/guides/configuration-logiciel/open-element" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-web/configuration-toweb/?$ "/guides/configuration-logiciel/toweb" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-web/configuration-webacappella/?$ "/guides/configuration-logiciel/webacappella" [R=301,L]
+RewriteRule ^tuto-rapide/comment-changer-mot-de-passe-cpanel/?$ "/guides/cpanel/changer-mot-de-passe" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/acceder-cpanel/?$ "/guides/cpanel/comment-se-connecter" [R=301,L]
+RewriteRule ^hebergement-mutualise/mot-de-passe-perdu/?$ "/guides/cpanel/mot-de-passe-perdu" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-emails/?$ "/guides/emails" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-emails/configurer-client-messagerie/?$ "/guides/emails/client" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-emails/configurer-windows-live-mail/?$ "/guides/emails/client/configurer-outlook" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-emails/configurer-outlook-2003/?$ "/guides/emails/client/configurer-outlook-2003" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-emails/configurer-icedove/?$ "/guides/emails/client/configurer-thunderbird" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-emails/configurer-mail-mac/?$ "/guides/emails/client/configurer-mail-mac" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-emails/configurer-outlook-2016/?$ "/guides/emails/client/configurer-outlook" [R=301,L]
+RewriteRule ^compte-importation-gmail-o2switch/?$ "/guides/emails/configurer-import-gmail" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/creation-filtre-email-cpanel/?$ "/guides/emails/creer-filtre-email" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-emails/differences-chiffre-vs-non-chiffre/?$ "/guides/emails/difference-chiffree-vs-non-chiffree" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-emails/differences-pop-vs-imap/?$ "/guides/emails/differences-pop-vs-imap" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-emails/probleme-envoi-email/?$ "/guides/emails/probleme-envoi-mail" [R=301,L]
+RewriteRule ^lesplus-site/serveur-sortant-smtp/?$ "/guides/emails/serveurs-smtp-sortant" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-emails/webmail/?$ "/guides/emails/webmail" [R=301,L]
+RewriteRule ^offres-hebergement/changer-hebergeur/?$ "/guides/migrations/changer-hebergeur" [R=301,L]
+RewriteRule ^deplacement-d-un-site-d-un-hebergement-a-vers-un-hebergement-b/?$ "/guides/migrations/deplacer-site-hebergement-o2switch" [R=301,L]
+RewriteRule ^tuto-rapide/transferer-site-wordpress-ovh-vers-o2switch/?$ "/guides/migrations/transferer-site-wordpress-ovh-vers-o2switch" [R=301,L]
+RewriteRule ^tuto-rapide/deployer-application-react-js/?$ "/guides/nodejs/application-reactjs" [R=301,L]
+RewriteRule ^nodejs/comment-installer-etherpad-hebergement-o2switch/?$ "/guides/nodejs/installer-etherpad" [R=301,L]
+RewriteRule ^nodejs/comment-installer-wikijs-hebergement-o2switch/?$ "/guides/nodejs/installer-wikijs" [R=301,L]
+RewriteRule ^tuto-rapide/comment-utiliser-binaire-node-npm/?$ "/guides/nodejs/utiliser-binaire-nodejs-npm-yarn" [R=301,L]
+RewriteRule ^nom-de-domaine/changer-dns-domaine-reserve-o2switch/?$ "/nom-de-domaine/changer-dns/o2switch/" [R=301,L]
+RewriteRule ^tuto-rapide/definir-o2switch-contact-technique-ovh/?$ "/questions/o2switch-contact-technique-ovh" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-web/choisir-version-php-et-php-ini/?$ "/guides/php/changer-version-php-et-php-ini" [R=301,L]
+RewriteRule ^tuto-rapide/comment-activer-soap/?$ "/guides/php/comment-activer-soap" [R=301,L]
+RewriteRule ^tuto-rapide/comment-augmenter-taille-upload-php/?$ "/guides/php/comment-augmenter-taille-upload" [R=301,L]
+RewriteRule ^tuto-rapide/augmenter-temps-execution-max-execution-time/?$ "/guides/php/comment-augmenter-temps-execution" [R=301,L]
+RewriteRule ^tuto-rapide/comment-changer-version-php-hebergement/?$ "/guides/php/changer-version-php-et-php-ini" [R=301,L]
+RewriteRule ^tuto-rapide/desactiver-cache-php/?$ "/guides/php/comment-desactiver-cache-php" [R=301,L]
+RewriteRule ^tuto-rapide/comment-afficher-erreurs-php/?$ "/guides/php/comment-forcer-affichage-erreurs-php" [R=301,L]
+RewriteRule ^hebergement-mutualise/installation-composer-o2switch/?$ "/guides/php/installer-composer" [R=301,L]
+RewriteRule ^tutoriel-pour-commencer/?$ "/guides/pour-commencer" [R=301,L]
+RewriteRule ^faq/est-ce-possible-installer-redmine/?$ "/cpanel/logiciels/hebergement-ruby-multi-version" [R=301,L]
+RewriteRule ^hebergement-mutualise/acces-ssh-shell-cli-cmdline/?$ "/guides/webmastering/connexion-ssh" [R=301,L]
+RewriteRule ^gestion-site/debug-page-blanche-erreur-500/?$ "/guides/webmastering/debuguer-page-blanche-erreur-500" [R=301,L]
+RewriteRule ^tuto-rapide/comment-forcer-https/?$ "/guides/webmastering/forcer-https" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-web/arborescence-dossiers-multisite/?$ "/guides/webmastering/structure-recommandee-multisite" [R=301,L]
+RewriteRule ^tuto-rapide/comment-changer-adresse-site-wordpress/?$ "/guides/wordpress/changer-adresse" [R=301,L]
+RewriteRule ^tuto-rapide/comment-installer-wordpress/?$ "/guides/wordpress/comment-installer-wordpress" [R=301,L]
+RewriteRule ^tuto-rapide/comment-forcer-ssl-https-wordpress/?$ "/guides/wordpress/forcer-https" [R=301,L]
+RewriteRule ^hebergement-mutualise/gestion-web/intro-wp-cli-wordpress-cmdline/?$ "/guides/wordpress/introduction-wpcli" [R=301,L]
+RewriteRule ^nom-de-domaine/start/?$ "/nom-de-domaine" [R=301,L]
+RewriteRule ^nom-de-domaine/gestion/?$ "/nom-de-domaine" [R=301,L]
+RewriteRule ^nom-de-domaine/achat/?$ "/espace-client/offre/nom-de-domaine" [R=301,L]
+RewriteRule ^nom-de-domaine/changer-dns-bookmyname/?$ "/nom-de-domaine/changer-dns/bookmyname" [R=301,L]
+RewriteRule ^nom-de-domaine/changer-dns-gandi/?$ "/nom-de-domaine/changer-dns/gandi" [R=301,L]
+RewriteRule ^nom-de-domaine/changer-dns-1and1/?$ "/nom-de-domaine/changer-dns/ionos-1and1" [R=301,L]
+RewriteRule ^nom-de-domaine/changer-dns-online/?$ "/nom-de-domaine/changer-dns/online" [R=301,L]
+RewriteRule ^nom-de-domaine/changer-dns-ovh/?$ "/nom-de-domaine/changer-dns/ovh" [R=301,L]
+RewriteRule ^nom-de-domaine/transfert/code-transfert-bookmyname/?$ "/nom-de-domaine/code-transfert/bookmyname" [R=301,L]
+RewriteRule ^nom-de-domaine/transfert/code-transfert-gandi/?$ "/nom-de-domaine/code-transfert/gandi" [R=301,L]
+RewriteRule ^nom-de-domaine/transfert/code-transfert-1and1/?$ "/nom-de-domaine/code-transfert/ionos-1and1" [R=301,L]
+RewriteRule ^espace-client/recuperer-code-de-transfert/?$ "/nom-de-domaine/code-transfert/o2switch" [R=301,L]
+RewriteRule ^nom-de-domaine/transfert/code-transfert-online/?$ "/nom-de-domaine/code-transfert/online" [R=301,L]
+RewriteRule ^nom-de-domaine/transfert/code-transfert-ovh/?$ "/nom-de-domaine/code-transfert/ovh" [R=301,L]
+RewriteRule ^tuto-rapide/comment-configurer-validation-txt-google-search-console/?$ "/nom-de-domaine/dns/configurer-txt-google-search-console" [R=301,L]
+RewriteRule ^nom-de-domaine/renouvellement/?$ "/nom-de-domaine/renouveler-un-domaine" [R=301,L]
+RewriteRule ^nom-de-domaine/transfert/?$ "/nom-de-domaine/transferer-un-domaine" [R=301,L]
+RewriteRule ^nom-de-domaine/verification-titulaire-waps/?$ "/nom-de-domaine/verification-titulaire" [R=301,L]
+RewriteRule ^faq/start/?$ "/questions/" [R=301,L]
+RewriteRule ^phishing/?$ "/questions/avertissement-phishing" [R=301,L]
+RewriteRule ^tuto-rapide/comment-installer-certificat-ssl-lets-encrypt/?$ "/questions/comment-installer-certificat-lets-encrypt" [R=301,L]
+RewriteRule ^faq/puis-creer-plusieurs-base-de-donnees/?$ "/questions/creer-plusieurs-bases-de-donnees" [R=301,L]
+RewriteRule ^hebergement-mutualise/tutoriels-cpanel/difference-publichtml-www/?$ "/questions/difference-public-html-et-www" [R=301,L]
+RewriteRule ^php/heberger-application-symfony/?$ "/guides/php/heberger-application-symfony" [R=301,L]
+RewriteRule ^faq/puis-je-heberger-plusieurs-sites-meme-offre/?$ "/questions/heberger-plusieurs-sites" [R=301,L]
+RewriteRule ^faq/quels-sont-langages-supportes-php-node-ruby-python/?$ "/guides/langages-supportes-php-node-ruby-python" [R=301,L]
+RewriteRule ^faq/quel-est-quota-maximum-boite-email/?$ "/questions/limite-taille-adresse-email" [R=301,L]
+RewriteRule ^faq/puis-je-creer-plusieurs-comptes-email-meme-offre/?$ "/questions/plusieurs-comptes-emails" [R=301,L]
+RewriteRule ^faq/quels-sont-les-serveurs-dns-o2switch/?$ "/questions/serveurs-dns-o2swich" [R=301,L]
+RewriteRule ^tuto-rapide/utiliser-smtp-externe/?$ "/questions/utiliser-smtp-externe" [R=301,L]
+RewriteRule ^support/start/?$ "https://www.o2switch.fr/support-hebergeur/" [R=301,L]
+RewriteRule ^hebergement-mutualise/start/?$ "/guides/pour-commencer" [R=301,L]
+
+
+# Force HTTPS 
+RewriteEngine On 
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTPS} !on
+RewriteRule ^(.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Disable the "Index of" pages
 Options -Indexes
 
-<FilesMatch ".(jpg|jpeg|png|gif|ico|svg|swf|gz|ttf|woff2|woff)$">
+# Cache policy. We don't want anything too aggressive in case we update the docs.
+<FilesMatch ".(ttf|woff2|woff)$">
 Header set Cache-Control "max-age=15768000, public"
 </FilesMatch>
 
-<FilesMatch ".(css|js)$">
-Header set Cache-Control "max-age=604800, public"
+<FilesMatch ".(jpg|jpeg|png|gif|ico|svg|swf|gz|css|js)$">
+Header set Cache-Control "max-age=43200, public"
 </FilesMatch>
 
 <FilesMatch ".(htm|html)$">
-Header set Cache-Control "max-age=7200, public"
+Header set Cache-Control "max-age=3600, public"
 </FilesMatch>
 
 Header unset ETag
 FileETag none
-
-### todo : redirect all faq page to equivalent page of the new version...
-
-RedirectPermanent /start https://faq.o2switch.fr/xxxx
-RedirectPermanent /offres-hebergement/start https://faq.o2switch.fr/xxxx
-RedirectPermanent /offres-hebergement/changer-hebergeur https://faq.o2switch.fr/xxxx
-RedirectPermanent /offres-hebergement/delai-ouverture https://faq.o2switch.fr/xxxx
-RedirectPermanent /offres-hebergement/engagement https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel https://faq.o2switch.fr/xxxx
-RedirectPermanent /playground/playground https://faq.o2switch.fr/xxxx
-RedirectPermanent /espace-client/start https://faq.o2switch.fr/xxxx
-RedirectPermanent /espace-client/inscription https://faq.o2switch.fr/xxxx
-RedirectPermanent /espace-client/facturation https://faq.o2switch.fr/xxxx
-RedirectPermanent /support/start https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/assitant https://faq.o2switch.fr/xxxx
-RedirectPermanent /espace-client/mot-de-passe https://faq.o2switch.fr/xxxx
-RedirectPermanent /tutoriel-pour-commencer https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/acceder-cpanel https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/changer-mot-de-passe https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/start https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/changer-dns-ovh https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/achat https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/renouvellement https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/transfert https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/gestion https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/maj-info https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/style https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/transfert/code-transfert-bookmyname https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/changer-dns-bookmyname https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/start https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/langue https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/transfert/code-transfert-ovh https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/comptes-courriels https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/transfert/code-transfert-1and1 https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-emails https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-emails/configurer-icedove https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-emails/configurer-windows-live-mail https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-emails/configurer-outlook-2003 https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-emails/configurer-client-messagerie https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-emails/webmail https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-emails/differences-pop-vs-imap https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-emails/differences-chiffre-vs-non-chiffre https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-emails/probleme-envoi-email https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-emails/antispam-cpanel https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-web https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-web/filezilla-config-ftp https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-web/arborescence-dossiers-multisite https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-web/choisir-version-php-et-php-ini https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-web/configuration-open-element https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-web/configuration-toweb https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-web/configuration-webacappella https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-web/base-donnees-utilisateurs-droits https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-web/configuration-iweb https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-web/parametres-ftp https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-emails/configurer-mail-mac https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-web/cyberduck-config-ftp https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/box-trapper https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/spam-assassin https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/renvois-automatiques https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/renvois-vers-script https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/repondeur-automatique https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/adresse-defaut https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/filtrage-comptes https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/creation-filtre-email-cpanel https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/filtre-utilisateur https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/importation-reacheminements https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/authentification-email-spf-dkim https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/entrees-mx https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/gestionnaire-fichier https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/niveau-utilisation-disque https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/comptes-ftp https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/sessions-ftp https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/derniers-visiteurs https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/bande-passante https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/webalizer https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/ftp-webalizer https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/registre-acces-brut https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/domaines-compagnons https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/sous-domaines https://faq.o2switch.fr/xxxx
-RedirectPermanent /lesplus-site/serveur-sortant-smtp https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/confidentialite-repertoire https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/registre-erreurs https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/awstats https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/domaines-gares https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/redirections https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/difference-publichtml-www https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/editeur-avance-zone-dns https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/base-donnees-mysql https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/phpmyadmin https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/mysql-distant https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/selecteur-version-php https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/softaculous https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/taches-cron https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/lets-encrypt-certificat-ssl https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/utilisation-uc-ressources https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/changer-dns-1and1 https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/pointage-domaine https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-emails/configurer-outlook-2016 https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/acces-ssh-shell-cli-cmdline https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-web/installer-nodejs-avec-cgi-node https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-web/intro-wp-cli-wordpress-cmdline https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/installation-composer-o2switch https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/ipxtender-selection-ip https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/gestion-univers-web-sous-comptes https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/start https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/comment-afficher-erreurs-php https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/desactiver-cache-php https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/augmenter-temps-execution-max-execution-time https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/comment-augmenter-taille-upload-php https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/utiliser-smtp-externe https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/comment-changer-version-php-hebergement https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/comment-activer-soap https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/comment-changer-mot-de-passe-cpanel https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/editeur-zone-dns-zone-editor https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/comment-installer-certificat-ssl-lets-encrypt https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/gestion-web/phpmyadmin-independant https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/changer-dns-online https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/transfert/code-transfert-online https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/changer-dns-gandi https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/transfert/code-transfert-gandi https://faq.o2switch.fr/xxxx
-RedirectPermanent /gestion-site/debug-page-blanche-erreur-500 https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/cache-varnish https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/wordpress https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/fichiers-statiques https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/joomla https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/prestashop https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/php-generique https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/cache-varnish/tpl/symfony https://faq.o2switch.fr/xxxx
-RedirectPermanent /politique-mise-a-jour https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/wptiger https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/pagespeed https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/litespeed-lscache https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/comment-installer-wordpress https://faq.o2switch.fr/xxxx
-RedirectPermanent /include/outils-cpanel https://faq.o2switch.fr/xxxx
-RedirectPermanent /phishing https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/sauvegarde-jetbackup https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/comment-forcer-ssl-https-wordpress https://faq.o2switch.fr/xxxx
-RedirectPermanent /faq/puis-je-heberger-plusieurs-sites-meme-offre https://faq.o2switch.fr/xxxx
-RedirectPermanent /faq/puis-je-creer-plusieurs-comptes-email-meme-offre https://faq.o2switch.fr/xxxx
-RedirectPermanent /faq/puis-je-avoir-https-sur-mon-site https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/terminal https://faq.o2switch.fr/xxxx
-RedirectPermanent /faq/quels-sont-les-serveurs-dns-o2switch https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/app-nodejs https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/comment-utiliser-binaire-node-npm https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/app-python https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/app-ruby-ror-rake https://faq.o2switch.fr/xxxx
-RedirectPermanent /faq/quels-sont-langages-supportes-php-node-ruby-python https://faq.o2switch.fr/xxxx
-RedirectPermanent /faq/start https://faq.o2switch.fr/xxxx
-RedirectPermanent /faq/quel-est-quota-maximum-boite-email https://faq.o2switch.fr/xxxx
-RedirectPermanent /faq/est-ce-possible-installer-redmine https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/comportement-antispam https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/delivrabilite-suivre-remise https://faq.o2switch.fr/xxxx
-RedirectPermanent /nodejs/comment-installer-etherpad-hebergement-o2switch https://faq.o2switch.fr/xxxx
-RedirectPermanent /nodejs/comment-installer-wikijs-hebergement-o2switch https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/comment-configurer-mx-google-apps https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/comment-configurer-validation-txt-google-search-console https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/comment-changer-adresse-site-wordpress https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/comment-importer-grosse-base-donnees-commande https://faq.o2switch.fr/xxxx
-RedirectPermanent /faq/puis-creer-plusieurs-base-de-donnees https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/whitelist-firewall https://faq.o2switch.fr/xxxx
-RedirectPermanent /nom-de-domaine/changer-dns-domaine-reserve-o2switch https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/mot-de-passe-perdu https://faq.o2switch.fr/xxxx
-RedirectPermanent /php/heberger-application-symfony https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/tiger-protect https://faq.o2switch.fr/xxxx
-RedirectPermanent /compte-importation-gmail-o2switch https://faq.o2switch.fr/xxxx
-RedirectPermanent /lets-encrypt-certificat-ssl/chaines-alternatives https://faq.o2switch.fr/xxxx
-RedirectPermanent /deplacement-d-un-site-d-un-hebergement-a-vers-un-hebergement-b https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/transferer-site-wordpress-ovh-vers-o2switch https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/deployer-application-react-js https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/definir-o2switch-contact-technique-ovh https://faq.o2switch.fr/xxxx
-RedirectPermanent /espace-client/contact-technique-administration https://faq.o2switch.fr/xxxx
-RedirectPermanent /espace-client/transfert-propriete-trade https://faq.o2switch.fr/xxxx
-RedirectPermanent /espace-client/recuperer-code-de-transfert https://faq.o2switch.fr/xxxx
-RedirectPermanent /espace-client/renouvellement-automatique https://faq.o2switch.fr/xxxx
-RedirectPermanent /tuto-rapide/comment-forcer-https https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/litespeed-scaleup https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/imunify https://faq.o2switch.fr/xxxx
-RedirectPermanent /hebergement-mutualise/tutoriels-cpanel/imunify-360-scaleup https://faq.o2switch.fr/xxxx
-RedirectPermanent /migrer-offre-unique-vers-scaleup https://faq.o2switch.fr/xxxx
