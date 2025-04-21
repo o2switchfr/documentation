@@ -53,7 +53,7 @@ const config: Config = {
   themes: ['docusaurus-theme-search-typesense'],
   themeConfig: {
     typesense: {
-      typesenseCollectionName: 'faqDev',
+      typesenseCollectionName: 'faq',
       typesenseServerConfig: {
         nodes: [
           {

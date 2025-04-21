@@ -1,10 +1,10 @@
 {
-    "index_name": "faqDev",
+    "index_name": "faq",
     "start_urls": [
-      "http://v2doc.odns.fr/"
+      "https://faq.o2switch.fr/"
     ],
     "sitemap_urls": [
-      "http://v2doc.odns.fr/sitemap.xml"
+      "https://faq.o2switch.fr/sitemap.xml"
     ],
     "sitemap_alternate_links": true,
     "stop_urls": [

@@ -1,5 +1,7 @@
 # Documentation o2switch
 
+<img alt="Tigrou" src="static/img/illustration/librarian-tiger.svg" width="300" />
+
 La nouvelle version de la [documentation o2switch](https://faq.o2switch.fr/) est construite avec 
 [Docusaurus](https://docusaurus.io/), un générateur de site statique moderne.
 
