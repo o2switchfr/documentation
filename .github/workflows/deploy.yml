@@ -56,7 +56,7 @@ jobs:
         run: |
            rsync -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa" \
            --exclude=".git" -av --delete build/ \
-           ${{ secrets.CPANEL_USERNAME }}@${{ secrets.CPANEL_SERVER }}:/home/${{ secrets.CPANEL_USERNAME }}/toto
+           ${{ secrets.CPANEL_USERNAME }}@${{ secrets.CPANEL_SERVER }}:/home/${{ secrets.CPANEL_USERNAME }}/public_html
 
       - name: Cleaning SSH keys
         if: always()
