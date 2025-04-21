@@ -1,0 +1,10 @@
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    # TODO : Maybe find a way to lint the .mdx file. For now, if it builds, it's good enough ¯\_(ツ)_/¯ 
+    name: Making sure it builds
+    uses: ./.github/workflows/build.yml     

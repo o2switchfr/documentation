@@ -22,6 +22,9 @@ const config: Config = {
     defaultLocale: 'fr',
     locales: ['fr'],
   },
+  future: {
+    experimental_faster: true,
+  },
   presets: [
     [
       'classic',
