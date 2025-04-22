@@ -209,3 +209,7 @@ Header set Cache-Control "max-age=3600, public"
 
 Header unset ETag
 FileETag none
+
+# Resources Hints 
+Header add Link '<https://search.o2swit.ch>; rel=dns-prefetch'
+Header add Link '</img/misc/o2switch-logo-dark-bg.svg>; rel=preload; as=image; type=image/svg+xml'
