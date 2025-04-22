@@ -61,12 +61,21 @@ jobs:
            chmod 700 ~/.ssh 
            echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
            chmod 0400 ~/.ssh/id_rsa
-
+      
+      # Run rsync twice to see if it solves my issue. I have an issue where rsync is hanging randomly.
+      # It might be related to the Imunify360 firewall. When this occurs, Imunify seems to be reloading the ipset list.
+      # I need to investigate further.
       - name: Sending data with RSYNC 
         run: |
-           rsync -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa" \
+           sleep 2
+           rsync --timeout=60 -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa" \
            --exclude=".git" -av --delete build/ \
-           ${{ secrets.CPANEL_USERNAME }}@${{ secrets.CPANEL_SERVER }}:/home/${{ secrets.CPANEL_USERNAME }}/public_html
+           ${{ secrets.CPANEL_USERNAME }}@${{ secrets.CPANEL_SERVER }}:/home/${{ secrets.CPANEL_USERNAME }}/public_html || true
+           sleep 2
+           rsync --timeout=60 -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa" \
+           --exclude=".git" -av --delete build/ \
+           ${{ secrets.CPANEL_USERNAME }}@${{ secrets.CPANEL_SERVER }}:/home/${{ secrets.CPANEL_USERNAME }}/public_html 
+
 
       - name: Cleaning SSH keys
         if: always()
