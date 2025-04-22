@@ -20,7 +20,7 @@ export default function Image ({src, alt, caption, additionalClass, size, title}
     return (
 
         <figure className={clsx('tutorial-img', additionalClass)}>
-            <Zoom><img data-zoomable src={src} alt={alt} title={_title}/></Zoom>
+            <Zoom><img loading="lazy" data-zoomable src={src} alt={alt} title={_title}/></Zoom>
             <figcaption>{caption}</figcaption>
         </figure>
     );
