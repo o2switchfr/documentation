@@ -28,10 +28,12 @@ jobs:
       - name: Add resource hints in the .htaccess
         run: |
           cd build
-          for i in assets/css/*.css ; do echo "Header add Link '</$i>; rel=preload; as=style; fetchpriority=high'" >> .htaccess ; done
-          for i in assets/js/*main*.js ; do echo "Header add Link '</$i>; rel=preload; as=script; fetchpriority=high'" >> .htaccess ; done
-          for i in assets/fonts/*-{Regular,Bold,SemiBold}*.woff2 ; do echo "Header add Link '</$i>; rel=preload; as=font; type=font/woff2;  fetchpriority=high; crossorigin'" >> .htaccess ; done
-          for i in assets/images/footer-dark-bg* ; do echo "Header add Link '<$i>; rel=preload; as=image; type=image/svg+xml'" ; done  
+          echo "" >> .htaccess
+          for i in assets/css/*.css ; do echo "Header add Link '</$i>; rel=preload; as=style; fetchpriority=high'" >> .htaccess ; echo "" >> .htaccess ; done
+          for i in assets/js/*main*.js ; do echo "Header add Link '</$i>; rel=preload; as=script; fetchpriority=high'" >> .htaccess ; echo "" >> .htaccess ; done
+          for i in assets/fonts/*-{Regular,Bold,SemiBold}*.woff2 ; do echo "Header add Link '</$i>; rel=preload; as=font; type=font/woff2; fetchpriority=high; crossorigin'" >> .htaccess ; echo "" >> .htaccess ; done
+          for i in assets/images/footer-dark-bg* ; do echo "Header add Link '<$i>; rel=preload; as=image; type=image/svg+xml'" >> .htaccess ; echo "" >> .htaccess ; done  
+          echo "" >> .htaccess
           cd -
           
       - name: Get runner's public IP
