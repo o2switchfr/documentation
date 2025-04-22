@@ -361,3 +361,10 @@ table {
   width: initial;
   margin: 0 auto;
 }
+
+// Probably a shitty idea. 
+// Try to avoid the SVG flashbang on the homepage when loading the page without cache.
+.svg-inline--fa {
+  max-width: 20px;
+  max-height: 20px;
+}
