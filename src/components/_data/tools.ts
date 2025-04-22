@@ -201,7 +201,7 @@ const cpanelTool = {
         desc:"Permet d'ajouter un répondeur sur votre adresse email (email “type” envoyé automatiquement en réponse aux emails reçus)",
         icon:"autoresponders",
         cat: cpanelCategories.email,
-        to: '/cpanel/emails/repondeur-automatique-email',
+        to: '/cpanel/emails/repondeur-automatique',
         offers: all_offers,
     },
     'awstats': {
@@ -329,7 +329,7 @@ const cpanelTool = {
         desc:"Permet de gérer les configurations DKIM et SPF de votre compte pour améliorer la délivrabilité de vos mails",
         icon:"email_deliverability",
         cat: cpanelCategories.email,
-        to: '/cpanel/emails/delivrabilite-email',
+        to: '/cpanel/emails/delivrabilite-spf-dkim',
         offers: all_offers,
     },
     'email_disk_usage': {
@@ -337,7 +337,7 @@ const cpanelTool = {
         desc:"Permet d'observer le niveau d'utilisation du disque pour les comptes emails de votre hébergement web",
         icon:"email_disk_usage",
         cat: cpanelCategories.email,
-        to: '/todo',
+        to: '/cpanel/emails',
         offers: all_offers,
     },
     'email_filters': {
@@ -361,7 +361,7 @@ const cpanelTool = {
         desc:"	Permet de créer une clé de chiffrement GnuPG",
         icon:"encryption",
         cat: cpanelCategories.email,
-        to: '/todo',
+        to: '/cpanel/emails/chiffrement-gpg',
         offers: all_offers,
     },
     'error_pages': {
@@ -457,7 +457,7 @@ const cpanelTool = {
         desc:"Permet d'installer une application NodeJS en créant un environnement NodeJS de votre choix (choix de la version, installation des dépendances)",
         icon:"lvenodejssel",
         cat: cpanelCategories.software,
-        to: '/cpanel/logiciels/nodejs/selecteur-version-nodejs',
+        to: '/cpanel/logiciels/hebergement-nodejs-multi-version',
         offers: all_offers,
     },
     'lvephpsel': {
@@ -465,7 +465,7 @@ const cpanelTool = {
         desc:"Permet de changer l'environnement PHP de l'hébergement (version de PHP, module, php.ini)",
         icon:"lvephpsel",
         cat: cpanelCategories.software,
-        to: '/cpanel/logiciels/php/selecteur-version-php',
+        to: '/cpanel/logiciels/hebergement-php-multi-version/',
         offers: all_offers,
     },
     'lvepythonsel': {
@@ -473,7 +473,7 @@ const cpanelTool = {
         desc:"Permet d'installer une application Python. L'outil permet de créer un environnement Python avec la version de Python de votre choix.",
         icon:"lvepythonsel",
         cat: cpanelCategories.software,
-        to: '/cpanel/logiciels/python/selecteur-version-python',
+        to: '/cpanel/logiciels/hebergement-python-multi-version',
         offers: all_offers,
     },
     'lveresusage': {
@@ -489,7 +489,7 @@ const cpanelTool = {
         desc:"Permet d'installer une application Ruby, l'outil génère un environnement Ruby adapté à votre application",
         icon:"lverubysel",
         cat: cpanelCategories.software,
-        to: '/cpanel/logiciels/ruby/selecteur-version-ruby',
+        to: '/cpanel/logiciels/hebergement-ruby-multi-version',
         offers: all_offers,
     },
     /*'lvewpos': {
@@ -516,6 +516,7 @@ const cpanelTool = {
         to: '/cpanel/emails/liste-diffusion',
         offers: all_offers,
     },
+    /*
     'manage_calendar_access': {
         name:"Calendriers et contacts",
         desc:"Permet d'obtenir les informations de connexions caldav/carddav",
@@ -524,6 +525,7 @@ const cpanelTool = {
         to: '/#todo',
         offers: all_offers,
     },
+    */
     /*'metrics_editor': {
         name:"",
         desc:"",
@@ -723,7 +725,7 @@ const cpanelTool = {
         desc:"Permet de vérifier qu'un email a bien été émis correctement en consultant les logs récents",
         icon:"track_delivery",
         cat: cpanelCategories.email,
-        to: '/cpanel/emails/suivi-remise-email',
+        to: '/cpanel/emails/suivi-remise-log-email',
         offers: all_offers,
     },
     'two_factor_authentication': {
@@ -731,7 +733,7 @@ const cpanelTool = {
         desc:"Permet d'activer l'authentification à deux facteurs pour la connexion sur votre espace d'hébergement",
         icon:"two_factor_authentication",
         cat: cpanelCategories.security,
-        to: '/#todo',
+        to: '/cpanel/securite/authentification-mfa/',
         offers: all_offers,
     },
     'version_control': {
@@ -739,7 +741,7 @@ const cpanelTool = {
         desc:"Permet de créer et gérer des dépôts GIT sur l'hébergement via GitWeb",
         icon:"version_control",
         cat: cpanelCategories.files,
-        to: '/#todo',
+        to: '/cpanel/fichiers/gitweb/',
         offers: all_offers,
     },
     'visitors': {
