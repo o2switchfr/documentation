@@ -200,7 +200,7 @@ Header set Cache-Control "max-age=15768000, public"
 </FilesMatch>
 
 <FilesMatch ".(jpg|jpeg|png|gif|ico|svg|swf|gz|css|js)$">
-Header set Cache-Control "max-age=43200, public"
+Header set Cache-Control "max-age=604800, public"
 </FilesMatch>
 
 <FilesMatch ".(htm|html)$">

@@ -344,8 +344,10 @@
   }
 }
 
-
 @media (max-width: 800px) {
+  .navbar__title {
+    display: none;
+  }
   .flex-grid {
     display: block;
     .col {

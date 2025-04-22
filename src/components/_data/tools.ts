@@ -65,7 +65,7 @@ const cpanelTool = {
         icon:"imunify-antivirus",
         cat: cpanelCategories.security,
         to: '/cpanel/securite/antivirus-imunify',
-        offers: all_shared_hosting,
+        offers: [offers.cloud, offers.pro],
     },
     'o2switch-ipxtender': {
         name:"ipXtender",

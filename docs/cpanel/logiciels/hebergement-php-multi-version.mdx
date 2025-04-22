@@ -81,27 +81,27 @@ qui sont indispensables au bon fonctionnement de la plupart des scripts.
 
 L'outil de changement de version de PHP contient plusieurs zones intéressantes.
 
-<span className="">A</span>  L'onglet **Extension** permet de charger/décharger des modules PHP.
+<Badge text="A" type="danger" /> L'onglet **Extension** permet de charger/décharger des modules PHP.
 
-<span className="">B</span>  L'onglet **Options** permet d'accéder à l'outil permettant de modifier certains réglages
-PHP. La partie **Options** permet de modifier le `php.ini`
+<Badge text="B" type="danger" />  L'onglet **Options** permet d'accéder à l'outil permettant de modifier certains
+réglages PHP. La partie **Options** permet de modifier le `php.ini`
 
-<span className="">C</span>  Le bouton **Reset to default** permet de rétablir les réglages par défaut. En cas d'erreurs,
-ça permet de revenir sur la configuration de base de l'hébergement.
+<Badge text="C" type="danger" />  Le bouton **Reset to default** permet de rétablir les réglages par défaut. En cas
+d'erreurs, ça permet de revenir sur la configuration de base de l'hébergement.
 
-<span className="">D</span>  Dans le menu déroulant s'affiche la version de PHP courante / ou la version de PHP
+<Badge text="D" type="danger" /> Dans le menu déroulant s'affiche la version de PHP courante / ou la version de PHP
 sélectionné dans le cadre d'un changement de version.
 
 À cet instant les versions suivantes de PHP sont proposées : PHP 4.4, PHP 5.1, PHP 5.2, PHP 5.3, PHP 5.4, PHP 5.5,
 PHP 5.6, PHP 7, PHP 7.1, PHP 7.2, PHP 7.3, PHP 7.4, PHP 8.0, PHP 8.1, PHP 8.2 et PHP 8.3 (mis à jour le 03/10/2024)
 
-<span className="">E</span>  Le bouton **Apply** permet de valider les changements dans la version de PHP ou dans la
-liste des modules PHP chargés. Lorsque le bouton s'affiche, cela signifie qu'il y a un réglage en attente qui n'a pas
+<Badge text="E" type="danger" />  Le bouton **Apply** permet de valider les changements dans la version de PHP ou dans
+la liste des modules PHP chargés. Lorsque le bouton s'affiche, cela signifie qu'il y a un réglage en attente qui n'a pas
 été enregistré. Lorsque tout est enregistré, le bouton disparait.
 
-<span className="">F</span>  Vous pouvez cocher/décocher des module PHP librement. Attention, cela peut avoir un impact
-sur vos sites internet, ne désactivez pas des modules sans savoir à quoi ils correspondent. Certains modules comme MySQL
-ou PDO sont nécessaires au fonctionnement de la majorité des sites internet.
+<Badge text="F" type="danger" />  Vous pouvez cocher/décocher des module PHP librement. Attention, cela peut avoir un
+impact sur vos sites internet, ne désactivez pas des modules sans savoir à quoi ils correspondent. Certains modules
+comme MySQL ou PDO sont nécessaires au fonctionnement de la majorité des sites internet.
 
 ### Changer la configuration PHP php.ini
 
@@ -119,18 +119,20 @@ pouvez changer les options les plus courantes, par exemple (non exhaustif) :
   * **display_errors** : permet l'affichage ou non des erreurs PHP (off par défaut)
   * **max_execution_time** : temps d'exécution max d'un script PHP
   * **memory_limit** : mémoire max allouée pour chaque processus PHP
-  * **post_max_size** et **upload_max_filesize** : permettent d'augmenter la taille des fichiers envoyés via PHP (upload http)
+  * **post_max_size** et **upload_max_filesize** : permettent d'augmenter la taille des fichiers envoyés via PHP (upload
+    http)
 
 Ces modifications sont très rapides à être effectives, la prise en compte est quasi-immédiate. Vous pouvez vérifier très
-simplement si vos modifications sont prises en compte en plaçant à la racine de votre site un fichier `info.php` avec ce code :
+simplement si vos modifications sont prises en compte en plaçant à la racine de votre site un fichier `info.php` avec ce
+code :
 
 ```php title="info.php"
 <?php
 phpinfo();
 ```
 
-En vous rendant sur la page `info.php` avec un navigateur web, la configuration PHP s'affichera. Pensez à bien supprimer ce
-fichier info.php une fois vos tests terminés.
+En vous rendant sur la page `info.php` avec un navigateur web, la configuration PHP s'affichera. Pensez à bien supprimer
+ce fichier info.php une fois vos tests terminés.
 
 ## Usages avancés
 
@@ -163,13 +165,17 @@ $PATH](/guides/langages-supportes-php-node-ruby-python)
 
 ## Erreurs courantes
 
-
 Si vos modifications ne sont pas prises en comptes, ça vient généralement de l'une de ces trois raisons :
-  * vous avez mal validé votre version de PHP avec le bouton **Apply**. C'est très fréquent comme erreur, pensez à le vérifier même si cela paraît simple.
-  * vous avez des règles dans votre fichier `.htaccess` qui tente de redéfinir la version de PHP.
-Cela arrive souvent lorsqu'il y a une migration d'un hébergeur à l'autre. Chaque hébergeur à sa méthode pour traiter les versions et la configuration de PHP.
-Ce que vous avez dans votre fichier .htaccess (addHandler, addType etc...) peut causer des conflits avec votre hébergement. Dans ce cas, il faut supprimer les lignes concernées ou mettre un # devant pour les neutraliser.
-  * vous avez un fichier `php.ini` à la racine de votre site. Cela entre en conflit avec le fonctionnement du sélecteur de versions de PHP, il faut désactiver ce php.ini en supprimant le fichier ou en le renommant.
-  * pour des versions de PHP inférieures à PHP 7, pensez à cocher le module **mysql** dans la liste des extensions, ce dernier ne sera pas coché par défaut (car supprimé depuis PHP 7)
+  * vous avez mal validé votre version de PHP avec le bouton **Apply**. C'est très fréquent comme erreur, pensez à le
+    vérifier même si cela paraît simple.
+  * vous avez des règles dans votre fichier `.htaccess` qui tente de redéfinir la version de PHP. Cela arrive souvent
+lorsqu'il y a une migration d'un hébergeur à l'autre. Chaque hébergeur à sa méthode pour traiter les versions et la
+configuration de PHP. Ce que vous avez dans votre fichier .htaccess (addHandler, addType etc...) peut causer des
+conflits avec votre hébergement. Dans ce cas, il faut supprimer les lignes concernées ou mettre un # devant pour les
+neutraliser.
+  * vous avez un fichier `php.ini` à la racine de votre site. Cela entre en conflit avec le fonctionnement du sélecteur
+    de versions de PHP, il faut désactiver ce php.ini en supprimant le fichier ou en le renommant.
+  * pour des versions de PHP inférieures à PHP 7, pensez à cocher le module **mysql** dans la liste des extensions, ce
+    dernier ne sera pas coché par défaut (car supprimé depuis PHP 7)
 
 
