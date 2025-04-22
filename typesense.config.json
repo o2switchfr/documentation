@@ -8,18 +8,7 @@
     ],
     "sitemap_alternate_links": true,
     "stop_urls": [
-      "/cpanel/", 
-      "/cpanel/o2switch/",
-      "/cpanel/domaines/",
-      "/cpanel/emails/", 
-      "/cpanel/bases-de-donnees/",
-      "/cpanel/logiciels/", 
-      "/cpanel/securite/", 
-      "/cpanel/fichiers/", 
-      "/cpanel/outils/", 
-      "/cpanel/outils-avances/", 
-      "/cpanel/mesures/", 
-      "/cpanel/preferences/"
+      "/tests"
     ],
     "selectors": {
       "lvl0": {
