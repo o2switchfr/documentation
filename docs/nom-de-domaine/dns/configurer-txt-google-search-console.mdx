@@ -12,7 +12,7 @@ tags:
 L'outil Google Search Console vous permet d'avoir plus d'informations sur votre site internet et son référencement.
 
 Lorsque vous activez cet outil, Google aura besoin de **vérifier** que vous êtes bien le propriétaire du site internet.
-Pour cela, il propose plusieurs méthodes de validations et l'une de ces méthodes de validation consiste à **créer un
+Pour cela, il propose plusieurs méthodes de validation et l'une de ces méthodes de validation consiste à **créer un
 enregistrement de type TXT** sur votre nom de domaine.
 
 Nous allons voir comment mettre en place cet enregistrement à l'aide de l'[outil zone
@@ -22,7 +22,7 @@ site](https://www.o2switch.fr/hebergement-illimite/) o2switch.
 La première étape est de demander l'ajout d'une nouvelle propriété de type `Domaine` sur Google Search Console puis de
 valider. 
 
-L'écran suivant s'affiche la **valeur de l'entrer DNS à ajouter**. Il faut copier cela, nous en aurons besoin plus tard.
+L'écran suivant s'affiche la **valeur de l'entrée DNS à ajouter**. Il faut copier cela, nous en aurons besoin plus tard.
 Laissez cette fenêtre active également, il faudra valider en cliquant sur `Valider` lorsque l'enregistrement sera en
 place.
 
@@ -33,8 +33,9 @@ place.
     alt="Capture d'écran de l'interface de la Google Search Console pour l'étape de validation"
 />
 
-*Dans la console search, il faut bien choisir une validation de type domaine puis copier la valeur de l'enregistrement
-DNS*
+:::info
+Prenez le soin de choisir une validation de type domaine et de copier la valeur de l'enregistrement DNS.
+:::
 
 Ensuite, il faut ajouter cette entrée DNS de type TXT avec l'aide de l'[outil zone éditor](/cpanel/domaines/editeur-zone-dns). Il faut :
 
@@ -69,14 +70,13 @@ Si la validation échoue, vérifiez plusieurs choses :
   * vérifiez qu'il n'y a pas une **erreur dans la valeur** de l'enregistrement (erreur de copier/coller, un espace qui
     se serait ajouté quelque part par exemple)
   * vous pouvez aussi procéder à une **vérification rapide avec un outil comme [nslookup
-    kloth.net](http://www.kloth.net/services/nslookup-fr.php)**, en regardant les entrées de type TXT sur votre nom de
-  * domaine. Il peut y avoir plusieurs entrées TXT, ce n'est pas un problème. Mais il faut que l'entrée demandé par
-  * Google soit présente. Si ce n'est pas encore visible, il est possible qu'il faille patienter encore un peu.
+    kloth.net](http://www.kloth.net/services/nslookup-fr.php)**, en regardant les entrées de type TXT sur votre nom de domaine.
+  * il peut y avoir plusieurs entrées TXT, ce n'est pas un problème. Mais il faut que l'entrée demandée par Google soit présente. Si ce n'est pas encore visible, il est possible qu'il faille patienter encore un peu.
 
 <Image
     src="/img/docs/nom-de-domaine/dns/o2switch-verification-entree-txt.png"
     title="Requête DNS avec kloth pour vérifier que l'entrée DNS TXT est bien installé"
-    caption="On peut faire une requête DNS avec le site de kloth pour vérifier que l'entrée TXT est bien créé"
+    caption="On peut faire une requête DNS avec le site de kloth pour vérifier que l'entrée TXT est bien créée"
     alt="Capture d'écran de kloth.net montrant comment vérifier que l'entrée TXT existe"
 />
 

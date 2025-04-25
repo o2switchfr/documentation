@@ -381,8 +381,8 @@ const cpanelTool = {
         offers: all_offers,
     },
     'file_manager': {
-        name:"Gestionnaire de fichier",
-        desc:"Gestionnaire de fichier vous permet de consulter et d'éditer les fichiers de votre hébergement depuis une interface web",
+        name:"Gestionnaire de fichiers",
+        desc:"Gestionnaire de fichiers vous permet de consulter et d'éditer les fichiers de votre hébergement depuis une interface web",
         icon:"file_manager",
         cat: cpanelCategories.files,
         to: '/cpanel/fichiers/gestionnaire-fichiers-web',

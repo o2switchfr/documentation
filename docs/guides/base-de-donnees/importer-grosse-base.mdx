@@ -33,7 +33,7 @@ Si vous avez déjà une base de données, vous pouvez ignorer cette étape.
 La deuxième étape est **d'envoyer votre gros fichier SQL sur l'hébergement**. Plusieurs méthodes pour faire cela : 
   * vous pouvez envoyer cela en FTP avec l'aide de [Filezilla](/guides/configuration-logiciel) par
     exemple
-  * ou bien utiliser le [gestionnaire de fichier de cPanel](/cpanel/fichiers/gestionnaire-fichiers-web), qui est un
+  * ou bien utiliser le [gestionnaire de fichiers de cPanel](/cpanel/fichiers/gestionnaire-fichiers-web), qui est un
     outil de dépannage bien pratique dans des cas comme celui-ci
 
 Envoyez le fichier directement à la **racine de votre hébergement**, pour que cela soit plus simple à gérer pour la
@@ -46,7 +46,7 @@ phase d'importation.
     alt="Capture d'écran du gestionnaire de fichier de cPanel pour l'envoi d'un gros fichier"
 />
 
-Enfin, il faut se rendre dans [l'outil Terminal de cPanel][/cpanel/outils-avances/terminal-ssh-web] pour **importer la
+Enfin, il faut se rendre dans [l'outil Terminal de cPanel](/cpanel/outils-avances/terminal-ssh-web) pour **importer la
 base de données en lignes de commandes**. Pour cela, nous allons utiliser la **commande mysql**. 
 
 ```bash
@@ -67,14 +67,14 @@ Quelques compléments sur les commandes :
     travailler sur une base de données sans vous identifier avant ! Le plus simple est d'utiliser le **même identifiant
     que celui que vous utilisez pour vous connecter sur cPanel**
   * `option -p` permet d'indiquer le mot de passe. Avec l'identifiant de cPanel, c'est le **même mot de passe que
-    cPanel** qu'il faut renseigner. Deux choix possible, si votre mot de passe est alphénumérique, vous pouvez **coller
-    l'option `-p` à votre mot de passe** directement dans la ligne de commande comme dans l'exemple 1. Si votre mot de
-    passe contient des carractères spéciaux, utilisez l'exemple 2 en ajoutant juste `-p`, le mot de passe sera demandé
+    cPanel** qu'il faut renseigner. Avec cette option, vous avez deux choix possible :
+    * Si votre mot de passe est alphénumérique, vous pouvez **coller l'option `-p` à votre mot de passe** directement dans la ligne de commande comme dans l'exemple 1. 
+    * Si votre mot de passe contient des caractères spéciaux, utilisez l'exemple 2 en ajoutant juste `-p`, le mot de passe sera demandé
     plus tard.
-  * ensuite il faut indiquer  le nom de la base de données **dans laquelle vous souhaitez importer votre
+  * Ensuite, il faut indiquer  le nom de la base de données **dans laquelle vous souhaitez importer votre
     sauvegarde/fichier SQL**, donc cela correspond au nom de la base créée à l'étape 1 par exemple.
   * `< ~/nom_du_fichier.sql` correspond au chemin vers votre fichier SQL, que vous avez du mettre à la racine de
-    l'hébergement si vous avez suivi ce guide
+    l'hébergement si vous avez suivi ce guide.
 
 <Image
     src="/img/docs/guides/base-de-donnees/o2switch-importer-grosse-base-mysql.png"
