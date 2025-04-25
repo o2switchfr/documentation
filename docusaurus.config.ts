@@ -6,6 +6,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
 import type {Options as PageOptions} from '@docusaurus/plugin-content-pages';
 
+import { FontaineTransform } from 'fontaine'
+
 const config: Config = {
   title: 'Documentation o2switch',
   tagline: "Documentation de l'hébergeur web o2switch",
@@ -102,6 +104,34 @@ const config: Config = {
   } satisfies Preset.ThemeConfig,
   plugins: [
       'docusaurus-plugin-sass',
+      // @link https://blog.logrocket.com/docusaurus-using-fontaine-reduce-cumulative-layout-shift/
+      function fontainePlugin(_context, _options) {
+        return {
+          name: 'fontaine-plugin',
+          configureWebpack(_config, _isServer) {
+            return {
+              plugins: [
+                FontaineTransform.webpack({
+                  fallbacks: [
+                    'system-ui',
+                    '-apple-system',
+                    'BlinkMacSystemFont',
+                    'Segoe UI',
+                    'Roboto',
+                    'Oxygen',
+                    'Ubuntu',
+                    'Cantarell',
+                    'Open Sans',
+                    'Helvetica Neue',
+                    'sans-serif',
+                  ],
+                  resolvePath: (id) => '../fonts/' + id,
+                }),
+              ],
+            };
+          },
+        };
+      },
   ],
 };
 
