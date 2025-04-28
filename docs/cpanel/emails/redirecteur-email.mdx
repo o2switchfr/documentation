@@ -65,17 +65,17 @@ adresse courriel, vous pouvez faire des choses plus puissantes comme renvoyer le
 />
 
 Quelques détails à propos de la configuration d'un redirecteur de mail :
-  * L'adresse à transférer ne doit pas forcément exister.\
-Si le compte existe (par exemple `alex@domaine.fr`), une copie locale du message est conservée dans le compte mail en question.\
-Si vous ajoutez un redirecteur de mail sur une adresse qui n'existe pas, le message est simplement transféré sans copie sur une boîte locale.
-  * Vous pouvez précise l'adresse de destination que vous souhaitez, pas forcément une adresse que vous hébergez, ni une adresse du “même domaine”.\
+  * L'adresse à transférer ne doit pas forcément exister :
+    * Si le compte existe (par exemple `alex@domaine.fr`), une copie locale du message est conservée dans le compte mail en question.
+    * Si vous ajoutez un redirecteur de mail sur une adresse qui n'existe pas, le message est simplement transféré sans copie sur une boîte locale.
+  * Vous pouvez préciser l'adresse de destination que vous souhaitez, pas forcément une adresse que vous hébergez, ni une adresse du “même domaine”.\
 Cela peut être une adresse tierce, type `qqch@gmail.com`. Cependant, il faut faire attention à ce que les messages redirigés ne passent pas en spam sur l'adresse de destination (en créant un filtre sur Gmail par exemple, si vous renvoyez vers une adresse Gmail).
-  * Vous pouvez définir plusieurs redirections emails différents sur une même adresse, par exemple créer un renvoi de `alex@site.fr` vers `alexis@site.fr` et un autre renvoi vers `alexandre@site.fr`.\
+  * Vous pouvez définir plusieurs redirections emails différentes sur une même adresse, par exemple créer un renvoi de `alex@site.fr` vers `alexis@site.fr` et un autre renvoi vers `alexandre@site.fr`.\
 Il faut simplement créer deux redirecteurs de mails différents.
 
 :::warning
 Si vous ré-acheminez vos messages vers une adresse distante d'un autre prestataire, comme Gmail par exemple, il n'est
-pas exclu que ces messages soit bloqués chez ce prestataire, sur son filtre antispam par exemple.
+pas exclu que ces messages soient bloqués chez ce prestataire, sur son filtre antispam par exemple.
 
 Si vous êtes sur Gmail (en adresse finale), le plus fiable serait de configurer gmail pour qu'il récupère les messages
 de votre boîte en POP, sinon assurez-vous bien que le prestataire distant ne bloque pas les messages transférés.
