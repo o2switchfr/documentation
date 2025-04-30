@@ -194,6 +194,9 @@ RewriteRule ^(.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 # Disable the "Index of" pages
 Options -Indexes
 
+# Custom 404
+ErrorDocument 404 /404.html
+
 # Cache policy. We don't want anything too aggressive in case we update the docs.
 <FilesMatch ".(ttf|woff2|woff)$">
 Header set Cache-Control "max-age=15768000, public"
@@ -210,6 +213,6 @@ Header set Cache-Control "max-age=3600, public"
 Header unset ETag
 FileETag none
 
-# Resources Hints 
+# Resources Hints
 Header add Link '<https://search.o2swit.ch>; rel=dns-prefetch'
 Header add Link '</img/misc/o2switch-logo-dark-bg.svg>; rel=preload; as=image; type=image/svg+xml'
