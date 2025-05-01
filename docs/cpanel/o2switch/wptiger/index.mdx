@@ -670,7 +670,7 @@ site WordPress correctement.
 
 Par exemple, votre site internet est sous le nom `exemple.fr` et vous souhaitez changer de nom vers `exemple.com`.
 
-L'outil va effectuer ce changement en faisant plusieurs opérations de rechercher et de remplacement dans l'ingralité
+L'outil va effectuer ce changement en faisant plusieurs opérations de rechercher et de remplacement dans l'intégralité
 de la base de données de WordPress et cela incluant les données sérialisées.
 
 Pour tout le contenu du site (article, pages etc...), l'outil va effectuer un rechercher/remplacer sur les termes
@@ -683,7 +683,7 @@ Ainsi, tout le contenu du site est mis à jour correctement, à défaut de juste
 L'outil **SSL / HTTPS**  <span className="badge badge--danger">B</span>  permet de forcer le passage en **HTTPS** d'un site internet proprement.
 
 Le fonctionnement est similaire au fonctionnement de l'outil de changement d'adresse. L'outil va effectuer plusieurs
-opérations de rechercher/remplacer dans l'ensemble de la base de données (incluant les données sérialisés, sans les
+opérations de rechercher/remplacer dans l'ensemble de la base de données (incluant les données sérialisées, sans les
 corrompre).
 
 L'outil va rechercher/remplacer les choses suivantes :
@@ -706,7 +706,7 @@ vous permet de rechercher une valeur dans l'ensemble de la base de données du s
 
 En arrière-plan, c'est cet outil-là qu'utilisent les outils "changer l'adresse du site" et "ssl/https".
 
-La recherche et le remplacement se font également dans les données sérialisés, sans les corrompre.
+La recherche et le remplacement se font également dans les données sérialisées, sans les corrompre.
 
 ## Erreurs
 
@@ -740,14 +740,14 @@ Cette erreur là s'affiche si :
 **cœur de WordPress ne fonctionne plus**.
   * Ça peut aussi être lié à un problème de configuration dans le `wp-config.php` du site qui entraîne un problème de
 connexion à la base de données.
-  * Toujours dans le `wp-config.php` des erreurs, warning ou notice PHP peuvent être à l'origine du problème
+  * Toujours dans le `wp-config.php` des erreurs, warning ou notice PHP peuvent être à l'origine du problème.
 (Exemple : caractère [BOM-UTF8](https://fr.wikipedia.org/wiki/Indicateur_d%27ordre_des_octets), constantes définies en
 double)
   * Si l'outil **n'arrive pas récupérer certaines informations**, comme l'adresse du site, la base de données utilisée
 etc... Cela peut arriver sur des WordPress très personnalisés et différents d'une instance *classique*.
-  * WordPress **multisite** est activé. Pour le moment, **l'outil ne gère pas les instances multisites de WordPress**
+  * WordPress **multisite** est activé. Pour le moment, **l'outil ne gère pas les instances multisites de WordPress**.
 
-### Données incohérente
+### Données incohérentes
 
 La **détection** d'une instance de WordPress sur l'hébergement et la récupération des informations concernant cette
 instance est un **processus long**. On estime cela à 1 à 2 secondes par instance de WordPress.
@@ -763,8 +763,11 @@ possible, dans des cas assez rares, que l'outil affiche des informations périm�
 Exemple :
   * L'outil est chargé une première fois, il détecte une instance de WordPress en version 5. Des données de caches sont
 créées pour améliorer la vitesse de chargement de l'outil.
-  * L'utilisateur met à jour WordPress en version 5.1 depuis le panneau d'administration de WordPress
+  * L'utilisateur met à jour WordPress en version 5.1 depuis le panneau d'administration de WordPress.
   * Quelques instants plus tard, l'utilisateur retourne sur l'outil. Ce dernier affichera, à tort, que WordPress est en
 version 5.
   * L'utilisateur met à jour les paramètres du site via l'outil, le cache sera purgé et les informations affichées
-seront valides
+seront valides.
+
+Il est possible de **forcer la suppression du cache** en cliquant sur l'îcone ![Icône de rafraîchissement](/img/docs/cpanel/o2switch/wptiger/wptiger-refresh-icon.png), cela permet d'initier une nouvelle détection des instances présentes sur l'hébergement. Cela peut être utile 
+dans le cas où WP Tiger ne parviendrait pas à accéder à l'une de vos instances après un déboguage manuel.
