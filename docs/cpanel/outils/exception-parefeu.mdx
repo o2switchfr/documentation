@@ -15,6 +15,9 @@ tags:
   - sécurité
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Autorisation SSH - Liste blanche parefeu
 
 L'outil **autorisation SSH** vous permet de placer une adresse IP ou un nom de domaine, de type dyndns, en **liste
@@ -91,10 +94,161 @@ l'hébergement en SSH.
 
 ### Documentation de la micro API
 
-L'outil fourni une micro API avec 3 endpoints différents.
+L'outil fourni une micro API avec 3 endpoints différents. 
+
+Depuis le 02/05/2025, il est possible d'utiliser **deux méthodes d'authentifications** pour cette micro API : 
+- avec votre identifiant / mot de passe cPanel. Il s'agit de la méthode historique, qui n'est plus recommandée.
+- avec un Token d'API généré depuis l'[outil Créer un jeton d'API de cPanel](/cpanel/securite/token-api-cpanel)
+
+Le fonctionnement est légèrement différents en fonction de la méthode d'authentification utilisée. 
+
+Nous recommandons la méthode qui utilise un **Token d'API** cPanel. L'autre méthode est conservée pour ne pas casser des
+CI/CD existants.
+
+<Tabs>
+<TabItem value="apiToken" label="Authentification avec le Token d'API" default>
+Dans un premier temps, il faut générer un Token d'API pour cPanel avec [outil Créer un jeton d'API de
+cPanel](/cpanel/securite/token-api-cpanel).
 
 En supposant que les variables suivantes sont déclarées à l'avance : 
+```bash title="Variables à déclarer à l'avance"
+SERVER="le-serveur.o2switch.net"
+LOGIN="toto1234"
+TOKEN='BAJFRPIOE3BMG4AQELTH0BSH6MOIZK23'
+```
+#### Lister les adresses en liste blanche 
 
+```bash title="Lister les adresses IPs déjà en liste blanche"
+curl -sm 45 -H "Authorization: cpanel $LOGIN:$TOKEN" \
+  "https://$SERVER:2083/execute/SshWhitelist/list" | jq 
+``` 
+
+```json title="Réponse avec les adresses IPs en liste blanche"
+{
+  "warnings": null,
+  "data": {
+    "count": 1,
+    "list": [
+      {
+        "port": 22,
+        "address": "52.234.46.118",
+        "updateDate": "02/05/2025",
+        "direction": "out"
+      },
+      {
+        "address": "52.234.46.118",
+        "updateDate": "02/05/2025",
+        "direction": "in",
+        "port": 22
+      }
+    ],
+    "ip": "10.20.0.20"
+  },
+  "errors": null,
+  "metadata": {},
+  "status": 1,
+  "messages": null
+}
+```
+
+#### Ajouter une adresse IP en liste blanche 
+
+```bash title="Ajouter une adresse IP en liste blanche pour SSH"
+IP="1.2.3.4"
+PORT=22
+curl -sm 45 -H "Authorization: cpanel $LOGIN:$TOKEN" \
+  "https://$SERVER:2083/execute/SshWhitelist/add?address=$IP&port=$PORT" | jq 
+``` 
+
+```json title="Réponse pour l'ajout d'une IP en liste blanche"
+{
+  "errors": null,
+  "data": null,
+  "warnings": null,
+  "messages": [
+    "L'autorisation a été ajoutée avec succès."
+  ],
+  "status": 1,
+  "metadata": {}
+}
+```
+
+:::info[L'appel d'API est bloquant]
+L'appel API permettant d'ajouter une adresse IP en liste blanche est pseudo-bloquant.
+
+Concrètement, cela signifie que l'outil attend jusqu’à 35 secondes pour vérifier si l’adresse IP a bien été ajoutée et
+prise en compte par le pare-feu du serveur.
+
+Si l’ajout est confirmé et que le pare-feu a bien été rechargé avec le nouveau réglage, l’outil répondra :
+`L'autorisation a été ajoutée avec succès.`
+
+Si la demande a été correctement transmise, mais qu’au bout de 35 secondes il n’est pas certain que le pare-feu ait pris
+en compte la modification, l’outil répondra : `La modification a été enregistrée mais n'a pas été prise en compte.`
+
+Normalement ce dernier cas est très rare et la majorité des appels en liste blanche sont traités dans les ~20 secondes.
+:::
+
+#### Supprimer une adresse IP de la liste blanche 
+
+Il faut bien penser à supprimer l'exception sur les directions `in` et `out` sinon cela ne décrémente pas le compteur
+d'exceptions.
+
+```bash title="Supprimer une adresse IP de la liste blanche"
+IP="1.2.3.4"
+PORT=22
+DIR=in
+curl -sm 45 -H "Authorization: cpanel $LOGIN:$TOKEN" \
+  "https://$SERVER:2083/execute/SshWhitelist/remove?address=$IP&port=$PORT&direction=$DIR" | jq 
+
+DIR=out
+curl -sm 45 -H "Authorization: cpanel $LOGIN:$TOKEN" \
+  "https://$SERVER:2083/execute/SshWhitelist/remove?address=$IP&port=$PORT&direction=$DIR" | jq 
+``` 
+
+```json title="Réponse pour la suppression d'une adresse IP"
+{
+  "warnings": null,
+  "data": null,
+  "errors": null,
+  "metadata": {},
+  "status": 1,
+  "messages": [
+    "L'autorisation a été supprimée avec succès, elle sera effective d'ici quelques minutes (~5mins)."
+  ]
+}
+```
+
+#### Supprimer toutes les IP de la liste blanche
+
+Pour faciliter l'usage dans un contexte de CI/CD, un raccourci permettant de supprimer toutes les adresses IP placées
+en exception est proposé.
+
+```bash title="Supprimer toutes les adresses IP en liste blanche"
+curl -sm 45 -H "Authorization: cpanel $LOGIN:$TOKEN" \
+  "https://$SERVER:2083/execute/SshWhitelist/remove_all" | jq 
+``` 
+
+```json title="Réponse pour la suppression de toutes les exceptions"
+{
+  "metadata": {},
+  "status": 1,
+  "messages": [
+    "Toutes les autorisations ont été supprimées avec succès."
+  ],
+  "warnings": null,
+  "data": null,
+  "errors": null
+}
+```
+</TabItem>
+<TabItem value="login-password" label="Authentification avec cPanel (dépréciée)">
+
+:::warning[Méthode dépréciée]
+Attention, l'authentification avec l'identifiant et le mot de passe de cPanel est dépréciée. A la place, utilisez 
+la méthode d'authentification avec le token d'API cPanel
+:::
+
+En supposant que les variables suivantes sont déclarées à l'avance : 
 ```bash
 SERVER="le-serveur.o2switch.net"
 LOGIN="toto1234"
@@ -164,11 +318,111 @@ curl -sX GET "https://$LOGIN:$PASSWORD@$SERVER:2083/$ENDPOINT?r=remove&address=1
   "message": "L'autorisation a été supprimée avec succès, elle sera effective d'ici quelques minutes (~5mins)."
 }
 ```
+</TabItem>
+</Tabs>
 
-### Exemple de CI/CD Github 
+
+## Exemple de CI/CD Github 
+
+### Exemple de déploiement de Docusaurus
+
+Cette documentation utilise Docusaurus et est deployée depuis [Github avec un workflow
+CI/CD](https://github.com/o2switchfr/documentation/tree/main/.github/workflows).  
+
+Ce workflow utilise la nouvelle méthode d'authentification avec le token d'API de cPanel.
+
+Les variables `CPANEL_USERNAME`, `CPANEL_API_TOKEN`, `CPANEL_SERVER` sont déclarées à l'avance dans les secrets Github.
+
+```yaml title="Extrait du déploiement automatisé de Docusaurus, depuis Github, sur un hébergement o2switch"
+# https://github.com/o2switchfr/documentation/tree/main/.github/workflows
+name: Deploy & Index content
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build
+    uses: ./.github/workflows/build.yml
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build   
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: build
+          
+      - name: Get runner's public IP
+        id: ip
+        uses: haythem/public-ip@v1.3
+
+      - name: Removing all whitelisted IP
+        run: |
+          curl -sm 45 -H'Authorization: cpanel ${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_API_TOKEN }}' \
+          'https://${{ secrets.CPANEL_SERVER }}:2083/execute/SshWhitelist/remove_all'
+
+      - name: Whitelisting the runner IP
+        run: |
+          curl -sm 45 -H'Authorization: cpanel ${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_API_TOKEN }}' \
+          'https://${{ secrets.CPANEL_SERVER }}:2083/execute/SshWhitelist/add?address=${{ steps.ip.outputs.ipv4 }}&port=22'
+
+      - name: Making sure the IP is whitelisted
+        run: |
+          curl -sm 45 -H'Authorization: cpanel ${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_API_TOKEN }}' \
+          'https://${{ secrets.CPANEL_SERVER }}:2083/execute/SshWhitelist/list' | grep ${{ steps.ip.outputs.ipv4 }}
+      
+      - name: Installing the SSH Key
+        run: |
+           eval $(ssh-agent -s)
+           mkdir -p ~/.ssh       
+           chmod 700 ~/.ssh 
+           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+           chmod 0400 ~/.ssh/id_rsa
+
+      - name: Sending data with RSYNC 
+        run: |
+           rsync --timeout=60 -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa" \
+           --exclude=".git" -av --delete build/ \
+           ${{ secrets.CPANEL_USERNAME }}@${{ secrets.CPANEL_SERVER }}:/home/${{ secrets.CPANEL_USERNAME }}/public_html
+
+      - name: Cleaning SSH keys
+        if: always()
+        run: rm -fr ~/.ssh
+        
+      - name: Cleaning artifacts
+        uses: geekyeggo/delete-artifact@v5
+        if: always()
+        with:
+            name: build
+            failOnError: false
+            
+      - name: Run DocSearch Scraper
+        uses: celsiusnarhwal/typesense-scraper@v2
+        with:
+          api-key: ${{ secrets.TYPESENSE_API_KEY }}
+          host: search.o2swit.ch
+          port: 443
+          protocol: https
+          config: typesense.config.json
+```
+
+### Exemple de déploiement de WordPress Bedrock
 
 Pour un exemple de CI/CD avec Github, vous pouvez regarder [ce gist /
 discussion](https://gist.github.com/webaxones/54a9aee13bd9152e900ef30a0fcef3ed).
+
+Ce Workflow (à la date du 02/05/2025) utilise l'ancienne méthode d'authentification avec l'identifiant / mot de passe
+de cPanel. 
 
 Pour un usage de CI/CD, l'idée est de : 
 - détecter dynamiquement l'adresse IP du runner. Sur GitHub il est possible d'utiliser une action comme
