@@ -306,7 +306,7 @@ Une fois présent dans l'environnement, il faut lancer la commande `npm install 
 l'exécutable qui permet d'installer Ghost facilement.
 
 ```bash title="Installation de Ghost CLI"
-# Ne copiez pas cette commande, prenez celle fourni dans cPanel dans l'outil NodeJS
+# Ne copiez pas cette commande, prenez celle fournie dans cPanel dans l'outil NodeJS
 source /home/dojo2567/nodevenv/ghost-backend/20/bin/activate && cd /home/dojo2567/ghost-backend
 
 # Installation de ghost-cli
@@ -483,7 +483,7 @@ Après, c'est PhusionPassenger qui se débrouille pour utiliser cette `socket un
 Ce mécanisme se nomme le `Reverse port binding` et est documenté ici :
 [Reverse port binding in Node.js](https://www.phusionpassenger.com/library/indepth/nodejs/reverse_port_binding.html).
 
-Normalement tout ce processus est géré automagiquement par PhusionPassenger, sans modifications nécessaires dans
+Normalement tout ce processus est géré automatiquement par PhusionPassenger, sans modifications nécessaires dans
 l'application,  sauf dans des cas très rares documentés dans le lien ci-dessus (multiple appels à `listen()` par exemple).
 
 Par exemple `Express.js`, `Hapi.js` peuvent être concernés par ce problème. Pour ces cas rares, il faut faire 2-3
@@ -602,7 +602,7 @@ manuellement avec la commande node. Il faudra prévoir un moyen de relancer le p
 Pour aider passenger à faire son choix, il faut remplacer le port dans `listen()` par le mot clé spécial `passenger`
 ou `/passenger` dans le cas de `hapi.js`.
 
-Ci-dessous des exemples ([issue de la documentation](https://www.phusionpassenger.com/library/indepth/nodejs/reverse_port_binding.html) de passenger.
+Ci-dessous des exemples ([issus de la documentation](https://www.phusionpassenger.com/library/indepth/nodejs/reverse_port_binding.html) de Passenger).
 
 ```js title="Application générique avec passenger"
 // Remplacer

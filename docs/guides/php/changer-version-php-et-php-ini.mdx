@@ -117,6 +117,18 @@ AddHandler application/x-httpd-php81 .php
 
 
 #PHP 8.2 : 
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php82
+</FilesMatch>
+AddHandler application/x-httpd-php82 .php
+
+#PHP 8.3 : 
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php83
+</FilesMatch>
+AddHandler application/x-httpd-php83 .php
+
+#PHP 8.4 : 
 Non disponible pour le moment.
 ```
 
@@ -158,8 +170,8 @@ plus profond.
 ## Mettre en place un php.ini personnalisé
 
 Pour mettre en place un fichier php.ini, vous devez forcer la version de PHP que vous souhaitez utiliser (par défaut,
-php 5.4) à l'aide des explications fourni plus haut, puis ajoutez cette directive dans le fichier .htaccess contenu dans
-le dossier ou vous souhaitez que les modifications soit effective :
+php 5.4) à l'aide des explications fournies plus haut, puis ajoutez cette directive dans le fichier .htaccess contenu dans
+le dossier ou vous souhaitez que les modifications soient effectives :
 
 ```apacheconf title="Directive pour obtenir un php.ini personnalisé"
 # Attention : c'est bien le chemin vers le DOSSIER CONTENANT le fichier php.ini
@@ -181,7 +193,7 @@ suPHP_ConfigPath /home/votre_login/public_html/
 
 Dans ce dernier cas, le fichier php.ini devra être situé ici : `/home/votre_login/public_html/php.ini`
 
-La version de PHP ainsi que les modifications ajoutés via le fichier php.ini seront effectives pour le dossier
+La version de PHP ainsi que les modifications ajoutées via le fichier php.ini seront effectives pour le dossier
 public_html **ET** l'ensemble des sous-dossiers de "public_html" **SAUF** si un fichier .htaccess ré-écrit cela avec de
 nouvelles directives.
 
@@ -204,9 +216,9 @@ Le fichier php.ini devra être ici : `/home/votre_login/public_html/site2.fr/php
 
 ### Pour PHP inférieur ou égal 5.6
 
-Sur les versions de PHP inférieureou égale à PHP 5.6, il est nécessaire d'activer les extensions `mysql`.
+Sur les versions de PHP inférieures ou égale à PHP 5.6, il est nécessaire d'activer les extensions `mysql`.
 
-Ces extensions là sont supprimées à partir de PHP 7 et sont remplacés par des équivalents plus modernes. 
+Ces extensions là sont supprimées à partir de PHP 7 et sont remplacées par des équivalents plus modernes. 
 
 Pensez à modifier les chemins pour les `zend_extension` visible en fin de fichier. Remplacez **56** par la version
 de PHP que vous souhaitez utiliser.
@@ -381,7 +393,7 @@ zend_extension=/opt/alt/php56/usr/lib64/php/modules/ioncube_loader.so
 
 ### Pour PHP supérieur à 5.6  
 
-Pour les versions de PHP supérieure à PHP 5.6, les modules MySQL n'existent plus et sont remplacés, donc le fichier 
+Pour les versions de PHP supérieures à PHP 5.6, les modules MySQL n'existent plus et sont remplacés, donc le fichier 
 php.ini est légèrement différents. 
 
 ```ini title="php.ini pour PHP supérieur à 5.6"
