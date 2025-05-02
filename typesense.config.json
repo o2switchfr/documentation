@@ -8,7 +8,7 @@
     ],
     "sitemap_alternate_links": true,
     "stop_urls": [
-      "/tests"
+      "/tags/.*"
     ],
     "selectors": {
       "lvl0": {
