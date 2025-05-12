@@ -60,7 +60,7 @@ const all_shared_hosting = [offers.grow, offers.cloud, offers.pro];
 
 const cpanelTool = {
     'imunify-antivirus': {
-        name:"Antivirus Imunify360",
+        name:"Antivirus Imunify",
         desc:"Logiciel antivirus qui scanne les fichiers de l'hébergement à la recherche de fichiers malveillants",
         icon:"imunify-antivirus",
         cat: cpanelCategories.security,
