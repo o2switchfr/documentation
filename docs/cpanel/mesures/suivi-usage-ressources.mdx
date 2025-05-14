@@ -98,9 +98,9 @@ fonctionner. En fonction de la manière dont sont conçus les scripts exécutés
 moins de mémoire RAM (notamment lorsqu'il est nécessaire d'augmenter le `memory_limit` de PHP par exemple).
 
 Les traitements lourds (déclinaisons de produits sur un E-Commerce, parsing/traitement d'import/export de données) ont
-tendances à consommer plus de mémoire.
+tendance à consommer plus de mémoire.
 
-Les gestionnaires de dépendances comme `composer`, `npm` ou `pip` sont également très gourmand en mémoire, car ils
+Les gestionnaires de dépendances comme `composer`, `npm` ou `pip` sont également très gourmands en mémoire, car ils
 doivent conserver tout l'arbre des dépendances en mémoire.
 
 #### Accès disques / IO
@@ -121,7 +121,7 @@ En résumé, tout ce qui a besoin de lire/écrire des choses sur le disque dur d
 
 A chaque fois que vous avez une visite sur votre site internet, cela utilise une place (un slot) sur le serveur web.
 
-Lorsqu'une place est réservé, c'est compté comme un entry process. Cette place est réservé/active jusqu'à que le serveur
+Lorsqu'une place est réservée, c'est compté comme un entry process. Cette place est réservée/active jusqu'à que le serveur
 web réponde au visiteur avec la page demandée.
 
 Sur un site qui fonctionne normalement, un slot est réservé pendant quelques millisecondes,
@@ -140,7 +140,7 @@ Il faut voir l'**entry process** comme le nombre de connexions concurrentes sur 
 Le plus souvent, ce sont les sites internet et les processus qui en résultent (PHP, nodeJS, Ruby, Python) qui représente
 la majorité du nombre de processus en cours d'exécution sur un hébergement.
 
-Les processus IMAP, pour les emails, sont également comptabilisé. C'est important, car cela peut grimper rapidement
+Les processus IMAP, pour les emails, sont également comptabilisés. C'est important, car cela peut grimper rapidement
 avec les emails : il faut compter 1 processus IMAP par dossier d'une boite email sur laquelle quelqu'un est connecté !
 
 :::info
@@ -154,9 +154,9 @@ servant à l'hébergement de ce compte peut-être à moins de 30% d'utilisation 
 ### Historique de l'activité de l'hébergement
 
 En cliquant sur le lien **Snapshot** de la page d'accueil de l'outil, vous pouvez retrouver une capture des
-processus qui étaient en cours d'exécution sur votre hébergement, aux périodes pendant lesquels il y avait des problèmes.
+processus qui étaient en cours d'exécution sur votre hébergement, aux périodes pendant lesquelles il y avait des problèmes.
 
-Le fait de voir que votre hébergement consomme 100% de CPU à un instant T bien. Ce qui est mieux est de voir
+Le fait de voir que votre hébergement consomme 100% de CPU à un instant T est bien. Ce qui est mieux est de voir
 qu'est-ce qui était lancé à cet instant T et c'est ce qui permet l'outil snapshot.
 
 <Image
@@ -183,7 +183,7 @@ et **MEM**.
 requêtes SQL qui étaient en cours d'exécution au moment du snapshot
 
 <span className="badge badge--danger">5</span> Dans **HTTP Querie snapshot** on retrouve les requêtes qui étaient
-présente sur le serveur web au moment du snapshost
+présente sur le serveur web au moment du snapshot
 
 <span className="badge badge--danger">6</span> En cliquant sur la commande **CMD** la commande complète s'affiche dans
 une infobulle.
@@ -191,7 +191,7 @@ une infobulle.
 ## Que faire en cas de saturation ?
 
 
-Lorsque vous arrivez aux limites, vous allez le constatez dans les tendances des courbes et dans l'historique des
+Lorsque vous arrivez aux limites, vous allez le constater dans les tendances des courbes et dans l'historique des
 processus également. La première chose à se demander est : **est-ce que l'utilisation visible dans les courbes semble
 cohérente par rapport à ce que j'héberge ?**
 
@@ -231,12 +231,12 @@ antivirus sur vos sites, lancez des scans et analyses.
 Si vous avez installé des nouvelles choses récemment, commencer par les désactiver si le problème est récent.
 Désactivez progressivement ce que vous avez installé récemment pour voir si l'usage redevient cohérent. Si c'est le cas,
 vous trouverez le fautif (thèmes, extensions installés) en procédant par élimination.
-  * regardez dans l'outil **snapshot** les processus qui sont en cours d'exécutions. Est-ce que cela vous parle ?
+  * regardez dans l'outil **snapshot** les processus qui sont en cours d'exécution. Est-ce que cela vous parle ?
 Savez-vous à quoi correspondent ces processus ? A partir de là, vous pouvez en déduire ce qui pose problème sur le site/hébergement.
   * vérifiez vos [tâches planifiées (cron)](/cpanel/outils-avances/tache-planifiee-cron) et vos sauvegardes, d'autant plus si vous constatez une régularité dans les pics de consommation.
 
 La deuxième question à se poser est : ai-je **plusieurs sites** sur le même compte d'hébergement ? Puis-je prendre un
-deuxième compte d'hébergement et migrer une partie des sites dessus pour **équilibrer** la charge ?**
+deuxième compte d'hébergement et migrer une partie des sites dessus pour **équilibrer** la charge ?
 
 Dans le cas ou vous avez plusieurs sites internet sur le même compte d'hébergement et que l'ensemble de ces sites reçoit
 un trafic web moyen, il est possible de commander un deuxième compte d'hébergement puis de migrer une partie des sites
@@ -252,8 +252,8 @@ seul site**. Autrement dit, si vous avez 5 sites internet sur un même compte d'
 mais que les 4 autres ont un nombre de visite anecdotique, ça ne servira à rien d'isoler les 4 autres sites sur un
 second compte : ils ne consomment presque rien.
 
-Pour qu'une séparation des sites sur plusieurs comptes d'hébergement soient utiles et efficaces, il faut que la
-consommation de l'hébergement viennent de l'activité de tous ces sites (et pas juste 1 site).
+Pour qu'une séparation des sites sur plusieurs comptes d'hébergement soit utile et efficace, il faut que la
+consommation de l'hébergement vienne de l'activité de tous ces sites (et pas juste 1 site).
 
 ## Checklist des problèmes de saturation
 
@@ -369,12 +369,12 @@ Essayez de revenir en arrière, progressivement, sur les dernières grosses opé
 l'hébergement ou sur l'installation d'extensions particulières, surtout si le problème est récent : le problème à
 certainement été introduit suite à une modification effectuée.
 
-#### Ai-je des tâches cron ou des opérations lancées à interval régulier ?
+#### Ai-je des tâches cron ou des opérations lancées à intervalles réguliers ?
 
 Généralement les [tâches cron](/cpanel/outils-avances/tache-planifiee-cron) consomment du CPU, car les tâches qui sont
-lancés sont souvent des tâches lourdes comme la génération d'une sauvegarde.
+lancées sont souvent des tâches lourdes comme la génération d'une sauvegarde.
 
-Regardez si l'allure de la courbe de consommation semble indiquer que c'est quelque chose lancé à interval régulier.
+Regardez si l'allure de la courbe de consommation semble indiquer que c'est quelque chose lancé à intervalles réguliers.
 
 Comparez cela avec les cron que vous avez sur cPanel. A noter que certains CMS ont leurs propres systèmes de cron,
 comme wpcron pour WordPress, lancés indépendamment de ce que vous avez pu configurer sur cPanel également.
@@ -395,7 +395,7 @@ Vous pouvez également faire des scans en ligne avec des outils comme sucuri sit
 
 #### Est-ce que j'utilise la dernière version du CMS / extension / thème que j'utilise ?
 
-Si vous n'utilisez pas la dernière version des outils que vous avez déployés sur votre hébergement, regardez s'il est possible de faire une mise à jour. Les mises à jours corrigent des problèmes, cela peut également corriger des problèmes liés aux performances.
+Si vous n'utilisez pas la dernière version des outils que vous avez déployés sur votre hébergement, regardez s'il est possible de faire une mise à jour. Les mises à jour corrigent des problèmes, cela peut également corriger des problèmes liés aux performances.
 
 #### Ai-je regardé les logs d'erreurs de mon application ou de PHP ?
 
