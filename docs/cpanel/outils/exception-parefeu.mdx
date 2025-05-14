@@ -89,18 +89,18 @@ A noter que les adresses IP / domaine placés en liste blanche par le support o2
 ## Utilisation dans un contexte CI/CD
 
 Il est possible d'utiliser cet outil en **mode API**. Cela est particulièrement utile dans un contexte de CI/CD pour
-**placer en liste blanche dynamiquement l'adresse IP** d'un runner Github / Gitlab, afin de l'autoriser à se conneter à
+**placer en liste blanche dynamiquement l'adresse IP** d'un runner Github / Gitlab, afin de l'autoriser à se connecter à
 l'hébergement en SSH.
 
 ### Documentation de la micro API
 
 L'outil fourni une micro API avec 3 endpoints différents. 
 
-Depuis le 02/05/2025, il est possible d'utiliser **deux méthodes d'authentifications** pour cette micro API : 
+Depuis le 02/05/2025, il est possible d'utiliser **deux méthodes d'authentification** pour cette micro API : 
 - avec votre identifiant / mot de passe cPanel. Il s'agit de la méthode historique, qui n'est plus recommandée.
 - avec un Token d'API généré depuis l'[outil Créer un jeton d'API de cPanel](/cpanel/securite/token-api-cpanel)
 
-Le fonctionnement est légèrement différents en fonction de la méthode d'authentification utilisée. 
+Le fonctionnement est légèrement différent en fonction de la méthode d'authentification utilisée. 
 
 Nous recommandons la méthode qui utilise un **Token d'API** cPanel. L'autre méthode est conservée pour ne pas casser des
 CI/CD existants.
