@@ -1,7 +1,7 @@
 ---
 title: Mon Univers Web, l'outil pour isoler les sites internet
 sidebar_label: Mon Univers Web
-description: L'outil Mon Univers Web améliore le cloisonnement et sécurités de vos sites en permettant la création de sous comptes cPanel isolés.
+description: L'outil Mon Univers Web améliore le cloisonnement et sécurités de vos sites en permettant la création de sous-comptes cPanel isolés.
 image: /img/docs/tools/o2switch-multiple-accounts.png
 tags:
   - cpanel
@@ -10,7 +10,7 @@ tags:
   - serveurs infogérés
   - sécurité
   - univers web
-  - sous compte
+  - sous-compte
 ---
 
 
@@ -20,19 +20,29 @@ L'outil **Mon Univers Web** permet de créer des sous-comptes d'hébergement cPa
 
 Cela vous permet d'**isoler vos sites internet** sur des comptes différents, afin d'améliorer la sécurité de vos sites.
 
-Les sous-comptes créés (appelés “lune”) sont similaires à des comptes d'hébergement indépendants, à la différence
-qu'ils partagent les ressources (CPU/Mémoire/accès disque) du compte principal.
+Les sous-comptes créés (appelés “lune”) sont similaires à des comptes d'hébergement indépendants. Le fonctionnement
+des ressources dépend de l'offre (partage sur Grow, ressources dédiées par lune sur Cloud et Pro).
 
 En résumé, l'[hébergeur web français](https://www.o2switch.fr/hebergement-illimite/) o2switch vous permet avec cet
-outil découper votre compte principal en plusieurs sous-comptes, afin d'améliorer l'isolement et la sécurité de vos
+outil de découper votre compte principal en plusieurs sous-comptes, afin d'améliorer l'isolement et la sécurité de vos
 sites internet.
 
-L'outil permet de créer gratuitement **4 sous-comptes**, ce qui vous permet d'avoir 5 comptes au total (4 sous-comptes +
-le compte principal).
+Le nombre de lunes gratuites dépend de votre offre :
+  * **Grow.** : 4 lunes gratuites
+  * **Cloud.** : 8 lunes gratuites
+  * **Pro.** : 16 lunes gratuites
 
-Depuis peu, il est également possible de commander des lunes en plus. Vous pouvez commander jusqu'à 16 lunes
-supplémentaires, pour arriver à un maximum de 20 lunes au total (les 16 payantes + 4 gratuites). Les lunes
-supplémentaires sont facturées mensuellement 1.5€ TTC.
+Cela vous permet d'avoir 1 compte principal + vos lunes gratuites.
+
+Sur l'offre **Grow**, les lunes servent surtout à cloisonner vos sites côté sécurité, mais les ressources restent
+partagées avec le compte principal.
+
+Sur les offres **Cloud** et **Pro**, chaque lune dispose de ressources indépendantes. C'est donc intéressant pour les
+performances, en plus de la sécurité.
+
+Depuis peu, il est également possible de commander des lunes en plus. Vous pouvez acheter des lunes supplémentaires
+pour le même prix, avec une limite totale de **20 lunes** (gratuites + payantes). Les lunes supplémentaires sont
+facturées mensuellement 1.5€ TTC.
 
 <PreviewToolCard tool='o2switch-multiple-accounts' />
 
@@ -40,7 +50,7 @@ supplémentaires sont facturées mensuellement 1.5€ TTC.
 
 L'outil **Mon Univers Web** est utile pour :
   * améliorer la sécurité des sites internet hébergés en isolant les sites sur des comptes à part
-  * pour les webmaster, cela peut vous aider à améliorer la gestion des clients en isolant les clients sur des comptes distincts
+  * pour les webmasters, cela peut vous aider à améliorer la gestion des clients en isolant les clients sur des comptes distincts
 
 
 ### Isolement des sites
@@ -56,7 +66,7 @@ faible** : autrement dit, le site le moins sécurisé de l'espace d'hébergement
     src="/img/docs/cpanel/o2switch/univers-web-attaque-infection-sites.svg"
     alt="Schéma explicatif sur la propagation d'un malware sur un hébergement web"
     caption="Exemple d'une attaque pirate qui cible le site le moins protégé pour atteindre les autres sites du même compte d'hébergement"
-    title="Le malware se répand  sur l'hébergement"/>
+    title="Le malware se répand sur l'hébergement"/>
 
 Généralement "le maillon faible" correspond à un site qui n'est pas à jour. L'un des conseils que l'on retrouve le
 plus est de mettre à jour régulièrement ces outils / sites internet. Malheureusement, dans la réalité, ce n'est pas
@@ -78,7 +88,7 @@ Ces sous-comptes sont totalement isolés les uns des autres. Il est intéressant
 Si le nombre de sites internet est trop important et qu'il n'est pas possible d'avoir un compte par site, alors,
 il est au moins possible d'isoler les sites qui ne sont pas à jour sur un compte spécifique (les maillons faibles).
 
-Au besoin, il est également possible de commander d'autres offres d'hébergement pour bénéficier de plus de sous-comptes possible.
+Au besoin, il est également possible de commander d'autres offres d'hébergement pour bénéficier de plus de sous-comptes possibles.
 
 <Image
     src="/img/docs/cpanel/o2switch/univers-web-sites-isoles-lunes.svg"
@@ -86,7 +96,7 @@ Au besoin, il est également possible de commander d'autres offres d'hébergemen
     caption="Exemple d'organisation sur un hébergement où les sites sont isolés sur des comptes séparés"
     title="Le malware ne se répand pas"/>
 
-Autrement dit, mettre les "maillons faibles" sur un compte sous-compte à part.
+Autrement dit, mettre les "maillons faibles" sur un sous-compte à part.
 
 Cela ne règle pas le problème de compromission possible des maillons faibles, mais permet d'isoler les autres sites qui
 eux sont à jour. Cela permet de **limiter les dégâts** et de gagner un peu de temps pour mettre à jour petit à petit ces
@@ -98,11 +108,11 @@ Le deuxième gros avantage concerne les **créateurs de sites**. Un webmaster ou
 compte d'hébergement, à son nom, pour héberger plusieurs de ces clients dessus. Plusieurs clients se retrouvent sur la
 même offre d'hébergement et c'est le webmaster qui gère tout pour eux.
 
-De notre côté, nous recommandons plutôt d'avoir un compte d'hébergement différents par client mais tous les webmasters
+De notre côté, nous recommandons plutôt d'avoir un compte d'hébergement différent par client mais tous les webmasters
 ne souhaitent pas faire cela.
 
 Il y a toujours la problématique d'**isolement des sites internet**, un client A du compte d'hébergement peut impacter
-les données du client B hébergé sur le même compte mais dans ce cas de figure, c'est le rôle du webmater de gérer cela.
+les données du client B hébergé sur le même compte mais dans ce cas de figure, c'est le rôle du webmaster de gérer cela.
 
 L'autre problématique est l'accès aux comptes par les clients (finaux). Parfois il est utile qu'un client puisse avoir
 accès à cPanel, pour créer lui-même ces comptes emails par exemple. Cela permet de laisser un peu plus de liberté au
@@ -110,17 +120,17 @@ client final et permet au webmaster de gagner du temps.
 
 Cependant, dans le cas classique d'un hébergement avec plusieurs sites/clients, ce n'est pas possible car les accès
 à cPanel donnent les accès à l'ensemble de l'hébergement et cPanel ne gère pas (nativement) les sous-accès ou une
-gestions des droits très avancés.
+gestion des droits très avancés.
 
 
 Les sous-comptes permettent de remédier à ce problème. Le webmaster peut créer un sous-compte pour chacun de ses clients.
 
-Il peut fournir les identifiants/mots de passes des sous-comptes aux clients directement et de son côté, il conservera
+Il peut fournir les identifiants/mots de passe des sous-comptes aux clients directement et de son côté, il conservera
 les accès à tout avec son compte principal (cf. partie "authentification").
 
 <Image
     src="/img/docs/cpanel/o2switch/univers-web-webmaster.svg"
-    alt="Schéma explicatif du fonctionnement des mots de passes sur l'outil Univers Web"
+    alt="Schéma explicatif du fonctionnement des mots de passe sur l'outil Univers Web"
     caption="Une lune est accessible depuis 2 codes d'accès différents"
     title="Les manières de s'authentifier avec les lunes"/>
 
@@ -151,7 +161,8 @@ L'accès à l'outil sera automatiquement **débloqué 5 minutes plus tard**.
 
 ## Commander des lunes supplémentaires
 
-Depuis l'outil, il est possible de commander jusqu'à 16 lunes supplémentaires en plus des 4 gratuites incluses.
+Depuis l'outil, il est possible de commander des lunes supplémentaires au-delà de votre quota gratuit.
+La limite totale reste de **20 lunes** (gratuites + payantes).
 
 Chaque lune supplémentaire est facturée 1.5€ TTC / mois. La facturation est mensuelle, vous pouvez commander
 1 lune supplémentaire pour 2 mois par exemple puis décider de ne pas la renouveler plus tard.
@@ -166,7 +177,7 @@ Vous serez redirigé vers un panier de commande, qui sera créé automatiquement
 
 <Image
     src="/img/docs/cpanel/o2switch/univers-web-commande-lunes.png"
-    alt="Capture d'écran du formulaire de commande de sous comptes supplémentaires"
+    alt="Capture d'écran du formulaire de commande de sous-comptes supplémentaires"
     caption="Commande de sous-comptes lunes supplémentaires"
     title="Commande de lunes supplémentaires"/>
 
@@ -191,23 +202,23 @@ Puis de remplir le formulaire qui s'affiche en indiquant un mot de passe. Il y a
 <Image
     src="/img/docs/cpanel/o2switch/univers-web-creation-lune.png"
     alt="Capture d'écran de l'outil Mon Univers Web sur l'activation d'une lune supplémentaire"
-    caption="Définition du mot de passe du sous compte d'hébergement"
+    caption="Définition du mot de passe du sous-compte d'hébergement"
     title="Formulaire de création d'une lune o2switch"/>
 
 La création du compte peut prendre du temps, de quelques secondes jusqu'à une minute dans le pire des cas, cela est normal :
 **il ne faut pas interrompre la page en cours de traitement**.
 
-Il faut patienter jusqu'à que la ligne s'actualise dans la liste des lunes :
+Il faut patienter jusqu'à ce que la ligne s'actualise dans la liste des lunes :
 
 <Image
     src="/img/docs/cpanel/o2switch/univers-web-etape-lunes.png"
     alt="Capture d'écran des étapes de création d'un compte supplémentaire"
     caption="La lune ne s'affiche plus de manière grisée, elle a été créée correctement"
-    title="La lune a été crééLa lune a été créée"/>
+    title="La lune a été créée"/>
 
 
 L'identifiant ainsi que le domaine principal du sous-compte lune est **imposé**.
-L'identifiant sera de la forme : `sc[1-4][identifiant compte maître tronqué à 9 caractères]`
+L'identifiant sera de la forme : `sc[1-20][identifiant compte maître tronqué à 9 caractères]`
 
 Le domaine principal associé sera de la forme : `[identifiant généré].universe.wf`
 
@@ -225,7 +236,7 @@ Pour supprimer un sous-compte, il suffit de cliquer sur l'icône de suppression 
 
 <Image
     src="/img/docs/cpanel/o2switch/univers-web-supprimer-lune.png"
-    alt="Capture d'écran du bouton pour supprimer un sous compte lune"
+    alt="Capture d'écran du bouton pour supprimer un sous-compte lune"
     caption="Première étape pour supprimer une lune o2switch"
     title="Suppression d'une lune"/>
 
@@ -255,9 +266,9 @@ Il existe plusieurs manières de s'authentifier sur un sous-compte :
     src="/img/docs/cpanel/o2switch/univers-web-authentification-rapide.png"
     alt="Capture d'écran de l'outil Mon Univers Web avec les liens de connexion rapide"
     caption="Lien de connexion rapide vers un compte indépendant"
-    title="Connexion rapide à un sous compte d'hébergement"/>
+    title="Connexion rapide à un sous-compte d'hébergement"/>
 
-Si vous êtes connecté sur votre compte principal (avec votre mot de passe principal), vous pouvez naviguer de lunes en lunes avec la même session en retournant dans l'outil "Mon univers web" en étant connecté sur une lune :
+Si vous êtes connecté sur votre compte principal (avec votre mot de passe principal), vous pouvez naviguer de lunes en lunes avec la même session en retournant dans l'outil "Mon Univers Web" en étant connecté sur une lune :
 
 <Image
     src="/img/docs/cpanel/o2switch/univers-web-authentification-principale.png"
@@ -292,7 +303,7 @@ du sous-compte se nomme "mon-site.com" aussi
 recréer une base de données sur le nouveau compte pour importer la sauvegarde.
   - Il faut revoir les fichiers de configuration du site internet (exemple : wp-config.php pour WordPress)
   - Il faut **supprimer le domaine supplémentaire ou l'alias** correspondant au domaine sur le compte maître
-  - Puis recréer le **domaine supplémentaire** sur le sous compte. (dans cet ordre, supprimer puis recréer)
+  - Puis recréer le **domaine supplémentaire** sur le sous-compte. (dans cet ordre, supprimer puis recréer)
   - Il faut refaire les différents comptes emails liés au domaine puis tester.
 
 Le plus important est de bien respecter **les étapes 6 et 7**, c'est-à-dire d'abord supprimer le domaine du premier compte
