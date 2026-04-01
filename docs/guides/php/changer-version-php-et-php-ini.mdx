@@ -137,6 +137,11 @@ La mise en place de la version de PHP doit s'accompagner obligatoirement d'un fi
 version fonctionne correctement
 :::
 
+:::warning[Réglages des permissions]
+Contrairement à la version PHP native de votre panel qui tolère des permissions larges, la version PHP de votre dossier utilise **suPHP** qui refuse d'exécuter tout fichier en 777 ou 775 pour des raisons de sécurité.  
+Pensez à vérifier vos permissions sur les fichiers pour éviter les erreurs.
+:::
+
 La version de PHP sera prise en compte pour le dossier contenant le fichier .htaccess ainsi que l'ensemble des
 sous-dossiers. Cela vous permet d'avoir des configurations assez fines, comme par exemple définir une versions de PHP
 différente pour chacun de vos sites : il suffit de préciser un fichier .htaccess avec la bonne directive à la racine de
