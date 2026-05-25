@@ -478,7 +478,7 @@ const cpanelTool = {
     },
     'lveresusage': {
         name:"Utilisation des ressources",
-        desc:"Permet d'observeer la consommation CPU, mémoire et IO de votre hébergement",
+        desc:"Permet d'observer la consommation CPU, mémoire et IO de votre hébergement",
         icon:"lveresusage",
         cat: cpanelCategories.metrics,
         to: '/cpanel/mesures/suivi-usage-ressources',
@@ -499,15 +499,15 @@ const cpanelTool = {
         cat: cpanelCategories,
         to: '/todo',
         offers: [offers.scaleup],
-    },
-    'lvexray': {
-        name:"",
-        desc:"",
-        icon:"lvexray",
-        cat: cpanelCategories,
-        to: '/todo',
-        offers: [offers.scaleup],
     },*/
+    'lvexray': {
+        name:"X-Ray App",
+        desc:"Permet d'analyser les lenteurs PHP d'un site afin d'identifier les scripts, requêtes SQL ou appels externes les plus coûteux",
+        icon:"lvexray",
+        cat: cpanelCategories.metrics,
+        to: '/cpanel/mesures/php-x-ray',
+        offers: all_offers,
+    },
     'mailing_lists': {
         name:"Listes de diffusion",
         desc:"Permet de créer des listes de diffusions. Outils non supporté officiellement, aucun support sur cet outil. Proposé tel quel.",

@@ -680,6 +680,7 @@ const sidebars: SidebarsConfig = {
           },
           items: [
             'cpanel/mesures/suivi-usage-ressources',
+            'cpanel/mesures/php-x-ray',
             'cpanel/mesures/log-acces-brut',
             'cpanel/mesures/erreurs-apache',
             'cpanel/mesures/analytics-awstats',
