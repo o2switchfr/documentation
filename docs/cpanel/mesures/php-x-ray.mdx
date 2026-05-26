@@ -1,0 +1,443 @@
+---
+title: Analyser les lenteurs PHP avec PHP X-Ray
+sidebar_label: PHP X-Ray
+description: Découvrez comment utiliser PHP X-Ray dans cPanel pour analyser les lenteurs PHP, WordPress ou PrestaShop et identifier scripts, requêtes SQL ou appels externes lents.
+tags:
+  - cpanel
+  - php
+  - php x-ray
+  - performances
+  - lenteurs
+  - mesures
+  - cloudlinux
+  - wordpress
+  - prestashop
+---
+
+import Admonition from '@theme/Admonition';
+
+# Analyser les lenteurs PHP avec PHP X-Ray
+
+PHP X-Ray est un outil de diagnostic disponible depuis cPanel. Il permet d'analyser l'exécution PHP d'un site afin d'identifier les éléments qui consomment le plus de temps lors de l'exécution : scripts PHP, extensions, thèmes, requêtes SQL, fonctions lentes ou appels externes.
+
+PHP X-Ray est particulièrement utile lorsqu'un site PHP, comme WordPress, PrestaShop, Joomla, Drupal ou une application sur mesure, présente des lenteurs difficiles à isoler.
+
+<Admonition type="warning" title="Cas particulier : domaines utilisant IPXtender / LSCache">
+
+Sur nos hébergements, certains domaines peuvent utiliser [IPXtender](https://faq.o2switch.fr/cpanel/o2switch/ipxtender-hebergement-multi-ips/), notamment dans le cadre de l’utilisation de [LSCache](https://faq.o2switch.fr/cpanel/o2switch/litespeed-cache-webadc/).
+
+Dans ce cas, le domaine peut pointer vers une IP associée à un autre serveur que celui du compte cPanel principal. Les requêtes web, les logs et l'exécution PHP peuvent alors être traités sur ce serveur distant.
+
+Dans cette situation, PHP X-Ray lancé depuis le cPanel du compte peut ne pas capturer les requêtes du domaine concerné. Si le domaine utilise IPXtender, l'analyse PHP X-Ray peut donc être impossible ou ne pas retourner de résultat exploitable.
+
+Avant de lancer une analyse, vérifiez que le domaine testé est bien exécuté sur le serveur associé au compte cPanel.
+
+</Admonition>
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-cpanel.png"
+    alt="Icône PHP X-Ray dans cPanel sur un hébergement o2switch."
+    caption="PHP X-Ray est accessible depuis l'interface cPanel de votre hébergement."
+    title="PHP X-Ray dans cPanel" />
+
+---
+
+## Quand utiliser PHP X-Ray ?
+
+Vous pouvez utiliser PHP X-Ray lorsque votre site présente par exemple :
+
+- des lenteurs régulières ou intermittentes
+- un temps de chargement élevé sur certaines pages
+- une administration WordPress, PrestaShop ou autre CMS lente
+- des pics de consommation CPU ou IO
+- des requêtes SQL lentes
+- des appels externes qui ralentissent le chargement
+- un doute sur une extension, un thème ou un développement spécifique
+
+PHP X-Ray ne corrige pas automatiquement les lenteurs. Il aide à identifier leur origine afin de savoir quelle partie du site doit être optimisée.
+
+---
+
+## Accéder à PHP X-Ray depuis cPanel
+
+1. Connectez-vous à votre interface cPanel
+2. Recherchez l'outil **PHP X-Ray**
+3. Ouvrez l'outil
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-accueil.png"
+    alt="Capture d'écran de l'accueil de X-Ray."
+    caption="Capture d'écran de l'accueil de X-Ray."
+    title="Capture d'écran de l'accueil de X-Ray." />
+
+---
+
+## Lancer une analyse PHP X-Ray
+
+Depuis l'interface PHP X-Ray :
+
+1. Cliquez sur le bouton **Start tracing** pour créer une nouvelle analyse.
+2. Sélectionnez le domaine à analyser dans le menu déroulant
+3. Indiquez l'URL ou le masque à surveiller dans **Specify mask**.
+4. Vous pouvez afficher les paramètres avancés via "Advanced settings"
+    - Client's IP : permet de filtrer depuis quelle IP les requêtes vont être prises en compte. `*` signifie toutes les IP.
+    - La durée du test peut être définie par un temps ou par un nombre de requêtes : `Time period` ou `Requests`
+5. Lancez l'analyse avec "Run"
+
+Selon l'interface affichée, il est possible de cibler une URL précise ou d'utiliser un chemin plus large afin de capturer plusieurs pages.
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-nouvelle-trace.png"
+    alt="Création d'une nouvelle trace PHP X-Ray sur un site dédié au test."
+    caption="Création d'une nouvelle trace PHP X-Ray sur un site dédié au test."
+    title="Création d'une nouvelle trace PHP X-Ray sur un site dédié au test." />
+
+---
+
+## Générer du trafic pendant l'analyse
+
+Une fois l'analyse lancée, PHP X-Ray doit capturer de vraies requêtes PHP.
+
+Pour obtenir un résultat exploitable :
+
+1. Ouvrez le site dans un navigateur
+2. Reproduisez la lenteur observée
+3. Visitez la ou les pages concernées
+4. Si le problème concerne une action précise, reproduisez cette action : connexion, recherche, ajout au panier, validation de commande, ouverture du tableau de bord, etc
+5. Reproduisez le test autant de fois que nécessaire selon le nombre de requêtes configuré. Vous pouvez espacer les tests
+6. Revenez ensuite dans PHP X-Ray pour consulter les résultats
+
+Si aucune requête n'est effectuée pendant la période d'analyse, le rapport peut rester vide ou peu pertinent.
+
+<Admonition type="tip" title="Conseil pour les sites avec cache">
+
+Si le site utilise un cache, certaines pages peuvent être servies sans exécution PHP complète. Dans ce cas, PHP X-Ray peut ne pas voir la requête attendue.
+
+Pour diagnostiquer une lenteur PHP, il peut être nécessaire de tester une page non mise en cache, une page d’administration WordPress, PrestaShop ou autre CMS, ou une action qui force réellement l'exécution PHP.
+
+</Admonition>
+
+---
+
+## Lire un rapport PHP X-Ray
+
+Une fois les requêtes capturées, PHP X-Ray affiche un rapport permettant d'identifier les principaux points de ralentissement.
+
+Les résultats peuvent notamment faire apparaître :
+
+- les scripts PHP les plus lents
+- les fonctions les plus coûteuses
+- les requêtes SQL lentes
+- les appels externes
+- les extensions ou modules impliqués
+- le temps passé dans chaque partie de l'exécution
+
+L'objectif est de repérer ce qui consomme le plus de temps lors du chargement de la page.
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-rapport.png"
+    alt="Liste des rapports PHP X-Ray avec requêtes et fonctions lentes."
+    caption="Liste des rapports PHP X-Ray avec requêtes et fonctions lentes."
+    title="Liste des rapports PHP X-Ray avec requêtes et fonctions lentes." />
+
+---
+
+## Utiliser PHP X-Ray avec WordPress
+
+PHP X-Ray est particulièrement utile pour analyser les lenteurs WordPress, car une page peut être ralentie par un plugin, un thème, une requête SQL, un appel externe ou une action lancée dans l’administration.
+
+Sur un site WordPress, pensez à tester à la fois :
+
+- une page publique lente
+- une page non servie depuis le cache
+- une page de l’administration WordPress
+- une action précise comme une recherche, une sauvegarde, un import, une commande WooCommerce ou l’ouverture d’un tableau de bord
+
+Si le site utilise un système de cache, la page publique peut être rapide alors que l’administration reste lente. Dans ce cas, PHP X-Ray est souvent plus utile sur `/wp-admin/` ou sur une action qui exécute réellement du PHP.
+
+---
+
+## Exemples d'interprétation avec WordPress
+
+Les exemples ci-dessous montrent plusieurs types de lenteurs que PHP X-Ray peut aider à identifier sur un site WordPress.
+
+Ils reposent sur des scénarios simples, créés volontairement pour ce tutoriel :
+- une attente volontaire dans le code PHP
+- un appel vers un service externe
+- des requêtes SQL répétées
+- une consommation mémoire importante
+- une lenteur dans l'administration WordPress
+
+<Admonition type="warning" title="À ne pas reproduire sur un site en production">
+
+Ce tutoriel a été réalisé avec un plugin créé pour l'occasion, permettant de créer volontairement des problèmes sur le site WordPress.
+
+Lors de vos propres tests, vous devrez analyser l’URL réellement concernée par la lenteur sur votre site.
+
+</Admonition>
+
+---
+
+### Exemple 1 : une lenteur volontaire dans le code PHP
+
+Dans ce premier exemple, une page WordPress déclenche une pause volontaire pendant l'exécution PHP.
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-wordpress-sleep.png"
+    alt="Rapports PHP X-Ray pour une requête PHP lente."
+    caption="Rapports PHP X-Ray pour une requête PHP lente."
+    title="Rapports PHP X-Ray pour une requête PHP lente." />
+
+Dans PHP X-Ray, ce type de problème peut apparaître comme une requête lente dont le temps est consommé côté PHP, sans qu'une requête SQL ou un appel externe soit forcément responsable.
+
+Ce cas peut correspondre, sur un vrai site, à un plugin, un thème ou un développement spécifique qui exécute un traitement PHP trop long.
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-wordpress-sleep-details.png"
+    alt="Détails rapport PHP X-Ray avec une requête PHP lente."
+    caption="Détails rapport PHP X-Ray avec une requête PHP lente."
+    title="Détails rapport PHP X-Ray avec une requête PHP lente." />
+
+À vérifier dans ce cas :
+
+- le plugin ou le thème associé à la requête
+- les fonctions PHP les plus coûteuses dans le rapport
+- les traitements lancés au chargement de la page
+- les hooks WordPress exécutés sur cette URL
+
+---
+
+### Exemple 2 : un appel externe ralentit la page
+
+Dans ce second exemple, WordPress effectue une requête HTTP vers un service externe volontairement lent.
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-wordpress-appel-externe.png"
+    alt="Rapports PHP X-Ray pour une requête externe."
+    caption="Rapports PHP X-Ray pour une requête externe."
+    title="Rapports PHP X-Ray pour une requête externe." />
+
+Dans PHP X-Ray, le rapport peut montrer qu’une part importante du temps est passée dans un appel externe. Le site attend alors la réponse d'un service distant avant de terminer le chargement de la page.
+
+Ce cas peut correspondre, sur un vrai site, à une extension qui contacte par exemple :
+
+- une API de paiement
+- un transporteur
+- un service de statistiques
+- un flux distant
+- une API marketing
+- un service de licence ou de mise à jour
+
+Dans ce cas, le serveur d'hébergement peut être fonctionnel, mais la page reste lente car l'application attend une réponse extérieure.
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-wordpress-appel-externe-details-part1.png"
+    alt="Détails rapport PHP X-Ray avec une requêtes externe. Partie 1"
+    caption="Détails rapport PHP X-Ray avec une requêtes externe. Partie 1"
+    title="Détails rapport PHP X-Ray avec une requêtes externe. Partie 1" />
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-wordpress-appel-externe-details-part2.png"
+    alt="Détails rapport PHP X-Ray avec une requêtes externe. Partie 2"
+    caption="Détails rapport PHP X-Ray avec une requêtes externe. Partie 2"
+    title="Détails rapport PHP X-Ray avec une requêtes externe. Partie 2" />
+
+À vérifier dans ce cas :
+
+- le service externe appelé
+- le timeout configuré dans l'extension
+- la nécessité de rendre l'appel non bloquant
+- la possibilité de désactiver, remplacer ou reconfigurer l'extension concernée
+
+---
+
+### Exemple 3 : des requêtes SQL répétées ralentissent WordPress
+
+Dans ce troisième exemple, WordPress exécute de nombreuses requêtes SQL similaires sur la table des articles.
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-wordpress-sql.png"
+    alt="Rapports PHP X-Ray pour des requêtes SQL lentes."
+    caption="Rapports PHP X-Ray pour des requêtes SQL lentes."
+    title="Rapports PHP X-Ray pour des requêtes SQL lentes." />
+
+Dans PHP X-Ray, ce type de problème peut faire apparaître une part importante du temps passée dans MySQL, avec des requêtes SQL répétées ou coûteuses.
+
+Ce cas peut correspondre, sur un vrai site, à :
+
+- une extension qui lance trop de requêtes
+- une recherche mal optimisée
+- une table devenue volumineuse
+- une absence d'index adapté
+- un thème ou un développement spécifique qui interroge trop largement la base
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-wordpress-sql-details.png"
+    alt="Détails rapport PHP X-Ray avec une requête SQL lente."
+    caption="Détails rapport PHP X-Ray avec une requête SQL lente."
+    title="Détails rapport PHP X-Ray avec une requête SQL lente." />
+
+À vérifier dans ce cas :
+
+- la requête SQL remontée dans PHP X-Ray
+- le plugin ou thème responsable
+- le nombre de requêtes exécutées sur la page
+- la taille des tables concernées
+- la présence éventuelle de données anciennes ou inutiles
+
+Avant toute optimisation ou nettoyage de base de données, effectuez une sauvegarde.
+
+---
+
+### Exemple 4 : une consommation mémoire importante
+
+Dans ce quatrième exemple, WordPress alloue volontairement une quantité importante de mémoire pendant l'exécution de la page.
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-wordpress-memory.png"
+    alt="Rapports PHP X-Ray pour une consommation mémoire importante."
+    caption="Rapports PHP X-Ray pour une consommation mémoire importante."
+    title="Rapports PHP X-Ray pour une consommation mémoire importante." />
+
+Selon le contexte, ce type de comportement peut provoquer une page lente, une erreur PHP ou une atteinte des limites de ressources du compte, pouvant aller jusqu’à une erreur 503 ou 507 selon le contexte.
+
+Sur un vrai site, cela peut venir par exemple :
+
+- d'un plugin qui manipule de gros volumes de données
+- d'un import ou export lourd
+- d'une génération d'image
+- d'une sauvegarde applicative
+- d'un traitement lancé directement depuis une page web
+
+PHP X-Ray peut aider à identifier la requête ou le script impliqué. Il est toutefois utile de compléter l'analyse avec [l'outil d'utilisation des ressources cPanel](https://faq.o2switch.fr/cpanel/mesures/) cPanel lorsque le problème concerne aussi la mémoire, le CPU ou les processus.
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-wordpress-memory-details-part1.png"
+    alt="Détails rapport PHP X-Ray avec une consommation mémoire importante. Partie 1"
+    caption="Détails rapport PHP X-Ray avec une consommation mémoire importante. Partie 1"
+    title="Détails rapport PHP X-Ray avec une consommation mémoire importante. Partie 1" />
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-wordpress-memory-details-part2.png"
+    alt="Détails rapport PHP X-Ray avec une consommation mémoire importante. Partie 2"
+    caption="Détails rapport PHP X-Ray avec une consommation mémoire importante. Partie 2"
+    title="Détails rapport PHP X-Ray avec une consommation mémoire importante. Partie 2" />
+
+---
+
+### Exemple 5 : une lenteur dans l'administration WordPress
+
+Dans ce dernier exemple, la lenteur est déclenchée côté administration WordPress.
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-wordpress-admin.png"
+    alt="Rapports PHP X-Ray pour un back-office lent."
+    caption="Rapports PHP X-Ray pour un back-office lent."
+    title="Rapports PHP X-Ray pour un back-office lent." />
+
+Ce cas est fréquent en conditions réelles. Le site public peut sembler rapide grâce au cache, tandis que l'administration WordPress reste lente car elle exécute toujours du PHP.
+
+PHP X-Ray est alors utile pour analyser des lenteurs dans :
+
+- le tableau de bord WordPress
+- la liste des articles
+- l'édition d'une page
+- WooCommerce
+- une page de configuration d'extension
+- une action lancée depuis l'administration
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-wordpress-admin-details-part1.png"
+    alt="Détails rapport PHP X-Ray pour un back-office lent. Partie 1"
+    caption="Détails rapport PHP X-Ray pour un back-office lent. Partie 1"
+    title="Détails rapport PHP X-Ray pour un back-office lent. Partie 1" />
+
+<Image
+    src="/img/docs/cpanel/mesures/php-x-ray-wordpress-admin-details-part2.png"
+    alt="Détails rapport PHP X-Ray pour un back-office lent. Partie 2"
+    caption="Détails rapport PHP X-Ray pour un back-office lent. Partie 2"
+    title="Détails rapport PHP X-Ray pour un back-office lent. Partie 2" />
+
+À vérifier dans ce cas :
+
+- l'URL d'administration analysée ;
+- les plugins chargés sur cette page ;
+- les appels externes effectués par l'administration ;
+- les requêtes SQL générées par la page ;
+- les éventuels traitements automatiques lancés à l'ouverture du tableau de bord.
+
+---
+
+## Comment interpréter un rapport PHP X-Ray ?
+
+Après lecture des rapports, l'objectif est de distinguer la famille du problème.
+
+| Ce que montre PHP X-Ray | Interprétation possible | Suite logique |
+|---|---|---|
+| Temps PHP élevé | Plugin, thème ou code spécifique lent | Identifier le composant et le mettre à jour, le configurer ou le faire corriger |
+| Appel externe lent | Service tiers lent ou indisponible | Vérifier le service appelé, le timeout et la configuration du plugin |
+| Requêtes SQL lentes ou répétées | Base volumineuse, requête mal optimisée, plugin trop gourmand | Analyser la requête, le plugin concerné et l'état de la base |
+| Consommation mémoire élevée | Traitement lourd, import, export, génération de fichiers | Vérifier les ressources cPanel et éviter les traitements lourds via requête web |
+| Lenteur dans /wp-admin/ | Administration non cachée, plugins chargés côté back-office | Tester la page admin concernée et identifier le plugin ou traitement responsable |
+
+PHP X-Ray permet donc de savoir où le temps est consommé. La correction dépend ensuite du composant identifié : plugin, thème, base de données, appel externe ou développement spécifique.
+
+---
+
+## Limites de PHP X-Ray dans cPanel
+
+PHP X-Ray est un outil de diagnostic. Il ne remplace pas une analyse complète du site ou du code.
+
+Il ne permet pas directement de :
+
+- corriger automatiquement une extension lente
+- optimiser une base de données à votre place
+- modifier le code d'un thème ou d'un plugin
+- diagnostiquer les lenteurs purement côté navigateur, comme un script JavaScript externe lent
+- analyser correctement un domaine dont l'exécution PHP se fait sur un autre serveur via IPXtender
+
+Les résultats doivent donc être interprétés selon le contexte du site.
+
+---
+
+## Questions fréquentes sur PHP X-Ray
+
+### PHP X-Ray corrige-t-il automatiquement les lenteurs ?
+
+Non. PHP X-Ray est un outil de diagnostic. Il permet d’identifier les éléments lents, mais la correction doit ensuite être réalisée au niveau du site, du plugin, du thème, de la base de données ou du développement concerné.
+
+### Pourquoi PHP X-Ray ne remonte aucun résultat ?
+
+Le rapport peut rester vide si aucune requête PHP n’est exécutée pendant l’analyse, si la page est servie depuis le cache, si le masque d’URL ne correspond pas à la page testée, ou si le domaine est exécuté sur un autre serveur via IPXtender.
+
+### PHP X-Ray fonctionne-t-il avec LSCache ?
+
+PHP X-Ray analyse l’exécution PHP. Si LSCache sert une page sans relancer PHP, l’analyse peut ne pas capturer la requête attendue. Il faut alors tester une page non mise en cache, une page d’administration ou une action qui exécute réellement PHP.
+
+### Puis-je utiliser PHP X-Ray pour analyser PrestaShop ?
+
+Oui, PHP X-Ray peut aussi aider à analyser une lenteur PrestaShop, par exemple sur une page produit, le tunnel de commande, le back-office, un module ou un appel externe.
+
+---
+
+## Que faire après l'analyse ?
+
+Selon le résultat obtenu, les actions possibles peuvent être différentes :
+
+- mettre à jour le CMS, les extensions et le thème
+- désactiver ou remplacer une extension lente
+- optimiser une requête SQL ou une table volumineuse
+- réduire les appels externes bloquants
+- activer ou ajuster un système de cache
+- transmettre le rapport à votre webmaster ou développeur
+- comparer les résultats avec l'outil d'utilisation des ressources cPanel
+
+<Admonition type="info" title="À retenir">
+
+PHP X-Ray sert à identifier l'origine d'une lenteur PHP. Si le rapport pointe vers une extension, un thème, une requête SQL ou un appel externe, la correction se fait généralement au niveau du site ou de son développement.
+
+Le support o2switch peut vous aider à interpréter les rapports générés par PHP X-Ray, dans la mesure où les informations disponibles permettent d’identifier une piste fiable.
+
+En revanche, la correction d’un plugin, d’un thème, d’une requête SQL ou d’un développement spécifique relève du site lui-même. Nous ne proposons pas de prestation de développement ou de webmastering. Si la correction nécessite une modification applicative, il faudra vous rapprocher de votre webmaster, de votre développeur ou de l’éditeur de l’extension concernée.
+
+</Admonition>
