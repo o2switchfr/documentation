@@ -148,11 +148,11 @@ En résumé il faut modifier le fichier `.bashrc` qui se trouve à la racine de 
 suivante : 
 
 ```bash title="Rendre les commandes node et npm accessibles"
-export PATH="$PATH:/opt/alt/alt-nodejs22/root/usr/bin/"
+export PATH="$PATH:/opt/alt/alt-nodejs24/root/usr/bin/"
 ```
 
 Vous pouvez constater que dans le chemin qui est ajouté au `PATH`, il y a la version de nodeJS qui est défini. A cet
-instant, les versions 6, 8, 9, 10, 11, 12, 14, 16, 18, 20 et 22 de NodeJS sont proposées (mis à jour le 03/10/2024)
+instant, les versions 6, 8, 9, 10, 11, 12, 14, 16, 18, 20, 22 et 24 de NodeJS sont proposées (mis à jour le 04/06/2026)
 
 Vous pouvez éditer ce fichier `.bashrc` de plusieurs manières différentes : 
   * directement en SSH avec `vi` si vous êtes à l'aise avec cette méthode,
@@ -165,7 +165,7 @@ utiliser la commande suivante :
 
 ```bash title="One liner pour rendre les commandes node et npm accessibles"
 cat << EOF >> ~/.bashrc 
-export PATH="\$PATH:/opt/alt/alt-nodejs20/root/usr/bin/" 
+export PATH="\$PATH:/opt/alt/alt-nodejs24/root/usr/bin/" 
 EOF 
 source ~/.bashrc
 ```

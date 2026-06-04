@@ -36,7 +36,7 @@ runtime sont supportés :
 
 | Langage | Gestion dépendances | Versions proposées | Description |
 |---|---|---|---|
-| NodeJS<br/>[Setup Nodejs App](/cpanel/logiciels/hebergement-nodejs-multi-version) | [npm, yarn, bun](/guides/nodejs/utiliser-binaire-nodejs-npm-yarn) | 6, 8, 9, 10, 11, 12, 14, 16, 18, 20, 22  | Permet de mettre en ligne une application web nodeJS. Créé un environnement virtuel. Utilisable en SSH |
+| NodeJS<br/>[Setup Nodejs App](/cpanel/logiciels/hebergement-nodejs-multi-version) | [npm, yarn, bun](/guides/nodejs/utiliser-binaire-nodejs-npm-yarn) | 6, 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24  | Permet de mettre en ligne une application web nodeJS. Créé un environnement virtuel. Utilisable en SSH |
 | Python<br/>[Setup Python App](/cpanel/logiciels/hebergement-python-multi-version) | pip | 2.7, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10, 3.11, 3.12 | Permet d'installer une application web conçu en Python. Créé un environnement virtuel python. Utilisable en SSH. PIP installé. |
 | Ruby<br/>[Setup Ruby App](/cpanel/logiciels/hebergement-ruby-multi-version) | gem, bundler | 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 3.0, 3.1, 3.2, 3.3 | Permet d'installer une application web conçu en Ruby. Créé un environnement ruby. Gem installé. |
 | PHP<br/>[Sélectionner une version de PHP](/cpanel/logiciels/hebergement-php-multi-version) | [composer](/guides/php/installer-composer) | toutes versions de 4.4 ⇒ 8.3 inclus| Permet de choisir la version de PHP à utiliser, les modules chargés et la configuration du php.ini |
@@ -66,6 +66,7 @@ Sur l'offre d'hébergement o2switch, toutes les versions stables de NodeJS sont 
 /opt/alt/alt-nodejs18/root/usr/bin/node
 /opt/alt/alt-nodejs20/root/usr/bin/node
 /opt/alt/alt-nodejs22/root/usr/bin/node
+/opt/alt/alt-nodejs24/root/usr/bin/node
 ```
 
 ### Versions de Python
@@ -172,13 +173,13 @@ ruby -v
 export PATH="/opt/alt/python311/bin/:$PATH"
 python --version
 
-export PATH="/opt/alt/alt-nodejs20/root/usr/bin/:$PATH"
+export PATH="/opt/alt/alt-nodejs24/root/usr/bin/:$PATH"
 node -v 
 
 # C'est possible d'ajouter plusieurs chemin en une seule fois dans le PATH
 # Pour par exemple choisir une version spécifique de Node ET Python
 # Les chemins doivent être séparés par un :
-export PATH="/opt/alt/alt-nodejs20/root/usr/bin/:/opt/alt/python311/bin/:$PATH"
+export PATH="/opt/alt/alt-nodejs24/root/usr/bin/:/opt/alt/python311/bin/:$PATH"
 node -v 
 python -v
 ```
@@ -197,6 +198,6 @@ fi
 # User specific aliases and functions
 
 # Ci-dessous, la ligne à ajouter 
-export PATH="/opt/alt/alt-nodejs20/root/usr/bin/:$PATH"
+export PATH="/opt/alt/alt-nodejs24/root/usr/bin/:$PATH"
 ```
 
