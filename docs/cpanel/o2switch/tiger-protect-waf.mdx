@@ -219,7 +219,7 @@ requêtes / minute pour ce robots vers votre site internet.
 
 #### Contrôler les requêtes venant des robots malveillants ou suspects
 
-Cette sécurité permet de bbloquer les requêtes effecutées par des robots considérés comme malveillants ou suspects.  
+Cette sécurité permet de bloquer les requêtes effectuées par des robots considérés comme malveillants ou suspects.  
 
 Les robots malveillants scannent les sites internet à la recherche d'informations ou de failles.  
 
@@ -271,6 +271,33 @@ malveillante.
 Bloquer les adresses IP considérées comme malveillante amélioera la sécurité des sites hébergés et économisera des
 
 ressources sur votre hébergement.
+
+#### Bloquer le trafic venant de certains pays
+
+Cette règle permet de bloquer les requêtes en fonction du pays d'origine de l'adresse IP.
+
+Lorsqu'elle est activée, vous pouvez choisir l'action à appliquer (tout bloquer avec une 403, challenge complexe ou challenge
+par captcha) et définir la liste des pays à bloquer.
+
+:::warning
+Le blocage de certains éléments peut avoir des répercutions involontaires. Nous déconseillons les blocages provenant
+de pays ou d'organisations importantes (Google, Cloudflare...).
+:::
+
+#### Bloquer le trafic venant de certains codes ASN
+
+Cette règle permet de bloquer les requêtes en fonction du numéro AS (Autonomous System) de l'adresse IP d'origine.
+
+Un ASN (Autonomous System Number) est un identifiant attribué à un ensemble de réseaux IP gérés par une même entité
+(un hébergeur, un opérateur, une entreprise...). Certains ASN sont connus pour être associés à des campagnes d'attaques
+malveillantes ou à des hébergeurs "bulletproof" qui tolèrent les activités illicites. 
+
+Bloquer ces ASN permet d'écarter une source significative de trafic malveillant en un seul blocage.
+
+Lorsqu'elle est activée, vous pouvez saisir les numéros AS à bloquer. Le numéro AS doit toujours être préfixé des
+lettres `AS` (exemple : `AS210644`).
+
+Pour identifier des ASN à risque, vous pouvez consulter [la liste publique de Spamhaus](https://www.spamhaus.org/drop/asndrop.json).
 
 ### Règles ModSecurity
 
