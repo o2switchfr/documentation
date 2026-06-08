@@ -1,0 +1,33 @@
+---
+title: Puis-je autoriser les robots des IA (ChatGPT, Claude...) sur mon domaine ?
+hide_table_of_contents: true
+tags:
+  - questions
+  - tiger protect
+  - sécurité
+---
+# Puis-je autoriser les robots des IA (ChatGPT, Claude...) sur mon domaine ?
+
+Oui, il n'y a aucune restriction particulière empêchant les robots des services d'intelligence artificielle (OpenAI /
+ChatGPT, Anthropic / Claude et autres) d'accéder à votre domaine.
+
+Si vous constatez que ces robots sont bloqués, la première chose à faire est de désactiver la règle **Sécurité par
+défaut d'o2switch** dans [TigerProtect](/cpanel/o2switch/tiger-protect-waf) pour le domaine concerné. Cette règle peut parfois générer des faux positifs sur ce type de trafic.
+
+**Si le blocage persiste même après avoir désactivé toutes les règles TigerProtect**, cela signifie que le blocage
+n'est pas lié à TigerProtect. Dans ce cas, il s'agit très probablement d'un problème de réputation de l'adresse IP
+utilisée par le service d'IA.
+
+## Blocage lié à la réputation de l'adresse IP
+
+Les services d'IA font appel à des pools d'adresses IP importants pour effectuer leurs requêtes. Or, certaines de ces
+adresses IP se retrouvent référencées comme malveillantes sur des bases de données publiques de réputation, comme
+[AbuseIPDB](https://www.abuseipdb.com/).
+Lorsqu'une adresse IP est considérée comme malveillante, elle peut être bloquée au niveau de l'infrastructure,
+indépendamment de toute règle TigerProtect. 
+
+Dans ce cas de figure, nos possibilités d'action sont malheureusement limitées : la réputation d'une adresse IP
+est gérée par des bases de données tierces, sur lesquelles o2switch n'a aucune prise.
+
+C'est au service d'IA concerné de veiller à la bonne réputation des adresses IP qu'il utilise et, le cas échéant,
+d'engager les démarches auprès des organismes comme AbuseIPDB pour les faire retirer de ces listes.

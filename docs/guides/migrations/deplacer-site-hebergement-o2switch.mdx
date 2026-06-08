@@ -602,7 +602,8 @@ Cette opération de transfert doit être réalisée avant l'étape de pointage d
 de domaine sur l'hébergement de destination.
 
 Pour conserver l'historique des emails, il faut transférer de l'hébergement source vers la destination le contenu
-des dossiers `mail/nom-du-domaine.fr` qui se trouve à la racine de l'hébergement. 
+du dossier `mail/nom-du-domaine.fr`. Le répertoire `etc/nom-du-domaine.fr` est également nécessaire : il contient
+la configuration des comptes emails créés via cPanel (identifiants, mots de passe, quotas).
 
 Le transfert peut s'effectuer en FTP, en suivant la même méthode que le transfert des données du site.
 
@@ -610,7 +611,7 @@ Ou de serveur à serveur en SSH. La méthode de transfert de serveur à serveur 
 transfert des fichiers pour les emails est particulièrement long. Il s'agit en effet du pire cas à transférer : un grand
 nombre de petits fichiers.
 
-Pour transférer le contenu des emails en SSH, vous pouvez utiliser une commande comme celle-ci : 
+Pour transférer ces deux répertoires en SSH, vous pouvez utiliser les commandes suivantes : 
 
 ```bash
 # En étant connecté en SSH ou avec l'outil Terminal sur l'hébergement "source"
@@ -618,16 +619,13 @@ Pour transférer le contenu des emails en SSH, vous pouvez utiliser une commande
 # Replacez-vous à la racine de votre hébergement avec la commande "cd" sans argument 
 cd 
 
-# Vérifiez que le dossier existe , remplacez nom-domaine.fr par votre nom de domaine 
+# Vérifiez que les dossiers existent, remplacez nom-domaine.fr par votre nom de domaine 
 ls mail/nom-domaine.fr
+ls etc/nom-domaine.fr
 
-# Transfert des données avec Rsync de la source vers la destination 
+# Transfert de l'historique des emails de la source vers la destination 
 rsync -av mail/nom-domaine.fr/ compte2@destination.o2switch.net:/home/compte2/mail/nom-domaine.fr
+
+# Transfert du répertoire etc/ qui contient les identifiants, mots de passe et quotas des comptes emails
+rsync -av etc/nom-domaine.fr/ compte2@destination.o2switch.net:/home/compte2/etc/nom-domaine.fr
 ```
-
-Cela va transférer l'historique des emails, de serveur à serveur.
-
-Après avoir transférer l'historique des emails et après avoir reconfiguré le nom de domaine sur l'hébergement, vous 
-pouvez recréer les comptes emails avec l'[outil Compte de messagerie](/cpanel/emails/adresse-email).
-
-L'historique des emails devraient réapparaitre automatiquement dans sur les adresses emails. 
