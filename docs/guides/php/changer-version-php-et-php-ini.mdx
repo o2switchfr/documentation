@@ -31,6 +31,12 @@ Si vous avez la possibilité d'[isoler le site sur un sous-compte, un lune
 (gratuitement)](/cpanel/o2switch/univers-web-sous-comptes) et de choisir la version de PHP avec le [sélecteur de version
 de PHP](/cpanel/logiciels/hebergement-php-multi-version) directement sur le sous-compte, ça sera plus performant. 
 
+:::tip[Une variante sans perte de performance]
+La perte de performance décrite ci-dessus vient du SAPI utilisé (`cgi-fcgi`), et non du principe du `.htaccess`.
+Il existe une seconde écriture du handler qui conserve le SAPI natif `litespeed` : voir
+[Variante LiteSpeed](#variante-litespeed).
+:::
+
 ## Choisir la version de PHP
 
 Vous pouvez choisir la version de PHP en mettant en place un fichier .htaccess dans le dossier ou vous souhaitez que
@@ -132,9 +138,25 @@ AddHandler application/x-httpd-php83 .php
 Non disponible pour le moment.
 ```
 
-:::danger[Un fichier php.ini doit impérativement être créé]
-La mise en place de la version de PHP doit s'accompagner obligatoirement d'un fichier php.ini plus bas pour que la
-version fonctionne correctement
+:::danger[Un handler inconnu expose le code source de vos fichiers PHP]
+Si le handler indiqué n'existe pas sur le serveur (faute de frappe, ou version de PHP non installée), le serveur
+**ne renvoie pas d'erreur** : il sert le fichier `.php` tel quel, en clair, avec l'en-tête
+`Content-Type: application/x-httpd-ea-php72`. Le navigateur affiche ou télécharge alors le code source.
+
+Sur un WordPress, un Prestashop ou un Symfony, cela expose les identifiants de base de données contenus dans
+`wp-config.php`, `parameters.php` ou `.env`.
+
+Après avoir mis en place la directive, vérifiez **toujours** que la page renvoie bien du HTML et non du code PHP,
+par exemple avec un fichier de test contenant `<?php echo PHP_VERSION;`.
+:::
+
+:::note[Le fichier php.ini est facultatif]
+Le changement de version fonctionne sans qu'aucun fichier `php.ini` ne soit présent : le serveur charge alors le
+`php.ini` par défaut de la version choisie (`/opt/alt/phpXX/etc/php.ini`), qui contient déjà les extensions
+courantes (`mysqli`, `mbstring`, `gd`, `intl`…).
+
+Ne créez un `php.ini` personnalisé que si vous avez réellement besoin de modifier un réglage (voir
+[Mettre en place un php.ini personnalisé](#php-ini-personnalise)).
 :::
 
 :::warning[Réglages des permissions]
@@ -171,12 +193,49 @@ plus profond.
 
 **sites/.htaccess** avec rien de particulier à l'intérieur : utilise la version par défaut de PHP sur le serveur.
 
+## Variante LiteSpeed : conserver le SAPI natif {#variante-litespeed}
 
-## Mettre en place un php.ini personnalisé
+Les directives ci-dessus font passer les requêtes par le SAPI `cgi-fcgi`, d'où la perte de performance signalée en
+introduction. Une seconde écriture du handler permet de choisir la version de PHP **tout en restant sur le SAPI
+`litespeed`**, comme la version native du panel :
+
+```apacheconf title="public_html/site.fr/.htaccess"
+# PHP 8.0, SAPI litespeed
+AddHandler application/x-httpd-alt-php80___lsphp .php
+```
+
+Le nom du handler suit le format `application/x-httpd-alt-php<XX>___lsphp`, où `<XX>` est la version sans point
+(`74`, `80`, `83`…), avec **trois** tirets bas avant `lsphp`.
+
+| Directive | Version obtenue | `php_sapi_name()` |
+| --- | --- | --- |
+| `SetHandler application/x-httpd-php80` + `AddHandler application/x-httpd-php80 .php` | 8.0 | `cgi-fcgi` |
+| `AddHandler application/x-httpd-alt-php80___lsphp .php` | 8.0 | `litespeed` |
+
+Cette écriture donne également accès à des versions absentes de la liste précédente, par exemple PHP 8.5 :
+
+```apacheconf title="PHP 8.5"
+AddHandler application/x-httpd-alt-php85___lsphp .php
+```
+
+:::warning[Le php.ini personnalisé n'est pas pris en compte avec cette variante]
+Avec le handler `___lsphp`, les directives `suPHP_ConfigPath` et `php_value`, ainsi que les fichiers `.user.ini`,
+sont **ignorés silencieusement** : `php_ini_loaded_file()` renvoie toujours le `php.ini` par défaut de la version.
+
+Si vous avez besoin d'un `php.ini` personnalisé sur un dossier, utilisez la forme `SetHandler` /
+`x-httpd-php<XX>` décrite plus haut, au prix du SAPI `cgi-fcgi`.
+:::
+
+## Mettre en place un php.ini personnalisé {#php-ini-personnalise}
 
 Pour mettre en place un fichier php.ini, vous devez forcer la version de PHP que vous souhaitez utiliser (par défaut,
 php 5.4) à l'aide des explications fournies plus haut, puis ajoutez cette directive dans le fichier .htaccess contenu dans
 le dossier ou vous souhaitez que les modifications soient effectives :
+
+:::info
+`suPHP_ConfigPath` ne fonctionne qu'avec la forme `SetHandler` / `x-httpd-php<XX>`. Avec le handler
+`___lsphp` présenté plus haut, la directive est ignorée.
+:::
 
 ```apacheconf title="Directive pour obtenir un php.ini personnalisé"
 # Attention : c'est bien le chemin vers le DOSSIER CONTENANT le fichier php.ini
@@ -211,7 +270,6 @@ SetHandler application/x-httpd-php53
 </FilesMatch>
 AddHandler application/x-httpd-php53 .php
 suPHP_ConfigPath /home/votre_login/public_html/site2.fr/
-</code>
 ```
 
 
