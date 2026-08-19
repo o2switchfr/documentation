@@ -1,0 +1,352 @@
+---
+title: Utiliser Cloudflare avec un domaine o2switch
+sidebar_label: DNS avec Cloudflare
+description: >-
+  Ce guide explique comment gérer la zone DNS d’un domaine seul avec Cloudflare ou relier un domaine Cloudflare à un
+  hébergement web o2switch en toute sécurité.
+image: /img/docs/nom-de-domaine/dns/cloudflare-enregistrements-web-dns-only.webp
+tags:
+  - cloudflare
+  - domaine seul
+  - nom de domaine
+  - dns
+  - serveurs dns
+  - zone dns
+  - ssl
+  - https
+---
+
+# Utiliser Cloudflare avec un domaine o2switch
+
+Cloudflare peut héberger gratuitement la **zone DNS** d'un nom de domaine. C'est notamment utile lorsque vous avez
+commandé un **domaine seul** chez o2switch : cette prestation n'inclut pas d'hébergement cPanel et ne donne donc pas
+accès à l'[éditeur de zone DNS](/cpanel/domaines/editeur-zone-dns).
+
+Cloudflare peut également servir d'intermédiaire entre les visiteurs et un site hébergé chez o2switch. Dans ce cas,
+il gère les DNS et peut fournir des fonctions de proxy, de cache et de protection supplémentaires.
+
+## Quelle procédure suivre ?
+
+- **Domaine seul chez o2switch, sans hébergement cPanel** :
+  [confiez la zone DNS à Cloudflare](#domaine-seul-cloudflare).
+- **Hébergement o2switch utilisant les serveurs DNS o2switch** : utilisez directement l'[éditeur de zone DNS de
+  cPanel](/cpanel/domaines/editeur-zone-dns).
+- **Domaine utilisant Cloudflare et site hébergé chez o2switch** :
+  [pointez Cloudflare vers l'hébergement](#cloudflare-vers-hebergement-o2switch).
+
+:::info[Le domaine reste chez o2switch]
+Changer les serveurs DNS ne transfère pas le nom de domaine. Le domaine reste enregistré, renouvelé et facturé chez
+o2switch. Cloudflare devient uniquement le prestataire qui héberge et permet de modifier sa zone DNS.
+:::
+
+## Domaine seul : confier la zone DNS à Cloudflare {#domaine-seul-cloudflare}
+
+Cette procédure permet de gérer les enregistrements `A`, `AAAA`, `CNAME`, `MX`, `TXT` ou `SRV` d'un domaine seul,
+sans commander un hébergement uniquement pour obtenir un éditeur de zone.
+
+Cloudflare ne fournit pas automatiquement un site ou une messagerie. Les valeurs à ajouter dans la zone DNS doivent
+vous être communiquées par le prestataire qui héberge le site, les emails ou le service à configurer.
+
+### Avant de changer les serveurs DNS
+
+Le changement de serveurs DNS remplace toute la zone actuellement utilisée par le domaine. Avant de commencer :
+
+- listez les services déjà utilisés par le domaine : site, messagerie, sous-domaines et services de validation ;
+- récupérez auprès de chaque prestataire les enregistrements DNS nécessaires ;
+- notez les serveurs DNS actuellement configurés, afin de pouvoir revenir en arrière si nécessaire ;
+- vérifiez si DNSSEC est actif pour le domaine.
+
+:::warning[Attention aux emails et aux services existants]
+L'analyse automatique de Cloudflare peut ne pas détecter tous les enregistrements. Vérifiez particulièrement les
+entrées `MX`, SPF, DKIM, DMARC, les sous-domaines et les validations `TXT` avant de changer les serveurs DNS.
+:::
+
+:::warning[Cas particulier de DNSSEC]
+Si DNSSEC est actif, ne changez pas les serveurs DNS tant que l'ancienne délégation DNSSEC n'a pas été désactivée
+chez le registre. Une ancienne entrée DS associée aux nouveaux serveurs DNS provoquerait une erreur `SERVFAIL`.
+Une fois Cloudflare actif, vous pourrez réactiver DNSSEC avec les informations fournies par Cloudflare.
+:::
+
+### Ajouter le domaine dans Cloudflare
+
+Créez un compte sur [Cloudflare](https://dash.cloudflare.com/sign-up), puis connectez-vous au tableau de bord.
+
+<Badge text="1" /> Cliquez sur `Intégrer un domaine` ou `Ajouter un domaine`.
+
+<Badge text="2" /> Saisissez le nom de domaine sans `www`, `http://` ou `https://`.
+
+<Badge text="3" /> Sélectionnez l'offre gratuite. Elle suffit pour héberger et modifier une zone DNS classique.
+
+<Image
+    src="/img/docs/nom-de-domaine/dns/cloudflare-ajouter-domaine.webp"
+    title="Ajouter un domaine dans le tableau de bord Cloudflare"
+    caption="Le bouton permettant d'intégrer un domaine se trouve sur la page d'accueil du compte Cloudflare"
+    alt="Tableau de bord Cloudflare avec le bouton Intégrer un domaine"
+/>
+
+Cloudflare tente ensuite de retrouver les enregistrements DNS existants. Contrôlez la liste et complétez-la avec les
+informations fournies par vos prestataires. Cette vérification doit être faite **avant** de modifier les serveurs DNS.
+
+À la fin de l'ajout, Cloudflare affiche deux serveurs de noms qui lui sont propres, par exemple :
+
+```text
+alice.ns.cloudflare.com
+bob.ns.cloudflare.com
+```
+
+Ces valeurs sont uniquement des exemples. Copiez exactement les deux serveurs attribués à votre domaine par
+Cloudflare : ils sont différents d'un domaine à l'autre.
+
+### Installer les serveurs DNS Cloudflare chez o2switch
+
+Connectez-vous à l'[espace client o2switch](https://clients.o2switch.fr/auth/connexion), puis :
+
+<Badge text="1" type="danger" /> ouvrez `Gérer mes services` ;
+
+<Badge text="2" type="danger" /> choisissez l'onglet `État des domaines` ;
+
+<Badge text="3" type="danger" /> cliquez sur le menu `...` du domaine, puis sur `Changer les DNS`.
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/o2switch-changer-dns-1.png"
+    title="Accéder au changement de serveurs DNS chez o2switch"
+    caption="Accès à l'action Changer les DNS depuis la liste des domaines de l'espace client"
+    alt="Espace client o2switch montrant le menu permettant de changer les DNS d'un domaine seul"
+/>
+
+Dans le formulaire, remplacez `ns1.o2switch.net` et `ns2.o2switch.net` par les deux serveurs de noms fournis par
+Cloudflare. Laissez les champs supplémentaires vides, sauf si Cloudflare vous a donné plus de deux valeurs, puis
+validez avec `Changer les DNS`.
+
+<Image
+    src="/img/docs/nom-de-domaine/changer-dns/o2switch-changer-serveurs-noms-2.png"
+    title="Formulaire de changement des serveurs DNS chez o2switch"
+    caption="Remplacez les serveurs o2switch affichés par les deux valeurs attribuées par Cloudflare"
+    alt="Formulaire o2switch permettant de remplacer les serveurs DNS associés à un domaine"
+/>
+
+Vous recevrez un email lorsque la demande aura été transmise au registre. Le changement peut ensuite nécessiter
+plusieurs heures pour être visible partout.
+
+### Vérifier l'activation dans Cloudflare
+
+Retournez sur Cloudflare et attendez que le domaine passe de `En attente` à `Actif`. Vous pouvez également vérifier
+les serveurs DNS publiés avec [What's My DNS](https://www.whatsmydns.net/#NS/).
+
+Lorsque le domaine est actif, Cloudflare répond officiellement aux requêtes DNS. Vous pouvez alors ajouter ou modifier
+les enregistrements demandés par vos prestataires depuis le menu `DNS` puis `Enregistrements`.
+
+:::tip[Vous souhaitez uniquement ajouter un TXT ou un MX ?]
+Il n'existe pas de valeur universelle. Copiez le type, le nom, la valeur, la priorité et le TTL indiqués par le
+service que vous souhaitez utiliser. Un enregistrement destiné aux emails ne doit pas être proxifié par Cloudflare.
+:::
+
+## Pointer Cloudflare vers un hébergement o2switch {#cloudflare-vers-hebergement-o2switch}
+
+Cette deuxième procédure concerne un domaine dont la zone DNS est déjà gérée par Cloudflare. Son site doit être
+hébergé sur un compte cPanel o2switch.
+
+### Préparer le domaine et l'hébergement
+
+Avant de modifier la zone Cloudflare :
+
+1. [configurez le domaine](/cpanel/domaines/configuration-domaine) sur l'hébergement o2switch ;
+2. placez le site dans la racine de documents choisie ;
+3. récupérez l'adresse IP de l'hébergement depuis le bloc `Informations générales` de cPanel ;
+4. identifiez le prestataire qui doit gérer les emails du domaine.
+
+<Image
+    src="/img/docs/cpanel/domaines/configurer-domaine-supplementaire.png"
+    title="Configurer un domaine sur l'hébergement o2switch"
+    caption="Le domaine doit être déclaré dans cPanel avant de faire pointer les DNS vers l'hébergement"
+    alt="Formulaire cPanel permettant de configurer un domaine supplémentaire sur l'hébergement"
+/>
+
+<Image
+    src="/img/docs/nom-de-domaine/pointage-ip-manuel.png"
+    title="Retrouver l'adresse IP d'un hébergement o2switch"
+    caption="L'adresse IP à utiliser dans Cloudflare est disponible sur la page d'accueil de cPanel"
+    alt="Page d'accueil cPanel montrant l'adresse IP de l'hébergement o2switch"
+/>
+
+### Sauvegarder la zone et préserver les services existants
+
+Dans Cloudflare, sélectionnez le domaine puis ouvrez `DNS` et `Enregistrements`. Utilisez `Importer et exporter` pour
+sauvegarder la zone avant de la modifier.
+
+:::danger[Ne supprimez pas tous les enregistrements A et AAAA]
+Remplacez ou supprimez uniquement les entrées en conflit pour le domaine racine et `www`. Conservez les entrées des
+autres sous-domaines, les `MX`, SPF, DKIM, DMARC et les validations utilisées par des services tiers.
+:::
+
+Si les emails sont gérés chez o2switch ou chez un autre prestataire, vérifiez leur configuration avant de poursuivre.
+Consultez si nécessaire la documentation sur le [routage des emails](/cpanel/emails/routage-email).
+
+### Configurer les enregistrements du site
+
+Ajoutez ou modifiez les deux enregistrements web suivants :
+
+| Type | Nom | Cible | État du proxy au départ |
+| --- | --- | --- | --- |
+| `A` | `@` ou le domaine racine | Adresse IP affichée dans cPanel | DNS uniquement, nuage gris |
+| `CNAME` | `www` | Domaine racine | DNS uniquement, nuage gris |
+
+Le symbole `@` représente le domaine racine, par exemple `exemple.fr`. Le `CNAME` permet à `www.exemple.fr` de suivre
+automatiquement le domaine racine si son adresse IP est modifiée plus tard.
+
+<Image
+    src="/img/docs/nom-de-domaine/dns/cloudflare-enregistrements-web-dns-only.webp"
+    title="Configurer les enregistrements web dans Cloudflare"
+    caption="Le domaine racine et www pointent vers o2switch avec le proxy temporairement désactivé"
+    alt="Zone DNS Cloudflare contenant un enregistrement A et un CNAME en mode DNS uniquement"
+/>
+
+Laissez d'abord les deux nuages gris. Cela permet de vérifier directement le pointage vers o2switch et de générer le
+certificat d'origine sans ajouter le proxy Cloudflare pendant le diagnostic.
+
+Les hôtes liés aux emails, comme `mail`, `smtp`, `imap` ou `pop`, ainsi que les cibles des enregistrements `MX`,
+doivent rester en `DNS uniquement`. Cloudflare ne proxifie pas ces protocoles de messagerie.
+
+#### Si les emails sont hébergés chez o2switch
+
+Si l'enregistrement `MX` pointe actuellement vers le domaine racine, ne proxifiez pas ce dernier sans adapter la
+configuration des emails. Le serveur de messagerie ne doit jamais être recherché derrière le proxy Cloudflare.
+
+Pour pouvoir proxifier le site tout en conservant les emails chez o2switch, utilisez par exemple :
+
+| Type | Nom | Cible | Proxy |
+| --- | --- | --- | --- |
+| `A` | `mail` | Adresse IP de l'hébergement o2switch | DNS uniquement |
+| `MX` | `@` | `mail.exemple.fr` avec la priorité `0` | Non applicable |
+
+Conservez également les entrées SPF, DKIM et DMARC générées pour le domaine. Dans cPanel, le [routage des
+emails](/cpanel/emails/routage-email) doit rester configuré en local.
+
+Si les emails sont hébergés par un prestataire externe, conservez exactement ses enregistrements `MX` et `TXT`. Les
+noms de serveurs indiqués par ce prestataire ne doivent pas être remplacés par l'adresse IP o2switch.
+
+### Installer le certificat SSL d'origine
+
+Attendez que le domaine et `www` répondent directement sur l'hébergement. Dans cPanel, ouvrez `Let's Encrypt SSL`,
+puis générez un certificat classique pour le domaine en utilisant la validation `http-01`.
+
+Suivez si nécessaire le guide complet sur le [certificat Let's Encrypt
+gratuit](/cpanel/securite/lets-encrypt-ssl-gratuit).
+
+:::warning[Certificat wildcard et DNS externe]
+La validation `dns-01` automatisée par o2switch nécessite que le domaine utilise les serveurs DNS o2switch. Lorsque la
+zone est chez Cloudflare, utilisez ici un certificat classique avec `http-01`, et non un wildcard validé par DNS.
+:::
+
+### Configurer HTTPS dans Cloudflare
+
+Dans Cloudflare, ouvrez `SSL/TLS` puis choisissez le mode `Complet (strict)`. Ce mode chiffre la connexion entre le
+navigateur et Cloudflare, mais aussi entre Cloudflare et l'hébergement, tout en vérifiant le certificat d'origine.
+
+N'utilisez pas le mode `Flexible`, qui laisse la connexion vers l'hébergement en HTTP et provoque fréquemment des
+boucles de redirection.
+
+<Image
+    src="/img/docs/nom-de-domaine/dns/cloudflare-ssl-complet-strict.webp"
+    title="Choisir le mode SSL Complet strict dans Cloudflare"
+    caption="Le mode Complet (strict) vérifie le certificat installé sur l'hébergement o2switch"
+    alt="Interface SSL Cloudflare avec le mode de chiffrement Complet strict sélectionné"
+/>
+
+Dans `SSL/TLS` puis `Certificats de périphérie`, activez ensuite `Toujours utiliser HTTPS`.
+
+<Image
+    src="/img/docs/nom-de-domaine/dns/cloudflare-toujours-utiliser-https.jpg"
+    title="Activer la redirection HTTPS dans Cloudflare"
+    caption="L'option Toujours utiliser HTTPS redirige les visiteurs vers la version sécurisée du site"
+    alt="Option Cloudflare Toujours utiliser HTTPS activée"
+/>
+
+### Tester puis activer le proxy Cloudflare
+
+Testez les quatre adresses suivantes dans une fenêtre de navigation privée :
+
+- `http://exemple.fr` ;
+- `https://exemple.fr` ;
+- `http://www.exemple.fr` ;
+- `https://www.exemple.fr`.
+
+Les versions HTTP doivent être redirigées vers HTTPS et les deux versions HTTPS doivent afficher le site attendu sans
+avertissement de certificat.
+
+Lorsque tout fonctionne, retournez dans `DNS` et activez le proxy sur le `A` racine et le `CNAME www`. Les nuages
+deviennent orange et l'état passe à `Proxifié`.
+
+<Image
+    src="/img/docs/nom-de-domaine/dns/cloudflare-proxy-web-actif.webp"
+    title="Activer le proxy Cloudflare sur les enregistrements web"
+    caption="Le proxy est activé uniquement sur le domaine racine et le CNAME www"
+    alt="Enregistrements A et CNAME Cloudflare avec le proxy orange actif"
+/>
+
+:::warning[Ne cumulez pas plusieurs systèmes de cache]
+N'utilisez pas le proxy Cloudflare en complément de [LiteSpeed WebADC](/cpanel/o2switch/litespeed-cache-webadc) ou
+d'[xtremCache](/cpanel/o2switch/xtremcache-varnish). L'empilement des caches provoque des problèmes d'invalidation et
+ces combinaisons ne sont pas prises en charge.
+:::
+
+## Résoudre les problèmes fréquents
+
+### Cloudflare indique que les serveurs de noms sont incorrects
+
+Vérifiez que vous avez copié les deux valeurs fournies pour ce domaine, sans point final ni espace. Assurez-vous que
+les anciens serveurs o2switch ont bien été remplacés, puis patientez plusieurs heures.
+
+### Le domaine renvoie une erreur SERVFAIL
+
+Vérifiez si une ancienne entrée DNSSEC ou DS est encore publiée chez le registre. Elle doit correspondre à la
+configuration Cloudflare actuelle, ou être retirée avant de réactiver DNSSEC.
+
+### Le site ne répond pas avant l'activation du proxy
+
+Vérifiez que le domaine est configuré dans cPanel, que l'enregistrement `A` contient la bonne IP et que le `CNAME www`
+pointe vers le domaine racine. Contrôlez également la racine de documents choisie dans cPanel.
+
+### Cloudflare affiche une erreur 521
+
+Cloudflare ne parvient pas à joindre le serveur d'origine. Repassez temporairement les enregistrements en nuage gris,
+puis vérifiez l'adresse IP, la réponse directe du site et la configuration du domaine dans cPanel.
+
+### Cloudflare affiche une erreur 525
+
+La négociation SSL avec l'hébergement échoue. Repassez temporairement en nuage gris et vérifiez qu'un certificat
+valide est installé pour le domaine et `www` avant de réactiver le mode `Complet (strict)`.
+
+### Le site tourne en boucle entre HTTP et HTTPS
+
+Vérifiez que Cloudflare utilise `Complet (strict)`, et non `Flexible`. Contrôlez également les redirections HTTPS de
+l'application ou du fichier `.htaccess`.
+
+### Les emails ne fonctionnent plus
+
+Vérifiez que les entrées `MX` n'ont pas été supprimées, que leurs cibles existent toujours et que les hôtes de
+messagerie ne sont pas proxifiés. Contrôlez également les entrées SPF, DKIM et DMARC du prestataire email.
+
+## Mémos rapides
+
+### Domaine seul chez o2switch
+
+1. Ajouter le domaine dans Cloudflare.
+2. Vérifier ou créer les enregistrements nécessaires.
+3. Copier les deux serveurs DNS attribués par Cloudflare.
+4. Remplacer les serveurs DNS depuis l'espace client o2switch.
+5. Attendre le statut `Actif` dans Cloudflare.
+6. Vérifier le site, les emails et les autres services.
+
+### Site hébergé chez o2switch
+
+1. Configurer le domaine dans cPanel et récupérer l'adresse IP.
+2. Exporter la zone Cloudflare.
+3. Configurer le `A` racine et le `CNAME www` en nuage gris.
+4. Préserver les enregistrements des emails et des autres services.
+5. Générer le certificat Let's Encrypt en `http-01`.
+6. Activer `Complet (strict)` et tester HTTPS.
+7. Activer le proxy orange uniquement sur les enregistrements web.
+
+En cas de problème important après un changement de serveurs DNS, vous pouvez restaurer les anciens serveurs notés
+avant l'opération. Cette restauration nécessite elle aussi un délai de propagation.
