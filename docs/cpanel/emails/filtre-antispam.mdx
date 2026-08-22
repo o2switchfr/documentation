@@ -25,6 +25,12 @@ Par défaut, les emails considérés comme spam sont triés dans un dossier spam
   * activer ou désactiver totalement l'antispam, dans ce cas, vous recevez tout en boite de réception sans altération du sujet
 Les emails ayant un score spam très élevé sont ignorés et ne sont pas délivrés, ni dans la boite de réception, ni dans le dossier spam. Ce comportement n'est pas configurable.
 
+:::info[Plusieurs dossiers spam peuvent exister]
+Selon la configuration, ce dossier peut porter des noms différents, comme **Junk** ou **Spam**. Pensez à souscrire à ces deux dossiers dans votre client e-mail pour que tous les messages indésirables soient éventuellement lisibles dans le dossier des indésirables. C'est notamment utile en cas de faux positif, pour retrouver un email légitime trié par erreur.
+
+Dans Roundcube, cliquez sur le menu `⋮` (3 points) à proximité de votre adresse email, puis sur `Gérer les dossiers`, et souscrivez aux dossiers `Junk` et `Pourriels`.
+:::
+
 <PreviewToolCard tool='apache_spam_assassin' />
 
 ## Gérer l'antispam
@@ -32,3 +38,8 @@ Les emails ayant un score spam très élevé sont ignorés et ne sont pas déliv
 La gestion de l'antispam se fait très simplement avec deux options :
   * une pour activer ou désactiver le fait de placer automatiquement les messages considérés comme spam dans un sous dossier spam de la boite email concernée
   * l'autre option permet d'activer/désactiver totalement l'antispam de l'hébergement
+
+## En cas de problème avec l'antispam
+
+En cas de faux positif (email légitime classé comme spam) ou de faux négatif (spam non détecté), consultez l'outil
+[Suivre la remise](/cpanel/emails/suivi-remise-log-email) dans les 24h au plus tard pour diagnostiquer comment chacun de vos messages a été traité.
