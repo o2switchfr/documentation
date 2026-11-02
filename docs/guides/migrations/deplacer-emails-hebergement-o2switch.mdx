@@ -1,0 +1,295 @@
+---
+title: Déplacer des emails d'un hébergement à un autre
+sidebar_label: Déplacer des emails
+description: Ce tutoriel explique comment déplacer les comptes emails d'un nom de domaine, avec leur historique, d'un hébergement o2switch vers un autre hébergement o2switch
+image: /img/docs/guides/migrations/o2switch-supprimer-domaine.png
+toc_min_heading_level: 2
+toc_max_heading_level: 4
+tags:
+  - guides
+  - migration
+  - email
+---
+# Comment déplacer des comptes emails d'un hébergement o2switch vers un autre ?
+
+Ce tutoriel explique comment **migrer les comptes emails** d'un nom de domaine d'un hébergement o2switch vers un autre
+hébergement o2switch, en **conservant l'historique des emails**, les mots de passe et les quotas.
+
+Cette procédure est utile dans plusieurs cas :
+- Vous avez beaucoup de domaines sur un hébergement et vous souhaitez **transférer** une partie des comptes emails vers
+  un autre hébergement pour alléger le premier compte.
+- Vous souhaitez profiter du [système des sous-comptes Lunes](/cpanel/o2switch/univers-web-sous-comptes) pour améliorer
+  la sécurité et l'isolement de vos services. Vous souhaitez donc **déplacer des emails vers un sous-compte**.
+- Vous êtes un webmaster et vous gérez les emails de vos clients sur un hébergement à votre nom. Un de vos clients
+  demande à être indépendant et a commandé un compte à son nom. Vous souhaitez **déplacer ses emails** vers son
+  hébergement.
+
+Si vous déplacez également le site internet associé au domaine, consultez plutôt le tutoriel [Déplacer un site internet
+d'un hébergement à un autre](/guides/migrations/deplacer-site-hebergement-o2switch).
+
+:::danger[Ne déconfigurez jamais le domaine avant d'avoir copié les emails]
+Tant que les emails n'ont pas été **sauvegardés et déplacés** vers le nouvel hébergement, **et que vous avez vérifié que
+la copie est complète**, ne supprimez surtout pas le nom de domaine de l'hébergement d'origine.
+
+La suppression du domaine entraîne la suppression des comptes emails et de leur contenu sur l'hébergement d'origine.
+Si les données n'ont pas été copiées avant, **elles sont définitivement perdues**.
+
+L'ordre des étapes de ce tutoriel est important : **on copie d'abord, on déconfigure le domaine ensuite**.
+:::
+
+## Prérequis avant de commencer
+
+Avant de commencer, munissez-vous des accès cPanel pour vos deux hébergements. Vous pouvez retrouver ces informations
+dans les emails `Bienvenue chez o2switch` qui sont envoyés lors de l'ouverture des comptes d'hébergement.
+
+<Image
+    src="/img/docs/guides/cpanel/mail-bienvenue-o2switch.png"
+    title="Le mail Bienvenue chez o2switch avec les codes pour cPanel"
+    caption="Le mail Bienvenue chez o2switch contient tous les codes d'accès pour cPanel"
+    alt="Capture d'écran du mail Bienvenue chez o2switch"
+/>
+
+Si vous avez [créé un sous-compte d'hébergement (appelé une Lune)](/cpanel/o2switch/univers-web-sous-comptes), vous
+devriez déjà avoir le mot de passe puisque vous l'avez choisi.
+
+Vérifiez également les points suivants :
+- Le **nom de domaine ne doit pas déjà être configuré** sur l'hébergement de destination. C'est lors de sa
+  configuration que les comptes emails seront recréés.
+- L'hébergement de destination dispose de **suffisamment d'espace disque** pour accueillir les emails. Vous pouvez
+  consulter [l'espace utilisé par vos emails](/cpanel/emails/espace-disque-email) sur l'hébergement d'origine.
+- Si vous souhaitez utiliser la méthode en SSH, retrouvez l'[identifiant cPanel et le nom du
+  serveur](/guides/cpanel/comment-se-connecter) de l'hébergement de destination.
+
+## Comment fonctionne la migration des emails ?
+
+Toute la configuration des comptes emails créés avec cPanel est stockée dans deux dossiers à la racine de
+l'hébergement, nommés d'après le nom de domaine :
+- `mail/nom-domaine.fr` : contient **l'historique des emails** de tous les comptes du domaine ;
+- `etc/nom-domaine.fr` : contient la **configuration des comptes** (identifiants, mots de passe, quotas).
+
+Déplacer les emails consiste donc à copier ces deux dossiers vers l'hébergement de destination. Ensuite, quand le
+domaine est reconfiguré sur le nouvel hébergement, les comptes emails sont **recréés automatiquement** avec leurs
+données et leurs mots de passe.
+
+La migration se déroule en quatre étapes :
+
+<Badge text="1" /> **Copier** les dossiers `mail/nom-domaine.fr` et `etc/nom-domaine.fr` de l'hébergement d'origine vers
+le nouvel hébergement. Il existe deux méthodes :
+- **De serveur à serveur en SSH (Rsync)** : c'est la méthode la plus rapide et la plus fiable, mais elle demande de
+  lancer quelques lignes de commandes.
+- **Avec une archive ZIP** : plus simple à prendre en main, mais le transfert passe par votre ordinateur.
+
+<Badge text="2" /> **Vérifier** que la copie est complète sur le nouvel hébergement.
+
+<Badge text="3" /> **Déconfigurer le domaine** de l'hébergement d'origine, puis le **reconfigurer** sur le nouvel
+hébergement. C'est à ce moment-là que les comptes emails sont recréés.
+
+<Badge text="4" /> **Reconnecter** les clients de messagerie (Thunderbird, Outlook, smartphone...) avec la nouvelle
+configuration, notamment le nouveau serveur de messagerie.
+
+## Copier les emails
+
+Choisissez l'une des deux méthodes suivantes.
+
+### Méthode A : Copier les emails de serveur à serveur avec SSH (Rsync)
+
+Cette méthode est **recommandée pour les emails**. Les emails représentent en effet le pire cas à transférer : un très
+grand nombre de petits fichiers. Un transfert de serveur à serveur, sans passer par votre ordinateur, est beaucoup plus
+rapide et fiable.
+
+[Connectez-vous sur le cPanel](/guides/cpanel/comment-se-connecter) de votre hébergement d'origine, puis naviguez dans
+l'[outil Terminal](/cpanel/outils-avances/terminal-ssh-web). Il permet d'accéder à votre hébergement en SSH depuis votre
+navigateur web, sans avoir à [configurer un client SSH comme PuTTy](/guides/webmastering/connexion-ssh).
+
+Commencez par vérifier que les deux dossiers existent bien. Remplacez `nom-domaine.fr` par votre nom de domaine :
+
+```bash
+# Replacez-vous à la racine de votre hébergement avec la commande "cd" sans argument
+cd
+
+# Vérifiez que les dossiers existent, remplacez nom-domaine.fr par votre nom de domaine
+ls mail/nom-domaine.fr
+ls etc/nom-domaine.fr
+```
+
+Ensuite, lancez le transfert vers l'hébergement de destination :
+
+```bash
+# Transfert de l'historique des emails de la source vers la destination
+rsync -av mail/nom-domaine.fr/ compte2@destination.o2switch.net:/home/compte2/mail/nom-domaine.fr
+
+# Transfert du répertoire etc/ qui contient les identifiants, mots de passe et quotas des comptes emails
+rsync -av etc/nom-domaine.fr/ compte2@destination.o2switch.net:/home/compte2/etc/nom-domaine.fr
+```
+
+Quelques explications sur ces commandes :
+  * `rsync` : la commande qui permet de transférer des données d'une source vers une destination.
+  * `mail/nom-domaine.fr/` : le dossier à transférer. Le `/` final est important : il indique qu'il faut transférer
+    le contenu du dossier, sans recréer un dossier supplémentaire sur la destination.
+  * `-av` : des options qui permettent de conserver les permissions et dates des fichiers et d'activer le mode verbeux.
+  * `compte2@destination.o2switch.net` : l'identifiant cPanel de l'hébergement de destination, suivi d'un `@`, suivi du
+    nom du serveur de destination.
+  * `/home/compte2/mail/nom-domaine.fr` : le chemin sur le serveur de destination. Notez bien `/home` suivi de
+    `/votreIdentifiantCpanel` suivi du dossier `mail/` ou `etc/` puis du nom de domaine.
+
+Après avoir lancé la commande, il faudra répondre à deux questions :
+  * Si c'est la première fois que vous vous connectez au serveur de destination, l'outil vous demandera de valider la
+    signature du serveur ; il suffit de répondre `yes`.
+  * Ensuite, il faudra entrer le mot de passe de l'hébergement de destination pour vous authentifier.
+
+Laissez les commandes s'exécuter jusqu'à ce qu'elles se terminent. Si une commande est interrompue, vous pouvez
+simplement la relancer : Rsync est capable de reprendre un transfert échoué.
+
+Vous pouvez passer à l'étape de [vérification de la copie](#vérifier-la-copie-des-emails).
+
+### Méthode B : Copier les emails avec une archive ZIP
+
+Cette méthode consiste à regrouper les deux dossiers dans une archive ZIP, à la déplacer vers l'hébergement de
+destination puis à l'extraire. Elle a un avantage : l'archive constitue une **sauvegarde** de vos emails que vous pouvez
+conserver pendant toute la durée de la migration.
+
+#### Créer l'archive sur l'hébergement d'origine
+
+[Connectez-vous sur le cPanel](/guides/cpanel/comment-se-connecter) de votre hébergement d'origine, puis naviguez dans
+l'[outil Terminal](/cpanel/outils-avances/terminal-ssh-web) et lancez les commandes suivantes. Remplacez
+`nom-domaine.fr` par votre nom de domaine :
+
+```bash
+# Replacez-vous à la racine de votre hébergement avec la commande "cd" sans argument
+cd
+
+# Vérifiez que les dossiers existent, remplacez nom-domaine.fr par votre nom de domaine
+ls mail/nom-domaine.fr
+ls etc/nom-domaine.fr
+
+# Création d'une archive qui contient les deux dossiers
+zip -r emails-nom-domaine.zip mail/nom-domaine.fr etc/nom-domaine.fr
+```
+
+L'archive `emails-nom-domaine.zip` est créée à la racine de votre hébergement, à côté des dossiers `mail` et `etc`.
+
+:::warning
+L'archive contient les mots de passe (chiffrés) de vos comptes emails. Ne la placez **jamais** dans le dossier
+`public_html` ou dans un dossier accessible depuis internet, et supprimez-la une fois la migration terminée.
+:::
+
+#### Déplacer l'archive vers l'hébergement de destination
+
+Vous avez deux possibilités pour déplacer l'archive :
+- **Par FTP** : téléchargez l'archive sur votre ordinateur depuis la racine de l'hébergement d'origine, puis envoyez-la
+  à la racine de l'hébergement de destination, en suivant la même méthode que pour [le transfert des fichiers d'un
+  site](/guides/migrations/deplacer-site-hebergement-o2switch#méthode-a--copier-les-fichiers-du-site-en-ftp).
+  Vous pouvez aussi utiliser le [gestionnaire de fichiers](/cpanel/fichiers/gestionnaire-fichiers-web) de cPanel.
+- **De serveur à serveur** : depuis l'outil Terminal de l'hébergement d'origine, envoyez l'archive avec la commande
+  suivante.
+
+```bash
+# Envoi de l'archive à la racine de l'hébergement de destination
+rsync -av emails-nom-domaine.zip compte2@destination.o2switch.net:/home/compte2/
+```
+
+#### Extraire l'archive sur l'hébergement de destination
+
+[Connectez-vous sur le cPanel](/guides/cpanel/comment-se-connecter) de l'hébergement de destination, naviguez dans
+l'[outil Terminal](/cpanel/outils-avances/terminal-ssh-web) puis extrayez l'archive à la racine de l'hébergement :
+
+```bash
+# Replacez-vous à la racine de votre hébergement avec la commande "cd" sans argument
+cd
+
+# Extraction de l'archive : les dossiers mail/nom-domaine.fr et etc/nom-domaine.fr sont recréés
+unzip emails-nom-domaine.zip
+```
+
+Comme l'archive contient les chemins `mail/nom-domaine.fr` et `etc/nom-domaine.fr`, les dossiers sont recréés
+directement au bon endroit. Si l'outil demande s'il faut remplacer des fichiers existants, c'est que le domaine ou des
+comptes emails existent déjà sur la destination : arrêtez-vous et vérifiez les [prérequis](#prérequis-avant-de-commencer).
+
+Vous pouvez passer à l'étape de vérification de la copie.
+
+## Vérifier la copie des emails
+
+**Ne passez pas à l'étape suivante avant d'avoir fait cette vérification.** Sur l'hébergement de destination, dans
+l'outil Terminal, comparez la taille des dossiers avec celle de l'hébergement d'origine :
+
+```bash
+# À lancer sur l'hébergement d'origine ET sur l'hébergement de destination
+cd
+du -sh mail/nom-domaine.fr etc/nom-domaine.fr
+```
+
+Les tailles affichées doivent être identiques (ou quasiment) sur les deux hébergements. Vous pouvez aussi lister les
+comptes emails présents dans `etc/nom-domaine.fr` et dans `mail/nom-domaine.fr` pour vous assurer que tous les comptes
+sont bien présents.
+
+:::tip
+Si vous avez utilisé la méthode A (Rsync), vous pouvez relancer exactement la même commande : si la copie est complète,
+Rsync n'a plus rien à transférer et n'affiche aucun fichier.
+:::
+
+## Déplacer le nom de domaine
+
+Les emails sont maintenant copiés **et vérifiés**. Vous pouvez à présent déplacer le nom de domaine. Cette étape se
+déroule en deux temps : déconfigurer le domaine de l'hébergement d'origine, puis le reconfigurer sur l'hébergement de
+destination.
+
+:::danger
+Avant de continuer, vérifiez une dernière fois que les dossiers `mail/nom-domaine.fr` et `etc/nom-domaine.fr` sont bien
+présents sur l'hébergement de destination, et conservez une sauvegarde si vous avez des doutes. La suppression du
+domaine sur l'hébergement d'origine n'est pas réversible.
+:::
+
+Si un site internet est associé à ce domaine, il cessera de fonctionner sur l'hébergement d'origine au moment de la
+suppression du domaine. Assurez-vous d'avoir [déplacé le site](/guides/migrations/deplacer-site-hebergement-o2switch)
+également, ou de savoir où il doit pointer.
+
+### Déconfigurer le domaine sur l'hébergement d'origine
+
+Connectez-vous sur le cPanel de l'hébergement d'origine, puis naviguez dans [l'outil Domaines
+Configurés](/cpanel/domaines/configuration-domaine). Dans le tableau récapitulatif des domaines configurés, cliquez sur
+`Supprimer` à côté du nom de domaine concerné.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-supprimer-domaine.png"
+    title="Déconfiguration d'un nom de domaine o2switch"
+    caption="Il faut déconfigurer le nom de domaine de l'hébergement d'origine"
+    alt="Capture d'écran de la procédure pour déconfigurer un nom de domaine o2switch"
+/>
+
+Patientez ensuite **10 à 15 minutes**. La suppression des zones DNS peut prendre quelques instants. Si vous ne patientez
+pas, vous risquez d'avoir une erreur lors de la reconfiguration du domaine sur l'hébergement de destination.
+
+### Reconfigurer le domaine sur l'hébergement de destination
+
+Connectez-vous sur le cPanel de l'hébergement de destination, puis naviguez dans [l'outil Domaines
+Configurés](/cpanel/domaines/configuration-domaine). Reconfigurez le nom de domaine.
+
+<Image
+    src="/img/docs/guides/migrations/o2switch-reconfiguration-domaine.png"
+    title="Reconfiguration du nom de domaine sur l'hébergement"
+    caption="Reconfiguration du nom de domaine sur l'hébergement de destination"
+    alt="Capture d'écran de la procédure pour reconfigurer le domaine sur l'hébergement o2switch"
+/>
+
+Lors de la configuration du domaine, les **comptes de messagerie sont recréés automatiquement** à partir des dossiers
+copiés, avec leurs données et les mots de passe associés. Vous pouvez le vérifier dans l'[outil comptes de
+messagerie](/cpanel/emails/adresse-email) de l'hébergement de destination.
+
+Il faut encore patienter le temps que les caches DNS expirent. Pendant ce temps, certains emails peuvent encore être
+distribués sur l'ancien serveur.
+
+## Reconnecter les clients de messagerie
+
+Les emails sont désormais hébergés sur un autre serveur. Si vous aviez des clients de messagerie connectés à vos
+adresses (Thunderbird, Outlook, application mail d'un smartphone...), il faut les **reconnecter avec la nouvelle
+configuration email**, et notamment avec le **nouveau serveur de messagerie** de l'hébergement de destination.
+
+Vous retrouvez ce nom de serveur, de la forme `qqch.o2switch.net`, dans l'email `Bienvenue chez o2switch` de
+l'hébergement de destination. Pour configurer à nouveau vos logiciels, consultez les [tutoriels de configuration des
+clients de messagerie](/guides/emails/client).
+
+Faites ensuite un test complet : connectez-vous au [webmail](/guides/emails/webmail/), envoyez un email vers une
+adresse extérieure et faites-vous en envoyer un en retour.
+
+Le transfert est terminé ! Une fois que vous avez vérifié que tout fonctionne, vous pouvez supprimer l'archive ZIP si
+vous en avez créé une.
