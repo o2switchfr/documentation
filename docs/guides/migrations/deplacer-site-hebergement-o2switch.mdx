@@ -598,34 +598,9 @@ Duplicator seront supprimés lors de la première connexion à l'administration.
 Si des comptes emails étaient attachés au nom de domaine à transférer, alors il est également possible de les transférer
 et de conserver l'historique des emails.
 
-Cette opération de transfert doit être réalisée avant l'étape de pointage du nom de domaine / reconfiguration du nom
-de domaine sur l'hébergement de destination.
+Cette opération de transfert doit être réalisée **avant** l'étape de pointage du nom de domaine / reconfiguration du nom
+de domaine sur l'hébergement de destination : ne déconfigurez jamais le domaine de l'hébergement source tant que les
+emails n'ont pas été copiés et vérifiés.
 
-Pour conserver l'historique des emails, il faut transférer de l'hébergement source vers la destination le contenu
-du dossier `mail/nom-du-domaine.fr`. Le répertoire `etc/nom-du-domaine.fr` est également nécessaire : il contient
-la configuration des comptes emails créés via cPanel (identifiants, mots de passe, quotas).
-
-Le transfert peut s'effectuer en FTP, en suivant la même méthode que le transfert des données du site.
-
-Ou de serveur à serveur en SSH. La méthode de transfert de serveur à serveur est recommandée pour les emails car le
-transfert des fichiers pour les emails est particulièrement long. Il s'agit en effet du pire cas à transférer : un grand
-nombre de petits fichiers.
-
-Pour transférer ces deux répertoires en SSH, vous pouvez utiliser les commandes suivantes : 
-
-```bash
-# En étant connecté en SSH ou avec l'outil Terminal sur l'hébergement "source"
-
-# Replacez-vous à la racine de votre hébergement avec la commande "cd" sans argument 
-cd 
-
-# Vérifiez que les dossiers existent, remplacez nom-domaine.fr par votre nom de domaine 
-ls mail/nom-domaine.fr
-ls etc/nom-domaine.fr
-
-# Transfert de l'historique des emails de la source vers la destination 
-rsync -av mail/nom-domaine.fr/ compte2@destination.o2switch.net:/home/compte2/mail/nom-domaine.fr
-
-# Transfert du répertoire etc/ qui contient les identifiants, mots de passe et quotas des comptes emails
-rsync -av etc/nom-domaine.fr/ compte2@destination.o2switch.net:/home/compte2/etc/nom-domaine.fr
-```
+La procédure complète est détaillée dans le tutoriel [Déplacer des emails d'un hébergement à un
+autre](/guides/migrations/deplacer-emails-hebergement-o2switch).
