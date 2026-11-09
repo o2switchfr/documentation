@@ -2,42 +2,17 @@ import React, {useCallback, useEffect, useRef, useState, type ReactNode} from 'r
 import {createPortal} from 'react-dom';
 import {useHistory} from '@docusaurus/router';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-// Le plugin n'expose pas de types ni de champ "exports" : on réutilise son worker lunr tel quel.
-// @ts-ignore
-import {fetchIndexesByWorker, searchByWorker} from '@easyops-cn/docusaurus-search-local/dist/client/client/theme/searchByWorker';
+// Le plugin n'expose ni types ni champ "exports" : on n'en réutilise que l'utilitaire de surlignage.
 // @ts-ignore
 import {highlight} from '@easyops-cn/docusaurus-search-local/dist/client/client/utils/highlight';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faMagnifyingGlass, faFileLines, faHashtag, faArrowRightLong, faArrowUp, faArrowDown, faArrowTurnDown, faXmark} from '@fortawesome/free-solid-svg-icons';
+import {faMagnifyingGlass, faFileLines, faHashtag, faArrowRightLong, faArrowUp, faArrowDown, faArrowTurnDown, faXmark, faTriangleExclamation} from '@fortawesome/free-solid-svg-icons';
+import {prefetchIndex, searchIndex} from './client';
+import {rankPages, type Row} from './rank';
 import styles from './styles.module.css';
 
-const RESULT_LIMIT = 12;
-const HIGHLIGHT_PARAM = '_highlight';
-const TYPE_HEADING = 1;
-
-type Hit = {
-  document: {i: number; t: string; u: string; h?: string; s?: string; b?: string[]};
-  page?: {t: string; b?: string[]} | false;
-  type: number;
-  tokens: string[];
-};
-
-function breadcrumb(hit: Hit): string {
-  const items = hit.page
-    ? [...(hit.page.b ?? []), hit.page.t]
-    : hit.document.b ?? [];
-  return items.filter(Boolean).join(' › ');
-}
-
-function targetUrl(hit: Hit): string {
-  let url = hit.document.u;
-  if (hit.tokens.length > 0) {
-    const params = new URLSearchParams();
-    hit.tokens.forEach((token) => params.append(HIGHLIGHT_PARAM, token));
-    url += `?${params.toString()}`;
-  }
-  return url + (hit.document.h ?? '');
-}
+// Nombre de résultats bruts demandés au plugin avant le classement par page.
+const RAW_LIMIT = 60;
 
 type ModalProps = {onClose: () => void};
 
@@ -46,19 +21,24 @@ function Modal({onClose}: ModalProps): ReactNode {
   const history = useHistory();
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
   const requestId = useRef(0);
   const [query, setQuery] = useState('');
-  const [hits, setHits] = useState<Hit[]>([]);
+  const [hits, setHits] = useState<Row[]>([]);
   const [active, setActive] = useState(0);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
+    // À la fermeture, le focus revient là où il était (le bouton de recherche ou le raccourci clavier).
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     inputRef.current?.focus();
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = previous;
+      previousFocus?.focus();
     };
   }, []);
 
@@ -68,18 +48,24 @@ function Modal({onClose}: ModalProps): ReactNode {
     if (!input) {
       setHits([]);
       setSearched(false);
+      setFailed(false);
       setLoading(false);
       return;
     }
     setLoading(true);
     const timer = setTimeout(async () => {
       try {
-        const results: Hit[] = await searchByWorker(baseUrl, '', input, RESULT_LIMIT);
+        const results = await searchIndex(baseUrl, input, RAW_LIMIT);
         if (id !== requestId.current) return;
-        setHits(results);
+        setHits(rankPages(results));
+        setFailed(false);
         setActive(0);
-      } catch {
-        if (id === requestId.current) setHits([]);
+      } catch (error) {
+        console.error('[recherche] impossible de charger ou d\'interroger l\'index', error);
+        if (id === requestId.current) {
+          setHits([]);
+          setFailed(true);
+        }
       } finally {
         if (id === requestId.current) {
           setLoading(false);
@@ -94,9 +80,9 @@ function Modal({onClose}: ModalProps): ReactNode {
     listRef.current?.children[active]?.scrollIntoView({block: 'nearest'});
   }, [active]);
 
-  const go = useCallback((hit: Hit) => {
+  const go = useCallback((hit: Row) => {
     onClose();
-    history.push(targetUrl(hit));
+    history.push(hit.url);
   }, [history, onClose]);
 
   const onKeyDown = (event: React.KeyboardEvent) => {
@@ -112,8 +98,27 @@ function Modal({onClose}: ModalProps): ReactNode {
     } else if (event.key === 'Enter' && hits[active]) {
       event.preventDefault();
       go(hits[active]);
+    } else if (event.key === 'Tab') {
+      // Le focus reste dans la modale : il alterne entre le champ et le bouton de fermeture.
+      const first = inputRef.current;
+      const last = closeRef.current;
+      if (!first || !last) return;
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
   };
+
+  // Annonce vocale (lecteurs d'écran) de l'état de la recherche.
+  let status = '';
+  if (failed) status = 'La recherche est momentanément indisponible.';
+  else if (loading) status = 'Recherche en cours.';
+  else if (hits.length > 0) status = `${hits.length} résultat${hits.length > 1 ? 's' : ''}.`;
+  else if (searched && query.trim()) status = 'Aucun résultat.';
 
   return createPortal(
     <div className={styles.overlay} onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
@@ -133,26 +138,28 @@ function Modal({onClose}: ModalProps): ReactNode {
             autoCorrect="off"
             spellCheck={false}
             role="combobox"
+            aria-autocomplete="list"
             aria-expanded={hits.length > 0}
             aria-controls="search-results"
             aria-activedescendant={hits[active] ? `search-hit-${active}` : undefined}
           />
-          <button type="button" className={styles.escButton} onClick={onClose} aria-label="Fermer la recherche">
+          <button ref={closeRef} type="button" className={styles.escButton} onClick={onClose} aria-label="Fermer la recherche">
             <FontAwesomeIcon icon={faXmark} />
           </button>
         </div>
+
+        <div className={styles.visuallyHidden} role="status" aria-live="polite">{status}</div>
 
         <div className={styles.body}>
           {hits.length > 0 && (
             <ul className={styles.results} id="search-results" role="listbox" ref={listRef}>
               {hits.map((hit, index) => {
-                const isHeading = hit.type === TYPE_HEADING;
-                const path = breadcrumb(hit);
                 return (
-                  <li key={`${hit.document.i}-${index}`} id={`search-hit-${index}`} role="option"
+                  <li key={hit.key} id={`search-hit-${index}`} role="option"
                     aria-selected={index === active}>
                     <a
-                      href={targetUrl(hit)}
+                      href={hit.url}
+                      tabIndex={-1}
                       className={index === active ? `${styles.hit} ${styles.hitActive}` : styles.hit}
                       onMouseMove={() => active !== index && setActive(index)}
                       onClick={(e) => {
@@ -160,11 +167,15 @@ function Modal({onClose}: ModalProps): ReactNode {
                         e.preventDefault();
                         go(hit);
                       }}>
-                      <span className={styles.hitIcon}><FontAwesomeIcon icon={isHeading ? faHashtag : faFileLines} fixedWidth /></span>
+                      <span className={styles.hitIcon}><FontAwesomeIcon icon={hit.isSection ? faHashtag : faFileLines} fixedWidth /></span>
                       <span className={styles.hitText}>
                         <span className={styles.hitTitle}
-                          dangerouslySetInnerHTML={{__html: highlight(hit.document.t, hit.tokens)}} />
-                        {path && <span className={styles.hitPath}>{path}</span>}
+                          dangerouslySetInnerHTML={{__html: highlight(hit.title, hit.tokens)}} />
+                        {hit.path && <span className={styles.hitPath}>{hit.path}</span>}
+                        {hit.excerpt && (
+                          <span className={styles.hitExcerpt}
+                            dangerouslySetInnerHTML={{__html: highlight(hit.excerpt, hit.tokens)}} />
+                        )}
                       </span>
                       <span className={styles.hitEnter}><FontAwesomeIcon icon={faArrowRightLong} /></span>
                     </a>
@@ -179,7 +190,13 @@ function Modal({onClose}: ModalProps): ReactNode {
               Tapez un mot-clé : <em>wordpress</em>, <em>certificat SSL</em>, <em>cron</em>, <em>messagerie</em>…
             </p>
           )}
-          {query.trim() && searched && !loading && hits.length === 0 && (
+          {failed && (
+            <p className={styles.placeholder} role="alert">
+              <FontAwesomeIcon icon={faTriangleExclamation} /> La recherche est momentanément indisponible.<br />
+              Rechargez la page et réessayez.
+            </p>
+          )}
+          {!failed && query.trim() && searched && !loading && hits.length === 0 && (
             <p className={styles.placeholder}>
               Aucun résultat pour « <strong>{query.trim()}</strong> ».<br />
               Essayez avec un autre mot-clé ou une orthographe différente.
@@ -221,13 +238,28 @@ export default function SearchBar(): ReactNode {
 
   // Précharge l'index (dès l'ouverture ou au survol) pour que la première frappe soit instantanée.
   const prefetch = useCallback(() => {
-    fetchIndexesByWorker(baseUrl, '').catch(() => undefined);
+    prefetchIndex(baseUrl);
+  }, [baseUrl]);
+
+  // Précharge aussi l'index quand le navigateur est inactif, sauf en mode économie de données
+  // ou sur une connexion très lente.
+  useEffect(() => {
+    const connection = (navigator as Navigator & {connection?: {saveData?: boolean; effectiveType?: string}}).connection;
+    if (connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType ?? '')) return;
+    const idle = window.requestIdleCallback
+      ? window.requestIdleCallback(() => prefetchIndex(baseUrl), {timeout: 5000})
+      : window.setTimeout(() => prefetchIndex(baseUrl), 3000);
+    return () => {
+      if (window.requestIdleCallback) window.cancelIdleCallback(idle);
+      else window.clearTimeout(idle);
+    };
   }, [baseUrl]);
 
   return (
     <>
       <button type="button" className={styles.trigger} onClick={() => setOpen(true)}
-        onMouseEnter={prefetch} onFocus={prefetch} aria-label="Rechercher">
+        onMouseEnter={prefetch} onFocus={prefetch} aria-label="Rechercher"
+        aria-haspopup="dialog" aria-keyshortcuts={isMac ? 'Meta+K' : 'Control+K'}>
         <FontAwesomeIcon icon={faMagnifyingGlass} />
         <span className={styles.triggerLabel}>Rechercher</span>
         <span className={styles.triggerKeys}>

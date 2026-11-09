@@ -21,6 +21,7 @@ const config: Config = {
   onBrokenMarkdownLinks: 'throw',
   onBrokenAnchors: 'warn',
   onDuplicateRoutes: 'throw',
+  clientModules: ['./src/clientModules/anchor.ts'],
   i18n: {
     defaultLocale: 'fr',
     locales: ['fr'],
@@ -41,6 +42,10 @@ const config: Config = {
           routeBasePath: '/',
         } satisfies DocsOptions,
         blog: false,
+        // La page /search/ ne sert plus : elle redirige vers l'accueil.
+        sitemap: {
+          ignorePatterns: ['/search/**'],
+        },
         pages: {
           showLastUpdateAuthor: false,
           showLastUpdateTime: false,
@@ -62,7 +67,7 @@ const config: Config = {
         language: ['fr'],
         docsRouteBasePath: '/',
         indexBlog: false,
-        highlightSearchTermsOnTargetPage: true,
+        highlightSearchTermsOnTargetPage: false,
         explicitSearchResultPath: true,
         // Les cartes des pages d'index répètent les titres des pages enfants : on les exclut de l'index.
         ignoreCssSelectors: ['.tool-card', '[class*="cardContainer_"]'],

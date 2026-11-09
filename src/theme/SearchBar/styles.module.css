@@ -107,7 +107,45 @@
 }
 
 :global([data-theme='dark']) .hitActive .hitIcon,
-:global([data-theme='dark']) .hitActive .hitEnter {
+:global([data-theme='dark']) .hitActive .hitExcerpt {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--search-muted);
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.hitExcerpt mark {
+  color: inherit;
+  font-weight: 700;
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.hitActive .hitExcerpt {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+:global([data-theme='dark']) .hitActive .hitExcerpt {
+  color: var(--search-muted);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hitEnter {
   color: var(--search-accent);
 }
 
