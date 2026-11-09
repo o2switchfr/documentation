@@ -13,15 +13,6 @@ import styles from './styles.module.css';
 
 // Nombre de résultats bruts demandés au plugin avant le classement par page.
 const RAW_LIMIT = 60;
-const HIGHLIGHT_PARAM = '_highlight';
-
-function targetUrl(row: Row): string {
-  const [path, hash = ''] = row.url.split('#');
-  const params = new URLSearchParams();
-  row.tokens.forEach((token) => params.append(HIGHLIGHT_PARAM, token));
-  const query = row.tokens.length > 0 ? `?${params.toString()}` : '';
-  return path + query + (hash ? `#${hash}` : '');
-}
 
 type ModalProps = {onClose: () => void};
 
@@ -91,7 +82,7 @@ function Modal({onClose}: ModalProps): ReactNode {
 
   const go = useCallback((hit: Row) => {
     onClose();
-    history.push(targetUrl(hit));
+    history.push(hit.url);
   }, [history, onClose]);
 
   const onKeyDown = (event: React.KeyboardEvent) => {
@@ -167,7 +158,7 @@ function Modal({onClose}: ModalProps): ReactNode {
                   <li key={hit.key} id={`search-hit-${index}`} role="option"
                     aria-selected={index === active}>
                     <a
-                      href={targetUrl(hit)}
+                      href={hit.url}
                       tabIndex={-1}
                       className={index === active ? `${styles.hit} ${styles.hitActive}` : styles.hit}
                       onMouseMove={() => active !== index && setActive(index)}

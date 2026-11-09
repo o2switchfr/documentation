@@ -66,7 +66,7 @@ const config: Config = {
         language: ['fr'],
         docsRouteBasePath: '/',
         indexBlog: false,
-        highlightSearchTermsOnTargetPage: true,
+        highlightSearchTermsOnTargetPage: false,
         explicitSearchResultPath: true,
         // Les cartes des pages d'index répètent les titres des pages enfants : on les exclut de l'index.
         ignoreCssSelectors: ['.tool-card', '[class*="cardContainer_"]'],
