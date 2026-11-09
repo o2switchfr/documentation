@@ -1,0 +1,173 @@
+/* Page /search/ : les couleurs viennent des variables du site (Infima) et suivent le thème clair ou sombre. */
+
+.page {
+  --search-ink: var(--ifm-heading-color);
+  --search-muted: var(--ifm-color-emphasis-700);
+  --search-accent: var(--ifm-color-primary);
+  --search-surface: var(--ifm-background-surface-color);
+  --search-radius: 10px;
+  --search-shadow: var(--ifm-global-shadow-lw);
+  --search-shadow-hover: 0 2px 8px color-mix(in srgb, var(--ifm-color-black) 10%, transparent);
+
+  flex: 1;
+  overflow-x: clip;
+  padding-block: 2rem 3rem;
+}
+
+.container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 760px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+.title {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.75rem, 1.5vw + 1rem, 2.25rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--search-ink);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* Champ de recherche */
+.field {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1rem;
+  background: var(--search-surface);
+  border-radius: var(--search-radius);
+  box-shadow: var(--search-shadow), inset 0 0 0 2px var(--search-accent);
+}
+
+.fieldIcon {
+  color: var(--search-accent);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  height: 3.25rem;
+  padding: 0;
+  font: inherit;
+  font-size: 1.05rem;
+  color: var(--search-ink);
+  background: transparent;
+  border: 0;
+  outline: none;
+  appearance: none;
+}
+
+.input::placeholder {
+  color: var(--search-muted);
+}
+
+.input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.field:focus-within {
+  outline: 2px solid var(--search-accent);
+  outline-offset: 3px;
+}
+
+/* Messages */
+.status {
+  min-height: 1.5rem;
+  margin: 1rem 0 0.75rem;
+  font-size: 0.9rem;
+  color: var(--search-muted);
+}
+
+.message {
+  margin: 0;
+  padding: 1.5rem 0;
+  line-height: 1.6;
+  color: var(--search-muted);
+}
+
+/* Résultats : une carte par page, sans bordure. */
+.results {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 1rem 1.25rem;
+  color: var(--search-ink);
+  text-decoration: none;
+  background: var(--search-surface);
+  border-radius: var(--search-radius);
+  box-shadow: var(--search-shadow);
+  transition: box-shadow 0.25s ease;
+}
+
+.result:hover {
+  color: var(--search-ink);
+  text-decoration: none;
+  box-shadow: var(--search-shadow-hover);
+}
+
+.result:active {
+  opacity: 0.85;
+}
+
+.result:focus-visible {
+  outline: 2px solid var(--search-accent);
+  outline-offset: 3px;
+  transition: none;
+}
+
+.resultTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.resultTitle mark {
+  color: var(--search-accent);
+  background: transparent;
+  font-weight: 700;
+}
+
+.resultPath {
+  font-size: 0.8rem;
+  color: var(--search-muted);
+}
+
+.resultExcerpt {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--search-muted);
+}
+
+.resultExcerpt mark {
+  color: inherit;
+  font-weight: 700;
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .result {
+    transition: none;
+  }
+}
