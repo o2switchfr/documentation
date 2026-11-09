@@ -54,24 +54,22 @@ const config: Config = {
       } satisfies Preset.Options,
     ],
   ],
-  themes: ['docusaurus-theme-search-typesense'],
-  themeConfig: {
-    typesense: {
-      typesenseCollectionName: 'faq',
-      typesenseServerConfig: {
-        nodes: [
-          {
-            host: 'search.o2swit.ch',
-            port: 443,
-            protocol: 'https',
-          },
-        ],
-        apiKey: '4zufPSau0nNmhvcqnGOzR11UEbf18KYz',
+  themes: [
+    [
+      '@easyops-cn/docusaurus-search-local',
+      {
+        hashed: true,
+        language: ['fr'],
+        docsRouteBasePath: '/',
+        indexBlog: false,
+        highlightSearchTermsOnTargetPage: true,
+        explicitSearchResultPath: true,
+        // Les cartes des pages d'index répètent les titres des pages enfants : on les exclut de l'index.
+        ignoreCssSelectors: ['.tool-card', '[class*="cardContainer_"]'],
       },
-      // Optional: Typesense search parameters: https://typesense.org/docs/0.24.0/api/search.html#search-parameters
-      typesenseSearchParameters: {},
-      contextualSearch: true,
-    },
+    ],
+  ],
+  themeConfig: {
     /* Not working as of now... 
     titleFormatter: ({ title, siteConfig }) => {
       return `${title}`;

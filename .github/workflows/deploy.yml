@@ -1,4 +1,4 @@
-name: Deploy & Index content
+name: Deploy
 
 on:
   workflow_dispatch:
@@ -87,16 +87,3 @@ jobs:
         with:
             name: build
             failOnError: false
-            
-      - name: Run DocSearch Scraper
-        uses: celsiusnarhwal/typesense-scraper@v2
-        with:
-          api-key: ${{ secrets.TYPESENSE_API_KEY }}
-          host: search.o2swit.ch
-          port: 443
-          protocol: https
-          config: typesense.config.json
-
-
-
-          
