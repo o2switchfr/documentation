@@ -41,6 +41,10 @@ const config: Config = {
           routeBasePath: '/',
         } satisfies DocsOptions,
         blog: false,
+        // La page /search/ ne sert plus : elle redirige vers l'accueil.
+        sitemap: {
+          ignorePatterns: ['/search/**'],
+        },
         pages: {
           showLastUpdateAuthor: false,
           showLastUpdateTime: false,
