@@ -21,6 +21,7 @@ const config: Config = {
   onBrokenMarkdownLinks: 'throw',
   onBrokenAnchors: 'warn',
   onDuplicateRoutes: 'throw',
+  clientModules: ['./src/clientModules/anchor.ts'],
   i18n: {
     defaultLocale: 'fr',
     locales: ['fr'],
