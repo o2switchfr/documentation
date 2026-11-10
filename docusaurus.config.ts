@@ -1,3 +1,4 @@
+import warmLight from './src/prism/warmLight';
 import {
   themes as prismThemes,
 } from 'prism-react-renderer';
@@ -107,7 +108,7 @@ const config: Config = {
       copyright: `<a class="footer__link-item" href="https://www.o2switch.fr" target="_blank">© ${new Date().getFullYear()} o2switch.fr - Tous droits réservés</a>`,
     },
     prism: {
-      theme: prismThemes.github, // nightOwlLight oneLight vsLight
+      theme: warmLight, // palette de la charte (src/prism/warmLight.ts) ; fond et filets dans src/css/o2switch.scss
       darkTheme: prismThemes.palenight, // palenight nightOwl
       additionalLanguages: ['php', 'apacheconf', 'javascript', 'markup', 'css', 'ruby', 'http', 'git', 'bash', 'json', 'csv'],
     },

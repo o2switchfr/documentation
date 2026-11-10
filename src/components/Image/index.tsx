@@ -1,18 +1,18 @@
-import React, { ReactNode, CSSProperties } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
-type Image = {
+type ImageProps = {
     src: string;
     alt: string;
-    caption: string;
-    additionalClass: null | string;
-    title: null  | string;
-    size: null | 'small' | 'medium' | 'large' | 'full';
+    caption?: string;
+    additionalClass?: string;
+    title?: string;
+    size?: 'small' | 'medium' | 'large' | 'full';
 }
 
-export default function Image ({src, alt, caption, additionalClass, size, title}: Image) {
+export default function Image ({src, alt, caption, additionalClass, size, title}: ImageProps) {
     
     const _title = title ? title : alt;
 
@@ -21,7 +21,7 @@ export default function Image ({src, alt, caption, additionalClass, size, title}
 
         <figure className={clsx('tutorial-img', additionalClass)}>
             <Zoom><img loading="lazy" data-zoomable src={src} alt={alt} title={_title}/></Zoom>
-            <figcaption>{caption}</figcaption>
+            {caption && <figcaption>{caption}</figcaption>}
         </figure>
     );
 }
