@@ -53,6 +53,26 @@ describe('requêtes courantes', () => {
   });
 });
 
+describe("recherche dans l'URL", () => {
+  it('retrouve une page par un mot du slug absent du titre', () => {
+    assert.ok(rankOf('import massif', '/cpanel/emails/import-massif-compte-email/') <= 3);
+    assert.ok(rankOf('filtre antispam', '/cpanel/emails/filtre-antispam/') <= 3);
+  });
+
+  it('place les pages « ceder-… » devant les correspondances approximatives', () => {
+    const top = search('céder').slice(0, 2).map((row) => row.url);
+    assert.ok(top.every((url) => url.startsWith('/espace-client/trade/')), `top 2 : ${top.join(' | ')}`);
+  });
+
+  it('retrouve une page par un début de mot du slug', () => {
+    assert.ok(rankOf('import mass', '/cpanel/emails/import-massif-compte-email/') <= 3);
+  });
+
+  it('retrouve une page par un mot du slug avec une faute de frappe', () => {
+    assert.ok(rankOf('import masif', '/cpanel/emails/import-massif-compte-email/') <= 3);
+  });
+});
+
 describe('retrouver chaque page', () => {
   const pages = data[0].documents;
   const words = (title) => title.split(/[\s'’]+/).filter((word) => /^[\p{L}\d._]+$/u.test(word));

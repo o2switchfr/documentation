@@ -33,9 +33,10 @@ export type Row = {
 const TYPE_TITLE = 0;
 const TYPE_HEADING = 1;
 const TYPE_AI = 5;
+const TYPE_SLUG = 6;
 
 /** Poids par type : titre, section, description, mots-clés, contenu. */
-const WEIGHTS = [5, 2.5, 2, 4.5, 1];
+const WEIGHTS = [5, 2.5, 2, 4.5, 1, 0, 4];
 /** Constante de la fusion : plus elle est grande, plus les rangs lointains comptent. */
 const K = 10;
 /** Nombre de correspondances d'une même page qui s'additionnent. */
@@ -92,7 +93,7 @@ function words(text: string): Set<string> {
 
 function hasExactWord(hit: RawHit): boolean {
   if (hit.type === 4 || hit.type === 2) return false;
-  const present = words(hit.document.t);
+  const present = words(hit.type === TYPE_SLUG ? hit.document.u : hit.document.t);
   return hit.tokens.some((token) => present.has(words(token).values().next().value ?? ''));
 }
 
@@ -110,7 +111,7 @@ export function rankPages(hits: RawHit[], max = 10): Row[] {
     [...list]
       .sort((a, b) => b.score - a.score)
       .forEach((hit, rank) => {
-        const page = type === TYPE_TITLE ? hit.document : hit.page;
+        const page = type === TYPE_TITLE || type === TYPE_SLUG ? hit.document : hit.page;
         if (!page) return;
         const entry = pages.get(page.u) ?? {page, contributions: [], tokens: new Set<string>()};
         const bonus = hasExactWord(hit) ? EXACT_BONUS : 1;
