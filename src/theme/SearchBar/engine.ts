@@ -70,7 +70,7 @@ function tokenize(input: string): string[] {
 }
 
 /** Documents correspondant à un mot, avec un score. */
-function matchToken(typed: TypedIndex, token: string, isLast: boolean): Map<string, number> {
+function matchToken(typed: TypedIndex, token: string, isLast: boolean, allowFuzzy: boolean): Map<string, number> {
   const {index, terms} = typed;
   const folded = fold(token);
   const stems = index.pipeline.runString(token);
@@ -86,7 +86,7 @@ function matchToken(typed: TypedIndex, token: string, isLast: boolean): Map<stri
     : [];
 
   let fuzzy: string[] = [];
-  if (exact.length === 0 && prefix.length === 0 && folded.length >= MIN_FUZZY_LENGTH) {
+  if (allowFuzzy && exact.length === 0 && prefix.length === 0 && folded.length >= MIN_FUZZY_LENGTH) {
     const max = folded.length >= 8 ? 2 : 1;
     const bases = [folded, ...stemsOrToken];
     fuzzy = terms.filter((term) => bases.some((base) => distance(term, base, max) <= max));
@@ -105,8 +105,8 @@ function matchToken(typed: TypedIndex, token: string, isLast: boolean): Map<stri
 
 type Matches = {scores: Map<string, number>; complete: boolean};
 
-function matchAll(typed: TypedIndex, tokens: string[]): Matches {
-  const perToken = tokens.map((token, position) => matchToken(typed, token, position === tokens.length - 1));
+function matchAll(typed: TypedIndex, tokens: string[], allowFuzzy: boolean): Matches {
+  const perToken = tokens.map((token, position) => matchToken(typed, token, position === tokens.length - 1, allowFuzzy));
   const [first, ...rest] = perToken;
   const together = new Map<string, number>();
   for (const [ref, score] of first) {
@@ -126,6 +126,56 @@ function matchAll(typed: TypedIndex, tokens: string[]): Matches {
   return {scores: partial, complete: false};
 }
 
+/** Type attribué aux correspondances sur le slug de l'URL (les types 0 à 4 viennent de l'index). */
+export const TYPE_SLUG = 6;
+
+/** Radicaux des mots de l'URL d'une page (« /cpanel/emails/filtre-antispam/ » → filtr, antispam…). */
+function slugStems(typed: TypedIndex, url: string): string[] {
+  const words = fold(url).split(/[^a-z0-9]+/).filter(Boolean);
+  return words.flatMap((word) => {
+    const stems = typed.index.pipeline.runString(word);
+    return stems.length > 0 ? [word, ...stems] : [word];
+  });
+}
+
+/** Pages dont l'URL contient le mot : égal au radical, début de mot (dernier mot) ou à une faute près. */
+function matchSlugToken(slugs: Map<string, string[]>, typed: TypedIndex, token: string, isLast: boolean, allowFuzzy: boolean): Map<string, number> {
+  const folded = fold(token);
+  const bases = new Set([folded, ...typed.index.pipeline.runString(token)]);
+  const found = new Map<string, number>();
+  for (const [ref, words] of slugs) {
+    let best = 0;
+    for (const word of words) {
+      for (const base of bases) {
+        if (word === base) best = Math.max(best, WEIGHT.exact);
+        else if (isLast && base.length >= 2 && word.startsWith(base)) best = Math.max(best, WEIGHT.prefix);
+        else if (allowFuzzy && best < WEIGHT.fuzzy && base.length >= MIN_FUZZY_LENGTH) {
+          const max = base.length >= 8 ? 2 : 1;
+          if (distance(word, base, max) <= max) best = WEIGHT.fuzzy;
+        }
+      }
+    }
+    if (best > 0) found.set(ref, best);
+  }
+  return found;
+}
+
+function matchSlugs(slugs: Map<string, string[]>, typed: TypedIndex, tokens: string[], allowFuzzy: boolean): Matches {
+  const perToken = tokens.map((token, position) => matchSlugToken(slugs, typed, token, position === tokens.length - 1, allowFuzzy));
+  const together = new Map<string, number>();
+  for (const [ref, score] of perToken[0]) {
+    if (perToken.slice(1).every((other) => other.has(ref))) {
+      together.set(ref, perToken.slice(1).reduce((sum, other) => sum + (other.get(ref) ?? 0), score));
+    }
+  }
+  if (together.size > 0 || tokens.length === 1) return {scores: together, complete: together.size > 0};
+  const partial = new Map<string, number>();
+  for (const matches of perToken) {
+    for (const [ref, score] of matches) partial.set(ref, (partial.get(ref) ?? 0) + score * PARTIAL_PENALTY);
+  }
+  return {scores: partial, complete: false};
+}
+
 export function createEngine(data: SerializedIndex[]): Engine {
   const typed: TypedIndex[] = data.map(({documents, index}, type) => {
     const loaded = lunr.Index.load(index);
@@ -137,23 +187,31 @@ export function createEngine(data: SerializedIndex[]): Engine {
     };
   });
   const pages = typed[0].documents;
+  const slugs = new Map([...pages].map(([ref, page]): [string, string[]] => [ref, slugStems(typed[0], page.u)]));
 
   return {
     search(input, limit) {
       const tokens = tokenize(input);
       if (tokens.length === 0) return [];
-      const matches = typed.map((entry) => ({entry, ...matchAll(entry, tokens)}));
+      const run = (allowFuzzy: boolean) => [
+        ...typed.map((entry) => ({entry, type: entry.type, ...matchAll(entry, tokens, allowFuzzy)})),
+        {entry: typed[0], type: TYPE_SLUG, ...matchSlugs(slugs, typed[0], tokens, allowFuzzy)},
+      ];
+      // Les fautes de frappe ne sont tolérées que si aucun type ne contient tous les mots tels quels :
+      // sinon « céder » ferait remonter « dédié » ou « privée » devant les pages au slug « ceder-… ».
+      let matches = run(false);
+      if (!matches.some((match) => match.complete)) matches = run(true);
       // Dès qu'un type (titre, section, texte…) contient tous les mots, les correspondances partielles
       // des autres types sont ignorées : elles remonteraient sinon devant les bonnes pages.
       const useful = matches.some((match) => match.complete) ? matches.filter((match) => match.complete) : matches;
       const hits: RawHit[] = [];
-      for (const {entry, scores} of useful) {
+      for (const {entry, type, scores} of useful) {
         const ranked = [...scores].sort((a, b) => b[1] - a[1]).slice(0, limit);
         for (const [ref, score] of ranked) {
           const document = entry.documents.get(ref);
           if (!document) continue;
-          const page = entry.type === 0 ? false : pages.get(String(document.p));
-          hits.push({document, page: page || false, type: entry.type, tokens, score});
+          const page = type === 0 || type === TYPE_SLUG ? false : pages.get(String(document.p));
+          hits.push({document, page: page || false, type, tokens, score});
         }
       }
       return hits;
