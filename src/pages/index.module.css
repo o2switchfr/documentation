@@ -9,10 +9,9 @@
   --home-faint: var(--ifm-color-emphasis-700);
   --home-accent: var(--ifm-color-primary);
   --home-surface: var(--ifm-background-surface-color);
-  --home-radius: 10px;
-  --home-shadow: var(--ifm-global-shadow-lw);
-  /* Survol : à peine plus marqué que le repos (l'ombre « md » d'Infima est très étalée). */
-  --home-shadow-hover: 0 2px 8px color-mix(in srgb, var(--ifm-color-black) 10%, transparent);
+  --home-radius: var(--site-radius);
+  --home-shadow: var(--site-shadow);
+  --home-shadow-hover: var(--site-shadow-hover);
   --home-measure: 1120px;
 
   display: flex;

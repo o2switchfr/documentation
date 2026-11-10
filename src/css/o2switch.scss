@@ -1,3 +1,4 @@
+/* Hallmark · component: tool-card, badge, code-block, toc-hover · genre: modern-minimal · theme: existing (o2switch) · states: default hover focus active · v2.0.0 */
 
 @font-face {
   font-display: swap;
@@ -56,41 +57,90 @@
   --ifm-font-family-base: Sora, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont,
   'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
   'Segoe UI Emoji', 'Segoe UI Symbol';
-  --ifm-footer-background-color: #0e1f31;
-  --ifm-background-color: #faf7f1;
+  --ifm-footer-background-color: var(--site-navy-deep);
+  --ifm-background-color: var(--site-paper);
   --ifm-navbar-background-color: #102237;
 
-  --ifm-heading-color:#1c3350;
-  --ifm-menu-color:#1c3350;
-  --ifm-font-color-base: #1c3350;
+  /* Langage visuel partagé avec la page d'accueil (src/pages/index.module.css). */
+  --site-radius: 10px;
+  --site-paper: #faf7f1;
+  --site-navy: #1c3350;
+  --site-navy-2: #162a42;
+  --site-navy-deep: #0e1f31;
+  --site-icon-tile: var(--site-paper);
+  /* Palette des admonitions et des badges : une teinte franche (texte/icône sur clair) et sa version claire (aplat). */
+  --tone-note: var(--site-navy);
+  --tone-note-bright: #9fb3cc;
+  --tone-success: #2b7a1c;
+  --tone-success-bright: #6fd25a;
+  --tone-info: #0a7487;
+  --tone-info-bright: #4cc9e0;
+  --tone-warning: #b34d04;
+  --tone-warning-bright: #ffa94d;
+  --tone-danger: #c02a2a;
+  --tone-danger-bright: #ff6b6b;
+  --badge-peach: #ffd2b0;
+  --badge-peach-ink: #6b2a05;
+  --badge-orange: #ff7a2e;
+  --site-rule: color-mix(in srgb, var(--ifm-heading-color) 30%, transparent);
+  /* Blocs de code : clair (thème Prism vsLight) et sombre (palenight). */
+  --site-code-bg: var(--ifm-card-background-color);
+  --site-code-rule: color-mix(in srgb, var(--site-navy) 12%, transparent);
+  --site-code-border: transparent;
+  --site-code-shadow: none;
+  --site-code-muted: var(--ifm-color-emphasis-700);
+  --site-code-fg: var(--site-navy);
+  --site-surface: #e8e6e0;
+  --site-border: var(--ifm-color-emphasis-200);
+  --site-shadow: var(--ifm-global-shadow-lw);
+  /* Survol : à peine plus marqué que le repos (l'ombre « md » d'Infima est très étalée). */
+  --site-shadow-hover: 0 2px 8px color-mix(in srgb, var(--ifm-color-black) 10%, transparent);
+  /* Orange de la charte pour le texte accentué (liens, survols, entrées actives). Choix assumé : sur le fond crème il n'offre que 2,7:1. */
+  --site-accent-text: var(--ifm-color-primary);
+  --ifm-link-color: var(--site-accent-text);
+  --ifm-link-hover-color: var(--ifm-color-primary);
+  --ifm-alert-border-radius: var(--site-radius);
+  --ifm-code-border-radius: 6px;
+  --ifm-pre-border-radius: var(--site-radius);
+  --ifm-menu-color-background-active: color-mix(in srgb, var(--ifm-color-primary) 10%, transparent);
+  --ifm-menu-color-background-hover: color-mix(in srgb, var(--ifm-color-primary) 6%, transparent);
+
+  --ifm-heading-color: var(--site-navy);
+  --ifm-menu-color: var(--site-navy);
+  --ifm-font-color-base: var(--site-navy);
 
 
   .tutorial-img {
-    background-color: #e8e6e0;
-    padding: 15px;
-    margin: auto;
-    
-    border-radius: 10px;
+    background-color: var(--site-surface);
+    padding: 1rem;
+    margin: 2em auto;
+    border-radius: var(--site-radius);
     text-align: center;
-    font-style: italic;
-    margin-bottom: 2em;
-    margin-top: 2em;
     img {
-      border-radius: 10px;
+      border-radius: calc(var(--site-radius) - 2px);
+    }
+    figcaption {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--ifm-color-emphasis-700);
     }
   }
 
+  /* Image agrandie : fond de page légèrement transparent et flouté, voir le bloc « Image agrandie » plus bas. */
   [data-rmiz-modal-overlay='visible'] {
-    background-color: #faf7f1;
+    background-color: color-mix(in srgb, var(--site-paper) 90%, transparent);
+    backdrop-filter: blur(8px);
   }
 
   .preview-tool-card {
-    background-color: rgb(232, 230, 224);
+    background-color: var(--site-surface);
     padding: 20px;
-    border-radius: 10px;
+    border-radius: var(--site-radius);
     margin-bottom: 2em;
     .preview-img {
-      border-radius: 10px;
+      border-radius: calc(var(--site-radius) - 2px);
     }
     .tool-desc-container {
       display: flex;
@@ -103,8 +153,8 @@
         display: flex;
         width: 60px;
         height: 60px;
-        border-radius: 10px;
-        background-color: #faf7f1;
+        border-radius: var(--site-radius);
+        background-color: var(--site-paper);
       }
       .tool-text-container {
         display: flex;
@@ -121,82 +171,153 @@
   }
 
   .navbar--dark {
-    --ifm-navbar-background-color: #162a42;
+    --ifm-navbar-background-color: var(--site-navy-2);
     .navbar__title {
       margin: 12px 0 0 12px;
+    }
+    .navbar__link--active {
+      color: var(--ifm-color-primary);
     }
   }
 
   .footer--dark {
-    --ifm-footer-background-color: #162a42;
+    --ifm-footer-background-color: var(--site-navy-2);
     background-image: url('../../static/img/misc/footer-dark-bg.svg');
     background-position: right bottom;
     background-repeat: no-repeat;
     background-size: contain;
   }
 
+  /* Carte d'outil : la structure d'origine (pictogramme à gauche, texte, offres, fil d'Ariane), modernisée.
+     Surface, rayon et ombre des cartes de l'accueil ; survol de l'accueil (ombre creusée, titre d'accent). */
   .tool-card {
-
-    box-shadow: 0 1.5px 3px 0 rgb(0 0 0 / 15%);
-    border: 1px solid var(--ifm-color-emphasis-200);
-    color: var(--ifm-heading-color);
+    margin-bottom: 1.25rem;
+    border: 0;
+    border-radius: 14px;
     background-color: var(--ifm-card-background-color);
-    margin-bottom:2rem;
+    box-shadow: var(--site-shadow);
+    color: var(--ifm-heading-color);
+    transition: box-shadow 0.2s ease;
 
-
-    &.clickable-card {
+    /* Survol : la carte reste immobile, un contour orange de 2 px (anneau en ombre, sans décalage de la mise en page)
+       entoure la carte et l'appel à l'action du pied de carte s'active. */
+    &.clickable-card:hover,
+    &.clickable-card:active {
+      box-shadow: 0 0 0 2px var(--ifm-color-primary), var(--site-shadow-hover);
       color: var(--ifm-heading-color);
-
-      &:hover, &:active {
-        color: var(--ifm-color-emphasis-800);
-        text-decoration: none;
-        border-width: 1px;
-        border-style: solid;
-        border-color: var(--ifm-color-primary);
-        box-shadow: 0 3px 6px 0 rgb(0 0 0 / 20%);
-      }
+      text-decoration: none;
     }
 
-    &:hover {
-      .card__body .icon-img {
-        background: var(--ifm-breadcrumb-item-background-active);
-      }
+    &:focus-visible {
+      outline: 2px solid var(--ifm-color-primary);
+      outline-offset: 3px;
+      transition: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
     }
 
     .card__body {
       display: flex;
       flex-direction: row;
-      align-items: center;
+      align-items: flex-start;
+      gap: 1.25rem;
+      padding: 1.25rem 1.5rem 1rem;
+
+      /* Pastille du pictogramme : fond de page, filet fin, coins arrondis. */
       .icon-img {
-        margin: 1rem;
-        border-radius: 12px;
+        flex: none;
+        margin: 0;
+        border: 1px solid var(--site-border);
+        border-radius: 14px;
+        background-color: var(--site-icon-tile);
         display: flex;
-        border: 1px solid transparent;
-        /*background: var(--ifm-breadcrumb-item-background-active);*/
 
         span {
           width: 48px;
           height: 48px;
-          margin: .5rem;
+          margin: 0.6rem;
           opacity: 100%;
+        }
+      }
 
-        }
-      }
       .tool-desc {
+        min-width: 0;
+
         h3 {
-          margin-bottom: 0.5rem;
+          margin: 0 0 0.3rem;
+          font-size: 1.15rem;
+          font-weight: 600;
+          line-height: 1.3;
         }
+
         p {
-          margin-bottom: 0;
+          margin: 0;
+          color: var(--ifm-color-emphasis-800);
+          font-size: 0.925rem;
+          line-height: 1.55;
         }
-        .badge {
-          margin-right: .75rem;
-          color:#1c3350;
-          font-weight: 400;
-          --ifm-badge-background-color:var(--ifm-breadcrumb-item-background-active);
-          --ifm-badge-border-color: var(--ifm-badge-background-color);
+
+        /* Offres : pastilles discrètes, gris très léger et texte courant d'un cran plus petit. */
+        .tool-offers {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.4rem;
+          margin-top: 0.75rem;
+
+          .badge {
+            --badge-bg: color-mix(in srgb, var(--ifm-font-color-base) 8%, var(--ifm-card-background-color));
+            --badge-fg: var(--ifm-color-emphasis-800);
+            font-size: 0.75rem;
+            font-weight: 500;
+          }
         }
       }
+    }
+
+    /* Fil d'Ariane : séparé par un filet fin, la page courante en gras (pas de pastille orange). */
+    .card__footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.55rem 1rem 0.55rem 1.5rem;
+      border-top: 1px solid var(--site-border);
+
+      .breadcrumbs {
+        margin: 0;
+      }
+
+      .breadcrumbs__link {
+        padding: 0;
+        background: transparent;
+        color: var(--ifm-color-emphasis-700);
+        font-size: 0.8rem;
+      }
+
+      .breadcrumbs__item--active .breadcrumbs__link {
+        background: transparent;
+        color: var(--ifm-heading-color);
+        font-weight: 600;
+      }
+
+      /* Appel à l'action : au repos un texte discret ; au survol de la carte, le survol des liens de l'accueil (texte orange, fond orange à 9 %, rayon 6 px). */
+      .tool-cta {
+        flex: none;
+        padding: 0.3rem 0.7rem;
+        border-radius: 6px;
+        color: var(--ifm-color-emphasis-800);
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: background-color 0.15s ease, color 0.15s ease;
+      }
+    }
+
+    &:hover .card__footer .tool-cta,
+    &:focus-visible .card__footer .tool-cta {
+      background-color: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
+      color: var(--site-accent-text);
     }
   }
 }
@@ -207,73 +328,41 @@
 [data-theme='dark'] {
   --ifm-color-primary: #ff803b;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
-  --ifm-background-color: #102237 !important;
+  --ifm-background-color: #102237;
   --ifm-navbar-background-color: #102237;
-  --ifm-background-surface-color: #0e1f31 !important;
+  --ifm-background-surface-color: var(--site-navy-deep);
+  --site-surface: var(--ifm-breadcrumb-item-background-active);
+  --site-accent-text: var(--ifm-color-primary);
+  --site-code-bg: #0b1827;
+  --site-code-rule: rgb(255 255 255 / 12%);
+  --site-code-border: transparent;
+  --site-code-shadow: none;
+  --site-code-muted: var(--tone-note-bright);
+  --site-code-fg: var(--site-paper);
+  --ifm-link-hover-color: var(--ifm-color-primary);
+  --site-shadow-hover: 0 2px 8px color-mix(in srgb, var(--ifm-color-black) 40%, transparent);
 
-  --ifm-heading-color: #faf7f1;
-  --ifm-menu-color: #faf7f1;
-  --ifm-font-color-base: #faf7f1;
+  --ifm-heading-color: var(--site-paper);
+  --ifm-menu-color: var(--site-paper);
+  --ifm-font-color-base: var(--site-paper);
 
-  .preview-tool-card {
-    background-color: var(--ifm-breadcrumb-item-background-active);
-  }
   .navbar--dark {
-    --ifm-navbar-background-color: #0e1f31;
-  }
-
-  .tutorial-img {
-    background-color: var(--ifm-breadcrumb-item-background-active);
+    --ifm-navbar-background-color: var(--site-navy-deep);
   }
 
   [data-rmiz-modal-overlay='visible'] {
-    background-color: #0e1f31;
+    background-color: color-mix(in srgb, var(--site-navy-deep) 92%, transparent);
+    color: var(--ifm-font-color-base);
   }
 
   .footer--dark {
-    --ifm-footer-background-color: #0e1f31;
+    --ifm-footer-background-color: var(--site-navy-deep);
     background-image: url('../../static/img/misc/footer-darker-bg.svg');
     background-position: right bottom;
     background-repeat: no-repeat;
     background-size: contain;
   }
 
-  .tool-card {
-
-    &:hover {
-      .card__body .icon-img {
-        background: var(--ifm-breadcrumb-item-background-active);
-        border: 1px solid #ff803b;
-        span {
-          opacity: 100%;
-        }
-
-        /*span {
-          filter: brightness(0%) saturate(100%) invert(57%) sepia(85%) saturate(1165%) hue-rotate(333deg) brightness(100%) contrast(102%);
-        }*/
-      }
-    }
-
-    .card__body {
-      .icon-img {
-        background: #faf7f1;
-        /*span {
-          filter: brightness(0%) saturate(100%) invert(57%) sepia(85%) saturate(1165%) hue-rotate(333deg) brightness(100%) contrast(102%);
-        }*/
-      }
-      
-      .tool-desc {
-        .badge {
-          margin-right: .75rem;
-          color:#faf7f1;
-          font-weight: 400;
-          --ifm-badge-background-color:var(--ifm-breadcrumb-item-background-active);
-          --ifm-badge-border-color: var(--ifm-badge-background-color);
-        }
-      }
-    }
-
-  }
 }
 
 .video-container {
@@ -291,7 +380,7 @@
 
 
 .footer {
-  padding: 10px;
+  padding: 0.75rem;
 }
 
 .card-container {
@@ -308,11 +397,608 @@
   }
 }
 
-table {
+/* Tableaux : centrés, et défilants horizontalement plutôt que de déborder sur mobile. */
+.markdown table {
+  --ifm-table-background: var(--ifm-card-background-color);
+  --ifm-table-stripe-background: color-mix(in srgb, var(--ifm-font-color-base) 3%, var(--ifm-card-background-color));
+  --ifm-table-border-width: 0;
+  --ifm-table-cell-padding: 0.85rem 1.1rem;
+  --ifm-table-head-background: color-mix(in srgb, var(--ifm-font-color-base) 7%, var(--ifm-card-background-color));
+  --ifm-table-head-font-weight: 600;
+
   display: table;
-  width: initial;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0 0 1.5rem;
+  border: 1px solid var(--site-border);
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--site-radius);
+  overflow: hidden;
+  font-size: 0.925rem;
+  line-height: 1.5;
+
+  th,
+  td {
+    border: 0;
+    border-bottom: 1px solid var(--site-border);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    color: var(--ifm-heading-color);
+  }
+
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  tbody td:first-child {
+    color: var(--ifm-heading-color);
+    font-weight: 600;
+  }
+
+  /* Petits écrans : le tableau défile horizontalement plutôt que de déborder de la page. */
+  @media (max-width: 768px) {
+    display: block;
+    overflow-x: auto;
+  }
 }
+
+/* Retour de note de bas de page : l'icône « flèche vers le haut » de Font Awesome (arrow-turn-up, mêmes tracés que la bibliothèque du site)
+   remplace le caractère « ↩ », dessinée en masque pour prendre la couleur du lien ; survol de l'accueil. */
+a.data-footnote-backref {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-left: 0.35rem;
+  border-radius: 6px;
+  vertical-align: middle;
+  font-size: 0;
+  line-height: 0;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+
+  &::before {
+    content: '';
+    width: 0.75rem;
+    height: 0.75rem;
+    background-color: var(--site-accent-text);
+    -webkit-mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'><path d='M32 448c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c53 0 96-43 96-96l0-306.7 73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 109.3 160 416c0 17.7-14.3 32-32 32l-96 0z'/></svg>") center / contain no-repeat;
+    mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'><path d='M32 448c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c53 0 96-43 96-96l0-306.7 73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 109.3 160 416c0 17.7-14.3 32-32 32l-96 0z'/></svg>") center / contain no-repeat;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-color: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ifm-color-primary);
+    outline-offset: 1px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+/* Titre « Footnotes » ajouté par le plugin : gardé pour les lecteurs d'écran, masqué à l'écran. */
+.footnotes > .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Touches du clavier : même touche que dans la barre de recherche (src/theme/SearchBar/styles.module.css) : carré de 1,4 rem,
+   texte de 0,7 rem en gras, contour fin, coins de 5 px, sans ombre. Teintes tirées du texte courant pour suivre clair et sombre. */
+.markdown kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.4rem;
+  height: 1.4rem;
+  padding: 0 0.3rem;
+  border: 1px solid color-mix(in srgb, var(--ifm-font-color-base) 18%, transparent);
+  border-radius: 5px;
+  background-color: color-mix(in srgb, var(--ifm-font-color-base) 8%, transparent);
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 600;
+  vertical-align: baseline;
+}
+
+/* Onglets : soulignement orange vif sous l'onglet actif, texte courant ; survol de l'accueil (texte orange, fond orange à 9 %). */
+.tabs {
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--site-border);
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.tabs__item {
+  padding: 0.6rem 1rem;
+  border-bottom: 3px solid transparent;
+  border-radius: 8px 8px 0 0;
+  color: var(--ifm-color-emphasis-700);
+  font-weight: 600;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
+    color: var(--site-accent-text);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ifm-color-primary);
+    outline-offset: -2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.tabs__item--active,
+.tabs__item--active:hover {
+  border-bottom-color: var(--ifm-color-primary);
+  background-color: transparent;
+  color: var(--ifm-heading-color);
+}
+
+/* Blocs repliables : surface de carte, coins arrondis à 16 px, titre en gras ; filet entre le titre et le contenu une fois ouvert. */
+details[class*='details'] {
+  --docusaurus-details-decoration-color: var(--ifm-color-primary);
+  margin-bottom: 1rem;
+  padding: 0 1.25rem;
+  border: 0;
+  border-radius: 16px;
+  background-color: var(--ifm-card-background-color);
+  box-shadow: none;
+  color: var(--ifm-font-color-base);
+
+  > summary {
+    padding: 0.95rem 0 0.95rem 1.4rem;
+    color: var(--ifm-heading-color);
+    font-weight: 600;
+    transition: color 0.15s ease;
+
+    /* La flèche de Docusaurus est positionnée en absolu : on la recale sur la première ligne du titre. */
+    &::before {
+      top: 1.4rem;
+    }
+
+    &:hover {
+      color: var(--site-accent-text);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ifm-color-primary);
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  &[open] > summary {
+    border-bottom: 1px solid var(--site-border);
+  }
+
+  [class*='collapsibleContent'] {
+    margin-top: 0;
+    padding: 0.9rem 0 0.4rem;
+    border-top: 0;
+  }
+}
+
+/* Boutons : coins arrondis à 8 px ; texte bleu nuit sur l'orange (5,8:1 au lieu de 2,9:1 en blanc) ;
+   le bouton secondaire de l'ancien thème était crème sur crème, donc invisible. */
+.button {
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:focus-visible {
+    outline: 2px solid var(--ifm-color-primary);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.button--primary:not(.button--outline) {
+  --ifm-button-color: var(--site-navy-deep);
+}
+
+.button--secondary:not(.button--outline) {
+  --ifm-button-background-color: color-mix(in srgb, var(--ifm-font-color-base) 12%, transparent);
+  --ifm-button-border-color: transparent;
+  --ifm-button-color: var(--ifm-heading-color);
+  /* Infima fixe ici un gris très foncé, illisible en mode sombre. */
+  color: var(--ifm-heading-color);
+}
+
+/* Pagination « précédent / suivant » : mêmes cartes que le reste du site. */
+.pagination-nav__link {
+  padding: 1rem 1.25rem;
+  border: 0;
+  border-radius: 14px;
+  background-color: var(--ifm-card-background-color);
+  box-shadow: var(--site-shadow);
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: var(--site-shadow-hover);
+    color: var(--ifm-heading-color);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ifm-color-primary);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.pagination-nav__sublabel {
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.8rem;
+}
+
+.pagination-nav__label {
+  font-weight: 600;
+}
+
+.pagination-nav__link:hover .pagination-nav__label {
+  color: var(--site-accent-text);
+}
+
+/* Étiquettes de fin d'article : mêmes pastilles discrètes que les badges de cartes, survol de l'accueil. */
+.theme-doc-footer a[class*='tag'] {
+  padding: 0.25em 0.8em;
+  border: 0;
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--ifm-font-color-base) 8%, var(--ifm-card-background-color));
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.3;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
+    color: var(--site-accent-text);
+    text-decoration: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+/* Fil d'Ariane de page : survol de l'accueil, page courante en gras sans pastille. */
+.breadcrumbs__link {
+  border-radius: 6px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
+    color: var(--site-accent-text);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.breadcrumbs__item--active .breadcrumbs__link {
+  background: transparent;
+  color: var(--ifm-heading-color);
+  font-weight: 600;
+}
+
+/* Image agrandie (react-medium-image-zoom) : coins arrondis et ombre sur l'image, boutons d'agrandissement et de fermeture de la charte
+   (pastille bleu nuit, icône crème ; l'inverse en sombre), orange au survol, contour visible au clavier. */
+[data-rmiz-modal-img] {
+  border-radius: var(--site-radius);
+  box-shadow: 0 12px 40px color-mix(in srgb, var(--site-navy-deep) 28%, transparent);
+}
+
+[data-rmiz-btn-zoom],
+[data-rmiz-btn-unzoom] {
+  border: 0;
+  background-color: var(--site-navy);
+  box-shadow: var(--site-shadow-hover);
+  color: var(--site-paper);
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background-color: var(--ifm-color-primary);
+    color: var(--site-navy-deep);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ifm-color-primary);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+[data-rmiz-btn-unzoom] {
+  inset: 1.25rem 1.25rem auto auto;
+}
+
+[data-theme='dark'] [data-rmiz-btn-zoom],
+[data-theme='dark'] [data-rmiz-btn-unzoom] {
+  background-color: var(--site-paper);
+  color: var(--site-navy-deep);
+
+  &:hover {
+    background-color: var(--ifm-color-primary);
+  }
+}
+
+/* Pages d'article */
+.markdown {
+  > p,
+  > ul,
+  > ol {
+    max-width: 75ch;
+  }
+
+  > h1,
+  > h2,
+  > h3 {
+    text-wrap: balance;
+  }
+
+  > h2 {
+    margin-top: 2.5rem;
+  }
+
+  > h3 {
+    margin-top: 2rem;
+  }
+
+  /* Citations : simple aplat orange très léger aux coins arrondis, sans guillemet décoratif ni italique. */
+  blockquote {
+    margin: 0 0 1.5rem;
+    padding: 1rem 1.4rem;
+    border: 0;
+    border-radius: 16px;
+    background-color: color-mix(in srgb, var(--ifm-color-primary) 9%, var(--ifm-card-background-color));
+    color: var(--ifm-font-color-base);
+    font-style: normal;
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+/* Admonitions : aplat pastel teinté du type, coins arrondis à 16 px, texte courant (≥ 9:1). L'icône Font Awesome (voir src/theme/Admonition/Icon)
+   porte la couleur franche : --adm-accent en clair (≥ 5:1), --adm-bright en sombre. */
+.theme-admonition {
+  --adm-accent: var(--tone-note);
+  --adm-bright: var(--tone-note-bright);
+  --adm-tint: 22%;
+  margin-bottom: 1.5rem;
+  padding: 1.1rem 1.4rem;
+  border: 0;
+  border-radius: 16px;
+  background-color: color-mix(in srgb, var(--adm-bright) var(--adm-tint), var(--ifm-card-background-color));
+  box-shadow: none;
+  color: var(--ifm-font-color-base);
+
+  &.alert--success { --adm-accent: var(--tone-success); --adm-bright: var(--tone-success-bright); --adm-tint: 38%; }
+  &.alert--info { --adm-accent: var(--tone-info); --adm-bright: var(--tone-info-bright); --adm-tint: 34%; }
+  &.alert--warning { --adm-accent: var(--tone-warning); --adm-bright: var(--tone-warning-bright); --adm-tint: 38%; }
+  &.alert--danger { --adm-accent: var(--tone-danger); --adm-bright: var(--tone-danger-bright); --adm-tint: 34%; }
+
+  [class*='admonitionHeading'] {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0 0 0.4rem;
+    color: var(--ifm-heading-color);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-transform: none;
+  }
+
+  [class*='admonitionIcon'] {
+    display: inline-flex;
+    margin: 0;
+    color: var(--adm-accent);
+    font-size: 1.15rem;
+
+    svg {
+      width: 1em;
+      height: 1em;
+      fill: currentColor;
+    }
+  }
+
+  [class*='admonitionContent'] > :last-child {
+    margin-bottom: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}
+
+[data-theme='dark'] .theme-admonition {
+  --adm-tint: 20%;
+  --adm-accent: var(--adm-bright);
+
+  &.alert--success, &.alert--info, &.alert--warning, &.alert--danger { --adm-tint: 22%; }
+}
+
+/* Blocs de code : surface claire en mode clair (thème Prism vsLight), bleu nuit en mode sombre (palenight), réglés dans docusaurus.config.ts.
+   Titre en simple légende séparée par un filet, ligne surlignée orange, copie en bouton fantôme. */
+.theme-code-block {
+  --prism-background-color: var(--site-code-bg) !important;
+  --docusaurus-highlighted-code-line-bg: color-mix(in srgb, var(--ifm-color-primary) 14%, transparent);
+  /* Valeur unique : Docusaurus l'utilise dans calc() pour les lignes surlignées. */
+  --ifm-pre-padding: 1.25rem;
+  --ifm-pre-line-height: 1.7;
+
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--site-code-border);
+  border-radius: var(--site-radius);
+  background-color: var(--site-code-bg);
+  box-shadow: var(--site-code-shadow);
+  color: var(--site-code-fg);
+
+  [class*='codeBlockTitle'] {
+    margin: 0;
+    padding: 0.65rem 1.25rem;
+    border-bottom: 1px solid var(--site-code-rule);
+    border-radius: 0;
+    background: none;
+    color: var(--site-code-muted);
+    font-family: var(--ifm-font-family-base);
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  pre {
+    border-radius: 0;
+    /* Le thème Prism pose sa couleur de fond en ligne : on la laisse au conteneur. */
+    background-color: transparent !important;
+  }
+
+  code {
+    font-size: 0.875rem;
+  }
+
+  [class*='buttonGroup'] button {
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--site-code-muted);
+    transition: background-color 0.15s ease, color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background-color: var(--site-code-rule);
+      color: var(--site-code-fg);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ifm-color-primary);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+}
+
+/* Code en ligne : aplat discret, sans bordure. */
+:not(pre) > code {
+  border: 0;
+  border-radius: 6px;
+  background-color: color-mix(in srgb, var(--ifm-font-color-base) 8%, transparent);
+  padding: 0.1em 0.4em;
+}
+
+/* Badges : aplats vifs. Texte bleu nuit (≥ 6:1) sur les couleurs claires, blanc sur le bleu nuit ; sans variante : pêche + brun foncé (7,7:1). */
+.badge {
+  --badge-bg: var(--badge-peach);
+  --badge-fg: var(--badge-peach-ink);
+  padding: 0.3em 0.8em;
+  border: 0;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  line-height: 1.3;
+  background-color: var(--badge-bg);
+  color: var(--badge-fg);
+  font-weight: 600;
+
+  &.badge--primary { --badge-bg: var(--badge-orange); --badge-fg: var(--site-navy-deep); }
+  &.badge--secondary { --badge-bg: var(--tone-note); --badge-fg: var(--site-paper); }
+  &.badge--success { --badge-bg: var(--tone-success-bright); --badge-fg: var(--site-navy-deep); }
+  &.badge--info { --badge-bg: var(--tone-info-bright); --badge-fg: var(--site-navy-deep); }
+  &.badge--warning { --badge-bg: var(--tone-warning-bright); --badge-fg: var(--site-navy-deep); }
+  &.badge--danger { --badge-bg: var(--tone-danger-bright); --badge-fg: var(--site-navy-deep); }
+}
+
+[data-theme='dark'] .badge.badge--secondary {
+  --badge-bg: var(--tone-note-bright);
+  --badge-fg: var(--site-navy-deep);
+}
+
+/* Entrée active du menu : texte orange de la charte, en gras. Le sommaire de droite garde le style Infima d'origine. */
+.menu__link--active:not(.menu__link--sublist) {
+  color: var(--site-accent-text);
+  font-weight: 700;
+}
+
+/* Menu latéral : survol repris de l'accueil (texte accent, fond accent à 9 %, rayon 6 px). */
+/* Sommaire de droite : défilement conservé (molette, clavier) mais sans barre de défilement visible. */
+.theme-doc-toc-desktop,
+[class*='tableOfContents'] {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.menu__link {
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.menu__link:hover:not(.menu__link--active) {
+  background-color: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
+  color: var(--site-accent-text);
+  text-decoration: none;
+}
+
+.menu__link:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+  transition: none;
+}
+
+.menu__link {
+  border-radius: 6px;
+}
+
 
 // Probably a shitty idea. 
 // Try to avoid the SVG flashbang on the homepage when loading the page without cache.

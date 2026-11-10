@@ -1,19 +1,17 @@
-import React, { ReactNode, CSSProperties } from 'react';
-import clsx from 'clsx';
+import React from 'react';
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import data from '@site/src/components/_data/tools';
 import CpanelIcon from "@site/src/components/CpanelIcon";
 
 
-type PreviewToolCard = {
+type PreviewToolCardProps = {
     tool: string;
 }
 
-const cpanelCategories = data.cpanelCategories;
 const cpanelTools = data.cpanelTool;
 
-export default function PreviewToolCard ({tool}: PreviewToolCard) {
+export default function PreviewToolCard ({tool}: PreviewToolCardProps) {
 
     if(cpanelTools[tool] === undefined){
         throw new Error(`"${tool}"  is not a valid value for <ToolCard />.\n\nThe possible values are : ${Object.keys(cpanelTools).join(', ')}\n`);

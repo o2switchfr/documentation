@@ -1,22 +1,15 @@
-import React, { ReactNode, CSSProperties } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import CpanelIcon from "@site/src/components/CpanelIcon";
 import data from '@site/src/components/_data/tools';
 
-type ToolCard = {
+type ToolCardProps = {
     tool: string;
-    title: null | string;
-    desc: null | string;
-    category: null | string;
-    classname: null | string;
-    href: null | string;
 }
 
-
-const cpanelCategories = data.cpanelCategories;
 const cpanelTools = data.cpanelTool;
 
-export default function ToolCard ({tool}: ToolCard) {
+export default function ToolCard ({tool}: ToolCardProps) {
 
     if(cpanelTools[tool] === undefined){
         throw new Error(`"${tool}"  is not a valid value for <ToolCard />.\n\nThe possible values are : ${Object.keys(cpanelTools).join(', ')}\n`);
@@ -44,7 +37,7 @@ export default function ToolCard ({tool}: ToolCard) {
                 <div className="tool-desc">
                     <h3>{_name}</h3>
                     <p>{_desc}</p>
-                    {_offersHtml}
+                    <div className="tool-offers">{_offersHtml}</div>
                 </div>
             </div>
             <div className="card__footer">
@@ -61,7 +54,7 @@ export default function ToolCard ({tool}: ToolCard) {
                         </li>
                     </ul>
                 </nav>
-
+                <span className="tool-cta">Voir la documentation</span>
             </div>
         </a>
     );
