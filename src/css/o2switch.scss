@@ -172,11 +172,51 @@
 
   .navbar--dark {
     --ifm-navbar-background-color: var(--site-navy-2);
+    --ifm-navbar-shadow: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--site-paper) 10%, transparent);
+
+    /* Titre aligné sur le logo par le flex de la barre, sans décalage manuel. */
+    .navbar__brand {
+      align-items: flex-end; /* le bas du logo est la ligne de base du mot : le titre s'y cale */
+      gap: 0.75rem;
+      margin-right: 1rem;
+    }
+    .navbar__logo {
+      display: flex;
+      align-items: center;
+      height: 1.75rem;
+      margin-right: 0;
+
+      img {
+        height: 100%;
+        width: auto;
+      }
+    }
     .navbar__title {
-      margin: 12px 0 0 12px;
+      margin: 0;
+      line-height: 1;
+      padding-bottom: 0.12rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: color-mix(in srgb, var(--site-paper) 85%, transparent);
+    }
+    .navbar__link {
+      padding: 0.4rem 0.7rem;
+      border-radius: 6px;
+      font-weight: 500;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+    /* Survol des liens de l'accueil : texte orange, fond orange à 9 %. */
+    .navbar__link:hover,
+    .navbar__link:focus-visible {
+      color: var(--ifm-color-primary);
+      background-color: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
     }
     .navbar__link--active {
       color: var(--ifm-color-primary);
+    }
+    button[class*='toggleButton'] {
+      border-radius: 6px;
     }
   }
 
