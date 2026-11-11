@@ -324,8 +324,9 @@
           width: 100%;
         }
 
+        /* Texte aligné sur le fil d'Ariane ; le fond au survol garde son retrait. */
         .tool-cta {
-          padding-left: 0;
+          margin-left: -0.7rem;
         }
       }
     }
