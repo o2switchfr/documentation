@@ -1063,3 +1063,97 @@ details[class*='details'] {
   max-width: 20px;
   max-height: 20px;
 }
+
+/* Fin d'article : « Modifié le », lien d'édition et pagination séparés du texte par un filet fin. */
+.theme-doc-footer {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--site-border);
+}
+
+.theme-doc-footer-edit-meta-row {
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-700);
+
+  .theme-last-updated {
+    font-size: inherit;
+    font-style: normal;
+  }
+
+  .theme-edit-this-page {
+    padding: 0.3rem 0.7rem;
+    margin-left: -0.7rem;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background-color 0.15s ease, color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background-color: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
+      color: var(--site-accent-text);
+      text-decoration: none;
+    }
+  }
+}
+
+/* Sommaire repliable des petits écrans : même surface que les blocs repliables. */
+.theme-doc-toc-mobile {
+  margin-bottom: 1.25rem;
+  border-radius: var(--site-radius);
+  background-color: var(--ifm-card-background-color);
+  box-shadow: var(--site-shadow);
+
+  button {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    color: var(--ifm-heading-color);
+  }
+
+  .table-of-contents__link--active,
+  .table-of-contents__link:hover {
+    color: var(--site-accent-text);
+  }
+}
+
+/* Menu latéral : titres de catégories un peu plus présents, flèche de repli alignée. */
+.menu__list-item-collapsible {
+  border-radius: 6px;
+
+  > .menu__link--sublist {
+    font-weight: 600;
+  }
+}
+
+/* Page 404 */
+.not-found {
+  max-width: 560px;
+  margin-inline: auto;
+  text-align: center;
+
+  p {
+    color: var(--ifm-color-emphasis-700);
+  }
+
+  &__sections {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1rem;
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+
+    a {
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      font-weight: 500;
+
+      &:hover,
+      &:focus-visible {
+        background-color: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
+        text-decoration: none;
+      }
+    }
+  }
+}
