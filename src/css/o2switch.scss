@@ -699,14 +699,19 @@ details[class*='details'] {
   color: var(--ifm-heading-color);
 }
 
-/* Pagination « précédent / suivant » : mêmes cartes que le reste du site. */
+/* Pagination « précédent / suivant » : mêmes cartes que le reste du site, flèche collée au titre. */
+.pagination-nav {
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
 .pagination-nav__link {
   padding: 1rem 1.25rem;
   border: 0;
-  border-radius: 14px;
+  border-radius: var(--site-radius);
   background-color: var(--ifm-card-background-color);
   box-shadow: var(--site-shadow);
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.25s ease;
 
   &:hover {
     box-shadow: var(--site-shadow-hover);
@@ -716,6 +721,7 @@ details[class*='details'] {
   &:focus-visible {
     outline: 2px solid var(--ifm-color-primary);
     outline-offset: 3px;
+    transition: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -724,16 +730,46 @@ details[class*='details'] {
 }
 
 .pagination-nav__sublabel {
+  margin-bottom: 0.2rem;
   color: var(--ifm-color-emphasis-700);
   font-size: 0.8rem;
+  font-weight: 500;
 }
 
 .pagination-nav__label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   font-weight: 600;
+  line-height: 1.35;
+  color: var(--ifm-heading-color);
+  transition: color 0.15s ease;
+
+  /* Flèche FontAwesome (le thème d'origine met des guillemets, retirés ici). */
+  &::before,
+  &::after {
+    content: none;
+  }
+
+  svg {
+    flex-shrink: 0;
+    font-size: 0.85em;
+    color: var(--ifm-color-primary);
+  }
+}
+
+.pagination-nav__link--next .pagination-nav__label {
+  justify-content: flex-end;
 }
 
 .pagination-nav__link:hover .pagination-nav__label {
   color: var(--site-accent-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pagination-nav__label {
+    transition: none;
+  }
 }
 
 /* Étiquettes de fin d'article : mêmes pastilles discrètes que les badges de cartes, survol de l'accueil. */
