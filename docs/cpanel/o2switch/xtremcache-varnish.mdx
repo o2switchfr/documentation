@@ -162,7 +162,7 @@ La page d'activation de cache permet d'**activer un cache** sur un nom de domain
 
 Dans la page d'activation du cache Varnish, à cet instant, il est possible de configurer trois éléments : 
   * **Template de cache** <Badge type="danger" text="2"/> : sert à définir quelle est la configuration Varnish à activer
-    pour le nom de domaine. Plusieurs templates sont proposés, la plupart correspondent à un CMS ou Framwork
+    pour le nom de domaine. Plusieurs templates sont proposés, la plupart correspondent à un CMS ou Framework
     particulier. Le bouton de détection automatique permet de choisir le template automatiquement, l'outil va essayer de
     détecter le CMS utilisé puis remplir le champs en fonction du résultat trouvé.
   * **Forcer le cache** <Badge type="danger" text="3"/> : permet de forcer le cache en ignorant les entêtes de cache
@@ -244,7 +244,7 @@ Cet outil permet de vider le cache associé au domaine. Cette option vide l'int�
 Le bouton **Désactiver** permet de **désactiver temporairement** le cache associé au site internet. La désactivation
 temporaire du cache est assez rapide à être prise en compte et n'engendre pas de coupure du site internet. 
 
-Contrairement à la **remize à zéro**, la désactivation temporaire **ne change pas l'adresse IP liée** au domaine donc il
+Contrairement à la **remise à zéro**, la désactivation temporaire **ne change pas l'adresse IP liée** au domaine donc il
 n'y a pas de coupure/délai de propagation DNS à prévoir. 
 
 Cette option est adaptée pour faire des tests, par exemple, si vous soupçonnez que le cache peut être à l'origine d'un
@@ -258,15 +258,15 @@ La désactivation totale (remise à zéro) du cache peut engendrer une coupure d
 site est changée pour remettre l'adresse IP d'origine.
 :::
 
-### Remize à zéro 
+### Remise à zéro 
 
-La **remize à zéro** efface l'ensemble des configurations effectuées sur le nom de domaine, c'est-à-dire les
+La **remise à zéro** efface l'ensemble des configurations effectuées sur le nom de domaine, c'est-à-dire les
 **configurations de cache** mais également les **configurations [ipXtender](/cpanel/o2switch/ipxtender-hebergement-multi-ips)**. 
 
 En résumé, cela permet de remettre le domaine à son état d'origine. 
 
 :::warning[Changement d'adresse IP]
-La remize à zéro **change l'adresse IP** du domaine pour **remettre l'adresse IP d'origine**. Cela peut causer des
+La remise à zéro **change l'adresse IP** du domaine pour **remettre l'adresse IP d'origine**. Cela peut causer des
 perturbations sur le site internet (erreur 502)  le temps que la modification DNS soit prise en compte (délai de
 propagation DNS). 
 

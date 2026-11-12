@@ -9,6 +9,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faMagnifyingGlass, faFileLines, faHashtag, faArrowRightLong, faArrowUp, faArrowDown, faArrowTurnDown, faXmark, faTriangleExclamation} from '@fortawesome/free-solid-svg-icons';
 import {prefetchIndex, searchIndex} from './client';
 import {rankPages, type Row} from './rank';
+import {POPULAR_PAGES} from '@site/src/data/navigation';
 import styles from './styles.module.css';
 
 // Nombre de résultats bruts demandés au plugin avant le classement par page.
@@ -186,9 +187,28 @@ function Modal({onClose}: ModalProps): ReactNode {
           )}
 
           {!query.trim() && (
-            <p className={styles.placeholder}>
-              Tapez un mot-clé : <em>wordpress</em>, <em>certificat SSL</em>, <em>cron</em>, <em>messagerie</em>…
-            </p>
+            <div className={styles.suggestions}>
+              <p className={styles.placeholder}>
+                Tapez un mot-clé : <em>wordpress</em>, <em>certificat SSL</em>, <em>cron</em>, <em>messagerie</em>…
+              </p>
+              <p className={styles.suggestionsTitle}>Pages utiles</p>
+              <ul className={styles.suggestionList}>
+                {POPULAR_PAGES.map((page) => (
+                  <li key={page.to}>
+                    <a href={baseUrl.replace(/\/$/, '') + page.to} className={styles.suggestion}
+                      onClick={(e) => {
+                        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+                        e.preventDefault();
+                        onClose();
+                        history.push(baseUrl.replace(/\/$/, '') + page.to);
+                      }}>
+                      <FontAwesomeIcon icon={faFileLines} fixedWidth />
+                      <span>{page.label}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
           {failed && (
             <p className={styles.placeholder} role="alert">

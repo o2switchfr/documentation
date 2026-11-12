@@ -144,7 +144,7 @@ seule fois, avec un mécanisme de verrouillage (lock).
 Un autre usage de `flock` dans le contexte des tâches cron est de **s'assurer qu'un processus reste actif en permanence sur
 votre hébergement**.
 
-Par exemple, vous avez un processus qui traite des tâches aynchrones sur votre hébergement. Vous avez besoin que ce
+Par exemple, vous avez un processus qui traite des tâches asynchrones sur votre hébergement. Vous avez besoin que ce
 processus reste en plac et soit relancé régulièrement lorsqu'il s'interrompt ou est tué. Vous pouvez mettre en place
 cela en créant une tâche planifiée qui s'exécute toutes les minutes, couplé à `flock` pour s'assurer qu'il n'y qu'un seul
 processus en permanence (sinon l'outil de cron lancera un processus toutes les minutes jusqu'à saturation). Si le
@@ -165,7 +165,7 @@ flock -n /home/demo/.messenger-cron.lock php /home/demo/projet_symfony/bin/conso
 Avec `flock` :
 
 * lorsque la commande est lancée la première fois, un fichier de verrou est créé (`/home/votreUtilisateurcPanel/.cron.lock` dans l'exemple)
-* tant que la commande est en cours d'exécution, le fichier de verrou n'est pas acquérable
+* tant que la commande est en cours d'exécution, le fichier de verrou ne peut pas être acquis
 * donc lorsque la commande est lancée la seconde fois, flock regarde s'il est possible d'acquérir le verrou. Si ce n'est
 pas possible (si la commande est en cours d'exécution), alors flock ne fait rien
 * dès que le processus meurt ou se termine normalement, il est à nouveau possible d'acquérir le verrou et donc la

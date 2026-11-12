@@ -376,7 +376,7 @@ Stack trace: #0 \{main\} thrown in /home/faqo2/public_html/fichiers/demonstratio
 Généralement, ce type d'erreur vient de deux choses : 
   * une faute dans le nom de la fonction appelé 
   * ou un problème de dépendance : le fichier PHP qui contient le code de la fonction n'est pas chargé. Cela peut venir
-    d'un problème d'inclusion (il manque une directive `include`, `require`, `require_once`) ou le fichire qui contient
+    d'un problème d'inclusion (il manque une directive `include`, `require`, `require_once`) ou le fichier qui contient
     la fonction manquante n'existe pas. Dans ce cas, vous pouvez renvoyer les fichiers du sites en surveillant les
     erreurs lors de l'envoi. 
 
@@ -539,10 +539,10 @@ Dans ce cas, il faut vérifier le fichier concerné, mentionné dans le message 
 
 ### Warning: session_start(): Cannot send session cookie headers already sent
 
-Ce message d'erreur signifie qu'un flux a déja été généré vers le client et que par conséquent, il n'est plus possible
+Ce message d'erreur signifie qu'un flux a déjà été généré vers le client et que par conséquent, il n'est plus possible
 d'utiliser la fonction `session_start` qui a besoin de manipuler des données avant l'envoi du flux. 
 
-En résémé, quelque chose s'est affiché avant que cette fonction soit appelé. Voici un exemple de code suivi de l'erreur
+En résumé, quelque chose s'est affiché avant que cette fonction soit appelé. Voici un exemple de code suivi de l'erreur
 générée : 
 
 ```php

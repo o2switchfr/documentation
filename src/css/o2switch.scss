@@ -131,6 +131,7 @@
   /* Image agrandie : fond de page légèrement transparent et flouté, voir le bloc « Image agrandie » plus bas. */
   [data-rmiz-modal-overlay='visible'] {
     background-color: color-mix(in srgb, var(--site-paper) 90%, transparent);
+    -webkit-backdrop-filter: blur(8px); /* Safari */
     backdrop-filter: blur(8px);
   }
 
@@ -142,12 +143,16 @@
     .preview-img {
       border-radius: calc(var(--site-radius) - 2px);
     }
-    .tool-desc-container {
+    /* En-tête : pastille et titre sur la même rangée, le reste en dessous. */
+    .tool-header {
       display: flex;
       flex-direction: row;
       align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+
       .tool-icon-container {
-        margin-right: 1rem;
+        flex: none; /* sans cela la pastille rétrécit et n'est plus carrée sur mobile */
         align-items: center;
         justify-content: center;
         display: flex;
@@ -156,27 +161,78 @@
         border-radius: var(--site-radius);
         background-color: var(--site-paper);
       }
-      .tool-text-container {
-        display: flex;
-        flex-direction: column;
-        p {
-          margin-bottom: 0;
-        }
-        .badge {
-          margin-right: .5rem;
-          font-weight: 400;
-        }
+
+      .tool-title {
+        margin: 0;
+        font-size: 1.15rem;
+        line-height: 1.3;
+      }
+    }
+    .tool-text-container {
+      margin-bottom: 1rem;
+
+      p {
+        margin-bottom: 0.6rem;
+      }
+      .badge {
+        margin-right: .5rem;
+        font-weight: 400;
       }
     }
   }
 
+  /* Rubriques réservées au tiroir mobile : absentes de la barre. */
+  .navbar__inner .navbar-section-link {
+    display: none;
+  }
+
   .navbar--dark {
     --ifm-navbar-background-color: var(--site-navy-2);
+    --ifm-navbar-shadow: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--site-paper) 10%, transparent);
+
+    /* Titre aligné sur le logo par le flex de la barre, sans décalage manuel. */
+    .navbar__brand {
+      align-items: flex-end; /* le bas du logo est la ligne de base du mot : le titre s'y cale */
+      gap: 0.75rem;
+      margin-right: 1rem;
+    }
+    .navbar__logo {
+      display: flex;
+      align-items: center;
+      height: 1.75rem;
+      margin-right: 0;
+
+      img {
+        height: 100%;
+        width: auto;
+      }
+    }
     .navbar__title {
-      margin: 12px 0 0 12px;
+      margin: 0;
+      line-height: 1;
+      padding-bottom: 0.12rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: color-mix(in srgb, var(--site-paper) 85%, transparent);
+    }
+    .navbar__link {
+      padding: 0.4rem 0.7rem;
+      border-radius: 6px;
+      font-weight: 500;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+    /* Survol des liens de l'accueil : texte orange, fond orange à 9 %. */
+    .navbar__link:hover,
+    .navbar__link:focus-visible {
+      color: var(--ifm-color-primary);
+      background-color: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
     }
     .navbar__link--active {
       color: var(--ifm-color-primary);
+    }
+    button[class*='toggleButton'] {
+      border-radius: 6px;
     }
   }
 
@@ -228,6 +284,10 @@
       /* Pastille du pictogramme : fond de page, filet fin, coins arrondis. */
       .icon-img {
         flex: none;
+        align-items: center;
+        justify-content: center;
+        width: 4.5rem;
+        height: 4.5rem;
         margin: 0;
         border: 1px solid var(--site-border);
         border-radius: 14px;
@@ -237,8 +297,24 @@
         span {
           width: 48px;
           height: 48px;
-          margin: 0.6rem;
+          margin: 0;
           opacity: 100%;
+        }
+      }
+
+      /* Mobile : pastille plus petite pour laisser de la place au texte. */
+      @media (max-width: 480px) {
+        gap: 1rem;
+        padding: 1rem 1rem 0.75rem;
+
+        .icon-img {
+          width: 3.5rem;
+          height: 3.5rem;
+          border-radius: 12px;
+
+          span {
+            transform: scale(0.75);
+          }
         }
       }
 
@@ -324,8 +400,9 @@
           width: 100%;
         }
 
+        /* Texte aligné sur le fil d'Ariane ; le fond au survol garde son retrait. */
         .tool-cta {
-          padding-left: 0;
+          margin-left: -0.7rem;
         }
       }
     }
@@ -653,14 +730,19 @@ details[class*='details'] {
   color: var(--ifm-heading-color);
 }
 
-/* Pagination « précédent / suivant » : mêmes cartes que le reste du site. */
+/* Pagination « précédent / suivant » : mêmes cartes que le reste du site, flèche collée au titre. */
+.pagination-nav {
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
 .pagination-nav__link {
   padding: 1rem 1.25rem;
   border: 0;
-  border-radius: 14px;
+  border-radius: var(--site-radius);
   background-color: var(--ifm-card-background-color);
   box-shadow: var(--site-shadow);
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.25s ease;
 
   &:hover {
     box-shadow: var(--site-shadow-hover);
@@ -670,6 +752,7 @@ details[class*='details'] {
   &:focus-visible {
     outline: 2px solid var(--ifm-color-primary);
     outline-offset: 3px;
+    transition: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -678,16 +761,46 @@ details[class*='details'] {
 }
 
 .pagination-nav__sublabel {
+  margin-bottom: 0.2rem;
   color: var(--ifm-color-emphasis-700);
   font-size: 0.8rem;
+  font-weight: 500;
 }
 
 .pagination-nav__label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   font-weight: 600;
+  line-height: 1.35;
+  color: var(--ifm-heading-color);
+  transition: color 0.15s ease;
+
+  /* Flèche FontAwesome (le thème d'origine met des guillemets, retirés ici). */
+  &::before,
+  &::after {
+    content: none;
+  }
+
+  svg {
+    flex-shrink: 0;
+    font-size: 0.85em;
+    color: var(--ifm-color-primary);
+  }
+}
+
+.pagination-nav__link--next .pagination-nav__label {
+  justify-content: flex-end;
 }
 
 .pagination-nav__link:hover .pagination-nav__label {
   color: var(--site-accent-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pagination-nav__label {
+    transition: none;
+  }
 }
 
 /* Étiquettes de fin d'article : mêmes pastilles discrètes que les badges de cartes, survol de l'accueil. */
@@ -749,9 +862,12 @@ details[class*='details'] {
   color: var(--site-paper);
   transition: background-color 0.15s ease, color 0.15s ease;
 
-  &:hover {
-    background-color: var(--ifm-color-primary);
-    color: var(--site-navy-deep);
+  /* Pas de survol sur écran tactile : sinon l'orange reste collé après un appui. */
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--ifm-color-primary);
+      color: var(--site-navy-deep);
+    }
   }
 
   &:focus-visible {
@@ -1021,4 +1137,98 @@ details[class*='details'] {
 .svg-inline--fa {
   max-width: 20px;
   max-height: 20px;
+}
+
+/* Fin d'article : « Modifié le », lien d'édition et pagination séparés du texte par un filet fin. */
+.theme-doc-footer {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--site-border);
+}
+
+.theme-doc-footer-edit-meta-row {
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-700);
+
+  .theme-last-updated {
+    font-size: inherit;
+    font-style: normal;
+  }
+
+  .theme-edit-this-page {
+    padding: 0.3rem 0.7rem;
+    margin-left: -0.7rem;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background-color 0.15s ease, color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background-color: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
+      color: var(--site-accent-text);
+      text-decoration: none;
+    }
+  }
+}
+
+/* Sommaire repliable des petits écrans : même surface que les blocs repliables. */
+.theme-doc-toc-mobile {
+  margin-bottom: 1.25rem;
+  border-radius: var(--site-radius);
+  background-color: var(--ifm-card-background-color);
+  box-shadow: var(--site-shadow);
+
+  button {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    color: var(--ifm-heading-color);
+  }
+
+  .table-of-contents__link--active,
+  .table-of-contents__link:hover {
+    color: var(--site-accent-text);
+  }
+}
+
+/* Menu latéral : titres de catégories un peu plus présents, flèche de repli alignée. */
+.menu__list-item-collapsible {
+  border-radius: 6px;
+
+  > .menu__link--sublist {
+    font-weight: 600;
+  }
+}
+
+/* Page 404 */
+.not-found {
+  max-width: 560px;
+  margin-inline: auto;
+  text-align: center;
+
+  p {
+    color: var(--ifm-color-emphasis-700);
+  }
+
+  &__sections {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1rem;
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+
+    a {
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      font-weight: 500;
+
+      &:hover,
+      &:focus-visible {
+        background-color: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
+        text-decoration: none;
+      }
+    }
+  }
 }
