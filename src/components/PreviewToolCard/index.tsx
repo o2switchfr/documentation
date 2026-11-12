@@ -31,21 +31,21 @@ export default function PreviewToolCard ({tool}: PreviewToolCardProps) {
         _offersHtml.push(<span key={'k' + i} className="badge badge--primary">{_offers[i].name}</span>);
     }
 
-    return (        
+    return (
         <div className={'preview-tool-card'}>
-            <Zoom><img className={'preview-img'} src={_imgSrc} alt={"Aperçu de l'outil " + _name} title={"Capture d'écran de l'outil " + _name} /></Zoom>
-            <div className={'tool-desc-container'}>
+            <div className={'tool-header'}>
                 <div className={'tool-icon-container'}>
                     <CpanelIcon tool={_icon} title={_name} />
                 </div>
-                <div className={'tool-text-container'}>
-                    <p>
-                        <strong>Outils {_name}</strong>
-                    </p>
-                    <p>{_desc}</p>
-                    <div>{_offersHtml}</div>
-                </div>
+                <p className={'tool-title'}>
+                    <strong>Outils {_name}</strong>
+                </p>
             </div>
+            <div className={'tool-text-container'}>
+                <p>{_desc}</p>
+                <div>{_offersHtml}</div>
+            </div>
+            <Zoom><img className={'preview-img'} src={_imgSrc} alt={"Aperçu de l'outil " + _name} title={"Capture d'écran de l'outil " + _name} /></Zoom>
         </div>
     );
 }
