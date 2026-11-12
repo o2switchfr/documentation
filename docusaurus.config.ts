@@ -8,6 +8,7 @@ import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
 import type {Options as PageOptions} from '@docusaurus/plugin-content-pages';
 
 import { FontaineTransform } from 'fontaine'
+import { SECTIONS } from './src/data/navigation';
 
 const config: Config = {
   title: 'Documentation o2switch',
@@ -95,6 +96,14 @@ const config: Config = {
         src: 'img/misc/o2switch-logo-dark-bg.svg',
       },
       items: [
+        // Rubriques : visibles seulement dans le tiroir mobile (masquées dans la barre, voir o2switch.scss),
+        // pour que le menu ne soit pas vide sur les pages sans sidebar, comme l'accueil.
+        ...SECTIONS.map((section) => ({
+          to: section.to,
+          label: section.title,
+          position: 'left' as const,
+          className: 'navbar-section-link',
+        })),
         {
           type: 'html',
           value: '<a href="https://github.com/o2switchfr/documentation" target="_blank" rel="noopener noreferrer nofollow" class="navbar__item navbar__link">GitHub</a>',

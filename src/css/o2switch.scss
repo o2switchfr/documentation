@@ -170,6 +170,11 @@
     }
   }
 
+  /* Rubriques réservées au tiroir mobile : absentes de la barre. */
+  .navbar__inner .navbar-section-link {
+    display: none;
+  }
+
   .navbar--dark {
     --ifm-navbar-background-color: var(--site-navy-2);
     --ifm-navbar-shadow: none;
