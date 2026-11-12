@@ -131,6 +131,7 @@
   /* Image agrandie : fond de page légèrement transparent et flouté, voir le bloc « Image agrandie » plus bas. */
   [data-rmiz-modal-overlay='visible'] {
     background-color: color-mix(in srgb, var(--site-paper) 90%, transparent);
+    -webkit-backdrop-filter: blur(8px); /* Safari */
     backdrop-filter: blur(8px);
   }
 
@@ -861,9 +862,12 @@ details[class*='details'] {
   color: var(--site-paper);
   transition: background-color 0.15s ease, color 0.15s ease;
 
-  &:hover {
-    background-color: var(--ifm-color-primary);
-    color: var(--site-navy-deep);
+  /* Pas de survol sur écran tactile : sinon l'orange reste collé après un appui. */
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--ifm-color-primary);
+      color: var(--site-navy-deep);
+    }
   }
 
   &:focus-visible {
