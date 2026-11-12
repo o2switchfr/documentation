@@ -13,7 +13,7 @@ tags:
   - bases de données
 ---
 
-# Bases de données MyQSL
+# Bases de données MySQL
 
 L'outil **bases de données MySQL** permet de créer des bases de données MySQL, des utilisateurs et de gérer les droits
 des utilisateurs sur les bases de données.
@@ -79,9 +79,9 @@ Pour le mot de passe, nous vous recommandons d'utiliser **mots de passes alphanu
 Certains scripts PHP sont mal conçus et génèrent des fichiers de configuration avec des guillemets doubles `"`
 (à la place de guillemet simple `'`).
 
-Or certains **carractères spéciaux ont une signification particulière**. Par exemple en PHP le `$`
+Or certains **caractères spéciaux ont une signification particulière**. Par exemple en PHP le `$`
 sera traité comme un nom de variable s'il est inclus entre deux guillemets doubles `"`. Donc dans le cas de la définition
-d'un mot de passe, cela génerera une erreur de syntaxe dans le code.
+d'un mot de passe, cela générera une erreur de syntaxe dans le code.
 
 Un autre problème fréquent concerne les mots de passes qui contiennent le sigle `@`, `:` ou `/`. Cela peut entrer en
 conflit avec le format [DSN](https://fr.wikipedia.org/wiki/Data_Source_Name) souvent utilisé dans des fichiers `.env`.
