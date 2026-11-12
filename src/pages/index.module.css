@@ -18,7 +18,7 @@
   flex: 1;
   flex-direction: column;
   overflow-x: clip;
-  padding-block: 0.5rem;
+  padding-block: 1.5rem 4rem;
 }
 
 .container {
@@ -45,7 +45,7 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 2rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.75rem;
 }
 
 .title {
