@@ -168,7 +168,7 @@ zip -r emails-nom-domaine.zip mail/nom-domaine.fr etc/nom-domaine.fr
 
 L'archive `emails-nom-domaine.zip` est créée à la racine de votre hébergement, à côté des dossiers `mail` et `etc`.
 
-:::warning
+:::warning[Ne laissez pas l'archive accessible depuis internet]
 L'archive contient les mots de passe (chiffrés) de vos comptes emails. Ne la placez **jamais** dans le dossier
 `public_html` ou dans un dossier accessible depuis internet, et supprimez-la une fois la migration terminée.
 :::
@@ -222,7 +222,7 @@ Les tailles affichées doivent être identiques (ou quasiment) sur les deux héb
 comptes emails présents dans `etc/nom-domaine.fr` et dans `mail/nom-domaine.fr` pour vous assurer que tous les comptes
 sont bien présents.
 
-:::tip
+:::tip[Relancer la copie pour vérifier qu'elle est complète]
 Si vous avez utilisé la méthode A (Rsync), vous pouvez relancer exactement la même commande : si la copie est complète,
 Rsync n'a plus rien à transférer et n'affiche aucun fichier.
 :::
@@ -233,7 +233,7 @@ Les emails sont maintenant copiés **et vérifiés**. Vous pouvez à présent d�
 déroule en deux temps : déconfigurer le domaine de l'hébergement d'origine, puis le reconfigurer sur l'hébergement de
 destination.
 
-:::danger
+:::danger[Vérifiez les dossiers avant de supprimer le domaine]
 Avant de continuer, vérifiez une dernière fois que les dossiers `mail/nom-domaine.fr` et `etc/nom-domaine.fr` sont bien
 présents sur l'hébergement de destination, et conservez une sauvegarde si vous avez des doutes. La suppression du
 domaine sur l'hébergement d'origine n'est pas réversible.
