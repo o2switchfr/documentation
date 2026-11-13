@@ -119,7 +119,7 @@ email dans le champ prévu à cet effet dans l'outil.
     caption="Définition de l'adresse email d'alerte pour les tâches cron"
     alt="Capture d'écran pour les notifications des tâches cron par email"
 />
-:::warning
+:::warning[Comprendre l'alerte email d'une tâche cron]
 Plusieurs détails concernant cette alerte email :
 
 * un email est généré uniquement si le script affiche quelque chose sur sa sortie standard.
@@ -173,7 +173,7 @@ commande se relance
 * ça permet de garantir qu'il n'y aura qu'une seul processus en cours d'exécution, même si la commande est lancée
 plusieurs fois d'affilée
 
-:::info
+:::info[Un fichier de verrou par commande avec flock]
 Si vous avez plusieurs commandes différentes à lancer avec `flock` pensez à indiquer un fichier de verrou différents pour
 chaque commande. Sinon ça ne lancera qu'une des commandes.
 

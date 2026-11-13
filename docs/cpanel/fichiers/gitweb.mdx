@@ -59,7 +59,7 @@ le bouton **Créer**.
 
 Sur la page suivante, vous pouvez choisir de créer un dépôt local ou à partir d'une source distante.
 
-:::info
+:::info[Prérequis : une connexion SSH par clé]
 Ce n'est pas mentionné ici, mais un pré-requis important est d'avoir un accès SSH ouvert et d'avoir configuré
 une authentification par clé SSH sur votre hébergement.
 
@@ -102,7 +102,7 @@ Il reste à faire le lien entre ce projet et le dépôt Git de l'hébergement en
 Vous avez déjà commencé à travailler sur votre projet. Vous avez un dépôt Git sur votre ordinateur, mais ce dépôt n'est
 pas encore relié à une source distante, à ce stade, il ne s'agit que d'un dépôt Git présent sur votre machine.
 
-:::tip
+:::tip[Partir d'un dossier qui n'est pas encore un dépôt Git]
 Si vous avez déjà commencé à travailler sur votre projet sur votre ordinateur, mais que ce n'est pas encore sous forme
 d'un dépôt Git, alors vous pouvez initialiser un dépôt Git à partir de votre dossier.
 
@@ -188,7 +188,7 @@ Pour créer un dépôt Git à partir d'une source distante (Github, Gitlab ou au
 />
 
 
-:::info
+:::info[Cloner un dépôt privé impose le protocole SSH]
 Pour **cloner un dépôt privé**, il faut impérativement utiliser le protocole **ssh://**.
 
 Cela implique qu'il faut au préalable installer une **clé SSH** et mettre en liste blanche le serveur Git distant :
@@ -237,7 +237,7 @@ serveur Git distant, en SSH, sans interaction.
 
 :::
 
-:::info
+:::info[L'identifiant et le mot de passe dans l'URL sont refusés]
 
 Il n'est **pas possible** de passer l'identifiant / mot de passe dans l'URL avec quelques choses qui ressemble à cela par exemple :
 
@@ -350,7 +350,7 @@ présent à la racine de votre projet Git.
 
 Les fichiers `.cpanel.yml` doivent utiliser le format des exemples ci-dessous.
 
-:::info
+:::info[Prérequis du déploiement automatique]
 Il y a plusieurs pré-requis pour qu'un déploiement automatique se passe correctement.
 
 Le fichier `.cpanel.yml` doit être valide, il doit suivre la syntaxe des exemples qui seront donnés ci-dessous.
